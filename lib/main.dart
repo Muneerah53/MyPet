@@ -9,6 +9,8 @@ import 'models/pet.dart';
 import 'models/global.dart';
 
 
+//firebase database
+final DatabaseReference MyPet= FirebaseDatabase.instance.reference().child("pet owners");
 
 
 void main(){
@@ -17,12 +19,16 @@ void main(){
 }
 AssetImage profile = new AssetImage("images/logo.jpeg");
 class MyApp extends StatelessWidget {
+
+
+
  final Future<FirebaseApp> fbApp =  Firebase.initializeApp();
    MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -50,6 +56,7 @@ class MyApp extends StatelessWidget {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(backgroundColor: Colors.red[50],
 
       body:Stack(
@@ -117,16 +124,24 @@ class Home extends StatelessWidget {
           ),
 
 
-          child: Container(
-            child: Center(
+          child: Row(
+            children: [ElevatedButton(onPressed:(){
+
+              //set data to firebase
+              MyPet.set({"fname":"samar","lname":"alqahtani","mobile":"0531116781","ownerID":"1","userID":"1"});
+
+            },
+                child: Center(
+              
                child:  Text("Edit:", style: new TextStyle(  color: Colors.white),
                 textAlign: TextAlign.center,),
 
             ),
-          ),
+            
+          ),]
 
 
-        ),
+        ),),
         Container(
           padding: EdgeInsets.only(top: 500, left:30),
 
@@ -239,6 +254,7 @@ class Home extends StatelessWidget {
 
   }
   Widget ownerCard(owner ownerInfo) {
+    MyPet.set({"fname":"sara"});
     return Container(
         padding: EdgeInsets.all(20),
         width: 370,

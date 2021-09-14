@@ -11,4 +11,5 @@ class owner {
 
   owner(this.first_name,this.last_name,this.phone,this.email);
 
+
 }

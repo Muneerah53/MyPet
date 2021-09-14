@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1076573843957-has26nsv12jd74bfklhplhs1ndp702nc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1076573843957-has26nsv12jd74bfklhplhs1ndp702nc</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCVpBlMTg5fPOqaynppaVCS4gk070l6Seo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1076573843957</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.444.mypet</string>
+	<key>PROJECT_ID</key>
+	<string>mypet-21349</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mypet-21349.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1076573843957:ios:e256bdc3a268842f6a70bc</string>
+	<key>DATABASE_URL</key>
+	<string>https://mypet-21349-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

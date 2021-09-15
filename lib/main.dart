@@ -74,7 +74,7 @@ class Home extends StatelessWidget {
               Column(
                 children: <Widget>[
                   Text(
-                    "Registrationn",
+                    "Registration",
                     style: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,

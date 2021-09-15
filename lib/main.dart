@@ -45,36 +45,130 @@ class MyApp extends StatelessWidget {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.red[50],
-
-      body:  Center(
-          child: Column(children: <Widget>[
-
-            Container(
-              margin: EdgeInsets.fromLTRB(50, 40, 50, 30),
-              width: 140,
-              height: 170,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(image: AssetImage('images/logo.jpeg')
-                  )
-                  )
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.red[50],
+      appBar: AppBar(
+        elevation: 0,
+        brightness: Brightness.light,
+        backgroundColor: Colors.red[50],
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+            color: Colors.black,
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 40),
+          height: MediaQuery.of(context).size.height - 50,
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Text(
+                    "Registration",
+                    style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red[300]),
                   ),
-            Image.asset(
-              'images/dog2.png',
-              height: 250,
-              width: 350,
-            ),
-            SizedBox(height: 40),
-            Text("Hi there would you like start a journey in Mypet app ?  " ,textAlign: TextAlign.center, style: new TextStyle(
-              fontSize: 20.0,
-              color: Colors.blueGrey,)),
-
-
-
-          ])),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  inputFile(label: "Enter your first name"),
+                  inputFile(label: "Enter your last name"),
+                  inputFile(label: "Enter your mobile phone"),
+                  inputFile(label: "Enter your email"),
+                  inputFile(label: "Enter Password", obscureText: true),
+                  inputFile(
+                      label: "Enter confirm password ", obscureText: true),
+                ],
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 3, left: 3),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border(
+                      bottom: BorderSide(color: Colors.black),
+                      top: BorderSide(color: Colors.black),
+                      left: BorderSide(color: Colors.black),
+                      right: BorderSide(color: Colors.black),
+                    )),
+                child: MaterialButton(
+                  minWidth: double.infinity,
+                  height: 60,
+                  onPressed: () {},
+                  color: Colors.black,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Text(
+                    "Register",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 22,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(""),
+                  Text(
+                    "",
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
     );
-
-
   }
+}
+
+// we will be creating a widget for text field
+Widget inputFile({label, obscureText = false}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Text(
+        label,
+        style: TextStyle(
+            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+      ),
+      SizedBox(
+        height: 4,
+      ),
+      TextField(
+        obscureText: obscureText,
+        decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey))),
+      ),
+      SizedBox(
+        height: 10,
+      )
+    ],
+  );
 }

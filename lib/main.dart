@@ -1,8 +1,11 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/models/owner.dart';
 import 'models/pet.dart';
@@ -10,11 +13,14 @@ import 'models/global.dart';
 
 
 //firebase database
-final DatabaseReference MyPet= FirebaseDatabase.instance.reference().child("pet owners");
+final  MyPet= FirebaseDatabase.instance.reference().child("user_1");
+CollectionReference user = FirebaseFirestore.instance.collection("user_1");
 
 
-void main(){
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 AssetImage profile = new AssetImage("images/logo.jpeg");
@@ -54,6 +60,8 @@ class MyApp extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -128,7 +136,7 @@ class Home extends StatelessWidget {
             children: [ElevatedButton(onPressed:(){
 
               //set data to firebase
-              MyPet.set({"fname":"samar","lname":"alqahtani","mobile":"0531116781","ownerID":"1","userID":"1"});
+              MyPet.set({"fname":"sara","lname":"alqahtani","mobile":"0531116781","ownerID":"1","userID":"1"});
 
             },
                 child: Center(
@@ -182,13 +190,19 @@ class Home extends StatelessWidget {
     }
     return cards;
   }
-  List<owner> getUser() {
-    List<owner> techies = [];
-    for (int i = 0; i < 1; i++) {
+  String userName="unknown";
+  Future<void> getUserInfo() async {
 
-      owner myInfo = new owner("Samar", "Alqahtani", "0531116781", "samar-alq@hotmail.com");
+    DocumentSnapshot variable = await FirebaseFirestore.instance.collection('pet owners').doc("afs7JhgoMfFVDyFbNqO5").get();
+    userName= variable["fname"];
+
+  }
+
+  List<owner> getUser()  {
+    List<owner> techies = [];
+      owner myInfo = new owner(userName, "Alqahtani", "0531116781", "samar-alq@hotmail.com");
       techies.add(myInfo);
-    }
+
 
     return techies;
   }

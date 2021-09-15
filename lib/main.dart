@@ -13,10 +13,8 @@ import 'models/global.dart';
 
 
 //firebase database
-final  MyPet= FirebaseDatabase.instance.reference().child("user_1");
-CollectionReference user = FirebaseFirestore.instance.collection("user_1");
 
-
+String userName="unknown";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,22 +38,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
 
         primarySwatch: Colors.blue,
-      ),
-      home: FutureBuilder(
-             future: fbApp,
-      builder:(context,snapshot) {
-               if (snapshot.hasError){
-                 print("An error has occured ${snapshot.error.toString()}");
-                 return const Text("Something went wrong");}
-      else if (snapshot.hasData) {
-        return Home();
-      }
-      else{return const Center(child:CircularProgressIndicator());}
-      },
-    )
+      ));
 
-
-    );
   }
 }
 
@@ -133,15 +117,17 @@ class Home extends StatelessWidget {
 
 
           child: Row(
-            children: [ElevatedButton(onPressed:(){
+            children: [ ElevatedButton(onPressed:() async {
 
-              //set data to firebase
-              MyPet.set({"fname":"sara","lname":"alqahtani","mobile":"0531116781","ownerID":"1","userID":"1"});
+                DocumentSnapshot variable = await FirebaseFirestore.instance.collection('pet owners').doc("afs7JhgoMfFVDyFbNqO5").get();
+                userName= variable["fname"];
 
-            },
+              },
+
+
                 child: Center(
               
-               child:  Text("Edit:", style: new TextStyle(  color: Colors.white),
+               child:  Text(userName, style: new TextStyle(  color: Colors.white),
                 textAlign: TextAlign.center,),
 
             ),
@@ -268,7 +254,7 @@ class Home extends StatelessWidget {
 
   }
   Widget ownerCard(owner ownerInfo) {
-    MyPet.set({"fname":"sara"});
+
     return Container(
         padding: EdgeInsets.all(20),
         width: 370,

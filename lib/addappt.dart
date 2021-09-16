@@ -14,6 +14,8 @@ class appointmentFormState extends State<appointmentForm> {
   final _controller = TextEditingController();
   var _times = ['30 Minutes', '1 Hour'];
   String selectedTime = '30 Minutes';
+  var _types = ['Check-Up', 'Grooming'];
+  String selectedType = 'Check-Up';
   bool _value = false;
  FirebaseFirestore firestoreInstance= FirebaseFirestore.instance;
 
@@ -67,9 +69,9 @@ class appointmentFormState extends State<appointmentForm> {
     return Scaffold(
     backgroundColor: Color(0xFFF4E3E3),
     appBar: AppBar(
-        title: Text('Add Schedule'),
-    backgroundColor: Color(0xFFFF6B81),
-
+        title: Text('Add Schedule',style: TextStyle(color: Color(0xFFFF6B81))),
+    backgroundColor: Colors.transparent,
+elevation: 0,
     actions: <Widget>[
     IconButton(
     padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
@@ -77,7 +79,7 @@ class appointmentFormState extends State<appointmentForm> {
     Icons.done,
     color: Colors.white,
     ),
-    onPressed: () {
+    onPressed: () async {
     final List<Appointment> appointments = <Appointment>[];
     if (_selectedAppointment != null) {
     _events.appointments!.removeAt(_events.appointments!
@@ -85,15 +87,9 @@ class appointmentFormState extends State<appointmentForm> {
     _events.notifyListeners(CalendarDataSourceAction.remove,
     <Appointment>[]..add(_selectedAppointment!));
     }
-    int n;
+    int n = getTime();
+    int type = getType();
 
-    switch(selectedTime){
-      case '1 Hour': n=60;break;
-      case '30 Minutes':
-      default:
-        n=30;
-        break;
-    }
     int diff = _endDate.difference(_startDate).inMinutes;
     DateTime _appEnd =_startDate;
     for(int i=0;i<(diff/n);i++){
@@ -108,18 +104,19 @@ class appointmentFormState extends State<appointmentForm> {
 
   _events.appointments!.add(appointments[i]);
 
-
-    firestoreInstance.collection("appointment ").add(
+    DocumentReference doc = await firestoreInstance.collection("appointment ").add(
         {
-          "appointmentID": "1111",
-          "date": _startDate,
-          "startTime" : _appEnd,
-          "endTime" : _appEnd.add(Duration(minutes: n)),
+          "appointmentID" : '',
+          "DrName" : _doc,
+          "date": DateFormat('MM/dd/yyyy').format(_startDate),
+          "startTime" : DateFormat.Hm().format(_appEnd),
+          "endTime" :  DateFormat.Hm().format(_appEnd.add(Duration(minutes: n))),
           "description" : _description,
-          "DrID" : _doc,
-          "typeID" : "Check-up",
-          "state" : "avaliable"
+          "state" : "avaliable",
+          "typeID" : type
         });
+    String id = doc.id;
+   await firestoreInstance.collection("appointment ").doc(id).update({"appointmentID":id});
 
      _appEnd = _appEnd.add(Duration(minutes: n));
     }
@@ -388,6 +385,55 @@ class appointmentFormState extends State<appointmentForm> {
                   ),
                 ),
               ),
+
+
+      const Divider(
+        height: 1.0,
+        thickness: 1,
+      ),
+      Container(
+          child:  Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
+              child: Text("Type:",
+                  textAlign: TextAlign.left,
+                  style:  TextStyle(
+                      color: Color(0xFF52648B),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18)
+              ))
+      ),
+
+      DropdownButton<String>(
+        isExpanded: true,
+        value: selectedTime,
+        // icon: const Icon(Icons.arrow_circle_down),
+        iconSize: 20,
+        elevation: 16,
+        //  underline: Container(),
+        onChanged: (String? newValue) {
+          setState(() {
+            selectedType = newValue!;
+          });
+        },
+        items: List.generate(
+          _types.length,
+              (index) => DropdownMenuItem(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                _types[index],
+                style:  TextStyle(
+                    color: Color(0xFF52648B)),
+              ),
+
+            ),
+            value: _types[index],
+          ),
+        ),
+      ),
+
+
+
 /* To be Added
       SwitchListTile(
         title: const Text('Recurring',style: TextStyle(
@@ -458,4 +504,30 @@ class appointmentFormState extends State<appointmentForm> {
     )
     );
   }
+
+  int getTime() {
+    switch(selectedTime){
+      case '1 Hour': return 60
+      ;break;
+      case '30 Minutes':
+      default:
+        return 30;
+        break;
+    }
+
+  }
+
+  int getType() {
+    switch(selectedType){
+      case 'Grooming': return 1
+      ;break;
+      case 'Check-Up':
+      default:
+        return 0;
+        break;
+    }
+
+  }
+
+
 }

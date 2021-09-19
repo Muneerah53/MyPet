@@ -16,7 +16,7 @@ class appointmentFormState extends State<appointmentForm> {
   String selectedTime = '30 Minutes';
   var _types = ['Check-Up', 'Grooming'];
   String selectedType = 'Check-Up';
-  bool _value = false;
+  //bool _value = false;
  FirebaseFirestore firestoreInstance= FirebaseFirestore.instance;
  String title = _selectedAppointment == null ? "Add" : "Update";
 
@@ -29,48 +29,11 @@ class appointmentFormState extends State<appointmentForm> {
   }
   @override
   Widget build(BuildContext context) {
-    /* To be Added
-  }
-    final AlertDialog dialog = AlertDialog(
-      title: Text('Title'),
-      contentPadding: EdgeInsets.zero,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (int i = 0; i < _weekdays.length; i++)
-            ListTile(
-              title: Text(
-                '$_weekdays[i]',
-              ),
-              leading: Checkbox(
-                value: checkedValue,
-                onChanged: (newValue) {
-                  setState(() {
-                    checkedValue = newValue!;
-                  });
 
-                },
-              ),
-            ),
-
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text('ACTION 1'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text('ACTION 2'),
-        ),
-      ],
-    );
-*/
     return Scaffold(
     backgroundColor: Color(0xFFF4E3E3),
     appBar: AppBar(
-        title: Text('Add Schedule',style: TextStyle(color: Color(0xFFFF6B81))),
+        title: Text('$title Schedule',style: TextStyle(color: Color(0xFFFF6B81))),
     backgroundColor: Colors.transparent,
 elevation: 0,
     actions: <Widget>[
@@ -85,21 +48,21 @@ elevation: 0,
 
     //update
     if (_selectedAppointment != null) {
-
+//update
       Appointment temp = Appointment(
           id:_selectedAppointment!.id,
           from: _startDate,
-          // to: _endDate,
           to: _endDate,
+          start: _startTime,
+          end: _endTime,
           description: _description,
           docName: _doc == '' ? '(No title)' : _doc,
           background: Color(0xFF9C4350),
-          duration: _selectedAppointment!.duration,
           type: _selectedAppointment!.type);
 
       firestoreInstance.collection("appointment ").doc(_id).update({
         "DrName" : _doc,
-        "date": DateFormat('MM/dd/yyyy').format(_startDate),
+        "date": DateFormat('dd/MM/yyyy').format(_startDate),
         "startTime" : DateFormat.Hm().format(_startDate),
         "endTime" :  DateFormat.Hm().format(_endDate),
         "description" : _description,
@@ -129,7 +92,7 @@ elevation: 0,
             {
               "appointmentID": '',
               "DrName": _doc,
-              "date": DateFormat('MM/dd/yyyy').format(_startDate),
+              "date": DateFormat('dd/MM/yyyy').format(_startDate),
               "startTime": DateFormat.Hm().format(_appEnd),
               "endTime": DateFormat.Hm().format(
                   _appEnd.add(Duration(minutes: n))),
@@ -144,18 +107,18 @@ elevation: 0,
         appointments.add(Appointment(
             id: _id,
             from: _appEnd,
-            // to: _endDate,
             to: _appEnd.add(Duration(minutes: n)),
+            start: TimeOfDay.fromDateTime(_appEnd),
+            // to: _endDate,
+            end: TimeOfDay.fromDateTime(_appEnd.add(Duration(minutes: n))),
             description: _description,
             docName: _doc == '' ? '(No title)' : _doc,
             background: Color(0xFF9C4350),
-            duration: n,
-            type: type
+            type: type,
         ));
 
         _events.appointments!.add(appointments[i]);
         _appEnd = _appEnd.add(Duration(minutes: n));
-
 
       }
     }
@@ -478,11 +441,124 @@ elevation: 0,
           ),
         ),
       ),
+
+
    ] )
- )
+
+
+
+ ),
+        if(_selectedAppointment!=null)
+          Align(
+          alignment: Alignment.bottomRight,
+          heightFactor: 5,
+          child:
+
+          FloatingActionButton(
+            backgroundColor: const  Color(0xFF9C4350),
+            foregroundColor: Colors.white,
+            mini: true,
+            onPressed: () async{
+
+              firestoreInstance.collection("appointment ").doc(_selectedAppointment!.id)..delete();
+
+              _events.appointments!.removeAt(_events.appointments!
+                  .indexOf(_selectedAppointment));
+              _events.notifyListeners(CalendarDataSourceAction.remove,
+                  <Appointment>[]..add(_selectedAppointment!));
+
+
+
+              _selectedAppointment=null;
+              Navigator.pop(context);
+
+            },
+            child: Icon(Icons.delete),
+          )
+      )
+
+        ],
+
+
+
+
+      ),
+        )
+
+
+    ),
+
+    );
+  }
+
+  int getTime() {
+    switch(selectedTime){
+      case '1 Hour': return 60
+      ;
+      case '30 Minutes':
+      default:
+        return 30;
+
+    }
+
+  }
+
+  int getType() {
+    switch(selectedType){
+      case 'Grooming': return 1
+      ;
+      case 'Check-Up':
+      default:
+        return 0;
+    }
+
+  }
+
+
+}
 
 
 /* To be Added
+  }
+    final AlertDialog dialog = AlertDialog(
+      title: Text('Title'),
+      contentPadding: EdgeInsets.zero,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (int i = 0; i < _weekdays.length; i++)
+            ListTile(
+              title: Text(
+                '$_weekdays[i]',
+              ),
+              leading: Checkbox(
+                value: checkedValue,
+                onChanged: (newValue) {
+                  setState(() {
+                    checkedValue = newValue!;
+                  });
+
+                },
+              ),
+            ),
+
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text('ACTION 1'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text('ACTION 2'),
+        ),
+      ],
+    );
+    */
+
+/*
+To be Added
       SwitchListTile(
         title: const Text('Recurring',style: TextStyle(
             color: Colors.blue,
@@ -522,7 +598,7 @@ elevation: 0,
                 },
                 child: Text("SHOW DIALOG"),
               ),
-          /*  GestureDetector(
+           GestureDetector(
                  child: TextField(
                   enabled:false,
                 onTap: () async {
@@ -536,46 +612,7 @@ elevation: 0,
                           color: Colors.teal, width: 2.0),
                     ),
                     hintText: 'Enter NAME'),
-              )), */
+              )),
             ])
-            : Container(),
-      ])
 
-      */
-        ],
-
-
-
-
-      ),
-        )
-    )
-    );
-  }
-
-  int getTime() {
-    switch(selectedTime){
-      case '1 Hour': return 60
-      ;break;
-      case '30 Minutes':
-      default:
-        return 30;
-        break;
-    }
-
-  }
-
-  int getType() {
-    switch(selectedType){
-      case 'Grooming': return 1
-      ;break;
-      case 'Check-Up':
-      default:
-        return 0;
-        break;
-    }
-
-  }
-
-
-}
+*/

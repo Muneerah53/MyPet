@@ -1,6 +1,5 @@
 library event_calendar;
 
-import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -74,19 +73,21 @@ class appointCalendarState extends State<appointCalendar> {
   appointCalendarState();
 
   CalendarView _calendarView = CalendarView.month;
-  late List<String> eventNameCollection;
   late List<Appointment> appointments;
 
   @override
-  void initState() {
+  void initState()  {
+
     _calendarView = CalendarView.month;
-    appointments = getAppointmentDetails();
+    appointments = <Appointment>[];
     _events = _AppointmentDataSource(appointments);
     _selectedAppointment = null;
     _doc = '';
     _description = '';
     _id='';
+
     super.initState();
+    fetchAppointments();
   }
 
   @override
@@ -97,9 +98,17 @@ class appointCalendarState extends State<appointCalendar> {
     backgroundColor: Color(0xFFFF6B81),
         ),
     resizeToAvoidBottomInset: false,
-        body: Padding(
+        body:Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-            child: getCalendar(_calendarView, _events, onCalendarTapped)));
+            child: getCalendar(_calendarView, _events, onCalendarTapped)
+
+
+
+        ),
+
+
+
+    );
   }
 
   SfCalendar getCalendar(
@@ -139,6 +148,8 @@ class appointCalendarState extends State<appointCalendar> {
           final Appointment appointmentDetails = calendarTapDetails.appointments![0];
           _startDate = appointmentDetails.from;
           _endDate = appointmentDetails.to;
+          _startTime = appointmentDetails.start;
+          _endTime = appointmentDetails.end;
           _doc = appointmentDetails.docName == '(No title)'
               ? ''
               : appointmentDetails.id;
@@ -149,10 +160,11 @@ class appointCalendarState extends State<appointCalendar> {
           final DateTime date = calendarTapDetails.date!;
           _startDate = date;
           _endDate = date.add(const Duration(minutes: 30));
+          _startTime =
+              TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
+          _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
         }
-        _startTime =
-            TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
-        _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
+
         Navigator.push<Widget>(
           context,
           MaterialPageRoute(
@@ -161,11 +173,57 @@ class appointCalendarState extends State<appointCalendar> {
     });
   }
 
-  List<Appointment> getAppointmentDetails() {
-    final List<Appointment> apointmentCollection = <Appointment>[];
-    //reterive from firebase
-    return apointmentCollection;
+
+  Future<void> fetchAppointments() async {
+
+    var data= await FirebaseFirestore.instance.collection("appointment ").get();
+    for(int i=0;i<data.docs.length;i++){
+      DateTime _date = DateFormat("dd/MM/yyyy").parse(data.docs[i].data()['date'].toString());
+
+      DateTime _startTimeFormat = DateFormat("hh:mm").parse(
+          data.docs[i].data()['startTime'].toString());
+      TimeOfDay _start = TimeOfDay.fromDateTime(_startTimeFormat);
+
+      DateTime _endTimeFormat = DateFormat("h:mm").parse(data.docs[i].data()['endTime'].toString());
+      TimeOfDay _end = TimeOfDay.fromDateTime(_endTimeFormat);
+
+      DateTime _startDateTime = DateTime(
+          _date.year,
+          _date.month,
+          _date.day,
+          _start.hour,
+          _start.minute,
+          0);
+
+      DateTime _endDateTime = DateTime(
+          _date.year,
+          _date.month,
+          _date.day,
+          _end.hour,
+          _end.minute,
+          0);
+
+      Appointment a = Appointment(
+          id: data.docs[i].data()['appointmentID'].toString(),
+          docName: data.docs[i].data()['DrName'].toString(),
+          description: data.docs[i].data()['description'].toString(),
+          from: _startDateTime,
+          to: _endDateTime,
+          start: TimeOfDay.fromDateTime(_startDateTime),
+          end: TimeOfDay.fromDateTime(_endDateTime),
+          background: Color(0xFF9C4350),
+          type: 0//result['typeID']
+      );
+
+
+        appointments.add(a);
+      print(i);
+    }
+    _events.notifyListeners(
+        CalendarDataSourceAction.add, appointments);
   }
+
+
 }
 
   class Appointment {
@@ -176,17 +234,19 @@ class appointCalendarState extends State<appointCalendar> {
   this.description = '',
   required this.from,
   required this.to,
+  required this.start,
+   required this.end,
   required this.background,
-  required this.duration,
-  required this.type
+  required this.type,
   });
   String id;
   String docName;
   String description;
   DateTime from;
   DateTime to;
+  TimeOfDay start;
+  TimeOfDay end;
   Color background;
-  int duration;
   int type;
   }
 
@@ -195,17 +255,27 @@ class appointCalendarState extends State<appointCalendar> {
   appointments = source;
   }
 
-  DateTime getID(int index) {
+  String getID(int index) {
     return appointments![index].id;
   }
+
   @override
   DateTime getStartTime(int index) {
-  return appointments![index].from;
+    return appointments![index].from;
   }
 
   @override
   DateTime getEndTime(int index) {
-  return appointments![index].to;
+    return appointments![index].to;
+  }
+
+  TimeOfDay getStart(int index) {
+  return appointments![index].start;
+  }
+
+
+  TimeOfDay getEnd(int index) {
+  return appointments![index].end;
   }
 
   @override

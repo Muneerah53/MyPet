@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 
 
 part "addappt.dart";
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
       ),
       home: FutureBuilder(
              future: fbApp,
@@ -61,6 +61,7 @@ late DateTime _endDate;
 late TimeOfDay _endTime;
 String _doc = '';
 String _description = '';
+String _id = '';
 
 class appointCalendar extends StatefulWidget {
   const appointCalendar({Key? key}) : super(key: key);
@@ -84,6 +85,7 @@ class appointCalendarState extends State<appointCalendar> {
     _selectedAppointment = null;
     _doc = '';
     _description = '';
+    _id='';
     super.initState();
   }
 
@@ -107,6 +109,7 @@ class appointCalendarState extends State<appointCalendar> {
     return SfCalendar(
         backgroundColor: Color(0xFFF4E3E3),
         view: _calendarView,
+        showNavigationArrow: true,
         monthViewSettings: const MonthViewSettings(
           showAgenda: true,
           agendaViewHeight: 500,
@@ -122,8 +125,8 @@ class appointCalendarState extends State<appointCalendar> {
   }
 
   void onCalendarTapped(CalendarTapDetails calendarTapDetails) {
-    if (calendarTapDetails.targetElement != CalendarElement.calendarCell &&
-        calendarTapDetails.targetElement != CalendarElement.appointment) {
+    if (calendarTapDetails.targetElement != CalendarElement.calendarCell&&
+    calendarTapDetails.targetElement != CalendarElement.appointment) {
       return;
     }
     setState(() {
@@ -133,14 +136,15 @@ class appointCalendarState extends State<appointCalendar> {
 
         if (calendarTapDetails.appointments != null &&
             calendarTapDetails.appointments!.length == 1) {
-          final Appointment meetingDetails = calendarTapDetails.appointments![0];
-          _startDate = meetingDetails.from;
-          _endDate = meetingDetails.to;
-          _doc = meetingDetails.docName == '(No title)'
+          final Appointment appointmentDetails = calendarTapDetails.appointments![0];
+          _startDate = appointmentDetails.from;
+          _endDate = appointmentDetails.to;
+          _doc = appointmentDetails.docName == '(No title)'
               ? ''
-              : meetingDetails.docName;
-          _description = meetingDetails.description;
-          _selectedAppointment = meetingDetails;
+              : appointmentDetails.id;
+          _description = appointmentDetails.description;
+          _id = appointmentDetails.id;
+          _selectedAppointment = appointmentDetails;
         } else {
           final DateTime date = calendarTapDetails.date!;
           _startDate = date;
@@ -166,25 +170,33 @@ class appointCalendarState extends State<appointCalendar> {
 
   class Appointment {
   Appointment(
-  {this.docName = '',
+  // ignore: non_constant_identifier_names
+  {this.id = '',
+  this.docName = '',
   this.description = '',
   required this.from,
   required this.to,
   required this.background,
-  this.recurrenceRule,
+  required this.duration,
+  required this.type
   });
-
+  String id;
   String docName;
   String description;
   DateTime from;
   DateTime to;
   Color background;
-  String? recurrenceRule;
+  int duration;
+  int type;
   }
 
   class _AppointmentDataSource extends CalendarDataSource {
   _AppointmentDataSource(List<Appointment> source){
   appointments = source;
+  }
+
+  DateTime getID(int index) {
+    return appointments![index].id;
   }
   @override
   DateTime getStartTime(int index) {

@@ -18,6 +18,7 @@ class appointmentFormState extends State<appointmentForm> {
   String selectedType = 'Check-Up';
   bool _value = false;
  FirebaseFirestore firestoreInstance= FirebaseFirestore.instance;
+ String title = _selectedAppointment == null ? "Add" : "Update";
 
   @override
   void dispose() {
@@ -81,44 +82,82 @@ elevation: 0,
     ),
     onPressed: () async {
     final List<Appointment> appointments = <Appointment>[];
+
+    //update
     if (_selectedAppointment != null) {
+
+      Appointment temp = Appointment(
+          id:_selectedAppointment!.id,
+          from: _startDate,
+          // to: _endDate,
+          to: _endDate,
+          description: _description,
+          docName: _doc == '' ? '(No title)' : _doc,
+          background: Color(0xFF9C4350),
+          duration: _selectedAppointment!.duration,
+          type: _selectedAppointment!.type);
+
+      firestoreInstance.collection("appointment ").doc(_id).update({
+        "DrName" : _doc,
+        "date": DateFormat('MM/dd/yyyy').format(_startDate),
+        "startTime" : DateFormat.Hm().format(_startDate),
+        "endTime" :  DateFormat.Hm().format(_endDate),
+        "description" : _description,
+       }); 
+
     _events.appointments!.removeAt(_events.appointments!
         .indexOf(_selectedAppointment));
     _events.notifyListeners(CalendarDataSourceAction.remove,
     <Appointment>[]..add(_selectedAppointment!));
+      appointments.add(temp);
+      _events.appointments!.add(temp);
     }
-    int n = getTime();
-    int type = getType();
 
-    int diff = _endDate.difference(_startDate).inMinutes;
-    DateTime _appEnd =_startDate;
-    for(int i=0;i<(diff/n);i++){
-    appointments.add(Appointment(
-    from: _appEnd,
-   // to: _endDate,
-      to: _appEnd.add(Duration(minutes: n)),
-      description: _description,
-    docName: _doc == '' ? '(No title)' : _doc,
-      background: Color(0xFF9C4350),
-    ));
+    //add
+    else {
+      int n = getTime();
+      int type = getType();
 
-  _events.appointments!.add(appointments[i]);
+      int diff = _endDate
+          .difference(_startDate)
+          .inMinutes;
+      DateTime _appEnd = _startDate;
+      for (int i = 0; i < (diff / n); i++) {
 
-    DocumentReference doc = await firestoreInstance.collection("appointment ").add(
-        {
-          "appointmentID" : '',
-          "DrName" : _doc,
-          "date": DateFormat('MM/dd/yyyy').format(_startDate),
-          "startTime" : DateFormat.Hm().format(_appEnd),
-          "endTime" :  DateFormat.Hm().format(_appEnd.add(Duration(minutes: n))),
-          "description" : _description,
-          "state" : "avaliable",
-          "typeID" : type
-        });
-    String id = doc.id;
-   await firestoreInstance.collection("appointment ").doc(id).update({"appointmentID":id});
+        DocumentReference doc = await firestoreInstance.collection(
+            "appointment ").add(
+            {
+              "appointmentID": '',
+              "DrName": _doc,
+              "date": DateFormat('MM/dd/yyyy').format(_startDate),
+              "startTime": DateFormat.Hm().format(_appEnd),
+              "endTime": DateFormat.Hm().format(
+                  _appEnd.add(Duration(minutes: n))),
+              "description": _description,
+              "state": "avaliable",
+              "typeID": type
+            });
+        String _id = doc.id;
+        await firestoreInstance.collection("appointment ").doc(_id).update(
+            {"appointmentID": _id});
 
-     _appEnd = _appEnd.add(Duration(minutes: n));
+        appointments.add(Appointment(
+            id: _id,
+            from: _appEnd,
+            // to: _endDate,
+            to: _appEnd.add(Duration(minutes: n)),
+            description: _description,
+            docName: _doc == '' ? '(No title)' : _doc,
+            background: Color(0xFF9C4350),
+            duration: n,
+            type: type
+        ));
+
+        _events.appointments!.add(appointments[i]);
+        _appEnd = _appEnd.add(Duration(minutes: n));
+
+
+      }
     }
 
     _events.notifyListeners(
@@ -137,6 +176,7 @@ elevation: 0,
     children: <Widget>[
          // doc name to be turned into a select dropdown
     TextFormField(
+      controller: TextEditingController(text: _doc),
             decoration: const InputDecoration(
               icon: Icon(Icons.person),
               hintText: 'Enter Doctor\'s name',
@@ -326,7 +366,7 @@ elevation: 0,
         thickness: 1,
       ),
           TextFormField(
-
+            controller: TextEditingController(text: _description),
             decoration: const InputDecoration(
               icon: Icon(Icons.subject),
               hintText: 'Enter appointment description',
@@ -345,6 +385,13 @@ elevation: 0,
         height: 1.0,
         thickness: 1,
       ),
+      Visibility(
+          visible: _selectedAppointment==null,
+   child: Wrap(
+
+
+            children: <Widget>[
+
           Container(
            child:  Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
@@ -405,7 +452,7 @@ elevation: 0,
 
       DropdownButton<String>(
         isExpanded: true,
-        value: selectedTime,
+        value: selectedType,
         // icon: const Icon(Icons.arrow_circle_down),
         iconSize: 20,
         elevation: 16,
@@ -431,7 +478,8 @@ elevation: 0,
           ),
         ),
       ),
-
+   ] )
+ )
 
 
 /* To be Added

@@ -4,9 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
 
-
-
-
 void main(){
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
@@ -46,16 +43,15 @@ class MyApp extends StatelessWidget {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.red[50],
-
+    return Scaffold(
+      backgroundColor: Colors.red[50],
       body:  Center(
           child: Column(
               children: <Widget>[
-
             Container(
                 margin: EdgeInsets.fromLTRB(50, 40, 50, 30),
                 width: 130,
-              height: 160,
+                height: 160,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(image: AssetImage('images/logo.jpeg')
@@ -65,29 +61,52 @@ class Home extends StatelessWidget {
             Image.asset(
               'images/dog2.png',
               height: 240,
-              width: 330,
+              width: 350,
             ),
-            SizedBox(height: 40),
-            Text("Hi there would you like start a journey in Mypet app ?  " ,textAlign: TextAlign.center, style: new TextStyle(
-              fontSize: 18.0,
-              color: Colors.blueGrey,)),
-                SizedBox(height: 20),
-                SizedBox(
-                width: 140,
-                height: 50,
-                child: RaisedButton(
-                    color: Colors.blueGrey,
-                    shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            SizedBox(height: 30),
+             Padding(
+               padding: const EdgeInsets.all(24),
+                    child:
+                     Text("Hi there would you like start a journey in Mypet app ?  "
+                      ,textAlign: TextAlign.center,
+                         softWrap: true ,
+                         style: new TextStyle(
+                       fontSize: 18.0,
+                      color: Colors.blueGrey,)),
+             ),
+                SizedBox(height: 10),
+                Container(
+                    width: double.infinity,
+                    child:Column (
+                        mainAxisAlignment :MainAxisAlignment.end,
+                        crossAxisAlignment :CrossAxisAlignment.end,
+                      children:[
+                        Container(
+                          width: MediaQuery.of(context).size.width * .35,
+                          height: MediaQuery.of(context).size.height * .06,
 
-                    onPressed: () { // Navigator.push(
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (_) => login()));
+                         child :
+                           RaisedButton(
+                             color: Colors.blueGrey,
+                             shape:RoundedRectangleBorder(
+                                 borderRadius: BorderRadius.only(
+                                 bottomLeft : Radius.circular(10),
+                                 topLeft : Radius.circular(10),
+                                 ),
+                             ),
+                             onPressed: () { // Navigator.push(
+                             Navigator.push(
+                              context, MaterialPageRoute(builder: (_) => login()));
                 },
-                      child: Text("contuniue", style: new TextStyle(
-                      fontSize: 18.0,color: Colors.white,)
+                            child: Text("contuniue", style: new TextStyle(
+                             fontSize: 18.0,color: Colors.white,)
                     )
             )
-            )
+                        )
+            ]
+                )
+
+                )
             ])),
     );
 

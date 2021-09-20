@@ -2,47 +2,57 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:provider/provider.dart';
+import 'nPage.dart';
 
 
-
-
-void main(){
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
- final Future<FirebaseApp> fbApp =  Firebase.initializeApp();
-   MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application...
+  final Future<FirebaseApp> fbApp =  Firebase.initializeApp();
+  MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
+        title: 'Flutter Demo',
+        theme: ThemeData(
 
-        primarySwatch: Colors.blue,
-      ),
-      home: FutureBuilder(
-             future: fbApp,
-      builder:(context,snapshot) {
-               if (snapshot.hasError){
-                 print("An error has occured ${snapshot.error.toString()}");
-                 return const Text("Something went wrong");}
-      else if (snapshot.hasData) {
-        return Home();
-      }
-      else{return const Center(child:CircularProgressIndicator());}
-      },
-    )
+          primarySwatch: Colors.blue,
+        ),
+        home: FutureBuilder(
+          future: fbApp,
+          builder:(context,snapshot) {
+            if (snapshot.hasError){
+              print("An error has occured ${snapshot.error.toString()}");
+              return const Text("Something went wrong");}
+            else if (snapshot.hasData) {
+              return Home();
+            }
+            else{return const Center(child:CircularProgressIndicator());}
+          },
+        )
 
 
     );
+
   }
 }
-
 class Home extends StatelessWidget {
+  late UserCredential userCredential;
+  String _email="";
+  String _password="";
+  String _firstName="";
+  String _lastName="";
+  String _phoneNumber="";
+  String _confirmpassword="";
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +64,7 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.red[50],
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+              Navigator.pop(context);
           },
           icon: Icon(
             Icons.arrow_back_ios,
@@ -87,51 +97,202 @@ class Home extends StatelessWidget {
               ),
               Column(
                 children: <Widget>[
-                  inputFile(label: "Enter your first name"),
-                  inputFile(label: "Enter your last name"),
-                  inputFile(label: "Enter your mobile phone"),
-                  inputFile(label: "Enter your email"),
-                  inputFile(label: "Enter Password", obscureText: true),
-                  inputFile(
-                      label: "Enter confirm password ", obscureText: true),
+                  SizedBox(height: 10),
+                  TextField(
+                    onChanged: (value){
+                      _firstName=value;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: "Enter your first name",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          borderSide: BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          )
+                      ),
+                    ),
+
+                  ),
+                  SizedBox(height: 10),
+                  TextField(
+
+                    onChanged: (value){
+                      _lastName=value;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: "Enter your last name",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide(
+                            width: 0,
+
+                            style: BorderStyle.none,
+                          )
+                      ),
+                    ),
+                  ),
+                  //inputFile(label: "Enter your last name"),
+                  SizedBox(height: 10),
+                  TextField(
+                    onChanged: (value){
+                      _phoneNumber=value;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: "Mobile Number",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide(
+                            width: 0,
+
+                            style: BorderStyle.none,
+                          )
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  TextField(
+                    onChanged: (value){
+                      _email=value;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: "Enter your email",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide(
+                            width: 0,
+
+                            style: BorderStyle.none,
+                          )
+                      ),
+                    ),
+
+                  ),
+                  SizedBox(height: 10),
+                  TextField(
+                    onChanged: (value){
+                      _password=value;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: "Enter Password",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide(
+                            width: 0,
+
+                            style: BorderStyle.none,
+                          )
+                      ),
+                    ),
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 10),
+                  TextField(
+                    onChanged: (value){
+                      _confirmpassword=value;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: "Enter confirm password",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide(
+                            width: 0,
+
+                            style: BorderStyle.none,
+                          )
+                      ),
+                    ),
+                    obscureText: true,
+                  ),
+
+                  // inputFile(
+                  //label: "Enter confirm password ", obscureText: true),
                 ],
               ),
               Container(
                 padding: EdgeInsets.only(top: 3, left: 3),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
+                    borderRadius: BorderRadius.circular(20),
                     border: Border(
                       bottom: BorderSide(color: Colors.black),
                       top: BorderSide(color: Colors.black),
                       left: BorderSide(color: Colors.black),
                       right: BorderSide(color: Colors.black),
                     )),
+
                 child: MaterialButton(
-                  minWidth: double.infinity,
+                  minWidth: 230,
                   height: 60,
-                  onPressed: () {},
-                  color: Colors.black,
+
+                  onPressed: () async {
+                    //userCredential = await _auth.createUserWithEmailAndPassword(email: _email, password: _password);
+                    userCredential= await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
+                    if(userCredential!=null && userCredential.user != null)
+                    {
+                      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+                        'email':_email,
+                        'password':_password,
+                        'uid':userCredential.user!.uid
+                      });
+                      await FirebaseFirestore.instance.collection('pet owners').doc(userCredential.user!.uid).set({
+                        'fname':_firstName,
+                        'lname':_lastName,
+                        'mobile':_phoneNumber,
+                        'ownerID':userCredential.user!.uid,
+                        'uid':userCredential.user!.uid
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return nPage();
+                        }),
+                      );
+                    }
+                    else
+                    {
+                      print('user does not exist');
+                    }
+                  },
+
+                  color: Colors.blueGrey,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+
+                    borderRadius: BorderRadius.circular(20),
                   ),
+
                   child: Text(
+
                     "Register",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontSize: 22,
+                      fontSize: 20,
                       color: Colors.white,
                     ),
+
                   ),
                 ),
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(""),
                   Text(
                     "",
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 50),
                   )
                 ],
               )

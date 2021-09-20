@@ -193,7 +193,7 @@ class Home extends StatelessWidget {
 
                 width: 120, height:35,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(40)),
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
                   color: Colors.black87,
 
                 ),
@@ -218,10 +218,14 @@ class Home extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              //scrollDirection: Axis.horizontal,
+      //pest cards
               Container(
-                padding: EdgeInsets.only(top: 550, bottom: 50),
-                child: StreamBuilder<QuerySnapshot>(
+                padding: EdgeInsets.only(top: 550, bottom: 50,left:25),
+              //  child:Container(
+                //    decoration: BoxDecoration(
+                  //    borderRadius: BorderRadius.all(Radius.circular(40)),
+                    //  color: Colors.white,),
+child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance.collection('pets').snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) return const Text('loading');
@@ -284,7 +288,7 @@ class Home extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: 10),
                   child: CircleAvatar(
-                    radius: 45,
+                    radius: 50,
                     backgroundImage: newPet.profilePic,
                   ),
                 ),
@@ -365,13 +369,14 @@ class Home extends StatelessWidget {
    Widget _buildListItem(BuildContext context, DocumentSnapshot document ) {
      return Card(
          child: Container(
-           padding: EdgeInsets.all(10),
-           margin: EdgeInsets.only(right: 20),
-           width: 180,
-           decoration: BoxDecoration(
-             borderRadius: BorderRadius.all(Radius.circular(40)),
-             color: Colors.white,
 
+           padding: EdgeInsets.all(10),
+           margin: EdgeInsets.only(left: 20,right:20),
+
+           width: 160,
+             decoration: BoxDecoration(
+           borderRadius: BorderRadius.all(Radius.circular(40)),
+           color: Colors.white,
            ),
            child:
            Column(
@@ -380,19 +385,19 @@ class Home extends StatelessWidget {
                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                    children: <Widget>[
                      Container(
-                       margin: EdgeInsets.only(top: 10),
+                       margin: EdgeInsets.only(top: 20),
                        child: CircleAvatar(
-                           radius: 45,
-                           backgroundImage: new AssetImage("images/dog.png")),
+                           radius: 50,
+                           backgroundImage:new AssetImage("images/dog.png")),
 
                      ),
 
                    ],
                  ),
                  Container(
-                   margin: EdgeInsets.only(top: 20),
+                   margin: EdgeInsets.only(top: 10),
                    child: ListTile(
-                     title: Text(document['name']),
+                     title: Text("   "+document['name'],style: statusStyles[document['species']]),
 
                    ),),
                ]),));

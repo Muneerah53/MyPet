@@ -54,6 +54,8 @@ class Home extends StatelessWidget {
   String Mobile = "unknown";
   String userID = "unknown";
   String Email = "unknown";
+  String Petname = "unknown";
+
 
   @override
   Widget build(BuildContext context) {
@@ -216,15 +218,20 @@ class Home extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-
+              //scrollDirection: Axis.horizontal,
               Container(
                 padding: EdgeInsets.only(top: 550, bottom: 50),
-                child: ListView(
-                  padding: EdgeInsets.only(left: 20),
-                  children: getMyPets(),
-                  scrollDirection: Axis.horizontal,
-                ),
-              ),
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance.collection('pets').snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) return const Text('loading');
+                      return ListView.builder(scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) =>
+                            _buildListItem(context, (snapshot.data!).docs[index]),
+                      );
+                    })),
+
             ]));
   }
   List<pet> getPets() {
@@ -285,22 +292,33 @@ class Home extends StatelessWidget {
               ],
             ),
             Container(
-              margin: EdgeInsets.only(top: 15),
-              child: Row(
-                children: <Widget>[
+              margin: EdgeInsets.only(top: 20),
+              child:
+              StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('pets').snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return const Text('loading');
+                    return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) =>
+                          _buildListItem(context, (snapshot.data!).docs[index]),
+                    );
+                  })),
+              //Row(
+                //children: <Widget>[
 
-                  Text(newPet.name, style: petCardSubTitleStyle)
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Row(
-                children: <Widget>[
-                  Text(newPet.species, style: statusStyles[newPet.species])
-                ],
-              ),
-            ),
+                  //Text(newPet.name, style: petCardSubTitleStyle)
+               // ],
+           //   ),
+            //),
+           // Container(
+            //  margin: EdgeInsets.only(top: 10),
+            //  child: Row(
+              //  children: <Widget>[
+              //    Text(newPet.species, style: statusStyles[newPet.species])
+              //  ],
+            //  ),
+           // ),
           ],
         ));
 
@@ -310,7 +328,7 @@ class Home extends StatelessWidget {
   getOwnerName() async {
 
     var data = await FirebaseFirestore.instance.collection('pet owners').get();
-    int index = 1;
+    int index = 2;
     Fname = data.docs[index].data()['fname'].toString();
     Lname = data.docs[index].data()['lname'].toString();
     Mobile = data.docs[index].data()['mobile'].toString();
@@ -320,5 +338,66 @@ class Home extends StatelessWidget {
     if(userID==data.docs[index].data()['uid'].toString())
       Email = data.docs[index].data()['email'].toString();
   }
+  getOwnerPet() async {
+    int index = 2;
+    var data = await FirebaseFirestore.instance.collection('pet owners').get();
 
-}
+    userID = data.docs[index].data()['uid'].toString();
+    var petdata = await FirebaseFirestore.instance.collection('pets').get();
+    index = 0;
+    data = await FirebaseFirestore.instance.collection('users').get();
+    if(userID==petdata.docs[index].data()['userID'].toString())
+      Petname = petdata.docs[index].data()['name'].toString();
+  }
+  getOwnerPets() async {
+    int index = 1;
+    StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('pet owners').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return const Text('loading');
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) =>
+                _buildListItem(context, (snapshot.data!).docs[index]),
+          );
+        });
+  }
+   Widget _buildListItem(BuildContext context, DocumentSnapshot document ) {
+     return Card(
+         child: Container(
+           padding: EdgeInsets.all(10),
+           margin: EdgeInsets.only(right: 20),
+           width: 180,
+           decoration: BoxDecoration(
+             borderRadius: BorderRadius.all(Radius.circular(40)),
+             color: Colors.white,
+
+           ),
+           child:
+           Column(
+               children: <Widget>[
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                   children: <Widget>[
+                     Container(
+                       margin: EdgeInsets.only(top: 10),
+                       child: CircleAvatar(
+                           radius: 45,
+                           backgroundImage: new AssetImage("images/dog.png")),
+
+                     ),
+
+                   ],
+                 ),
+                 Container(
+                   margin: EdgeInsets.only(top: 20),
+                   child: ListTile(
+                     title: Text(document['name']),
+
+                   ),),
+               ]),));
+   }
+
+  }
+
+

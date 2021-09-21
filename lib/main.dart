@@ -4,8 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '/models/owner.dart';
-import 'models/pet.dart';
 import 'models/global.dart';
 
 
@@ -59,6 +57,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.red[50],
@@ -87,27 +86,11 @@ class Home extends StatelessWidget {
                     margin: EdgeInsets.only(top: 5),
                     child: CircleAvatar(
                       radius: 80,
-
                       backgroundImage: new AssetImage("images/owner.jpg"),
                     ),
                   ),
-
                 ],
-
               ),
-              // Container(
-              // margin: EdgeInsets.only(top: 60,left: 40),
-              // child: CircleAvatar(
-              // radius: 25, backgroundColor: Colors.white,
-              //),
-              //),
-              //Container(
-              // margin: EdgeInsets.only(top: 58,left: 37),
-              //child: CircleAvatar(
-              //radius: 25, backgroundColor: Colors.blueGrey[100],
-              //),
-              //),
-
 
               //owner container
               Container(
@@ -158,7 +141,8 @@ class Home extends StatelessWidget {
                                   return Text("Loading data...Please wait");
                                 return Text("mobile:  $Mobile",style: petCardTitleStyle);
                               },
-                            ),),
+                            ),
+                          ),
                           Container(
                             margin: EdgeInsets.only(top: 15),
                             child:FutureBuilder(
@@ -172,7 +156,9 @@ class Home extends StatelessWidget {
                           ),
 
                         ],
-                      ))),
+                      ),
+                  ),
+              ),
 
 
               Container(
@@ -195,19 +181,16 @@ class Home extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   color: Colors.black87,
-
                 ),
 
                 child: Row(
                     children: [ ElevatedButton(onPressed:(){},
                       child:  Text("Edit", style: new TextStyle(  color: Colors.white),
                         textAlign: TextAlign.center,),
-
-
-                    ),]
-
-
-                ),),
+                    ),
+                    ]
+                ),
+              ),
               Container(
                 padding: EdgeInsets.only(top: 500, left:30),
                 child: Text(
@@ -221,113 +204,24 @@ class Home extends StatelessWidget {
       //pest cards
               Container(
                 padding: EdgeInsets.only(top: 550, bottom: 50,left:25),
-              //  child:Container(
-                //    decoration: BoxDecoration(
-                  //    borderRadius: BorderRadius.all(Radius.circular(40)),
-                    //  color: Colors.white,),
-child: StreamBuilder<QuerySnapshot>(
+                child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance.collection('pets').snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) return const Text('loading');
                       return ListView.builder(scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) =>
+                        //card pets method
                             _buildListItem(context, (snapshot.data!).docs[index]),
                       );
-                    })),
+                    }
+                    ),
+              ),
 
-            ]));
-  }
-  List<pet> getPets() {
-    List<pet> pets = [];
-    //for (int i = 0; i < 2; i++) {
-    AssetImage profilePic1 = new AssetImage("images/cat.jpeg");
-    pet Pet1 = new pet("cloud", "Cat", profilePic1);
-    pets.add(Pet1);
-    AssetImage profilePic2 = new AssetImage("images/dog.png");
-    pet Pet2 = new pet("Charly", "Dog", profilePic2);
-    pets.add(Pet2);
-    pet Pet3 = new pet("black", "Cat", profilePic1);
-    pets.add(Pet3);
-    // }
-    return pets;
-  }
-
-  List<Widget> getMyPets() {
-    List<pet> techies = getPets();
-    List<Widget> cards = [];
-    for (pet techy in techies) {
-      cards.add(petCard(techy));
-    }
-    return cards;
-  }
-
-
-
-
-  Map statusStyles = {
-    'Cat' : statusCatStyle,
-    'Dog' : statusDogStyle
-  };
-  Widget petCard(pet newPet) {
-    return Container(
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.only(right: 20),
-        width: 180,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(40)),
-          color: Colors.white,
-
+            ],
         ),
-        child:
-        Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: newPet.profilePic,
-                  ),
-                ),
-
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 20),
-              child:
-              StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance.collection('pets').snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) return const Text('loading');
-                    return ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) =>
-                          _buildListItem(context, (snapshot.data!).docs[index]),
-                    );
-                  })),
-              //Row(
-                //children: <Widget>[
-
-                  //Text(newPet.name, style: petCardSubTitleStyle)
-               // ],
-           //   ),
-            //),
-           // Container(
-            //  margin: EdgeInsets.only(top: 10),
-            //  child: Row(
-              //  children: <Widget>[
-              //    Text(newPet.species, style: statusStyles[newPet.species])
-              //  ],
-            //  ),
-           // ),
-          ],
-        ));
-
+    );
   }
-
 
   getOwnerName() async {
 
@@ -342,40 +236,24 @@ child: StreamBuilder<QuerySnapshot>(
     if(userID==data.docs[index].data()['uid'].toString())
       Email = data.docs[index].data()['email'].toString();
   }
-  getOwnerPet() async {
-    int index = 2;
-    var data = await FirebaseFirestore.instance.collection('pet owners').get();
 
-    userID = data.docs[index].data()['uid'].toString();
-    var petdata = await FirebaseFirestore.instance.collection('pets').get();
-    index = 0;
-    data = await FirebaseFirestore.instance.collection('users').get();
-    if(userID==petdata.docs[index].data()['userID'].toString())
-      Petname = petdata.docs[index].data()['name'].toString();
-  }
-  getOwnerPets() async {
-    int index = 1;
-    StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('pet owners').snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return const Text('loading');
-          return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) =>
-                _buildListItem(context, (snapshot.data!).docs[index]),
-          );
-        });
-  }
    Widget _buildListItem(BuildContext context, DocumentSnapshot document ) {
+    String img ="";
+    if (document['species']=="Dog")
+      img="images/dog.png";
+    else
+      img="images/cat.jpeg";
      return Card(
          child: Container(
 
            padding: EdgeInsets.all(10),
            margin: EdgeInsets.only(left: 20,right:20),
-
            width: 160,
-             decoration: BoxDecoration(
+
+           //i dont know why this cammand does not work
+           decoration: BoxDecoration(
            borderRadius: BorderRadius.all(Radius.circular(40)),
+
            color: Colors.white,
            ),
            child:
@@ -388,7 +266,7 @@ child: StreamBuilder<QuerySnapshot>(
                        margin: EdgeInsets.only(top: 20),
                        child: CircleAvatar(
                            radius: 50,
-                           backgroundImage:new AssetImage("images/dog.png")),
+                           backgroundImage:new AssetImage(img)),
 
                      ),
 
@@ -402,7 +280,10 @@ child: StreamBuilder<QuerySnapshot>(
                    ),),
                ]),));
    }
-
+  Map statusStyles = {
+    'Cat' : statusCatStyle,
+    'Dog' : statusDogStyle
+  };
   }
 
 

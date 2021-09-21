@@ -8,42 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1076573843957:android:62e4c148a57fce206a70bc",
-        "android_client_info": {
-          "package_name": "com.nitrotec.mypet"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1076573843957-ruaoeq0tmgtmnke11gcq0hj2pfna6nvf.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCcfZCZvlwQGlDJvHvHWofsyqRxnZtLVvM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1076573843957-ruaoeq0tmgtmnke11gcq0hj2pfna6nvf.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "1076573843957-has26nsv12jd74bfklhplhs1ndp702nc.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.444.mypet"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:1076573843957:android:eb3f225095f731c26a70bc",
         "android_client_info": {
           "package_name": "com.u444.mypet"
@@ -66,13 +30,6 @@
             {
               "client_id": "1076573843957-ruaoeq0tmgtmnke11gcq0hj2pfna6nvf.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "1076573843957-has26nsv12jd74bfklhplhs1ndp702nc.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.444.mypet"
-              }
             }
           ]
         }

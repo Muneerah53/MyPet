@@ -47,14 +47,6 @@ class MyApp extends StatelessWidget {
 }
 class Home extends StatelessWidget {
 
-  String Fname = "unknown";
-  String Lname = "unknown";
-  String Mobile = "unknown";
-  String userID = "unknown";
-  String Email = "unknown";
-  String Petname = "unknown";
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -92,82 +84,32 @@ class Home extends StatelessWidget {
                 ],
               ),
 
-              //owner container
-              Container(
-                  padding: EdgeInsets.only(top: 220, bottom: 350,left:30),
-                  child:  Container(
-                      padding: EdgeInsets.all(20),
-                      width: 370,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(40)),
-                        color: Colors.white,
 
+                      Container(
+                        padding: EdgeInsets.only(top: 200, bottom: 350,left:20,right: 20),
+                        child: StreamBuilder<QuerySnapshot>(
+                            stream: FirebaseFirestore.instance.collection('pet owners').snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) return const Text('loading');
+                              return ListView.builder(
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) =>
+                                //card pets method
+                                _buildOwnerCard(context, (snapshot.data!).docs[index]),
+                              );
+                            }
+                        ),
                       ),
-                      child:
-                      Column(
-                        children: <Widget>[
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 18),
-                            child: FutureBuilder(
-                              future: getOwnerName(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState != ConnectionState.done)
-                                  return Text("Loading data...Please wait");
-                                return Text("first name:  $Fname",style: petCardTitleStyle);
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 15),
-                            child: FutureBuilder(
-                              future: getOwnerName(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState != ConnectionState.done)
-                                  return Text("Loading data...Please wait");
-                                return Text("last name:  $Lname",style: petCardTitleStyle);
-                              },
-                            ),
-                          ),Container(
-                            margin: EdgeInsets.only(top: 15),
-                            child: FutureBuilder(
-                              future: getOwnerName(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState != ConnectionState.done)
-                                  return Text("Loading data...Please wait");
-                                return Text("mobile:  $Mobile",style: petCardTitleStyle);
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 15),
-                            child:FutureBuilder(
-                              future: getOwnerName(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState != ConnectionState.done)
-                                  return Text("Loading data...Please wait");
-                                return Text("email:  $Email",style: petCardTitleStyle);
-                              },
-                            ),
-                          ),
-
-                        ],
-                      ),
-                  ),
-              ),
 
 
               Container(
-                padding: EdgeInsets.only(bottom: 450),
+                padding: EdgeInsets.only(bottom: 440),
                 child: Center(
                   child: Text(
                     'profile information',
                     style: TextStyle(
-                      fontSize: 25, color: Colors.black87,
+                      fontSize: 30, color: Colors.blueGrey,
                       fontStyle: FontStyle.italic,),
                     textAlign: TextAlign.center,
                   ),
@@ -201,6 +143,7 @@ class Home extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
+
       //pest cards
               Container(
                 padding: EdgeInsets.only(top: 550, bottom: 50,left:25),
@@ -211,8 +154,9 @@ class Home extends StatelessWidget {
                       return ListView.builder(scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) =>
+
                         //card pets method
-                            _buildListItem(context, (snapshot.data!).docs[index]),
+                        _buildPetsCard(context, (snapshot.data!).docs[index]),
                       );
                     }
                     ),
@@ -223,22 +167,42 @@ class Home extends StatelessWidget {
     );
   }
 
-  getOwnerName() async {
 
-    var data = await FirebaseFirestore.instance.collection('pet owners').get();
-    int index = 2;
-    Fname = data.docs[index].data()['fname'].toString();
-    Lname = data.docs[index].data()['lname'].toString();
-    Mobile = data.docs[index].data()['mobile'].toString();
-    userID = data.docs[index].data()['uid'].toString();
+  Widget _buildOwnerCard(BuildContext context, DocumentSnapshot document ) {
+  if (document['ownerID'].toString() == 'GApYHCG0gGYHp4D097maEgTnWQ92')
+    return Card(
+        child: Container(
 
-    data = await FirebaseFirestore.instance.collection('users').get();
-    if(userID==data.docs[index].data()['uid'].toString())
-      Email = data.docs[index].data()['email'].toString();
+          padding: EdgeInsets.only(left: 10,top:20),
+
+          width: 250,height: 350,
+
+          //i dont know why this cammand does not work
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(40)),
+
+            color: Colors.white,
+          ),
+          child:
+          Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: ListTile(
+                    title: Text("First name:  "+document['fname']+"\nLast name:  "+document['lname']+"\nMobile:  "+document['mobile']+"\nEmail:  "+document['email'],style: petCardTitleStyle),
+
+                  ),),
+              ]),));
+    else  return Card();
+
   }
-
-   Widget _buildListItem(BuildContext context, DocumentSnapshot document ) {
+   Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ) {
     String img ="";
+    if (document['userID'].toString() == 'GApYHCG0gGYHp4D097maEgTnWQ92'){
     if (document['species']=="Dog")
       img="images/dog.png";
     else
@@ -279,7 +243,8 @@ class Home extends StatelessWidget {
 
                    ),),
                ]),));
-   }
+   }else
+    return Card();}
   Map statusStyles = {
     'Cat' : statusCatStyle,
     'Dog' : statusDogStyle

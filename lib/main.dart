@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'login.dart';
 
 void main(){
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,15 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
+
           primarySwatch: Colors.blue,
         ),
         home: FutureBuilder(
@@ -42,6 +34,8 @@ class MyApp extends StatelessWidget {
             else{return const Center(child:CircularProgressIndicator());}
           },
         )
+
+
     );
   }
 }
@@ -50,10 +44,71 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('MyPet'),
-        centerTitle: true,
-      ),
+      backgroundColor: Colors.red[50],
+      body:  Center(
+          child: Column(
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.fromLTRB(50, 40, 50, 30),
+                    width: 130,
+                    height: 160,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(image: AssetImage('images/logo.jpeg')
+                        )
+                    )
+                ),
+                Image.asset(
+                  'images/dog2.png',
+                  height: 240,
+                  width: 350,
+                ),
+                SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child:
+                  Text("Hi there would you like start a journey in Mypet app ?  "
+                      ,textAlign: TextAlign.center,
+                      softWrap: true ,
+                      style: new TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.blueGrey,)),
+                ),
+                SizedBox(height: 10),
+                Container(
+                    width: double.infinity,
+                    child:Column (
+                        mainAxisAlignment :MainAxisAlignment.end,
+                        crossAxisAlignment :CrossAxisAlignment.end,
+                        children:[
+                          Container(
+                              width: MediaQuery.of(context).size.width * .35,
+                              height: MediaQuery.of(context).size.height * .06,
+
+                              child :
+                              RaisedButton(
+                                  color: Colors.blueGrey,
+                                  shape:RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft : Radius.circular(10),
+                                      topLeft : Radius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: () { // Navigator.push(
+                                    Navigator.push(
+                                        context, MaterialPageRoute(builder: (_) => login()));
+                                  },
+                                  child: Text("contuniue", style: new TextStyle(
+                                    fontSize: 18.0,color: Colors.white,)
+                                  )
+                              )
+                          )
+                        ]
+                    )
+
+                )
+              ])),
     );
+
   }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app3/Grooming.dart';
 
 class CustomCheckbox extends StatefulWidget {
   //const CustomCheckbox({Key? key}) : super(key: key);
 
-  final bool isChecked;
-  CustomCheckbox({required this.isChecked});
+  final bool? isChecked;
+
+  CustomCheckbox({this.isChecked});
 
   @override
   _CustomCheckboxState createState() => _CustomCheckboxState();
@@ -52,4 +54,12 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
     );
     //);
   }
+
+  bool isHSelected(bool value) {
+    return value;
+  }
+  //
+  // bool get check {
+  //   return _isSelected;
+  // }
 }

@@ -15,26 +15,26 @@ class Grooming extends StatefulWidget {
 }
 
 class _GroomingState extends State<Grooming> {
+  bool _ShowerAndDryingV = false;
+  bool? RShV;
+  bool? flShV;
+  bool? funShV;
+  bool? DryCleanV;
+  bool? ShavingV;
+  bool? Shav0V;
+  bool? Shav1V;
+  bool? Shav2V;
+  bool? Shav3V;
+  bool? HairCutV;
+  bool? EarCleaningV;
+  bool? CutnailsV;
+  bool? NeedsAnesthesiaV;
   int _Value = 1;
   int _Value2 = 2;
   String dropdownValue = 'No Pet';
 
   @override
   Widget build(BuildContext context) {
-    bool? ShowerAndDryingV;
-    bool? RShV;
-    bool? flShV;
-    bool? funShV;
-    bool? DryCleanV;
-    bool? ShavingV;
-    bool? Shav0V;
-    bool? Shav1V;
-    bool? Shav2V;
-    bool? Shav3V;
-    bool? HairCutV;
-    bool? EarCleaningV;
-    bool? CutnailsV;
-    bool? NeedsAnesthesiaV;
     return Scaffold(
       backgroundColor: const Color(0xFFF4E3E3),
       body: SingleChildScrollView(
@@ -89,7 +89,7 @@ class _GroomingState extends State<Grooming> {
                   ),
                   Container(
                       child: CustomCheckbox(
-                    isChecked: ShowerAndDryingV,
+                    isChecked: false,
                   )),
                 ],
               ),
@@ -427,12 +427,12 @@ class _GroomingState extends State<Grooming> {
                   )),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              margin: const EdgeInsets.fromLTRB(0, 50, 0, 80),
               width: 193,
               height: 73,
               child: ElevatedButton(
                   onPressed: () {
-                    print(ShowerAndDryingV);
+                    print(_ShowerAndDryingV);
                   },
                   child: Text('print',
                       style:
@@ -466,57 +466,8 @@ class _GroomingState extends State<Grooming> {
     // TODO: implement createState
     throw UnimplementedError();
   }
-}
 
-class groomingOrder {
-  bool? ShowerAndDrying;
-  bool? RSh = false;
-  bool? flSh = false;
-  bool? funSh = false;
-  bool? DryClean = false;
-  bool? Shaving = false;
-  bool? Shav0 = false;
-  bool? Shav1 = false;
-  bool? Shav2 = false;
-  bool? Shav3 = false;
-  bool? HairCut = false;
-  bool? EarCleaning = false;
-  bool? Cutnails = false;
-  bool? NeedsAnesthesia = false;
-
-  groomingOrder(
-      {this.ShowerAndDrying,
-      this.RSh,
-      this.flSh,
-      this.funSh,
-      this.DryClean,
-      this.Shaving,
-      this.Shav0,
-      this.Shav1,
-      this.Shav2,
-      this.Shav3,
-      this.HairCut,
-      this.EarCleaning,
-      this.Cutnails,
-      this.NeedsAnesthesia});
-
-  void main() {
-    var t = new groomingOrder(
-        // ShowerAndDrying ,
-        // RSh,
-        // flSh,
-        // funSh,
-        // DryClean,
-        // Shaving,
-        // Shav0,
-        // Shav1,
-        // Shav2,
-        // Shav3,
-        // HairCut,
-        // EarCleaning,
-        // Cutnails,
-        // NeedsAnesthesia
-        );
-    print(t.toString());
+  double TotalPrice() {
+    return 0.0;
   }
 }

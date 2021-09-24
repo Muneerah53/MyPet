@@ -54,12 +54,4 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
     );
     //);
   }
-
-  bool isHSelected(bool value) {
-    return value;
-  }
-  //
-  // bool get check {
-  //   return _isSelected;
-  // }
 }

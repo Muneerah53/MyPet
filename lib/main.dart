@@ -51,6 +51,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
+
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.red[50],
         appBar: AppBar(
@@ -70,32 +71,40 @@ class Home extends StatelessWidget {
         ),
         body:Stack(
 
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: CircleAvatar(
-                      radius: 80,
-                      backgroundImage: new AssetImage("images/owner.jpg"),
-                    ),
-                  ),
-                ],
-              ),
+            children: <Widget>[ Center( child:
 
+                  Container(
+                    padding: EdgeInsets.only(bottom: 380,),
+                    width:150,
+                    child:   StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance.collection('pets').snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) return const Text('loading');
+                          return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) =>
+                            //card pets method
+                            _buildPicCard(context, (snapshot.data!).docs[index]),
+                          );
+                        }
+                        ),
+                  ),
+
+
+),
 
                       Container(
-                        padding: EdgeInsets.only(top: 200, bottom: 350,left:20,right: 20),
+                        padding: EdgeInsets.only(top: 180,left:20,right: 20),
+
                         child: StreamBuilder<QuerySnapshot>(
-                            stream: FirebaseFirestore.instance.collection('pet owners').snapshots(),
+                            stream: FirebaseFirestore.instance.collection('pets').snapshots(),
                             builder: (context, snapshot) {
                               if (!snapshot.hasData) return const Text('loading');
                               return ListView.builder(
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (context, index) =>
                                 //card pets method
-                                _buildOwnerCard(context, (snapshot.data!).docs[index]),
+                                _buildPetCard(context, (snapshot.data!).docs[index]),
                               );
                             }
                         ),
@@ -104,10 +113,10 @@ class Home extends StatelessWidget {
 
 
               Container(
-                padding: EdgeInsets.only(bottom: 440),
+                padding: EdgeInsets.only(bottom: 350),
                 child: Center(
                   child: Text(
-                    'profile information',
+                    'pet information',
                     style: TextStyle(
                       fontSize: 30, color: Colors.blueGrey,
                       fontStyle: FontStyle.italic,),
@@ -116,51 +125,28 @@ class Home extends StatelessWidget {
                 ),
               ),
 
+
+              //Edit button
               Container(
-                margin: EdgeInsets.only(top:410,left:250),
-
+                margin: EdgeInsets.only(top:500,left:250),
                 width: 120, height:35,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: Colors.black87,
-                ),
-
-                child: Row(
-                    children: [ ElevatedButton(onPressed:(){},
+                child: ElevatedButton(onPressed:(){},
                       child:  Text("Edit", style: new TextStyle(  color: Colors.white),
                         textAlign: TextAlign.center,),
                     ),
-                    ]
-                ),
+
               ),
               Container(
-                padding: EdgeInsets.only(top: 500, left:30),
-                child: Text(
-                  'My Pets',
-                  style: TextStyle(
-                      fontSize: 30, color: Colors.black87,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
+                margin: EdgeInsets.only(top:500,left:70),
+                width: 120, height:35,
+                child: ElevatedButton(onPressed:(){},
+                  child:  Text("Delete", style: new TextStyle(  color: Colors.white),
+                    textAlign: TextAlign.center,),
                 ),
+
               ),
 
-      //pest cards
-              Container(
-                padding: EdgeInsets.only(top: 550, bottom: 50,left:25),
-                child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance.collection('pets').snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) return const Text('loading');
-                      return ListView.builder(scrollDirection: Axis.horizontal,
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, index) =>
 
-                        //card pets method
-                        _buildPetsCard(context, (snapshot.data!).docs[index]),
-                      );
-                    }
-                    ),
-              ),
 
             ],
         ),
@@ -168,14 +154,14 @@ class Home extends StatelessWidget {
   }
 
 
-  Widget _buildOwnerCard(BuildContext context, DocumentSnapshot document ) {
-  if (document['ownerID'].toString() == 'GApYHCG0gGYHp4D097maEgTnWQ92')
+  Widget _buildPetCard(BuildContext context, DocumentSnapshot document ) {
+  if (document['petID'].toString() == 'oiVuGU1TJqnZOH4YnOAl')
     return Card(
         child: Container(
 
-          padding: EdgeInsets.only(left: 10,top:20),
+          padding: EdgeInsets.only(left: 10,top:80),
 
-          width: 250,height: 350,
+          width: 250,height: 400,
 
           //i dont know why this cammand does not work
           decoration: BoxDecoration(
@@ -191,59 +177,28 @@ class Home extends StatelessWidget {
 
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 10),
+
                   child: ListTile(
-                    title: Text("First name:  "+document['fname']+"\nLast name:  "+document['lname']+"\nMobile:  "+document['mobile']+"\nEmail:  "+document['email'],style: petCardTitleStyle),
+                    title: Text("name:  "+document['name']+"\nspecies:  "+document['species']+"\ngender:  "+document['gender']+"\nage:  "+document['age']+"\ndiseases:  "+document['disease']+"\nalirgic:  "+document['alirgic'],style: petCardTitleStyle),
 
                   ),),
               ]),));
     else  return Card();
 
   }
-   Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ) {
+   Widget _buildPicCard(BuildContext context, DocumentSnapshot document ) {
     String img ="";
-    if (document['userID'].toString() == 'GApYHCG0gGYHp4D097maEgTnWQ92'){
-    if (document['species']=="Dog")
-      img="images/dog.png";
-    else
-      img="images/cat.jpeg";
-     return Card(
-         child: Container(
+    if (document['petID'].toString() == 'oiVuGU1TJqnZOH4YnOAl') {
+      if (document['species'] == "Dog")
+        img = "images/dog.png";
+      else
+        img = "images/cat.jpeg";
+      return CircleAvatar(
+        radius: 80,
+        backgroundImage: new AssetImage(img),
 
-           padding: EdgeInsets.all(10),
-           margin: EdgeInsets.only(left: 20,right:20),
-           width: 160,
-
-           //i dont know why this cammand does not work
-           decoration: BoxDecoration(
-           borderRadius: BorderRadius.all(Radius.circular(40)),
-
-           color: Colors.white,
-           ),
-           child:
-           Column(
-               children: <Widget>[
-                 Row(
-                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                   children: <Widget>[
-                     Container(
-                       margin: EdgeInsets.only(top: 20),
-                       child: CircleAvatar(
-                           radius: 50,
-                           backgroundImage:new AssetImage(img)),
-
-                     ),
-
-                   ],
-                 ),
-                 Container(
-                   margin: EdgeInsets.only(top: 10),
-                   child: ListTile(
-                     title: Text("   "+document['name'],style: statusStyles[document['species']]),
-
-                   ),),
-               ]),));
-   }else
+      );
+    }else
     return Card();}
   Map statusStyles = {
     'Cat' : statusCatStyle,

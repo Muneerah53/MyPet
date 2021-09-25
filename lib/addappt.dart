@@ -34,7 +34,7 @@ class appointmentFormState extends State<appointmentForm> {
     backgroundColor: Color(0xFFF4E3E3),
     appBar: AppBar(
         elevation:0,
-        title: Text('$title Schedule',textAlign: TextAlign.center,
+        title: Text('$title Shift',textAlign: TextAlign.center,
             style: TextStyle(color:Color(0XFFFF6B81))),
         backgroundColor: Colors.transparent,
     actions: <Widget>[
@@ -43,94 +43,93 @@ class appointmentFormState extends State<appointmentForm> {
     padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
     icon: const Icon(
     Icons.done,
-    color: Colors.white,
+    color: Color(0xFF7F3557),
     ),
     onPressed: () async {
-    final List<Appointment> appointments = <Appointment>[];
+      if (_formKey.currentState!.validate()) {
+        final List<Appointment> appointments = <Appointment>[];
 
-    //update
-    if (_selectedAppointment != null) {
+        //update
+        if (_selectedAppointment != null) {
 //update
-      Appointment temp = Appointment(
-          id:_selectedAppointment!.id,
-          from: _startDate,
-          to: _endDate,
-          start: _startTime,
-          end: _endTime,
-          description: _description,
-          docName: _doc == '' ? '(No title)' : _doc,
-          background: Color(0xFF9C4350),
-          type: _selectedAppointment!.type);
+          Appointment temp = Appointment(
+              id: _selectedAppointment!.id,
+              from: _startDate,
+              to: _endDate,
+              start: _startTime,
+              end: _endTime,
+              description: _description,
+              docName: _doc == '' ? '(No title)' : _doc,
+              background: Color(0xFF9C4350),
+              type: _selectedAppointment!.type);
 
-      firestoreInstance.collection("appointment ").doc(_id).update({
-        "DrName" : _doc,
-        "date": DateFormat('dd/MM/yyyy').format(_startDate),
-        "startTime" : DateFormat.Hm().format(_startDate),
-        "endTime" :  DateFormat.Hm().format(_endDate),
-        "description" : _description,
-       }); 
+          firestoreInstance.collection("appointment ").doc(_id).update({
+            "DrName": _doc,
+            "date": DateFormat('dd/MM/yyyy').format(_startDate),
+            "startTime": DateFormat.Hm().format(_startDate),
+            "endTime": DateFormat.Hm().format(_endDate),
+            "description": _description,
+          });
 
-    _events.appointments!.removeAt(_events.appointments!
-        .indexOf(_selectedAppointment));
-    _events.notifyListeners(CalendarDataSourceAction.remove,
-    <Appointment>[]..add(_selectedAppointment!));
-      appointments.add(temp);
-      _events.appointments!.add(temp);
-    }
+          _events.appointments!.removeAt(_events.appointments!
+              .indexOf(_selectedAppointment));
+          _events.notifyListeners(CalendarDataSourceAction.remove,
+              <Appointment>[]..add(_selectedAppointment!));
+          appointments.add(temp);
+          _events.appointments!.add(temp);
+        }
 
-    //add
-    else {
-      int n = getTime();
-      int type = getType();
+        //add
+        else {
+          int n = getTime();
+          int type = getType();
 
-      int diff = _endDate
-          .difference(_startDate)
-          .inMinutes;
-      DateTime _appEnd = _startDate;
-      for (int i = 0; i < (diff / n); i++) {
+          int diff = _endDate
+              .difference(_startDate)
+              .inMinutes;
+          DateTime _appEnd = _startDate;
+          for (int i = 0; i < (diff / n); i++) {
+            DocumentReference doc = await firestoreInstance.collection(
+                "appointment ").add(
+                {
+                  "appointmentID": '',
+                  "DrName": _doc,
+                  "date": DateFormat('dd/MM/yyyy').format(_startDate),
+                  "startTime": DateFormat.Hm().format(_appEnd),
+                  "endTime": DateFormat.Hm().format(
+                      _appEnd.add(Duration(minutes: n))),
+                  "description": _description,
+                  "state": "avaliable",
+                  "typeID": type
+                });
+            String _id = doc.id;
+            await firestoreInstance.collection("appointment ").doc(_id).update(
+                {"appointmentID": _id});
 
-        DocumentReference doc = await firestoreInstance.collection(
-            "appointment ").add(
-            {
-              "appointmentID": '',
-              "DrName": _doc,
-              "date": DateFormat('dd/MM/yyyy').format(_startDate),
-              "startTime": DateFormat.Hm().format(_appEnd),
-              "endTime": DateFormat.Hm().format(
-                  _appEnd.add(Duration(minutes: n))),
-              "description": _description,
-              "state": "avaliable",
-              "typeID": type
-            });
-        String _id = doc.id;
-        await firestoreInstance.collection("appointment ").doc(_id).update(
-            {"appointmentID": _id});
+            appointments.add(Appointment(
+              id: _id,
+              from: _appEnd,
+              to: _appEnd.add(Duration(minutes: n)),
+              start: TimeOfDay.fromDateTime(_appEnd),
+              // to: _endDate,
+              end: TimeOfDay.fromDateTime(_appEnd.add(Duration(minutes: n))),
+              description: _description,
+              docName: _doc == '' ? '(No title)' : _doc,
+              background: Color(0xFF9C4350),
+              type: type,
+            ));
 
-        appointments.add(Appointment(
-            id: _id,
-            from: _appEnd,
-            to: _appEnd.add(Duration(minutes: n)),
-            start: TimeOfDay.fromDateTime(_appEnd),
-            // to: _endDate,
-            end: TimeOfDay.fromDateTime(_appEnd.add(Duration(minutes: n))),
-            description: _description,
-            docName: _doc == '' ? '(No title)' : _doc,
-            background: Color(0xFF9C4350),
-            type: type,
-        ));
+            _events.appointments!.add(appointments[i]);
+            _appEnd = _appEnd.add(Duration(minutes: n));
+          }
+        }
 
-        _events.appointments!.add(appointments[i]);
-        _appEnd = _appEnd.add(Duration(minutes: n));
+        _events.notifyListeners(
+            CalendarDataSourceAction.add, appointments);
+        _selectedAppointment = null;
 
-      }
-    }
-
-    _events.notifyListeners(
-        CalendarDataSourceAction.add, appointments);
-    _selectedAppointment = null;
-
-    Navigator.pop(context);
-    })
+        Navigator.pop(context);
+      }})
     ],
     ),
     body: Form(
@@ -159,6 +158,13 @@ class appointmentFormState extends State<appointmentForm> {
             )
         ),
       ),
+
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter name';
+        }
+        return null;
+      },
 
       onChanged: (String value) {
         _doc = value;
@@ -387,7 +393,12 @@ class appointmentFormState extends State<appointmentForm> {
                   )
               ),
             ),
-
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
               onChanged: (String value) {
                 _description = value;
               },),

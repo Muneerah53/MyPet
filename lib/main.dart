@@ -86,12 +86,13 @@ class Home extends StatelessWidget {
 
  Container(//add
 
+
    padding: EdgeInsets.all(10),
     margin: EdgeInsets.only(left: 30,right:20,top:90,bottom: 10),
     width: 365,height: 200,
 
     //i dont know why this cammand does not work
-    decoration: BoxDecoration( color: Colors.blueGrey,),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.blueGrey,),
     child:
     Column(
     children: <Widget>[
@@ -155,6 +156,7 @@ class Home extends StatelessWidget {
 
 
      return Card(
+         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
          child: Container(
 
            padding: EdgeInsets.all(10),

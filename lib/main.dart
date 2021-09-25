@@ -128,8 +128,8 @@ class Home extends StatelessWidget {
 
               //Edit button
               Container(
-                margin: EdgeInsets.only(top:500,left:250),
-                width: 120, height:35,
+                margin: EdgeInsets.only(top:570,left:240),
+                width: 140, height:50,
                 child: ElevatedButton(onPressed:(){},
                       child:  Text("Edit", style: new TextStyle(  color: Colors.white),
                         textAlign: TextAlign.center,),
@@ -137,8 +137,8 @@ class Home extends StatelessWidget {
               ),
 
               Container(
-                margin: EdgeInsets.only(top:500,left:70),
-                width: 120, height:35,
+                margin: EdgeInsets.only(top:570,left:50),
+                width: 140, height:50,
                 child: ElevatedButton(onPressed:(){},
                   child:  Text("Delete", style: new TextStyle(  color: Colors.white),
                     textAlign: TextAlign.center,),
@@ -161,9 +161,9 @@ class Home extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(
 
-          padding: EdgeInsets.only(left: 10,top:80),
+          padding: EdgeInsets.only(left: 20,top:90),
 
-          width: 250,height: 400,
+          width: 250,height: 350,
 
           //i dont know why this cammand does not work
           decoration: BoxDecoration(

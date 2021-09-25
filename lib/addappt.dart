@@ -33,11 +33,13 @@ class appointmentFormState extends State<appointmentForm> {
     return Scaffold(
     backgroundColor: Color(0xFFF4E3E3),
     appBar: AppBar(
-        title: Text('$title Schedule',style: TextStyle(color: Color(0xFFFF6B81))),
-    backgroundColor: Colors.transparent,
-elevation: 0,
+        elevation:0,
+        title: Text('$title Schedule',textAlign: TextAlign.center,
+            style: TextStyle(color:Color(0XFFFF6B81))),
+        backgroundColor: Colors.transparent,
     actions: <Widget>[
     IconButton(
+      iconSize:34,
     padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
     icon: const Icon(
     Icons.done,
@@ -140,52 +142,68 @@ elevation: 0,
          // doc name to be turned into a select dropdown
     TextFormField(
       controller: TextEditingController(text: _doc),
-            decoration: const InputDecoration(
-              icon: Icon(Icons.person),
-              hintText: 'Enter Doctor\'s name',
-              labelText: 'Doctor',
-              labelStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Color(0xFF52648B)),
-              border: InputBorder.none,
+      style: TextStyle(
+        fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+      ),
+      decoration: InputDecoration(
+        icon: Icon(Icons.person,),
+        filled: true,
+        fillColor: Colors.white,
+        hintText: "Enter Doctor\'s name",
+        labelText: "Doctor",
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: BorderSide(
+              width: 0,
+              style: BorderStyle.none,
+            )
+        ),
+      ),
 
-            ),
       onChanged: (String value) {
         _doc = value;
       },
 
           ),
-      const Divider(
-        height: 1.0,
-        thickness: 1,
-      ),
+
+
+      SizedBox(height: 10.0,),
+
     // starting date
+
     ListTile(
 
     title: Row(
 
-    crossAxisAlignment: CrossAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
     Expanded(
 
-    flex: 7,
+    //flex: 7,
     child: GestureDetector(
 
     child: TextFormField(
 
         enabled: false,
         textAlign: TextAlign.left,
+        style: TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+        ),
         decoration: InputDecoration(
-            border: InputBorder.none,
-            labelText: DateFormat('EEE, MMM dd yyyy').format(_startDate),
-            labelStyle: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: Color(0xFF52648B),
-            )
+          icon: Icon(Icons.calendar_today,),
+          filled: true,
+          fillColor: Colors.white,
+          labelText: DateFormat('EEE, MMM dd yyyy').format(_startDate),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              borderSide: BorderSide(
+                width: 0,
+                style: BorderStyle.none,
+              )
+          ),
+        ),
 
-        )
+
     ),
 
     onTap: () async {
@@ -215,10 +233,9 @@ elevation: 0,
     }
     }),
     )])),
-      const Divider(
-        height: 1.0,
-        thickness: 1,
-      ),
+
+      SizedBox(height: 10.0,),
+
       // start time
       ListTile(
           title: Row(
@@ -232,13 +249,24 @@ elevation: 0,
     child: TextFormField(
       enabled:false,
     textAlign: TextAlign.left,
+
+        style: TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+        ),
         decoration: InputDecoration(
-            border: InputBorder.none,
-            labelText:    DateFormat('hh:mm a').format(_startDate),
-            labelStyle: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: Color(0xFF52648B),))
+          icon: Icon(Icons.access_time,),
+          filled: true,
+          fillColor: Colors.white,
+          labelText:    "Start: "+DateFormat('hh:mm a').format(_startDate),
+          labelStyle: TextStyle(color: Colors.blueGrey),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              borderSide: BorderSide(
+                width: 0,
+                style: BorderStyle.none,
+              )
+          ),
+        ),
     ),
     onTap: () async {
     final TimeOfDay? time = await showTimePicker(
@@ -267,15 +295,14 @@ elevation: 0,
     }
     })),
     ])),
-      const Divider(
-        height: 1.0,
-        thickness: 1,
-      ),
+
+      SizedBox(height: 10.0,),
+
       //end Time
       ListTile(
           title: Row(
 
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(
 
@@ -285,13 +312,24 @@ elevation: 0,
 
                             enabled:false,
                             textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+                            ),
                             decoration: InputDecoration(
-                                border: InputBorder.none,
-                                labelText:    DateFormat('hh:mm a').format(_endDate),
-                                labelStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  color: Color(0xFF52648B),))
+                              icon: Icon(Icons.access_time,),
+                              filled: true,
+                              fillColor: Colors.white,
+                              labelText:    "End: "+DateFormat('hh:mm a').format(_endDate),
+                              labelStyle: TextStyle(color: Colors.blueGrey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderSide: BorderSide(
+                                    width: 0,
+                                    style: BorderStyle.none,
+                                  )
+                              ),
+                            ),
+
                         ),
                         onTap: () async {
                           final TimeOfDay? time =
@@ -324,30 +362,38 @@ elevation: 0,
                           }
                         })),
               ])),
-      const Divider(
-        height: 1.0,
-        thickness: 1,
-      ),
+
+
+      SizedBox(height: 10.0,),
+
+          //desc
           TextFormField(
             controller: TextEditingController(text: _description),
-            decoration: const InputDecoration(
-              icon: Icon(Icons.subject),
-              hintText: 'Enter appointment description',
-              labelText: 'Description',
-              labelStyle: TextStyle(
-                color: Color(0xFF52648B),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18),
-              border: InputBorder.none,
+
+            style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
             ),
+            decoration: InputDecoration(
+              icon: Icon(Icons.subject,),
+              filled: true,
+              fillColor: Colors.white,
+              hintText: "Enter Description",
+              labelText: "Description",
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                  borderSide: BorderSide(
+                    width: 0,
+                    style: BorderStyle.none,
+                  )
+              ),
+            ),
+
               onChanged: (String value) {
                 _description = value;
-              },
-          ),
-      const Divider(
-        height: 1.0,
-        thickness: 1,
-      ),
+              },),
+          SizedBox(height: 10.0,),
+
+
       Visibility(
           visible: _selectedAppointment==null,
    child: Wrap(
@@ -367,12 +413,23 @@ elevation: 0,
            ))
           ),
 
+    SizedBox(height: 10.0,),
+
+    Container(
+    padding: EdgeInsets.all(10),
+    decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(20.0),
+    color: Colors.white),
+    child: DropdownButtonHideUnderline(
+    child:
             DropdownButton<String>(
+                style: TextStyle(
+                  fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey),
                 isExpanded: true,
                 value: selectedTime,
                // icon: const Icon(Icons.arrow_circle_down),
                 iconSize: 20,
-                elevation: 16,
+                elevation: 8,
               //  underline: Container(),
                 onChanged: (String? newValue) {
                   setState(() {
@@ -387,20 +444,17 @@ elevation: 0,
                       child: Text(
                           _times[index],
                           style:  TextStyle(
-                          color: Color(0xFF52648B)),
+                          color: Colors.blueGrey),
                       ),
 
                     ),
                     value: _times[index],
                   ),
                 ),
-              ),
+            )),
+    ),
 
-
-      const Divider(
-        height: 1.0,
-        thickness: 1,
-      ),
+              SizedBox(height: 10.0,),
       Container(
           child:  Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
@@ -413,13 +467,23 @@ elevation: 0,
               ))
       ),
 
-      DropdownButton<String>(
+              SizedBox(height: 10.0,),
+
+              Container(
+                padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: Colors.white),
+          child: DropdownButtonHideUnderline(
+            child:
+     DropdownButton<String>(
+       style: TextStyle(
+         fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+       ),
         isExpanded: true,
-        value: selectedType,
-        // icon: const Icon(Icons.arrow_circle_down),
+       value: selectedType,
         iconSize: 20,
-        elevation: 16,
-        //  underline: Container(),
+        elevation: 8,
         onChanged: (String? newValue) {
           setState(() {
             selectedType = newValue!;
@@ -428,21 +492,17 @@ elevation: 0,
         items: List.generate(
           _types.length,
               (index) => DropdownMenuItem(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+
               child: Text(
                 _types[index],
                 style:  TextStyle(
-                    color: Color(0xFF52648B)),
-              ),
-
+                    color: Colors.blueGrey),
             ),
             value: _types[index],
           ),
         ),
-      ),
-
-
+      )),
+        )
    ] )
 
 

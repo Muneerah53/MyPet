@@ -94,8 +94,10 @@ class appointCalendarState extends State<appointCalendar> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: Text('Schedule'),
-    backgroundColor: Color(0xFFFF6B81),
+          elevation:0,
+          title: Text('Schedule',textAlign: TextAlign.center,
+              style: TextStyle(color:Color(0XFFFF6B81))),
+          backgroundColor: Colors.transparent,
         ),
     resizeToAvoidBottomInset: false,
         body:Padding(

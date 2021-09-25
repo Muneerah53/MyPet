@@ -1,6 +1,8 @@
+import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app3/OrderList.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_app3/main.dart';
@@ -14,15 +16,16 @@ class CheckUP extends StatefulWidget {
 }
 
 class _CheckUPState extends State<CheckUP> {
-  String dropdownvalue = 'Assiri';
-  var items = ['Assiri', 'Al-qhtani', 'Ah-sunadi'];
+  var selectedCurrency, selectedType;
+  final GlobalKey<FormState> _formKeyValue = new GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF4E3E3),
       body: SingleChildScrollView(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        child:
+            Column(crossAxisAlignment: (CrossAxisAlignment.center), children: [
           Container(
             margin: const EdgeInsets.fromLTRB(0, 80, 330, 0),
             padding: EdgeInsets.only(left: 10.0),
@@ -46,44 +49,70 @@ class _CheckUPState extends State<CheckUP> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.fromLTRB(30, 40, 30, 40),
-            child: Center(
+            padding: const EdgeInsets.fromLTRB(30, 40, 30, 40),
+            child: Form(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                      padding:
-                          (EdgeInsets.symmetric(horizontal: 10, vertical: 5)),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: new DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                          value: dropdownvalue,
-                          icon: Icon(Icons.keyboard_arrow_down),
-                          items: items.map((String items) {
-                            return DropdownMenuItem(
-                                value: items, child: Text(items));
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownvalue = newValue as String;
-                            });
-                          },
-                          hint: Text("Select The Doctor ..."),
-                          style: TextStyle(
-                            color: Colors.black38,
-                            fontSize: 16,
-                            height: 1.0,
-                            fontStyle: FontStyle.italic,
-                          ),
-                          focusColor: Colors.white,
-                          dropdownColor: Colors.white,
-                          isExpanded: true,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ))
+                  StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("Dr")
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        List<DropdownMenuItem> currencyItems = [];
+
+                        if (!snapshot.hasData)
+                          const Text("Loading.....");
+                        else {
+                          for (int i = 0;
+                              i < (snapshot.data!).docs.length;
+                              i++) {
+                            DocumentSnapshot snap = (snapshot.data!).docs[i];
+                            currencyItems.add(
+                              DropdownMenuItem(
+                                  child: Text(
+                                    snap.get("Name"),
+                                    style: TextStyle(color: Colors.black38),
+                                  ),
+                                  value: ("${snap.get("Name")}")),
+                            );
+                          }
+                        }
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              padding: new EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 90.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: new DropdownButtonHideUnderline(
+                                child: new DropdownButton<dynamic>(
+                                  icon: Icon(Icons.keyboard_arrow_down),
+                                  items: currencyItems,
+                                  hint: new Text("Select The Doctor ..."),
+                                  onChanged: (currencyValue) {
+                                    setState(() {
+                                      selectedCurrency = currencyValue;
+                                    });
+                                  },
+                                  value: selectedCurrency,
+                                  style: TextStyle(
+                                    color: Colors.black38,
+                                    fontSize: 16,
+                                    height: 1.0,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                  focusColor: Colors.white,
+                                  dropdownColor: Colors.white,
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
                 ],
               ),
             ),
@@ -126,11 +155,15 @@ class _CheckUPState extends State<CheckUP> {
             height: 73,
             child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => OrderList()),
-                  );
+                  if (selectedCurrency == null) {
+                    showAlertDialog(context);
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => OrderList()),
+                    );
+                  }
                 },
                 child: Text('Next',
                     style:
@@ -146,12 +179,29 @@ class _CheckUPState extends State<CheckUP> {
     );
   }
 
-  // Future getDoctorsList() async {
-  //   try {
-  //     await
-  //   } catch (e) {
-  //     print(e.toString());
-  //     return null;
-  //   }
-  // }
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Missing Input Feild"),
+      content: Text("You Must Select a Doctor "),
+      actions: [
+        okButton,
+      ],
+    );
+// show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }

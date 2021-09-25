@@ -5,7 +5,6 @@ import 'package:flutter_app3/OrderList.dart';
 import 'package:flutter_app3/custom_checkbox.dart';
 import 'package:flutter_app3/main.dart';
 
-const List<String> pList = ["jolly", "milo", "Tommy"];
 bool? _isChecked = false;
 
 class Grooming extends StatefulWidget {
@@ -448,17 +447,6 @@ class _GroomingState extends State<Grooming> {
         ),
       ),
     );
-  }
-
-  List<Text> getPet() {
-    List<Text> pickerItems = [];
-    for (String p in pList) {
-      pickerItems.add(Text(p,
-          style: TextStyle(
-            color: Color(0xFF000000),
-          )));
-    }
-    return pickerItems;
   }
 
   @override

@@ -92,7 +92,7 @@ class Home extends StatelessWidget {
     width: 365,height: 200,
 
     //i dont know why this cammand does not work
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.blueGrey,),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.pinkAccent,),
     child:
     Column(
     children: <Widget>[

@@ -34,7 +34,18 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
+        primaryColor: const Color(0XFFFF6B81),
         primarySwatch: Colors.pink,
+        // Define the default font family.
+        fontFamily: 'Gotham',
+        // Define the default `TextTheme`. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: const TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+          bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Gotham',color: Colors.blue),
+        ),
+        scaffoldBackgroundColor: Color(0xFFF4E3E3),
       ),
       home: FutureBuilder(
              future: fbApp,
@@ -54,6 +65,7 @@ class MyApp extends StatelessWidget {
 
 late _AppointmentDataSource _events;
 Appointment? _selectedAppointment;
+late CalendarTapDetails _selected;
 late DateTime _startDate;
 late TimeOfDay _startTime;
 late DateTime _endDate;
@@ -71,7 +83,6 @@ class appointCalendar extends StatefulWidget {
 
 class appointCalendarState extends State<appointCalendar> {
   appointCalendarState();
-
   CalendarView _calendarView = CalendarView.month;
   late List<Appointment> appointments;
 
@@ -100,7 +111,10 @@ class appointCalendarState extends State<appointCalendar> {
           backgroundColor: Colors.transparent,
         ),
     resizeToAvoidBottomInset: false,
-        body:Padding(
+        body:
+        Stack(
+    children:  <Widget>[
+        Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
             child: getCalendar(_calendarView, _events, onCalendarTapped)
 
@@ -108,8 +122,22 @@ class appointCalendarState extends State<appointCalendar> {
 
         ),
 
+        Align(
+            alignment: Alignment.bottomRight,
+            heightFactor: 10,
+            child:
 
-
+            FloatingActionButton(
+              backgroundColor: const  Color(0xFF9C4350),
+              foregroundColor: Colors.white,
+              //mini: true,
+              onPressed: () {
+                addAppointment(_selected.date!);
+              },
+              child: Icon(Icons.add),
+            )
+        )
+])
     );
   }
 
@@ -130,14 +158,15 @@ class appointCalendarState extends State<appointCalendar> {
         onTap: calendarTapCallback,
         initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,
             DateTime.now().day, 0, 0, 0),
-
+        initialSelectedDate: DateTime(DateTime.now().year, DateTime.now().month,
+            DateTime.now().day, 0, 0, 0),
         timeSlotViewSettings: const TimeSlotViewSettings(
             minimumAppointmentDuration: Duration(minutes: 30)));
   }
 
   void onCalendarTapped(CalendarTapDetails calendarTapDetails) {
-    if (calendarTapDetails.targetElement != CalendarElement.calendarCell&&
-    calendarTapDetails.targetElement != CalendarElement.appointment) {
+    if (calendarTapDetails.targetElement != CalendarElement.calendarCell &&
+        calendarTapDetails.targetElement != CalendarElement.appointment) {
       return;
     }
     setState(() {
@@ -145,33 +174,14 @@ class appointCalendarState extends State<appointCalendar> {
       _doc = '';
       _description = '';
 
+     if (calendarTapDetails.targetElement == CalendarElement.appointment){
         if (calendarTapDetails.appointments != null &&
             calendarTapDetails.appointments!.length == 1) {
           final Appointment appointmentDetails = calendarTapDetails.appointments![0];
-          _startDate = appointmentDetails.from;
-          _endDate = appointmentDetails.to;
-          _startTime = appointmentDetails.start;
-          _endTime = appointmentDetails.end;
-          _doc = appointmentDetails.docName == '(No title)'
-              ? ''
-              : appointmentDetails.id;
-          _description = appointmentDetails.description;
-          _id = appointmentDetails.id;
-          _selectedAppointment = appointmentDetails;
-        } else {
-          final DateTime date = calendarTapDetails.date!;
-          _startDate = date;
-          _endDate = date.add(const Duration(minutes: 30));
-          _startTime =
-              TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
-          _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
+          editAppointment(appointmentDetails);
+        }} else {
+          _selected = calendarTapDetails;
         }
-
-        Navigator.push<Widget>(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => appointmentForm()),
-        );
     });
   }
 
@@ -223,6 +233,43 @@ class appointCalendarState extends State<appointCalendar> {
     }
     _events.notifyListeners(
         CalendarDataSourceAction.add, appointments);
+  }
+
+  void editAppointment(Appointment appointmentDetails) {
+    _startDate = appointmentDetails.from;
+    _endDate = appointmentDetails.to;
+    _startTime = appointmentDetails.start;
+    _endTime = appointmentDetails.end;
+    _doc = appointmentDetails.docName == '(No title)'
+        ? ''
+        : appointmentDetails.docName;
+    _description = appointmentDetails.description;
+    _id = appointmentDetails.id;
+    _selectedAppointment = appointmentDetails;
+
+    Navigator.push<Widget>(
+      context,
+      MaterialPageRoute(
+          builder: (BuildContext context) => appointmentForm()),
+    );
+  }
+
+  void addAppointment(DateTime date) {
+    _selectedAppointment = null;
+    _doc = '';
+    _description = '';
+
+    _startDate = date;
+    _endDate = date.add(const Duration(minutes: 30));
+    _startTime =
+        TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
+    _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
+
+    Navigator.push<Widget>(
+      context,
+      MaterialPageRoute(
+          builder: (BuildContext context) => appointmentForm()),
+    );
   }
 
 

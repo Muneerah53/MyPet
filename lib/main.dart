@@ -133,15 +133,16 @@ class Home extends StatelessWidget {
                 child: ElevatedButton(onPressed:(){},
                       child:  Text("Edit", style: new TextStyle(  color: Colors.white),
                         textAlign: TextAlign.center,),
-                    ),
-
+    style: buttons,),
               ),
+
               Container(
                 margin: EdgeInsets.only(top:500,left:70),
                 width: 120, height:35,
                 child: ElevatedButton(onPressed:(){},
                   child:  Text("Delete", style: new TextStyle(  color: Colors.white),
                     textAlign: TextAlign.center,),
+                    style: buttons,
                 ),
 
               ),
@@ -155,7 +156,7 @@ class Home extends StatelessWidget {
 
 
   Widget _buildPetCard(BuildContext context, DocumentSnapshot document ) {
-  if (document['petID'].toString() == 'oiVuGU1TJqnZOH4YnOAl')
+  if (document['petID'].toString() == 'hbYAzdSZNOwxHpCr7fmQ')
     return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(

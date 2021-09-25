@@ -3,19 +3,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 //import 'package:provider/provider.dart';
 import 'nPage.dart';
 import 'package:email_validator/email_validator.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
-class MyApp extends StatelessWidget {
 
-  final Future<FirebaseApp> fbApp =  Firebase.initializeApp();
+class MyApp extends StatelessWidget {
+  final Future<FirebaseApp> fbApp = Firebase.initializeApp();
   MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -24,36 +24,33 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-
           primarySwatch: Colors.blue,
         ),
         home: FutureBuilder(
           future: fbApp,
-          builder:(context,snapshot) {
-            if (snapshot.hasError){
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
               print("An error has occured ${snapshot.error.toString()}");
-              return const Text("Something went wrong");}
-            else if (snapshot.hasData) {
+              return const Text("Something went wrong");
+            } else if (snapshot.hasData) {
               return Home();
+            } else {
+              return const Center(child: CircularProgressIndicator());
             }
-            else{return const Center(child:CircularProgressIndicator());}
           },
-        )
-
-
-    );
-
+        ));
   }
 }
+
 class Home extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   late UserCredential userCredential;
-  String _email="";
-  String _password="";
-  String _firstName="";
-  String _lastName="";
-  String _phoneNumber="";
-  String _confirmpassword="";
+  String _email = "";
+  String _password = "";
+  String _firstName = "";
+  String _lastName = "";
+  String _phoneNumber = "";
+  String _confirmpassword = "";
   final _auth = FirebaseAuth.instance;
 
   //to validate the phone number
@@ -113,8 +110,8 @@ class Home extends StatelessWidget {
                       children: <Widget>[
                         SizedBox(height: 10),
                         TextFormField(
-                          onChanged: (value){
-                            _firstName=value;
+                          onChanged: (value) {
+                            _firstName = value;
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -130,16 +127,13 @@ class Home extends StatelessWidget {
                                 borderSide: BorderSide(
                                   width: 0,
                                   style: BorderStyle.none,
-                                )
-                            ),
+                                )),
                           ),
-
                         ),
                         SizedBox(height: 10),
                         TextFormField(
-
-                          onChanged: (value){
-                            _lastName=value;
+                          onChanged: (value) {
+                            _lastName = value;
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -154,48 +148,45 @@ class Home extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(25.0),
                                 borderSide: BorderSide(
                                   width: 0,
-
                                   style: BorderStyle.none,
-                                )
-                            ),
+                                )),
                           ),
                         ),
                         //inputFile(label: "Enter your last name"),
                         SizedBox(height: 10),
                         TextFormField(
-                          onChanged: (value){
-                            _phoneNumber=value;
+                          onChanged: (value) {
+                            _phoneNumber = value;
                           },
                           validator: (value) {
-                            if (value!.isEmpty ) {
+                            if (value!.isEmpty) {
                               return 'Please enter a valid Mobile Number';
-                            }else if (value.length !=10){
+                            } else if (value.length != 10) {
                               return 'mobile number must be 10 digits';
-                            }else if (!isNumeric(value)){
+                            } else if (!isNumeric(value)) {
                               return 'mobile number must be numeric';
                             }
-
                           },
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            hintText: "Mobile Number",
+                            hintText: "Enter your mobile phone",
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25.0),
                                 borderSide: BorderSide(
                                   width: 0,
-
                                   style: BorderStyle.none,
-                                )
-                            ),
+                                )),
                           ),
                         ),
                         SizedBox(height: 10),
                         TextFormField(
-                          onChanged: (value){
-                            _email=value;
+                          onChanged: (value) {
+                            _email = value;
                           },
-                          validator: (value) => EmailValidator.validate(value!) ? null : "Please enter a valid email",
+                          validator: (value) => EmailValidator.validate(value!)
+                              ? null
+                              : "Please enter a valid email",
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -204,22 +195,19 @@ class Home extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(25.0),
                                 borderSide: BorderSide(
                                   width: 0,
-
                                   style: BorderStyle.none,
-                                )
-                            ),
+                                )),
                           ),
-
                         ),
                         SizedBox(height: 10),
                         TextFormField(
-                          onChanged: (value){
-                            _password=value;
+                          onChanged: (value) {
+                            _password = value;
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'password must not be empty';
-                            }else if(value!.length <6){
+                            } else if (value.length < 6) {
                               return 'password must be at least 6 characters long';
                             }
                           },
@@ -231,26 +219,21 @@ class Home extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(25.0),
                                 borderSide: BorderSide(
                                   width: 0,
-
                                   style: BorderStyle.none,
-                                )
-                            ),
+                                )),
                           ),
                           obscureText: true,
                         ),
                         SizedBox(height: 10),
                         TextFormField(
-                          onChanged: (value){
-                            _confirmpassword=value;
+                          onChanged: (value) {
+                            _confirmpassword = value;
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'password must not be empty';
-                            }else if (_password != _confirmpassword){
+                            } else if (_password != _confirmpassword) {
                               return 'password not matching ';
-                            }
-                            else if(value!.length <6){
-                              return 'password must be at least 6 characters long';
                             }
                           },
                           decoration: InputDecoration(
@@ -261,10 +244,8 @@ class Home extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(25.0),
                                 borderSide: BorderSide(
                                   width: 0,
-
                                   style: BorderStyle.none,
-                                )
-                            ),
+                                )),
                           ),
                           obscureText: true,
                         ),
@@ -274,38 +255,58 @@ class Home extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: 3, left: 3),
+                      //padding: EdgeInsets.only(top: 3, left: 3),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          border: Border(
+                          /*border: Border(
                             bottom: BorderSide(color: Colors.black),
                             top: BorderSide(color: Colors.black),
                             left: BorderSide(color: Colors.black),
                             right: BorderSide(color: Colors.black),
-                          )),
-
+                          )*/),
                       child: MaterialButton(
                         minWidth: 230,
                         height: 60,
-
                         onPressed: () async {
                           final form = _formKey.currentState;
                           if (form!.validate()) {
+                            try {
+                              userCredential = await FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                  email: _email, password: _password);
+                            } catch (signUpError) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(signUpError.toString()),
+                                duration: Duration(seconds: 6),
+                                backgroundColor: Colors.red,
+                              ));
+                            }
                             //userCredential = await _auth.createUserWithEmailAndPassword(email: _email, password: _password);
-                            userCredential= await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
-                            if(userCredential!=null && userCredential.user != null)
-                            {
-                              await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
-                                'email':_email,
-                                'password':_password,
-                                'uid':userCredential.user!.uid
+                            /*userCredential = await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                    email: _email, password: _password);*/
+
+                            if (userCredential != null &&
+                                userCredential.user != null) {
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(userCredential.user!.uid)
+                                  .set({
+                                'email': _email,
+                                'password': _password,
+                                'uid': userCredential.user!.uid
                               });
-                              await FirebaseFirestore.instance.collection('pet owners').doc(userCredential.user!.uid).set({
-                                'fname':_firstName,
-                                'lname':_lastName,
-                                'mobile':_phoneNumber,
-                                'ownerID':userCredential.user!.uid,
-                                'uid':userCredential.user!.uid
+                              await FirebaseFirestore.instance
+                                  .collection('pet owners')
+                                  .doc(userCredential.user!.uid)
+                                  .set({
+                                'fname': _firstName,
+                                'lname': _lastName,
+                                'email': _email,
+                                'mobile': _phoneNumber,
+                                'ownerID': userCredential.user!.uid,
+                                'uid': userCredential.user!.uid
                               });
                               Navigator.push(
                                 context,
@@ -313,57 +314,46 @@ class Home extends StatelessWidget {
                                   return nPage();
                                 }),
                               );
-                            }
-                            else
-                            {
+                            } else {
                               print('user does not exist');
                             }
-                          }
-                          else{
+                          } else {
                             //show message try again
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
                                   "please validate all fields before submiting"),
                               duration: Duration(seconds: 6),
                             ));
                           }
-
                         },
-
                         color: Colors.blueGrey,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
-
                           borderRadius: BorderRadius.circular(20),
                         ),
-
                         child: Text(
-
                           "Register",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 20,
                             color: Colors.white,
                           ),
-
                         ),
                       ),
                     ),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(""),
                         Text(
                           "",
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 50),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 50),
                         )
                       ],
                     )
                   ],
-                )
-            ),
+                )),
           ),
         ),
       ),
@@ -391,8 +381,8 @@ Widget inputFile({label, obscureText = false}) {
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),
-            border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey))),
+            border:
+            OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),
       ),
       SizedBox(
         height: 10,

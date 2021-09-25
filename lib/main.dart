@@ -86,7 +86,7 @@ class Home extends StatelessWidget {
 
 
                       Container(
-                        padding: EdgeInsets.only(top: 200, bottom: 350,left:20,right: 20),
+                        padding: EdgeInsets.only(top: 180, bottom: 350,left:20,right: 20),
                         child: StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance.collection('pet owners').snapshots(),
                             builder: (context, snapshot) {
@@ -116,22 +116,17 @@ class Home extends StatelessWidget {
                 ),
               ),
 
+
+
+              //Edit button
               Container(
-                margin: EdgeInsets.only(top:410,left:250),
-
+                margin: EdgeInsets.only(top:420,left:250),
                 width: 120, height:35,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: Colors.black87,
+                child: ElevatedButton(onPressed:(){},
+                  child:  Text("Edit", style: new TextStyle(  color: Colors.white),
+                    textAlign: TextAlign.center,),
                 ),
 
-                child: Row(
-                    children: [ ElevatedButton(onPressed:(){},
-                      child:  Text("Edit", style: new TextStyle(  color: Colors.white),
-                        textAlign: TextAlign.center,),
-                    ),
-                    ]
-                ),
               ),
               Container(
                 padding: EdgeInsets.only(top: 500, left:30),
@@ -171,6 +166,7 @@ class Home extends StatelessWidget {
   Widget _buildOwnerCard(BuildContext context, DocumentSnapshot document ) {
   if (document['ownerID'].toString() == 'GApYHCG0gGYHp4D097maEgTnWQ92')
     return Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(
 
           padding: EdgeInsets.only(left: 10,top:20),
@@ -208,6 +204,7 @@ class Home extends StatelessWidget {
     else
       img="images/cat.jpeg";
      return Card(
+         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
          child: Container(
 
            padding: EdgeInsets.all(10),

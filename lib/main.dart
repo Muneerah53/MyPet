@@ -125,6 +125,7 @@ class Home extends StatelessWidget {
                 child: ElevatedButton(onPressed:(){},
                   child:  Text("Edit", style: new TextStyle(  color: Colors.white),
                     textAlign: TextAlign.center,),
+                  style: buttons,
                 ),
 
               ),

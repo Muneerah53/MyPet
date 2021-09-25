@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'models/global.dart';
 
-
+int myPets = 0;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
 
   final Future<FirebaseApp> fbApp =  Firebase.initializeApp();
   MyApp({Key? key}) : super(key: key);
+
 
   // This widget is the root of your application.
   @override
@@ -140,9 +141,23 @@ class Home extends StatelessWidget {
                 ),
               ),
 
-      //pest cards
+              //add button
               Container(
-                padding: EdgeInsets.only(top: 550, bottom: 50,left:25),
+                margin: EdgeInsets.only(top:500,left:355),
+                width: 50, height:35,
+                child: ElevatedButton(onPressed:(){},
+                  child:  Text("+", style: new TextStyle(  color: Colors.white),
+                    textAlign: TextAlign.center,),
+                  style: buttons,
+                ),
+
+              ),
+
+
+              //pest cards
+              Container(
+                margin: EdgeInsets.only(top: 550, bottom: 50,left:25),
+                height: 300,
                 child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance.collection('pets').snapshots(),
                     builder: (context, snapshot) {
@@ -157,6 +172,7 @@ class Home extends StatelessWidget {
                     }
                     ),
               ),
+
 
             ],
         ),
@@ -199,12 +215,15 @@ class Home extends StatelessWidget {
   }
    Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ) {
     String img ="";
-    if (document['userID'].toString() == 'GApYHCG0gGYHp4D097maEgTnWQ92'){
-    if (document['species']=="Dog")
-      img="images/dog.png";
-    else
-      img="images/cat.jpeg";
-     return Card(
+
+    if (document['userID'].toString()=='GApYHCG0gGYHp4D097maEgTnWQ92'){
+      myPets--;
+      if (document['species']=="Dog")
+        img="images/dog.png";
+      else
+        img="images/cat.jpeg";
+
+      return Card(
          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
          child: Container(
 
@@ -241,8 +260,9 @@ class Home extends StatelessWidget {
 
                    ),),
                ]),));
-   }else
-    return Card();}
+   }
+    else return Card();
+    }
   Map statusStyles = {
     'Cat' : statusCatStyle,
     'Dog' : statusDogStyle

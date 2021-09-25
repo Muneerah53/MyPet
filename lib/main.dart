@@ -157,6 +157,7 @@ class Home extends StatelessWidget {
   Widget _buildPetCard(BuildContext context, DocumentSnapshot document ) {
   if (document['petID'].toString() == 'oiVuGU1TJqnZOH4YnOAl')
     return Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(
 
           padding: EdgeInsets.only(left: 10,top:80),
@@ -194,6 +195,7 @@ class Home extends StatelessWidget {
       else
         img = "images/cat.jpeg";
       return CircleAvatar(
+
         radius: 80,
         backgroundImage: new AssetImage(img),
 

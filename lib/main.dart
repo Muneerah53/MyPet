@@ -4,12 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
-void main(){
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
+
   final Future<FirebaseApp> fbApp =  Firebase.initializeApp();
   MyApp({Key? key}) : super(key: key);
 
@@ -19,15 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
+
           primarySwatch: Colors.blue,
         ),
         home: FutureBuilder(
@@ -45,15 +39,48 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('MyPet'),
-        centerTitle: true,
-      ),
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.red[50],
+        body: Stack(
+          children: <Widget>[
+            Container(
+              //  padding: EdgeInsets.only(top: 3, left: 3),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              margin: EdgeInsets.only(top:650,left:120),
+              child: MaterialButton(
+                minWidth: 200,
+                height: 60,
+                onPressed: () async {
+                  final collection = FirebaseFirestore.instance.collection('pets');
+                  collection
+                      .doc('cwG91NRr2tYOl0zjiMD1') // <-- Doc ID to be deleted.
+                      .delete() // <-- Delete
+                      .then((_) => print('Deleted'))
+                      .catchError((error) => print('Delete failed: $error'));
+                },
+                color: Colors.pinkAccent,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  "Delete",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        )
     );
   }
 }

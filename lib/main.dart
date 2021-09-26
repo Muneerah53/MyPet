@@ -3,8 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mypet/pet.dart';
 
 import 'models/global.dart';
+import 'pet.dart';
 
 int myPets = 0;
 
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
               print("An error has occured ${snapshot.error.toString()}");
               return const Text("Something went wrong");}
             else if (snapshot.hasData) {
-              return Home();
+              return Profile();
             }
             else{return const Center(child:CircularProgressIndicator());}
           },
@@ -46,7 +48,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-class Home extends StatelessWidget {
+class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -160,6 +162,7 @@ class Home extends StatelessWidget {
                 height: 300,
                 child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance.collection('pets').snapshots(),
+
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) return const Text('loading');
                       return ListView.builder(scrollDirection: Axis.horizontal,
@@ -224,7 +227,9 @@ class Home extends StatelessWidget {
         img="images/cat.jpeg";
 
       return Card(
-         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+
          child: Container(
 
            padding: EdgeInsets.all(10),
@@ -233,9 +238,8 @@ class Home extends StatelessWidget {
 
            //i dont know why this cammand does not work
            decoration: BoxDecoration(
-           borderRadius: BorderRadius.all(Radius.circular(40)),
-
            color: Colors.white,
+
            ),
            child:
            Column(
@@ -244,10 +248,12 @@ class Home extends StatelessWidget {
                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                    children: <Widget>[
                      Container(
+
                        margin: EdgeInsets.only(top: 20),
                        child: CircleAvatar(
                            radius: 50,
                            backgroundImage:new AssetImage(img)),
+
 
                      ),
 
@@ -257,9 +263,14 @@ class Home extends StatelessWidget {
                    margin: EdgeInsets.only(top: 10),
                    child: ListTile(
                      title: Text("   "+document['name'],style: statusStyles[document['species']]),
+                       onTap: (){
 
-                   ),),
-               ]),));
+                 Navigator.push(context,MaterialPageRoute(builder:(context) {
+                 return pet(document['petID']);
+
+                 } ));}),
+                   ),],
+               ),));
    }
     else return Card();
     }

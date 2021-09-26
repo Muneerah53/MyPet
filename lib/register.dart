@@ -74,7 +74,6 @@ class Home extends StatelessWidget {
           onPressed: () {
             //  Navigator.push(
             Navigator.push(context, MaterialPageRoute(builder: (_) => LoginPage())); //register button******
-
           },
           icon: Icon(
             Icons.arrow_back_ios,
@@ -257,7 +256,7 @@ class Home extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      //padding: EdgeInsets.only(top: 3, left: 3),
+                      //  padding: EdgeInsets.only(top: 3, left: 3),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         /*border: Border(
@@ -276,10 +275,18 @@ class Home extends StatelessWidget {
                               userCredential = await FirebaseAuth.instance
                                   .createUserWithEmailAndPassword(
                                   email: _email, password: _password);
-                            } catch (signUpError) {
+                            } on FirebaseAuthException catch (e) {
+                              String msg = "";
+                              if (e.code == 'weak-password') {
+                                msg = 'The password provided is too weak.';
+                              } else if (e.code == 'email-already-in-use') {
+                                msg =
+                                'The account already exists for that email.';
+                              }
+                              //we can add any code we whant and set the error message based on the error code
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
-                                content: Text(signUpError.toString()),
+                                content: Text(msg),
                                 duration: Duration(seconds: 6),
                                 backgroundColor: Colors.red,
                               ));
@@ -362,7 +369,6 @@ class Home extends StatelessWidget {
     );
   }
 }
-
 // we will be creating a widget for text field
 Widget inputFile({label, obscureText = false}) {
   return Column(

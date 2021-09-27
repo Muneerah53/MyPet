@@ -128,26 +128,6 @@ class pet extends StatelessWidget {
           ),
 
 
-          //Edit button
-          Container(
-            margin: EdgeInsets.only(top: 570, left: 240),
-            width: 140, height: 50,
-            child: ElevatedButton(onPressed: () {},
-              child: Text("Edit", style: new TextStyle(color: Colors.white),
-                textAlign: TextAlign.center,),
-              style: buttons,),
-          ),
-
-          Container(
-            margin: EdgeInsets.only(top: 570, left: 50),
-            width: 140, height: 50,
-            child: ElevatedButton(onPressed: () => showAlert(context,"Delete my pet"),
-              child: Text("Delete", style: new TextStyle(color: Colors.white),
-                textAlign: TextAlign.center,),
-              style: buttons,
-            ),
-
-          ),
 
 
         ],
@@ -166,7 +146,7 @@ class pet extends StatelessWidget {
             padding: EdgeInsets.only(left: 20, top: 90),
 
             width: 250,
-            height: 350,
+            height: 500,
 
             //i dont know why this cammand does not work
             decoration: BoxDecoration(
@@ -192,7 +172,30 @@ class pet extends StatelessWidget {
                               document['disease'], style: petCardTitleStyle),
 
                     ),),
-                ]),));
+                  Container(
+                    margin: EdgeInsets.only( top:60),
+                    width: 330, height: 60,
+                    child: ElevatedButton(onPressed: () => showAlert(context,"Delete my pet",document),
+                      child: Text("Edit", style: new TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,),
+                      style: buttons,),
+                  ),
+
+                  Container(
+                    margin: EdgeInsets.only( top:20),
+                    width: 330, height: 60,
+                    child: ElevatedButton(onPressed: () => showAlert(context,"Delete my pet",document),
+                      child: Text("Delete", style: new TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,),
+                      style: buttons,
+                    ),
+
+                  ),
+                  //Edit button
+
+
+
+                ]),),);
     else
       return Card();
   }
@@ -219,7 +222,7 @@ class pet extends StatelessWidget {
     'Dog': statusDogStyle
   };
 
-  showAlert(BuildContext context,String message) {
+  showAlert(BuildContext context,String message,DocumentSnapshot document) {
     showDialog(
 
       context: context,
@@ -232,8 +235,10 @@ class pet extends StatelessWidget {
             FlatButton(
               child: Text("YES"),
               onPressed: () {
+                document.reference.delete();
+                Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile()));
                 //Put your code here which you want to execute on Yes button click.
-                Navigator.of(context).pop();
+
               },
             ),
 

@@ -16,10 +16,9 @@ class appointmentFormState extends State<appointmentForm> {
   String selectedTime = '30 Minutes';
   var _types = ['Check-Up', 'Grooming'];
   String selectedType = 'Check-Up';
-  //bool _value = false;
  FirebaseFirestore firestoreInstance= FirebaseFirestore.instance;
  String title = _selectedAppointment == null ? "Add" : "Update";
-
+  var selectedDoctor;
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
@@ -132,6 +131,8 @@ class appointmentFormState extends State<appointmentForm> {
       }})
     ],
     ),
+
+
     body: Form(
       key: _formKey,
         child: Padding(
@@ -139,41 +140,222 @@ class appointmentFormState extends State<appointmentForm> {
     child: ListView(
     children: <Widget>[
          // doc name to be turned into a select dropdown
-    TextFormField(
-      controller: TextEditingController(text: _doc),
-      style: TextStyle(
-        fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+      Visibility(
+          visible: _selectedAppointment==null,
+          child: Wrap(
+
+
+              children: <Widget>[
+
+                // Type Label
+                Container(
+                    child:  Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        child: Text("Type:",
+                            textAlign: TextAlign.left,
+                            style:  TextStyle(
+                                color: Color(0xFF52648B),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18)
+                        ))
+                ),
+
+                SizedBox(height: 10.0,),
+
+                // Type Dropdown
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Colors.white),
+                  child: DropdownButtonHideUnderline(
+                      child:
+                      DropdownButton<String>(
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+                        ),
+                        isExpanded: true,
+                        value: selectedType,
+                        iconSize: 20,
+                        elevation: 8,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedType = newValue!;
+                            if(selectedType=='Check-Up') _type=0;
+                            else _type=1;
+                          });
+                        },
+                        items: List.generate(
+                          _types.length,
+                              (index) => DropdownMenuItem(
+
+                            child: Text(
+                              _types[index],
+                              style:  TextStyle(
+                                  color: Colors.blueGrey),
+                            ),
+                            value: _types[index],
+                          ),
+                        ),
+                      )),
+                ),
+
+                SizedBox(height: 10.0,),
+
+                // Avg Time Label
+                Container(
+                    child:  Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
+                        child: Text("Average Appointment Duration",
+                            textAlign: TextAlign.left,
+                            style:  TextStyle(
+                                color: Color(0xFF52648B),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18)
+                        ))
+                ),
+
+                SizedBox(height: 10.0,),
+
+                // Avg Time Dropdown
+
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Colors.white),
+                  child: DropdownButtonHideUnderline(
+                      child:
+                      DropdownButton<String>(
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey),
+                        isExpanded: true,
+                        value: selectedTime,
+                        // icon: const Icon(Icons.arrow_circle_down),
+                        iconSize: 20,
+                        elevation: 8,
+                        //  underline: Container(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedTime = newValue!;
+                          });
+                        },
+                        items: List.generate(
+                          _times.length,
+                              (index) => DropdownMenuItem(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                _times[index],
+                                style:  TextStyle(
+                                    color: Colors.blueGrey),
+                              ),
+
+                            ),
+                            value: _times[index],
+                          ),
+                        ),
+                      )),
+                ),
+
+                SizedBox(height: 10.0,),
+
+              ] )
       ),
-      decoration: InputDecoration(
-        icon: Icon(Icons.person,),
-        filled: true,
-        fillColor: Colors.white,
-        hintText: "Enter Doctor\'s name",
-        labelText: "Doctor",
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            )
-        ),
-      ),
-
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter name';
-        }
-        return null;
-      },
-
-      onChanged: (String value) {
-        _doc = value;
-      },
-
-          ),
 
 
       SizedBox(height: 10.0,),
+
+
+
+      // Doc
+
+      Visibility(
+          visible: _type==0,
+          child: Wrap( children: <Widget>[
+            Container(
+                child:  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    child: Text("Doctor:",
+                        textAlign: TextAlign.left,
+                        style:  TextStyle(
+                            color: Color(0xFF52648B),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18)
+                    ))
+            ),
+            SizedBox(height: 10.0,),
+            StreamBuilder<QuerySnapshot>(
+                stream: firestoreInstance.collection("Dr").snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    const Text("Loading...");
+                  if (snapshot.data!.docs.isEmpty) return Padding(
+                      padding: EdgeInsets.all(20),
+                      child: const Text('You haven\'t added Any Doctors!', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color:Colors.grey), textAlign:TextAlign.center));
+                  else {
+                    List<DropdownMenuItem<dynamic>> drNames = [];
+                    for (int i = 0; i < snapshot.data!.docs.length; i++) {
+                      DocumentSnapshot snap = snapshot.data!.docs[i];
+                      drNames.add(
+                        DropdownMenuItem(
+                          child: Text(
+                            snap['DrName'],
+                            style: TextStyle(color: Colors.blueGrey),
+                          ),
+                          value: snap['DrName'],
+                        ),
+                      );
+                    }
+                    return Container(
+                        padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  color: Colors.white),
+                  child: DropdownButtonHideUnderline(
+                  child: DropdownButton<dynamic>(
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+                          ),
+                         elevation: 8,
+                          items: drNames,
+                          onChanged: (drValue) {
+                            setState(() {
+                              selectedDoctor = drValue;
+                            });
+                          },
+                          value: selectedDoctor,
+                          isExpanded: true,
+                          hint: new Text(
+                            "Choose Doctor",
+                            style: TextStyle(color: Colors.blueGrey),
+                          ),
+                        ),
+                  ),
+                    );
+                  }
+                }),
+
+            SizedBox(height: 10.0,),
+
+          ]))
+
+
+
+
+      ,SizedBox(height: 10.0,),
+
+      Container(
+          child:  Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+              child: Text("Date:",
+                  textAlign: TextAlign.left,
+                  style:  TextStyle(
+                      color: Color(0xFF52648B),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18)
+              ))
+      ),
 
     // starting date
 
@@ -242,6 +424,17 @@ class appointmentFormState extends State<appointmentForm> {
 
       SizedBox(height: 10.0,),
 
+      Container(
+          child:  Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+              child: Text("Time:",
+                  textAlign: TextAlign.left,
+                  style:  TextStyle(
+                      color: Color(0xFF52648B),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18)
+              ))
+      ),
       // start time
       ListTile(
           title: Row(
@@ -372,153 +565,7 @@ class appointmentFormState extends State<appointmentForm> {
 
       SizedBox(height: 10.0,),
 
-          //desc
-          TextFormField(
-            controller: TextEditingController(text: _description),
 
-            style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
-            ),
-            decoration: InputDecoration(
-              icon: Icon(Icons.subject,),
-              filled: true,
-              fillColor: Colors.white,
-              hintText: "Enter Description",
-              labelText: "Description",
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  borderSide: BorderSide(
-                    width: 0,
-                    style: BorderStyle.none,
-                  )
-              ),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-              onChanged: (String value) {
-                _description = value;
-              },),
-          SizedBox(height: 10.0,),
-
-
-      Visibility(
-          visible: _selectedAppointment==null,
-   child: Wrap(
-
-
-            children: <Widget>[
-
-          Container(
-           child:  Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
-               child: Text("Average Appointment Duration",
-                   textAlign: TextAlign.left,
-             style:  TextStyle(
-                 color: Color(0xFF52648B),
-               fontWeight: FontWeight.bold,
-               fontSize: 18)
-           ))
-          ),
-
-    SizedBox(height: 10.0,),
-
-    Container(
-    padding: EdgeInsets.all(10),
-    decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(20.0),
-    color: Colors.white),
-    child: DropdownButtonHideUnderline(
-    child:
-            DropdownButton<String>(
-                style: TextStyle(
-                  fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey),
-                isExpanded: true,
-                value: selectedTime,
-               // icon: const Icon(Icons.arrow_circle_down),
-                iconSize: 20,
-                elevation: 8,
-              //  underline: Container(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedTime = newValue!;
-                  });
-                },
-                items: List.generate(
-                  _times.length,
-                      (index) => DropdownMenuItem(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                          _times[index],
-                          style:  TextStyle(
-                          color: Colors.blueGrey),
-                      ),
-
-                    ),
-                    value: _times[index],
-                  ),
-                ),
-            )),
-    ),
-
-              SizedBox(height: 10.0,),
-      Container(
-          child:  Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
-              child: Text("Type:",
-                  textAlign: TextAlign.left,
-                  style:  TextStyle(
-                      color: Color(0xFF52648B),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18)
-              ))
-      ),
-
-              SizedBox(height: 10.0,),
-
-              Container(
-                padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-                color: Colors.white),
-          child: DropdownButtonHideUnderline(
-            child:
-     DropdownButton<String>(
-       style: TextStyle(
-         fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
-       ),
-        isExpanded: true,
-       value: selectedType,
-        iconSize: 20,
-        elevation: 8,
-        onChanged: (String? newValue) {
-          setState(() {
-            selectedType = newValue!;
-          });
-        },
-        items: List.generate(
-          _types.length,
-              (index) => DropdownMenuItem(
-
-              child: Text(
-                _types[index],
-                style:  TextStyle(
-                    color: Colors.blueGrey),
-            ),
-            value: _types[index],
-          ),
-        ),
-      )),
-        )
-   ] )
-
-
-
- ),
         if(_selectedAppointment!=null)
           Align(
           alignment: Alignment.bottomRight,

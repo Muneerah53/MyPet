@@ -18,6 +18,7 @@ late TimeOfDay _endTime;
 String _doc = '';
 String _description = '';
 String _id = '';
+late int _type;
 
 class appointCalendar extends StatefulWidget {
   const appointCalendar({Key? key}) : super(key: key);
@@ -39,7 +40,6 @@ class appointCalendarState extends State<appointCalendar> {
     _events = _AppointmentDataSource(appointments);
     _selectedAppointment = null;
     _doc = '';
-    _description = '';
     _id='';
 
     super.initState();
@@ -174,7 +174,6 @@ class appointCalendarState extends State<appointCalendar> {
 
 
       appointments.add(a);
-      print(i);
     }
     _events.notifyListeners(
         CalendarDataSourceAction.add, appointments);
@@ -191,6 +190,7 @@ class appointCalendarState extends State<appointCalendar> {
     _description = appointmentDetails.description;
     _id = appointmentDetails.id;
     _selectedAppointment = appointmentDetails;
+    _type = appointmentDetails.type;
 
     Navigator.push<Widget>(
       context,

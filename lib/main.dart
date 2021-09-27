@@ -156,8 +156,10 @@ class MyPets extends StatelessWidget {
 
 
      return Card(
+
          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-         child: Container(
+         child:
+         Container(
 
            padding: EdgeInsets.all(10),
            margin: EdgeInsets.only(left: 20,right:20),
@@ -175,6 +177,7 @@ class MyPets extends StatelessWidget {
                  Row(
                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                    children: <Widget>[
+
                      Container(
                        margin: EdgeInsets.only(top: 20),
                        child: CircleAvatar(
@@ -198,7 +201,8 @@ class MyPets extends StatelessWidget {
 
      } ));}),
                  ),],
-                   ),),);
+                   ),
+         ),);
 
    }else
     return Card();}

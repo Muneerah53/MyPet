@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mypet/admin_calender.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mypet/add_dr.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
@@ -122,6 +123,42 @@ CircleAvatar(
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
+
+
+
+
+
+
+            ),
+            SizedBox(height: 50),
+            Container(
+              width: 344,
+              height: 153,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => docList()),
+                    );
+                  },
+                  child: Text('View Doctors',
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold)),
+                  style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
+                  )),
+
+
+
+
+
+
             ),
           ],
         ),

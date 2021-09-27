@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'models/global.dart';
-
+import 'pet.dart';
 
 
 Future<void> main() async {
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
               print("An error has occured ${snapshot.error.toString()}");
               return const Text("Something went wrong");}
             else if (snapshot.hasData) {
-              return Home();
+              return MyPets();
             }
             else{return const Center(child:CircularProgressIndicator());}
           },
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-class Home extends StatelessWidget {
+class MyPets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -186,11 +186,20 @@ class Home extends StatelessWidget {
                    ],
                  ),
                  Container(
+
                    margin: EdgeInsets.only(top: 20,bottom: 20),
-                   child: Text(document['name'],style: statusStyles[document['species']],
-                     textAlign: TextAlign.center)
-                   ),
-               ]),));
+                   child:ListTile(
+                     title: Text(document['name'],style: statusStyles[document['species']],
+                     textAlign: TextAlign.center),
+     onTap: (){
+
+     Navigator.push(context,MaterialPageRoute(builder:(context) {
+     return pet(document['petID']);
+
+     } ));}),
+                 ),],
+                   ),),);
+
    }else
     return Card();}
   Map statusStyles = {

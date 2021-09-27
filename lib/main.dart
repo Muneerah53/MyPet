@@ -7,7 +7,7 @@ import 'package:mypet/pet.dart';
 
 import 'models/global.dart';
 import 'pet.dart';
-
+import 'editProfile.dart';
 int myPets = 0;
 
 Future<void> main() async {
@@ -125,7 +125,9 @@ class Profile extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top:420,left:250),
                 width: 120, height:35,
-                child: ElevatedButton(onPressed:(){},
+                child: ElevatedButton(onPressed:( ){
+                  Navigator.push(context,MaterialPageRoute(builder: (_) =>EditProfile())) .catchError((error) => print('Delete failed: $error'));;
+                },
                   child:  Text("Edit", style: new TextStyle(  color: Colors.white),
                     textAlign: TextAlign.center,),
                   style: buttons,
@@ -278,6 +280,7 @@ class Profile extends StatelessWidget {
     'Cat' : statusCatStyle,
     'Dog' : statusDogStyle
   };
+
   }
 
 

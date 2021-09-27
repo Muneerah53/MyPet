@@ -89,7 +89,7 @@ class Profile extends StatelessWidget {
 
 
                       Container(
-                        padding: EdgeInsets.only(top: 180, bottom: 350,left:20,right: 20),
+                        padding: EdgeInsets.only(top: 180, bottom: 270,left:20,right: 20),
                         child: StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance.collection('pet owners').snapshots(),
                             builder: (context, snapshot) {
@@ -121,19 +121,6 @@ class Profile extends StatelessWidget {
 
 
 
-              //Edit button
-              Container(
-                margin: EdgeInsets.only(top:420,left:250),
-                width: 120, height:35,
-                child: ElevatedButton(onPressed:( ){
-                  Navigator.push(context,MaterialPageRoute(builder: (_) =>editProfile())) .catchError((error) => print('Delete failed: $error'));;
-                },
-                  child:  Text("Edit", style: new TextStyle(  color: Colors.white),
-                    textAlign: TextAlign.center,),
-                  style: buttons,
-                ),
-
-              ),
               Container(
                 padding: EdgeInsets.only(top: 500, left:30),
                 child: Text(
@@ -186,14 +173,14 @@ class Profile extends StatelessWidget {
 
 
   Widget _buildOwnerCard(BuildContext context, DocumentSnapshot document ) {
-  if (document['ownerID'].toString() == 'GApYHCG0gGYHp4D097maEgTnWQ92')
+  if (document['ownerID'].toString() == 'WNDxCAUlhVRHQmLQ7xXj178RUMM2')
     return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(
 
           padding: EdgeInsets.only(left: 10,top:20),
 
-          width: 250,height: 350,
+          width: 250,height: 230,
 
           //i dont know why this cammand does not work
           decoration: BoxDecoration(
@@ -214,7 +201,21 @@ class Profile extends StatelessWidget {
                     title: Text("First name:  "+document['fname']+"\nLast name:  "+document['lname']+"\nMobile:  "+document['mobile']+"\nEmail:  "+document['email'],style: petCardTitleStyle),
 
                   ),),
-              ]),));
+
+                //Edit button
+                Container(
+                  margin: EdgeInsets.only(top:10,left:180),
+                  width: 120, height:35,
+                  child: ElevatedButton(onPressed:( ){
+                    Navigator.push(context,MaterialPageRoute(builder: (_) =>editProfile(document))) .catchError((error) => print('Delete failed: $error'));;
+                  },
+                    child:  Text("Edit", style: new TextStyle(  color: Colors.white),
+                      textAlign: TextAlign.center,),
+                    style: buttons,
+                  ),
+
+                ),
+              ]),),);
     else  return Card();
 
   }

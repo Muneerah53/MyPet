@@ -7,13 +7,9 @@ import 'models/global.dart';
 import 'main.dart';
 
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  runApp(editProfile());
-}
 class editProfile extends StatelessWidget{
+  final DocumentSnapshot owner;
+  editProfile(this.owner);
 
   final fnameController = TextEditingController();
   final lnameController = TextEditingController();
@@ -61,19 +57,16 @@ class editProfile extends StatelessWidget{
           Container(
 
             padding: EdgeInsets.only(top: 180,left:20,right: 20),
-            child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('pet owners').snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text('loading');
-                  return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) =>
-                    //card pets method
-                    _buildOwnerCard(context, (snapshot.data!).docs[index]),
-                  );
-                }
-            ),
-          ),
+            width: 500,height: 900,
+            child:  ListView.builder(scrollDirection: Axis.vertical,
+            itemCount: 1,
+            itemBuilder: (context, index) =>
+
+                _buildOwnerCard(context, owner),
+                  ),
+
+    ),
+
 
 
           Container(
@@ -98,7 +91,7 @@ class editProfile extends StatelessWidget{
 
 
   Widget _buildOwnerCard(BuildContext context, DocumentSnapshot document ) {
-    if (document['ownerID'].toString() == 'GApYHCG0gGYHp4D097maEgTnWQ92')
+    if (document['ownerID'] == owner['ownerID'])
       return Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
           child: Container(

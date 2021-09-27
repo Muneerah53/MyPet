@@ -134,7 +134,7 @@ class pet extends StatelessWidget {
 
 
   Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
-    if (document['petID'].toString() == petID)
+    if (document['petID'] == petID)
       return Card(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0)),
@@ -199,7 +199,7 @@ class pet extends StatelessWidget {
 
   Widget _buildPicCard(BuildContext context, DocumentSnapshot document) {
     String img = "";
-    if (document['petID'].toString() == petID) {
+    if (document['petID'] == petID) {
       if (document['species'] == "Dog")
         img = "images/dog.png";
       else

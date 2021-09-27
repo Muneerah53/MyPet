@@ -126,7 +126,7 @@ class Profile extends StatelessWidget {
                 margin: EdgeInsets.only(top:420,left:250),
                 width: 120, height:35,
                 child: ElevatedButton(onPressed:( ){
-                  Navigator.push(context,MaterialPageRoute(builder: (_) =>EditProfile())) .catchError((error) => print('Delete failed: $error'));;
+                  Navigator.push(context,MaterialPageRoute(builder: (_) =>editProfile())) .catchError((error) => print('Delete failed: $error'));;
                 },
                   child:  Text("Edit", style: new TextStyle(  color: Colors.white),
                     textAlign: TextAlign.center,),

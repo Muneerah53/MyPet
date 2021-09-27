@@ -1,31 +1,24 @@
-//Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile())) .catchError((error) => print('Delete failed: $error'));;
-//title: Text('Edit your information'), content:
-//TextField(
-//controller: customController,
-//decoration: InputDecoration(
-
-//hintText: 'first Name',
-//),
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mypet/pet.dart';
 
 import 'models/global.dart';
 import 'main.dart';
 
-int myPets = 0;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(EditProfile());
+  runApp(editProfile());
 }
-class EditProfile extends StatelessWidget {
+class editProfile extends StatelessWidget{
+
+  final fnameController = TextEditingController();
+  final lnameController = TextEditingController();
+  final mobileController = TextEditingController();
+  final emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +59,7 @@ class EditProfile extends StatelessWidget {
 
 
           Container(
+
             padding: EdgeInsets.only(top: 180,left:20,right: 20),
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('pet owners').snapshots(),
@@ -82,9 +76,9 @@ class EditProfile extends StatelessWidget {
           ),
 
 
-
           Container(
-            padding: EdgeInsets.only(bottom: 440),
+
+              padding: EdgeInsets.only(bottom: 440),
             child: Center(
               child: Text(
                 'Edit my information',
@@ -95,12 +89,6 @@ class EditProfile extends StatelessWidget {
               ),
             ),
           ),
-
-
-
-
-
-
 
 
         ],
@@ -117,7 +105,7 @@ class EditProfile extends StatelessWidget {
 
             padding: EdgeInsets.only(left: 10,top:10),
 
-            width: 250,height: 550,
+            width: 250,height: 640,
 
             //i dont know why this cammand does not work
             decoration: BoxDecoration(
@@ -144,8 +132,11 @@ class EditProfile extends StatelessWidget {
                   ),
                   Container(
             margin: EdgeInsets.only(left: 15,right: 15),
-                      child: TextFormField(   initialValue: document['fname']
-                    ),),
+                      child: TextFormField(    controller: fnameController,
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(fontSize: 17),
+                            hintText: document['fname']
+                    ),),),
 
                   //last name
                   Container(
@@ -156,8 +147,11 @@ class EditProfile extends StatelessWidget {
                     ),
                   ),  Container(
                     margin: EdgeInsets.only(left: 15,right: 15),
-              child: TextFormField(   initialValue: document['lname']
-                    ),),
+              child: TextFormField(  controller: lnameController,
+                decoration: InputDecoration(
+                    hintStyle: TextStyle(fontSize: 17),
+                    hintText: document['lname']
+                    ),),),
 
                   //Mobile
                   Container(
@@ -168,8 +162,11 @@ class EditProfile extends StatelessWidget {
                     ),
                   ),  Container(
                     margin: EdgeInsets.only(left: 15,right: 15),
-              child: TextFormField(   initialValue: document['mobile']
-                    ),),
+              child: TextFormField(    controller: mobileController,
+                decoration: InputDecoration(
+                  hintStyle: TextStyle(fontSize: 17),
+                  hintText: document['mobile'],
+                    ),),),
 
 
                   //Email
@@ -181,24 +178,101 @@ class EditProfile extends StatelessWidget {
                     ),
                   ),  Container(
                     margin: EdgeInsets.only(left: 15,right: 15),
-                    child: TextFormField(   initialValue: document['email'],
-                    ),),
+                    child: TextFormField( controller: emailController,
+                      decoration: InputDecoration(
+                        hintStyle: TextStyle(fontSize: 17),
+                        hintText: document['email'],
+                    ),),),
 
 
                   //Edit button
                   Container(
-                    margin: EdgeInsets.only(top: 25,right: 10),
-                    width: 120, height:35,
-                    child: ElevatedButton(onPressed:( ){
-                      Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile())) .catchError((error) => print('Delete failed: $error'));;
-                    },
-                      child:  Text("Edit", style: new TextStyle(  color: Colors.white),
-                        textAlign: TextAlign.center,),
-                      style: buttons,
-                    ),
+                    margin: EdgeInsets.only(top: 25),
+                    width: 300, height: 50,
+                    child: ElevatedButton(
+    child:  Text("Edit", style: new TextStyle(  color: Colors.white),
+    textAlign: TextAlign.center,),
+    style: buttons,
+    onPressed:( ){
+      int change=0;
+      if( !fnameController.text.isEmpty){
+      document.reference.update({'fname': fnameController.text});
+      change++;}
+      if( !lnameController.text.isEmpty) {document.reference.update({'lname': lnameController.text});
+      change++;}
+      if( !mobileController.text.isEmpty){
+        document.reference.update({
+          'mobile': mobileController.text
+        });
+    change++;}
+      if( !emailController.text.isEmpty){
+        document.reference.update({
+          'email': emailController.text
+        });
+        change++;}
+
+if(  change>0)
+    showDialog(
+    context: context,
+    builder: (context) {
+                      return AlertDialog(
+                        // Retrieve the text the that user has entered by using the
+                        // TextEditingController.
+                        content: Text('your information is updated'),
+                          actions: <Widget>[
+                      FlatButton(
+                      child: Text("Okay"),
+      onPressed: () {
+      Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile())) .catchError((error) => print('update failed: $error'));;
+
+      },
+
+      ),  ],
+                      );},);
+                      else showDialog(
+    context: context,
+    builder: (context) {
+    return AlertDialog(
+    // Retrieve the text the that user has entered by using the
+    // TextEditingController.
+    content: Text('there is no change'),
+    actions: <Widget>[
+    FlatButton(
+    child: Text("Okay"),
+    onPressed: () {
+    Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile())) .catchError((error) => print('update failed: $error'));;
+
+    },
+
+    ),  ],
+    );
+                    },);},
+
 
                   ),
-                ]),));
+                ),
+
+                  //Edit button
+                  Container(
+                    margin: EdgeInsets.only(top: 15),
+                    width: 300, height: 50,
+                    child: ElevatedButton(
+                      child:  Text("Cancel", style: new TextStyle(  color: Colors.white),
+                        textAlign: TextAlign.center,),
+                      style: buttons,
+                      onPressed:( ){
+
+
+    Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile())) .catchError((error) => print('update failed: $error'));;
+
+    },
+                                ),),
+                            ],
+                         ),
+
+
+                    ),
+      );
     else  return Card();
 
   }

@@ -262,7 +262,7 @@ class Profile extends StatelessWidget {
                  Container(
                    margin: EdgeInsets.only(top: 10),
                    child: ListTile(
-                     title: Text("   "+document['name'],style: statusStyles[document['species']]),
+                     title: Text("  "+document['name'],style: statusStyles[document['species']]),
                        onTap: (){
 
                  Navigator.push(context,MaterialPageRoute(builder:(context) {

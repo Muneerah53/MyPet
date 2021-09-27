@@ -235,8 +235,8 @@ class pet extends StatelessWidget {
             FlatButton(
               child: Text("YES"),
               onPressed: () {
-                document.reference.delete();
-                Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets()));
+                document.reference.delete().then((_) => print('Deleted'));
+                Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
                 //Put your code here which you want to execute on Yes button click.
 
               },

@@ -74,10 +74,20 @@ late String _selectedID;
                   onPressed: () {
                    dialog();
                   },
-                  child: Text("Add Doctor"),
+                  child:Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child:
+                      Text("+ Add Doctor", style:
+                      TextStyle(fontSize: 18))),
+                style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all(Color(0XFFFF6B81)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)))
+
 
                 ),
-
+                ),
 
                 // doc name to be turned into a select dropdown
 
@@ -159,6 +169,7 @@ late String _selectedID;
 
   dialog(){
     bool newDr = _doc == '';
+    String _oldName = _doc;
     String btnTxt = newDr ? 'Add' : 'Update';
     return  showDialog(
         barrierDismissible: false,
@@ -249,8 +260,7 @@ late String _selectedID;
                             if (_dformKey.currentState!.validate()) {
                               if(newDr)
                                 saveDr(_doc);
-                              else updateDr(_doc);
-                              _doc = '';
+                              else updateDr(_doc, _oldName);
                               Navigator.of(context).pop();
                             }
                           },
@@ -274,8 +284,8 @@ late String _selectedID;
                                               20.0))),
                                 ),
                                 onPressed: () {
-                                  firestoreInstance.collection("Dr").doc(_selectedID)..delete();
-                                  _selectedID='';
+                                  deleteDr(_oldName);
+
                                   Navigator.of(context).pop();
                                 },
                               )),
@@ -297,11 +307,27 @@ late String _selectedID;
 
 
 
-  Future<void> updateDr(String doc) async {
-    firestoreInstance.collection("Dr").doc(_selectedID).update({
+  Future<void> updateDr(String doc, String oldName) async {
+firestoreInstance
+        .collection('Dr')
+        .doc(_selectedID)
+        .update({
       "DrName": _doc,
     });
 
+    QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
+        .collection('appointment ')
+        .where('DrName', isEqualTo: oldName)
+        .get();
+
+    List<QueryDocumentSnapshot> docs = snapshot.docs;
+    for (var doc in docs) {
+      if (doc.data() != null) {
+        doc.reference.update({"DrName": _doc});
+      }
+    }
+
+_doc = '';
   }
 
 
@@ -315,6 +341,27 @@ late String _selectedID;
     String _id = doc.id;
     await firestoreInstance.collection("Dr").doc(_id).update(
         {"DrID": _id});
+  }
+
+  Future<void> deleteDr(String oldName) async {
+    firestoreInstance.collection("Dr").doc(_selectedID).delete();
+
+    QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
+        .collection('appointment ')
+        .where('DrName', isEqualTo: oldName)
+        .get();
+
+    List<QueryDocumentSnapshot> docs = snapshot.docs;
+    for (var doc in docs) {
+      if (doc.data() != null) {
+        doc.reference.delete();
+      }
+
+
+      _selectedID='';
+    }
+
+
   }
 
 

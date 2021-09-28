@@ -149,7 +149,7 @@ CircleAvatar(
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                    MaterialStateProperty.all(Color(0XFFFF6B81)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),

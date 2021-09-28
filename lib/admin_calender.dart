@@ -16,7 +16,6 @@ late TimeOfDay _startTime;
 late DateTime _endDate;
 late TimeOfDay _endTime;
 String _doc = '';
-String _description = '';
 String _id = '';
 late int _type;
 
@@ -37,13 +36,13 @@ class appointCalendarState extends State<appointCalendar> {
 
     _calendarView = CalendarView.month;
     appointments = <Appointment>[];
-    _events = _AppointmentDataSource(appointments);
+    _events = _getCalendarDataSource();
     _selectedAppointment = null;
     _doc = '';
     _id='';
 
     super.initState();
-    fetchAppointments();
+
   }
 
   @override
@@ -77,7 +76,7 @@ class appointCalendarState extends State<appointCalendar> {
                     foregroundColor: Colors.white,
                     //mini: true,
                     onPressed: () {
-                      addAppointment(_selected.date!);
+                      addAppointment(DateTime(_selected.date!.year,_selected.date!.month,_selected.date!.day,9,0,0));
                     },
                     child: Icon(Icons.add),
                   )
@@ -103,10 +102,13 @@ class appointCalendarState extends State<appointCalendar> {
         onTap: calendarTapCallback,
         initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,
             DateTime.now().day, 0, 0, 0),
-        initialSelectedDate: DateTime(DateTime.now().year, DateTime.now().month,
-            DateTime.now().day, 0, 0, 0),
+       initialSelectedDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0),
         timeSlotViewSettings: const TimeSlotViewSettings(
-            minimumAppointmentDuration: Duration(minutes: 30)));
+         minimumAppointmentDuration: Duration(minutes: 30)),
+        appointmentTextStyle: TextStyle(
+        fontSize: 25,
+        fontWeight: FontWeight.bold),
+    );
   }
 
   void onCalendarTapped(CalendarTapDetails calendarTapDetails) {
@@ -117,7 +119,6 @@ class appointCalendarState extends State<appointCalendar> {
     setState(() {
       _selectedAppointment = null;
       _doc = '';
-      _description = '';
 
       if (calendarTapDetails.targetElement == CalendarElement.appointment){
         if (calendarTapDetails.appointments != null &&
@@ -130,8 +131,74 @@ class appointCalendarState extends State<appointCalendar> {
     });
   }
 
+  void editAppointment(Appointment appointmentDetails) {
+    _startDate = appointmentDetails.from;
+    _endDate = appointmentDetails.to;
+    _startTime = appointmentDetails.start;
+    _endTime = appointmentDetails.end;
+    _doc = appointmentDetails.docName == '(No title)'
+        ? ''
+        : appointmentDetails.docName;
+    _id = appointmentDetails.id;
+    _selectedAppointment = appointmentDetails;
+    _type = appointmentDetails.type;
 
-  Future<void> fetchAppointments() async {
+    Navigator.push<Widget>(
+      context,
+      MaterialPageRoute(
+          builder: (BuildContext context) => appointmentForm()),
+    );
+  }
+
+  void addAppointment(DateTime date) {
+    _selectedAppointment = null;
+    _doc = '';
+    _type = 0;
+
+    _startDate = date;
+    _endDate = date.add(const Duration(minutes: 30));
+    _startTime =
+        TimeOfDay(hour: 9, minute: 0);
+    _endTime = TimeOfDay(hour: 9, minute: 30);
+
+    Navigator.push<Widget>(
+      context,
+      MaterialPageRoute(
+          builder: (BuildContext context) => appointmentForm()),
+    );
+  }
+
+
+}
+
+class Appointment {
+  Appointment(
+      // ignore: non_constant_identifier_names
+          {
+        this.title='Appointment',
+        this.id = '',
+        this.docName = '',
+        required this.from,
+        required this.to,
+        required this.start,
+        required this.end,
+        required this.background,
+        required this.type,
+      });
+  String title;
+  String id;
+  String docName;
+  DateTime from;
+  DateTime to;
+  TimeOfDay start;
+  TimeOfDay end;
+  Color background;
+  int type;
+}
+
+_AppointmentDataSource _getCalendarDataSource() {
+  List<Appointment> appointments = <Appointment>[];
+    Future<void> fetchAppointments() async {
 
     var data= await FirebaseFirestore.instance.collection("appointment ").get();
     for(int i=0;i<data.docs.length;i++){
@@ -163,86 +230,26 @@ class appointCalendarState extends State<appointCalendar> {
       Appointment a = Appointment(
           id: data.docs[i].data()['appointmentID'].toString(),
           docName: data.docs[i].data()['DrName'].toString(),
-          description: data.docs[i].data()['description'].toString(),
           from: _startDateTime,
           to: _endDateTime,
           start: TimeOfDay.fromDateTime(_startDateTime),
           end: TimeOfDay.fromDateTime(_endDateTime),
-          background: Color(0xFF9C4350),
-          type: 0//result['typeID']
+          background:  data.docs[i].data()['typeID']==0 ? Color(0xFFda6773) : Color(0xFF5CC486 ),
+          type: data.docs[i].data()['typeID']
       );
 
-
+      int t = a.type;
+      a.title = t==0 ? "Check-Up By "+a.docName : "Grooming";
       appointments.add(a);
     }
     _events.notifyListeners(
         CalendarDataSourceAction.add, appointments);
   }
-
-  void editAppointment(Appointment appointmentDetails) {
-    _startDate = appointmentDetails.from;
-    _endDate = appointmentDetails.to;
-    _startTime = appointmentDetails.start;
-    _endTime = appointmentDetails.end;
-    _doc = appointmentDetails.docName == '(No title)'
-        ? ''
-        : appointmentDetails.docName;
-    _description = appointmentDetails.description;
-    _id = appointmentDetails.id;
-    _selectedAppointment = appointmentDetails;
-    _type = appointmentDetails.type;
-
-    Navigator.push<Widget>(
-      context,
-      MaterialPageRoute(
-          builder: (BuildContext context) => appointmentForm()),
-    );
-  }
-
-  void addAppointment(DateTime date) {
-    _selectedAppointment = null;
-    _doc = '';
-    _description = '';
-
-    _startDate = date;
-    _endDate = date.add(const Duration(minutes: 30));
-    _startTime =
-        TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
-    _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
-
-    Navigator.push<Widget>(
-      context,
-      MaterialPageRoute(
-          builder: (BuildContext context) => appointmentForm()),
-    );
-  }
-
-
+  fetchAppointments() ;
+  return _AppointmentDataSource(appointments);
 }
 
-class Appointment {
-  Appointment(
-      // ignore: non_constant_identifier_names
-          {this.id = '',
-        this.docName = '',
-        this.description = '',
-        required this.from,
-        required this.to,
-        required this.start,
-        required this.end,
-        required this.background,
-        required this.type,
-      });
-  String id;
-  String docName;
-  String description;
-  DateTime from;
-  DateTime to;
-  TimeOfDay start;
-  TimeOfDay end;
-  Color background;
-  int type;
-}
+
 
 class _AppointmentDataSource extends CalendarDataSource {
   _AppointmentDataSource(List<Appointment> source){
@@ -251,6 +258,12 @@ class _AppointmentDataSource extends CalendarDataSource {
 
   String getID(int index) {
     return appointments![index].id;
+  }
+
+
+  @override
+  String getSubject(int index) {
+    return appointments![index].title;
   }
 
   @override
@@ -281,9 +294,6 @@ class _AppointmentDataSource extends CalendarDataSource {
     return appointments![index].docName;
   }
 
-  String getDescription(int index) {
-    return appointments![index].description;
-  }
 
 
 }

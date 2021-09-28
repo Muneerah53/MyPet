@@ -17,7 +17,7 @@ class appointmentFormState extends State<appointmentForm> {
   var _types = ['Check-Up', 'Grooming'];
   String selectedType = 'Check-Up';
  FirebaseFirestore firestoreInstance= FirebaseFirestore.instance;
- String title = _selectedAppointment == null ? "Add" : "Update";
+ String title = _selectedAppointment == null ? "Add" : "Edit";
   var selectedDoctor;
   @override
   void dispose() {
@@ -33,7 +33,7 @@ class appointmentFormState extends State<appointmentForm> {
     backgroundColor: Color(0xFFF4E3E3),
     appBar: AppBar(
         elevation:0,
-        title: Text('$title Shift',textAlign: TextAlign.center,
+        title: Text('$title Appointment',textAlign: TextAlign.left,
             style: TextStyle(color:Color(0XFFFF6B81))),
         backgroundColor: Colors.transparent,
     actions: <Widget>[
@@ -57,7 +57,6 @@ class appointmentFormState extends State<appointmentForm> {
               to: _endDate,
               start: _startTime,
               end: _endTime,
-              description: _description,
               docName: _doc == '' ? '(No title)' : _doc,
               background: Color(0xFF9C4350),
               type: _selectedAppointment!.type);
@@ -67,7 +66,6 @@ class appointmentFormState extends State<appointmentForm> {
             "date": DateFormat('dd/MM/yyyy').format(_startDate),
             "startTime": DateFormat.Hm().format(_startDate),
             "endTime": DateFormat.Hm().format(_endDate),
-            "description": _description,
           });
 
           _events.appointments!.removeAt(_events.appointments!
@@ -80,41 +78,41 @@ class appointmentFormState extends State<appointmentForm> {
 
         //add
         else {
+          _doc= selectedDoctor.toString();
           int n = getTime();
           int type = getType();
-
-          int diff = _endDate
+          num diff = _endDate
               .difference(_startDate)
               .inMinutes;
           DateTime _appEnd = _startDate;
-          for (int i = 0; i < (diff / n); i++) {
+          for (int i = 0; i < (diff / n).floor(); i++) {
             DocumentReference doc = await firestoreInstance.collection(
                 "appointment ").add(
                 {
                   "appointmentID": '',
-                  "DrName": _doc,
+                  "DrName": selectedDoctor!=null ? _doc : "Groomer",
                   "date": DateFormat('dd/MM/yyyy').format(_startDate),
                   "startTime": DateFormat.Hm().format(_appEnd),
                   "endTime": DateFormat.Hm().format(
                       _appEnd.add(Duration(minutes: n))),
-                  "description": _description,
-                  "state": "avaliable",
+                  "state": "available",
                   "typeID": type
                 });
             String _id = doc.id;
             await firestoreInstance.collection("appointment ").doc(_id).update(
                 {"appointmentID": _id});
 
+
             appointments.add(Appointment(
+              title: type==0 ? "Check-Up by $_doc" : "Grooming",
               id: _id,
               from: _appEnd,
               to: _appEnd.add(Duration(minutes: n)),
               start: TimeOfDay.fromDateTime(_appEnd),
               // to: _endDate,
               end: TimeOfDay.fromDateTime(_appEnd.add(Duration(minutes: n))),
-              description: _description,
               docName: _doc == '' ? '(No title)' : _doc,
-              background: Color(0xFF9C4350),
+              background:  type==0 ? Color(0xFFda6773) : Color(0xFF5CC486 ),
               type: type,
             ));
 
@@ -285,14 +283,18 @@ class appointmentFormState extends State<appointmentForm> {
                     ))
             ),
             SizedBox(height: 10.0,),
-            StreamBuilder<QuerySnapshot>(
+
+        Visibility(
+            visible: _selectedAppointment==null,
+            child: StreamBuilder<QuerySnapshot>(
                 stream: firestoreInstance.collection("Dr").snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData)
                     const Text("Loading...");
-                  if (snapshot.data!.docs.isEmpty) return Padding(
+                  if (snapshot.data==null) return Padding(
                       padding: EdgeInsets.all(20),
-                      child: const Text('You haven\'t added Any Doctors!', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color:Colors.grey), textAlign:TextAlign.center));
+                      child: const Text('You haven\'t added Any Doctors!',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color:Colors.grey), textAlign:TextAlign.center));
                   else {
                     List<DropdownMenuItem<dynamic>> drNames = [];
                     for (int i = 0; i < snapshot.data!.docs.length; i++) {
@@ -312,8 +314,10 @@ class appointmentFormState extends State<appointmentForm> {
                   decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                   color: Colors.white),
-                  child: DropdownButtonHideUnderline(
-                  child: DropdownButton<dynamic>(
+                  child: DropdownButtonFormField<dynamic>(
+                    decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white))),
                           style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
                           ),
@@ -325,19 +329,40 @@ class appointmentFormState extends State<appointmentForm> {
                             });
                           },
                           value: selectedDoctor,
+                    validator: (value) => value == null ? 'Please Choose Doctor' : null,
                           isExpanded: true,
                           hint: new Text(
                             "Choose Doctor",
                             style: TextStyle(color: Colors.blueGrey),
                           ),
                         ),
-                  ),
-                    );
+                   );
                   }
                 }),
 
-            SizedBox(height: 10.0,),
-
+            //SizedBox(height: 10.0,),
+replacement:  Container(
+            padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+            color: Colors.white),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<dynamic>(
+              style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 18, color: Colors.grey,
+              ),
+              elevation: 8,
+              items:  const <DropdownMenuItem<dynamic>>[],
+              onChanged: null,
+              value: _doc,
+              isExpanded: true,
+              hint: new Text(
+                "$_doc",
+                style: TextStyle(color: Colors.grey),
+              ),
+            ),
+          ),
+        )  ),
           ]))
 
 
@@ -371,17 +396,15 @@ class appointmentFormState extends State<appointmentForm> {
     child: GestureDetector(
 
     child: TextFormField(
-
         enabled: false,
         textAlign: TextAlign.left,
-        style: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
-        ),
         decoration: InputDecoration(
           icon: Icon(Icons.calendar_today,),
           filled: true,
           fillColor: Colors.white,
           labelText: DateFormat('EEE, MMM dd yyyy').format(_startDate),
+          labelStyle:TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide(

@@ -177,14 +177,15 @@ class _LoginPageState extends State<LoginPage> {
   void validateAndSubmit() async {
     if (validateAndSave()) {
       try {
-        final UserCredential authResult = (await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: _email, password: _password));
-
-// final UserCredential authResult = await FirebaseAuth.instance
-//     .signInWithEmailAndPassword(email: _email, password: _password);
-// Navigator.of(context).pushNamed('/home');
-        final User? user = authResult.user;
-        print('Signed in : ${user!.uid}');
+        if(_email.contains("@admin.com")){
+          final UserCredential authResult = (await FirebaseAuth.instance
+              .signInWithEmailAndPassword(email: _email, password: _password));
+          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => adminHome()));
+        }else{
+          final UserCredential authResult = (await FirebaseAuth.instance
+              .signInWithEmailAndPassword(email: _email, password: _password));
+         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => userHome()));
+        }
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('No user found for that email'),

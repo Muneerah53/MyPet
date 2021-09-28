@@ -29,13 +29,13 @@ class appointCalendar extends StatefulWidget {
 class appointCalendarState extends State<appointCalendar> {
   appointCalendarState();
   CalendarView _calendarView = CalendarView.month;
+
   late List<Appointment> appointments;
 
   @override
   void initState()  {
-
     _calendarView = CalendarView.month;
-    appointments = <Appointment>[];
+   // appointments = <Appointment>[];
     _events = _getCalendarDataSource();
     _selectedAppointment = null;
     _doc = '';
@@ -48,6 +48,7 @@ class appointCalendarState extends State<appointCalendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color(0xFFF4E3E3),
         appBar: AppBar(
           elevation:0,
           title: Text('Schedule',textAlign: TextAlign.center,
@@ -60,7 +61,26 @@ class appointCalendarState extends State<appointCalendar> {
             children:  <Widget>[
               Padding(
                   padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-                  child: getCalendar(_calendarView, _events, onCalendarTapped)
+                  child:SfCalendar(
+        backgroundColor: Color(0xFFF4E3E3),
+    view: _calendarView,
+    showNavigationArrow: true,
+    monthViewSettings: const MonthViewSettings(
+    showAgenda: true,
+    agendaViewHeight: 500,
+    numberOfWeeksInView: 1
+    ),
+    dataSource: _events,
+    onTap: onCalendarTapped,
+    initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,
+    DateTime.now().day, 0, 0, 0),
+    initialSelectedDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0),
+    timeSlotViewSettings: const TimeSlotViewSettings(
+    minimumAppointmentDuration: Duration(minutes: 30)),
+    appointmentTextStyle: TextStyle(
+    fontSize: 25,
+    fontWeight: FontWeight.bold),
+    )
 
 
 
@@ -85,31 +105,7 @@ class appointCalendarState extends State<appointCalendar> {
     );
   }
 
-  SfCalendar getCalendar(
-      CalendarView _calendarView,
-      CalendarDataSource _calendarDataSource,
-      CalendarTapCallback calendarTapCallback) {
-    return SfCalendar(
-        backgroundColor: Color(0xFFF4E3E3),
-        view: _calendarView,
-        showNavigationArrow: true,
-        monthViewSettings: const MonthViewSettings(
-            showAgenda: true,
-            agendaViewHeight: 500,
-            numberOfWeeksInView: 1
-        ),
-        dataSource: _calendarDataSource,
-        onTap: calendarTapCallback,
-        initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,
-            DateTime.now().day, 0, 0, 0),
-       initialSelectedDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0),
-        timeSlotViewSettings: const TimeSlotViewSettings(
-         minimumAppointmentDuration: Duration(minutes: 30)),
-        appointmentTextStyle: TextStyle(
-        fontSize: 25,
-        fontWeight: FontWeight.bold),
-    );
-  }
+
 
   void onCalendarTapped(CalendarTapDetails calendarTapDetails) {
     if (calendarTapDetails.targetElement != CalendarElement.calendarCell &&
@@ -196,19 +192,19 @@ class Appointment {
   int type;
 }
 
-_AppointmentDataSource _getCalendarDataSource() {
-  List<Appointment> appointments = <Appointment>[];
-    Future<void> fetchAppointments() async {
+_AppointmentDataSource _getCalendarDataSource()  {
+  List<Appointment> _appointments = <Appointment>[];
 
-    var data= await FirebaseFirestore.instance.collection("appointment ").get();
-    for(int i=0;i<data.docs.length;i++){
-      DateTime _date = DateFormat("dd/MM/yyyy").parse(data.docs[i].data()['date'].toString());
+  FirebaseFirestore.instance.collection("appointment ").get().then((QuerySnapshot data) {
+    for (var doc in data.docs) {
+      DateTime _date = DateFormat("dd/MM/yyyy").parse(doc['date'].toString());
 
       DateTime _startTimeFormat = DateFormat("hh:mm").parse(
-          data.docs[i].data()['startTime'].toString());
+          doc['startTime'].toString());
       TimeOfDay _start = TimeOfDay.fromDateTime(_startTimeFormat);
 
-      DateTime _endTimeFormat = DateFormat("h:mm").parse(data.docs[i].data()['endTime'].toString());
+      DateTime _endTimeFormat = DateFormat("h:mm").parse(
+          doc['endTime'].toString());
       TimeOfDay _end = TimeOfDay.fromDateTime(_endTimeFormat);
 
       DateTime _startDateTime = DateTime(
@@ -228,25 +224,24 @@ _AppointmentDataSource _getCalendarDataSource() {
           0);
 
       Appointment a = Appointment(
-          id: data.docs[i].data()['appointmentID'].toString(),
-          docName: data.docs[i].data()['DrName'].toString(),
+          id: doc['appointmentID'].toString(),
+          docName: doc['DrName'].toString(),
           from: _startDateTime,
           to: _endDateTime,
           start: TimeOfDay.fromDateTime(_startDateTime),
           end: TimeOfDay.fromDateTime(_endDateTime),
-          background:  data.docs[i].data()['typeID']==0 ? Color(0xFFda6773) : Color(0xFF5CC486 ),
-          type: data.docs[i].data()['typeID']
+          background: doc['typeID'] == 0 ? Color(0xFFda6773) : Color(
+              0xFF5CC486),
+          type: doc['typeID']
       );
 
       int t = a.type;
-      a.title = t==0 ? "Check-Up By "+a.docName : "Grooming";
-      appointments.add(a);
+      a.title = t == 0 ? "Check-Up By " + a.docName : "Grooming";
+      _appointments.add(a);
     }
-    _events.notifyListeners(
-        CalendarDataSourceAction.add, appointments);
-  }
-  fetchAppointments() ;
-  return _AppointmentDataSource(appointments);
+    _events.notifyListeners(CalendarDataSourceAction.add, _appointments);
+  });
+  return _AppointmentDataSource(_appointments);
 }
 
 
@@ -297,106 +292,3 @@ class _AppointmentDataSource extends CalendarDataSource {
 
 
 }
-
-
-/*
-class Home extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Container(
-          child: SfCalendar(
-            firstDayOfWeek: 7,
-            backgroundColor: Color(0xFFF6E9E9),
-            todayHighlightColor: Color(0xFFFF6B81),
-            showNavigationArrow: true,
-            view: CalendarView.day,
-            dataSource: _getCalendarDataSource(),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-  _AppointmentDataSource _getCalendarDataSource() {
-    List<Appointment> appointments = <Appointment>[];
-    appointments.add(Appointment(
-      from: DateTime.now(),
-      to: DateTime.now().add(Duration(minutes: 30)),
-      docName: 'Meeting',
-      description: 'Meeting',
-      background: Colors.blue,
-      recurrenceRule: 'FREQ=WEEKLY;BYDAY=MO,WE,FR;INTERVAL=1;COUNT=10'
-    ));
-
-    return _AppointmentDataSource(appointments);
-  }
-
-class Appointment {
-  Appointment(
-      {this.docName = '',
-        this.description = '',
-        required this.from,
-        required this.to,
-        required this.background,
-        this.recurrenceRule});
-
-  String docName;
-  String description;
-  DateTime from;
-  DateTime to;
-  Color background;
-  String? recurrenceRule;
-}
-
-  class _AppointmentDataSource extends CalendarDataSource {
-  _AppointmentDataSource(List<Appointment> source){
-  appointments = source;
-  }
-  @override
-  DateTime getStartTime(int index) {
-    return appointments![index].from;
-  }
-
-  @override
-  DateTime getEndTime(int index) {
-    return appointments![index].to;
-  }
-
-  @override
-  Color getColor(int index) {
-    return appointments![index].background;
-  }
-
-  String getDoctor(int index) {
-    return appointments![index].docName;
-  }
-
-  String getDescription(int index) {
-    return appointments![index].description;
-  }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-appBar: AppBar(
-backgroundColor:Color(0xFFF5CDCD) ,
-  elevation: 0.0,
-),
-body:
-SfCalendar(
-    view: CalendarView.month,
-    firstDayOfWeek: 7,
-      backgroundColor: Color(0xFFF6E9E9),
-      todayHighlightColor: Color(0xFFFF6B81),
-      showNavigationArrow: true,
-    ),
-    );
-  }
-}
-
-   */

@@ -15,6 +15,7 @@ class editProfile extends StatelessWidget{
   final lnameController = TextEditingController();
   final mobileController = TextEditingController();
   final emailController = TextEditingController();
+  var primaryColor = const Color(0xff313540);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,7 @@ class editProfile extends StatelessWidget{
 
           Container(
 
-            padding: EdgeInsets.only(top: 180,left:20,right: 20),
+            padding: EdgeInsets.only(top: 220,left:20,right: 20),
             width: 500,height: 900,
             child:  ListView.builder(scrollDirection: Axis.vertical,
             itemCount: 1,
@@ -74,7 +75,7 @@ class editProfile extends StatelessWidget{
               padding: EdgeInsets.only(bottom: 440),
             child: Center(
               child: Text(
-                'Edit my information',
+                'Edit My Information',
                 style: TextStyle(
                   fontSize: 30, color: Colors.blueGrey,
                   fontStyle: FontStyle.italic,),
@@ -170,7 +171,7 @@ class editProfile extends StatelessWidget{
 
                     ),
                   ),  Container(
-                    margin: EdgeInsets.only(left: 15,right: 15),
+                    margin: EdgeInsets.only(left: 15,right: 15,bottom: 20),
                     child: TextFormField( controller: emailController,
                       decoration: InputDecoration(
                         hintStyle: TextStyle(fontSize: 17),
@@ -179,14 +180,18 @@ class editProfile extends StatelessWidget{
 
 
                   //Edit button
-                  Container(
-                    margin: EdgeInsets.only(top: 25),
-                    width: 300, height: 50,
-                    child: ElevatedButton(
-    child:  Text("Edit", style: new TextStyle(  color: Colors.white),
-    textAlign: TextAlign.center,),
-    style: buttons,
-    onPressed:( ){
+
+                      MaterialButton(
+
+                        minWidth: 200,
+                        height: 60,
+                        padding: const EdgeInsets.all(20),
+                        color: primaryColor,
+                        textColor: Colors.white,
+                        child: const Text('Edit my information'),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        onPressed: (){
       int change=0;
       if( !fnameController.text.isEmpty){
       document.reference.update({'fname': fnameController.text});
@@ -204,62 +209,42 @@ class editProfile extends StatelessWidget{
         });
         change++;}
 
-if(  change>0)
-    showDialog(
-    context: context,
-    builder: (context) {
-                      return AlertDialog(
-                        // Retrieve the text the that user has entered by using the
-                        // TextEditingController.
-                        content: Text('your information is updated'),
-                          actions: <Widget>[
-                      FlatButton(
-                      child: Text("Okay"),
-      onPressed: () {
-      Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile())) .catchError((error) => print('update failed: $error'));;
+if(  change>0) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text("your information is updated successfully "),
+    backgroundColor:Colors.green,),);
 
-      },
-
-      ),  ],
-                      );},);
-                      else showDialog(
-    context: context,
-    builder: (context) {
-    return AlertDialog(
-    // Retrieve the text the that user has entered by using the
-    // TextEditingController.
-    content: Text('there is no change'),
-    actions: <Widget>[
-    FlatButton(
-    child: Text("Okay"),
-    onPressed: () {
-    Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile())) .catchError((error) => print('update failed: $error'));;
-
-    },
-
-    ),  ],
+    Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile())) .catchError((error) => print('Delete failed: $error'));;
+    }
+else  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  content: Text("Please fill any of the fields"),
+  backgroundColor: Theme.of(context).errorColor,
+)
     );
-                    },);},
+                    },),
 
-
-                  ),
-                ),
+            Container(
+              margin: EdgeInsets.only(left: 15,right: 15,bottom: 20),
+            ),
 
                   //Edit button
-                  Container(
-                    margin: EdgeInsets.only(top: 15),
-                    width: 300, height: 50,
-                    child: ElevatedButton(
-                      child:  Text("Cancel", style: new TextStyle(  color: Colors.white),
-                        textAlign: TextAlign.center,),
-                      style: buttons,
+            MaterialButton(
+
+              minWidth: 200,
+              height: 60,
+              padding: const EdgeInsets.all(20),
+              color: primaryColor,
+              textColor: Colors.white,
+              child: const Text('Cancel'),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
                       onPressed:( ){
 
 
     Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile())) .catchError((error) => print('update failed: $error'));;
 
     },
-                                ),),
+                                ),
                             ],
                          ),
 

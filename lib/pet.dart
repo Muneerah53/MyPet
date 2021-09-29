@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'models/global.dart';
 import '/main.dart';
 
-
+final  primaryColor = const Color(0xff313540);
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,8 +49,11 @@ class pet extends StatelessWidget {
   final String petID;
   pet(this.petID);
 
+
   @override
   Widget build(BuildContext context) {
+    var primaryColor = const Color(0xff313540);
+
     return Scaffold(
 
       resizeToAvoidBottomInset: true,
@@ -117,7 +120,7 @@ class pet extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 350),
             child: Center(
               child: Text(
-                'pet information',
+                'Pet Information',
                 style: TextStyle(
                   fontSize: 30, color: Colors.blueGrey,
                   fontStyle: FontStyle.italic,),
@@ -134,7 +137,8 @@ class pet extends StatelessWidget {
 
 
   Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
-    if (document['petID'] == petID)
+
+    if (document['petId'] == petID)
       return Card(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0)),
@@ -164,31 +168,51 @@ class pet extends StatelessWidget {
                       title: Text(
                           "name:  " + document['name'] + "\nspecies:  " +
                               document['species'] + "\ngender:  " +
-                              document['gender'] + "\nage:  " +
-                              document['age'] + "\ndiseases:  " +
-                              document['disease'], style: petCardTitleStyle),
+                              document['gender'] + "\nbirth date:  " +
+                              document['birthDate'] , style: petCardTitleStyle),
 
                     ),),
-                  Container(
-                    margin: EdgeInsets.only( top:60),
-                    width: 330, height: 60,
-                    child: ElevatedButton(onPressed: () => showAlert(context,"Delete my pet",document),
-                      child: Text("Edit", style: new TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,),
-                      style: buttons,),
-                  ),
 
                   Container(
-                    margin: EdgeInsets.only( top:20),
-                    width: 330, height: 60,
-                    child: ElevatedButton(onPressed: () => showAlert(context,"Delete my pet",document),
-                      child: Text("Delete", style: new TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,),
-                      style: buttons,
-                    ),
-
+                    margin: EdgeInsets.only(left: 15,right: 15,bottom: 60),
                   ),
+
+
                   //Edit button
+                    MaterialButton(
+
+                      minWidth: 200,
+                      height: 60,
+                      padding: const EdgeInsets.all(20),
+                      color: primaryColor,
+                      textColor: Colors.white,
+                      child: const Text('Edit'),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      onPressed: () => showAlert(context,"Delete my pet",document)
+                      ,
+
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 15,right: 15,bottom: 20),
+                  ),
+
+                  //delete button
+            MaterialButton(
+
+              minWidth: 200,
+              height: 60,
+              padding: const EdgeInsets.all(20),
+              color: primaryColor,
+              textColor: Colors.white,
+              child: const Text('Delete'),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              onPressed: () => showAlert(context,"Delete my pet",document),
+
+
+                  ),
+
 
 
 
@@ -199,7 +223,7 @@ class pet extends StatelessWidget {
 
   Widget _buildPicCard(BuildContext context, DocumentSnapshot document) {
     String img = "";
-    if (document['petID'] == petID) {
+    if (document['petId'] == petID) {
       if (document['species'] == "Dog")
         img = "images/dog.png";
       else
@@ -233,6 +257,9 @@ class pet extends StatelessWidget {
               child: Text("YES"),
               onPressed: () {
                 document.reference.delete().then((_) => print('Deleted'));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Pet deleted successfully"),
+                backgroundColor:Colors.green,),);
                 Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile())) .catchError((error) => print('Delete failed: $error'));;
                 //Put your code here which you want to execute on Yes button click.
 
@@ -243,8 +270,12 @@ class pet extends StatelessWidget {
             FlatButton(
               child: Text("CANCEL"),
               onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Pet has not been deleted "),
+                  backgroundColor:Colors.orange,),);
                 //Put your code here which you want to execute on Cancel button click.
-                Navigator.of(context).pop();
+                Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile())) .catchError((error) => print('Delete failed: $error'));;
+
               },
             ),
           ],

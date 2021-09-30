@@ -9,15 +9,27 @@ import 'package:flutter_app3/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CheckUP extends StatefulWidget {
-  const CheckUP({Key? key}) : super(key: key);
+  CheckUP({this.date, this.pet, this.time});
+  final String? date;
+  final String? pet;
+  final String? time;
 
-  @override
   _CheckUPState createState() => _CheckUPState();
 }
 
 class _CheckUPState extends State<CheckUP> {
   var selectedCurrency, selectedType;
   final GlobalKey<FormState> _formKeyValue = new GlobalKey<FormState>();
+  int? t = 1;
+  String? d;
+  String? p;
+  String? ti;
+  void initState() {
+    super.initState();
+    d = widget.date;
+    p = widget.pet;
+    ti = widget.time;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +82,10 @@ class _CheckUPState extends State<CheckUP> {
                             currencyItems.add(
                               DropdownMenuItem(
                                   child: Text(
-                                    snap.get("Name"),
+                                    snap.get("DrName"),
                                     style: TextStyle(color: Colors.black38),
                                   ),
-                                  value: ("${snap.get("Name")}")),
+                                  value: ("${snap.get("DrName")}")),
                             );
                           }
                         }
@@ -158,10 +170,16 @@ class _CheckUPState extends State<CheckUP> {
                   if (selectedCurrency == null) {
                     showAlertDialog(context);
                   } else {
+                    t = 0;
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => OrderList()),
+                          builder: (BuildContext context) => OrderList(
+                                type: t,
+                                date: d,
+                                pet: p,
+                                time: ti,
+                              )),
                     );
                   }
                 },

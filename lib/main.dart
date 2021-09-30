@@ -2,26 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app3/CheckUP.dart';
-import 'package:flutter_app3/Grooming.dart';
+import 'package:flutter_app3/custom_checkbox.dart';
+import 'package:flutter_app3/select.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  //await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // const MyApp({Key? key}) : super(key: key);
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  final Future<FirebaseApp> fbApp = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
         home: FutureBuilder(
-            future: _initialization,
+            future: fbApp,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 print('you have an error ${snapshot.error.toString()}');
@@ -42,15 +39,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String? title;
 
   @override
@@ -59,34 +47,42 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  bool type = false; // default false: 0 -> Check-Up
+  int t = 0;
+  setType() {
+    setState(() {
+      type = !type; // to true(1) if grooming
+    });
+  }
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       backgroundColor: const Color(0xFFF4E3E3),
-      body: Center(
+
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+              margin: const EdgeInsets.fromLTRB(40, 80, 330, 0),
+              padding: EdgeInsets.only(left: 10.0),
+              width: 50,
+              height: 50,
+              child: BackButton(
+                color: Colors.white,
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.lightBlueAccent, shape: (BoxShape.circle)),
+            ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 50, 0, 40),
               child: Text(
                 'Appointment',
                 style: TextStyle(
@@ -102,10 +98,11 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 153,
               child: ElevatedButton(
                 onPressed: () {
+                  t = 0;
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => CheckUP()),
+                        builder: (BuildContext context) => select(type: t)),
                   );
                 },
                 child: Text('Check UP',
@@ -126,10 +123,11 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 153,
               child: ElevatedButton(
                   onPressed: () {
+                    t = 1;
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => Grooming()),
+                          builder: (BuildContext context) => select(type: t)),
                     );
                   },
                   child: Text('Grooming',
@@ -147,6 +145,22 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.camera),
+      //       label: 'Camera',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.chat),
+      //       label: 'Chats',
+      //     ),
+      //   ],
+      // )
     );
   }
 }

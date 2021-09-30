@@ -1,38 +1,55 @@
-// ignore: file_names
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_app3/OrderList.dart';
-import 'package:flutter_app3/custom_checkbox.dart';
-import 'package:flutter_app3/main.dart';
+part of event_calendar;
 
-bool? _isChecked = false;
+//bool? _isChecked = false;
 
 class Grooming extends StatefulWidget {
-  const Grooming({Key? key}) : super(key: key);
+  final String? title;
+  final String? date;
+  final String? pet;
+  final String? time;
+
+  const Grooming({this.title, this.date, this.pet, this.time});
   @override
   _GroomingState createState() => _GroomingState();
 }
 
 class _GroomingState extends State<Grooming> {
-  bool _ShowerAndDryingV = false;
+  bool ShowerAndDryingV = false;
+  bool DryCleanV = false;
+  int? t = 0;
   bool? RShV;
   bool? flShV;
   bool? funShV;
-  bool? DryCleanV;
-  bool? ShavingV;
+  bool ShavingV = false;
   bool? Shav0V;
   bool? Shav1V;
   bool? Shav2V;
   bool? Shav3V;
-  bool? HairCutV;
-  bool? EarCleaningV;
-  bool? CutnailsV;
-  bool? NeedsAnesthesiaV;
+  bool HairCutV = false;
+  bool EarCleaningV = false;
+  bool CutnailsV = false;
+  bool NeedsAnesthesiaV = false;
   int _Value = 1;
   int _Value2 = 2;
-  String dropdownValue = 'No Pet';
+  String? d;
+  String? p;
+  String? ti;
+  double? total = 0.0;
 
-  @override
+  bool type = false; // default false: 0 -> Check-Up
+  setType() {
+    setState(() {
+      type = !type; // to true(1) if grooming
+    });
+  }
+
+  void initState() {
+    super.initState();
+    d = widget.date;
+    p = widget.pet;
+    ti = widget.time;
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF4E3E3),
@@ -87,9 +104,38 @@ class _GroomingState extends State<Grooming> {
                     width: 130.0,
                   ),
                   Container(
-                      child: CustomCheckbox(
-                    isChecked: false,
-                  )),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          ShowerAndDryingV = !ShowerAndDryingV;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        decoration: BoxDecoration(
+                            border: ShowerAndDryingV
+                                ? null
+                                : Border.all(
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
+                            color: ShowerAndDryingV
+                                ? Colors.pinkAccent
+                                : Color(0XFFF4F4F4),
+                            borderRadius: BorderRadius.circular(5.0)),
+                        width: 25,
+                        height: 25,
+                        child: ShowerAndDryingV
+                            ? Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
+                            : null,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -192,9 +238,38 @@ class _GroomingState extends State<Grooming> {
                     width: 160.0,
                   ),
                   Container(
-                      child: CustomCheckbox(
-                    isChecked: false,
-                  )),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          DryCleanV = !DryCleanV;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        decoration: BoxDecoration(
+                            border: DryCleanV
+                                ? null
+                                : Border.all(
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
+                            color: DryCleanV
+                                ? Colors.pinkAccent
+                                : Color(0XFFF4F4F4),
+                            borderRadius: BorderRadius.circular(5.0)),
+                        width: 25,
+                        height: 25,
+                        child: DryCleanV
+                            ? Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
+                            : null,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -213,9 +288,38 @@ class _GroomingState extends State<Grooming> {
                     width: 218.0,
                   ),
                   Container(
-                      child: CustomCheckbox(
-                    isChecked: false,
-                  )),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          ShavingV = !ShavingV;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        decoration: BoxDecoration(
+                            border: ShavingV
+                                ? null
+                                : Border.all(
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
+                            color: ShavingV
+                                ? Colors.pinkAccent
+                                : Color(0XFFF4F4F4),
+                            borderRadius: BorderRadius.circular(5.0)),
+                        width: 25,
+                        height: 25,
+                        child: ShavingV
+                            ? Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
+                            : null,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -334,9 +438,38 @@ class _GroomingState extends State<Grooming> {
                     width: 210.0,
                   ),
                   Container(
-                      child: CustomCheckbox(
-                    isChecked: false,
-                  )),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          HairCutV = !HairCutV;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        decoration: BoxDecoration(
+                            border: HairCutV
+                                ? null
+                                : Border.all(
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
+                            color: HairCutV
+                                ? Colors.pinkAccent
+                                : Color(0XFFF4F4F4),
+                            borderRadius: BorderRadius.circular(5.0)),
+                        width: 25,
+                        height: 25,
+                        child: HairCutV
+                            ? Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
+                            : null,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -355,9 +488,38 @@ class _GroomingState extends State<Grooming> {
                     width: 167.0,
                   ),
                   Container(
-                      child: CustomCheckbox(
-                    isChecked: false,
-                  )),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          EarCleaningV = !EarCleaningV;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        decoration: BoxDecoration(
+                            border: EarCleaningV
+                                ? null
+                                : Border.all(
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
+                            color: EarCleaningV
+                                ? Colors.pinkAccent
+                                : Color(0XFFF4F4F4),
+                            borderRadius: BorderRadius.circular(5.0)),
+                        width: 25,
+                        height: 25,
+                        child: EarCleaningV
+                            ? Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
+                            : null,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -376,9 +538,38 @@ class _GroomingState extends State<Grooming> {
                     width: 202.0,
                   ),
                   Container(
-                      child: CustomCheckbox(
-                    isChecked: false,
-                  )),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          CutnailsV = !CutnailsV;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        decoration: BoxDecoration(
+                            border: CutnailsV
+                                ? null
+                                : Border.all(
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
+                            color: CutnailsV
+                                ? Colors.pinkAccent
+                                : Color(0XFFF4F4F4),
+                            borderRadius: BorderRadius.circular(5.0)),
+                        width: 25,
+                        height: 25,
+                        child: CutnailsV
+                            ? Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
+                            : null,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -397,9 +588,38 @@ class _GroomingState extends State<Grooming> {
                     width: 118.0,
                   ),
                   Container(
-                      child: CustomCheckbox(
-                    isChecked: false,
-                  )),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          NeedsAnesthesiaV = !NeedsAnesthesiaV;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        decoration: BoxDecoration(
+                            border: NeedsAnesthesiaV
+                                ? null
+                                : Border.all(
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
+                            color: NeedsAnesthesiaV
+                                ? Colors.pinkAccent
+                                : Color(0XFFF4F4F4),
+                            borderRadius: BorderRadius.circular(5.0)),
+                        width: 25,
+                        height: 25,
+                        child: NeedsAnesthesiaV
+                            ? Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
+                            : null,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -409,11 +629,28 @@ class _GroomingState extends State<Grooming> {
               height: 73,
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => OrderList()),
-                    );
+                    if (!(ShowerAndDryingV ||
+                        DryCleanV ||
+                        ShavingV ||
+                        HairCutV ||
+                        EarCleaningV ||
+                        CutnailsV ||
+                        NeedsAnesthesiaV)) {
+                      showAlertDialog(context);
+                    } else {
+                      t = 1;
+                      total = TotalPrice();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => OrderList(
+                                type: t,
+                                date: d,
+                                pet: p,
+                                time: ti,
+                                total: total)),
+                      );
+                    }
                   },
                   child: Text('Next',
                       style:
@@ -425,24 +662,24 @@ class _GroomingState extends State<Grooming> {
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
             ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 50, 0, 80),
-              width: 193,
-              height: 73,
-              child: ElevatedButton(
-                  onPressed: () {
-                    print(_ShowerAndDryingV);
-                  },
-                  child: Text('print',
-                      style:
-                          TextStyle(fontStyle: FontStyle.italic, fontSize: 25)),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Color(0XFF2F3542)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0))),
-                  )),
-            ),
+            // Container(
+            //   margin: const EdgeInsets.fromLTRB(0, 50, 0, 80),
+            //   width: 193,
+            //   height: 73,
+            //   child: ElevatedButton(
+            //       onPressed: () {
+            //         print(TotalPrice());
+            //       },
+            //       child: Text('print',
+            //           style:
+            //               TextStyle(fontStyle: FontStyle.italic, fontSize: 25)),
+            //       style: ButtonStyle(
+            //         backgroundColor:
+            //             MaterialStateProperty.all(Color(0XFF2F3542)),
+            //         shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(20.0))),
+            //       )),
+            // ),
           ],
         ),
       ),
@@ -456,6 +693,54 @@ class _GroomingState extends State<Grooming> {
   }
 
   double TotalPrice() {
-    return 0.0;
+    double t = 0.0;
+    if (ShowerAndDryingV) {
+      t = t + 30.0;
+    }
+    if (DryCleanV) {
+      t = t + 20.0;
+    }
+    if (ShavingV) {
+      t = t + 30.0;
+    }
+    if (HairCutV) {
+      t = t + 30.0;
+    }
+    if (EarCleaningV) {
+      t = t + 2.0;
+    }
+    if (CutnailsV) {
+      t = t + 5.0;
+    }
+    if (NeedsAnesthesiaV) {
+      t = t + 30.0;
+    }
+    return t;
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Missing Input"),
+      content: Text("You Must Select at Least One Servace "),
+      actions: [
+        okButton,
+      ],
+    );
+// show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

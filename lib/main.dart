@@ -6,8 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'models/global.dart';
 import 'pet.dart';
+import 'addPet.dart';
 
-
+final ownerID ="363xkSdgEPZ8nkyMVMuXmmtt4YG2";
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
   }
 }
 class MyPets extends StatelessWidget {
+  var primaryColor = const Color(0xff313540);
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +94,7 @@ class MyPets extends StatelessWidget {
     width: 365,height: 200,
 
     //i dont know why this cammand does not work
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.pinkAccent,),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: primaryColor,),
     child:
     Column(
     children: <Widget>[
@@ -103,7 +105,9 @@ class MyPets extends StatelessWidget {
     margin: EdgeInsets.only(top: 20),
     child: CircleAvatar(
     radius: 50,
-    backgroundImage:new AssetImage('images/Add.png')),
+    backgroundImage:new AssetImage('images/Add.png'),
+
+    ),
 
     ),
 
@@ -116,7 +120,10 @@ class MyPets extends StatelessWidget {
     title: Text('Add new pet', style: TextStyle(
       fontSize: 25, color: Colors.white,
       fontStyle: FontStyle.italic,), textAlign: TextAlign.center),
-
+onTap:() {
+  Navigator.push(context, MaterialPageRoute(builder: (_) => addPet(ownerID)))
+      .catchError((error) => print('Delete failed: $error'));
+}
     ),),],),),
 
 
@@ -148,7 +155,7 @@ class MyPets extends StatelessWidget {
 
     //profile pic based on pet's species
     String img ="";
-    if (document['userID'].toString() == 'GApYHCG0gGYHp4D097maEgTnWQ92'){
+    if (document['ownerId'].toString() == '363xkSdgEPZ8nkyMVMuXmmtt4YG2'){
     if (document['species']=="Dog")
       img="images/dog.png";
     else
@@ -197,7 +204,7 @@ class MyPets extends StatelessWidget {
      onTap: (){
 
      Navigator.push(context,MaterialPageRoute(builder:(context) {
-     return pet(document['petID']);
+     return pet(document['petId']);
 
      } ));}),
                  ),],

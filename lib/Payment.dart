@@ -41,7 +41,7 @@ class _PaymentState extends State<Payment> {
               padding: EdgeInsets.only(top: 280.0),
               child: Center(
                 child: Text(
-                  'Next Sprint :)',
+                  ':)',
                   style: TextStyle(
                       color: Color(0XFF52648B),
                       fontSize: 34,

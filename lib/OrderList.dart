@@ -275,7 +275,12 @@ class _OrderListState extends State<OrderList> {
   }
 
   void saveData() {
-    FirebaseFirestore.instance.collection('orderService').add(
-        {'service': title, 'pet': p, 'time': tt, 'date': d, 'totalPrice': to});
+    FirebaseFirestore.instance.collection('orderService').add({
+      'service': title,
+      'pet': p,
+      'time': tt,
+      'date': d,
+      'totalPrice': totalss(t.toString())
+    });
   }
 }

@@ -4,37 +4,37 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app3/CheckUP.dart';
 import 'package:flutter_app3/custom_checkbox.dart';
 import 'package:flutter_app3/select.dart';
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // const MyApp({Key? key}) : super(key: key);
-  final Future<FirebaseApp> fbApp = Firebase.initializeApp();
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        home: FutureBuilder(
-            future: fbApp,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                print('you have an error ${snapshot.error.toString()}');
-                return Text("Somthing wronge");
-              } else if (snapshot.hasData) {
-                return const MyHomePage(title: 'Flutter Demo Home Page');
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            })
-        //const MyHomePage(title: 'Flutter Demo Home Page'),
-        );
-  }
-}
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   //await Firebase.initializeApp();
+//   runApp(MyApp());
+// }
+//
+// class MyApp extends StatelessWidget {
+//   // const MyApp({Key? key}) : super(key: key);
+//   final Future<FirebaseApp> fbApp = Firebase.initializeApp();
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//         home: FutureBuilder(
+//             future: fbApp,
+//             builder: (context, snapshot) {
+//               if (snapshot.hasError) {
+//                 print('you have an error ${snapshot.error.toString()}');
+//                 return Text("Somthing wronge");
+//               } else if (snapshot.hasData) {
+//                 return const MyHomePage(title: 'Flutter Demo Home Page');
+//               } else {
+//                 return Center(
+//                   child: CircularProgressIndicator(),
+//                 );
+//               }
+//             })
+//         //const MyHomePage(title: 'Flutter Demo Home Page'),
+//         );
+//   }
+// }
+//
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, this.title}) : super(key: key);

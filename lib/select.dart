@@ -222,8 +222,11 @@ class selectState extends State<select> {
               padding: const EdgeInsets.all(10),
               height: 250,
               child: StreamBuilder<QuerySnapshot>(
-                  stream:
-                      FirebaseFirestore.instance.collection("pets").snapshots(),
+                  stream: FirebaseFirestore.instance
+                      .collection("pets")
+                      .where('ownerId',
+                          isEqualTo: "363xkSdgEPZ8nkyMVMuXmmtt4YG2")
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const Text('loading');
                     if (snapshot.data!.docs.isEmpty)

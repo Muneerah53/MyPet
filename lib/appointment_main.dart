@@ -71,16 +71,39 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: const EdgeInsets.fromLTRB(40, 80, 330, 0),
-              padding: EdgeInsets.only(left: 10.0),
-              width: 50,
-              height: 50,
-              child: BackButton(
-                color: Colors.white,
-              ),
-              decoration: BoxDecoration(
-                  color: Colors.lightBlueAccent, shape: (BoxShape.circle)),
-            ),
+                child: Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.fromLTRB(40, 80, 0, 0),
+                  padding: EdgeInsets.only(left: 10.0),
+                  width: 50,
+                  height: 50,
+                  child: BackButton(
+                    color: Colors.white,
+                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.lightBlueAccent, shape: (BoxShape.circle)),
+                ),
+                // Container(
+                //     margin: const EdgeInsets.fromLTRB(250, 80, 0, 0),
+                //     child: PopupMenuButton(
+                //       itemBuilder: (context) => [
+                //         PopupMenuItem(
+                //           child: Text("home"),
+                //           value: 1,
+                //         ),
+                //         PopupMenuItem(
+                //           child: Text("profile"),
+                //           value: 2,
+                //         ),
+                //         PopupMenuItem(
+                //           child: Text("logOut"),
+                //           value: 1,
+                //         ),
+                //       ],
+                //     )),
+              ],
+            )),
             Container(
               margin: const EdgeInsets.fromLTRB(0, 50, 0, 40),
               child: Text(

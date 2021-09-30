@@ -155,12 +155,9 @@ class Profile extends StatelessWidget {
 
                 ),),]),
 
-
-
-
               //pest cards
               Container(
-                margin: EdgeInsets.only(top: 550, bottom: 50,left:25),
+                margin: EdgeInsets.only(top: 550, bottom: 50),
                 height: 300,
                 child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance.collection('pets').snapshots(),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'CheckUP.dart';
+import 'check_up.dart';
 import 'custom_checkbox.dart';
-import 'select.dart';
+import 'select_appt.dart';
 // Future<void> main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
 //   //await Firebase.initializeApp();

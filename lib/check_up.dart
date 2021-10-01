@@ -67,7 +67,7 @@ class _CheckUPState extends State<CheckUP> {
                 children: [
                   StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
-                          .collection("Dr")
+                          .collection("Worker").where("job", isEqualTo: "Doctor")
                           .snapshots(),
                       builder: (context, snapshot) {
                         List<DropdownMenuItem> currencyItems = [];
@@ -82,10 +82,10 @@ class _CheckUPState extends State<CheckUP> {
                             currencyItems.add(
                               DropdownMenuItem(
                                   child: Text(
-                                    snap.get("DrName"),
+                                    snap.get("name"),
                                     style: TextStyle(color: Colors.black38),
                                   ),
-                                  value: ("${snap.get("DrName")}")),
+                                  value: ("${snap.get("name")}")),
                             );
                           }
                         }

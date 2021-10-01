@@ -14,6 +14,7 @@ class Grooming extends StatefulWidget {
 }
 
 class _GroomingState extends State<Grooming> {
+  var selectedCurrency;
   bool ShowerAndDryingV = false;
   bool DryCleanV = false;
   int? t = 0;
@@ -79,10 +80,77 @@ class _GroomingState extends State<Grooming> {
                     fontWeight: FontWeight.bold),
               ),
             ),
+
+        Container(
+          margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+            child:
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("Worker").where("job", isEqualTo: "Groomer")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  List<DropdownMenuItem> currencyItems = [];
+
+                  if (!snapshot.hasData)
+                    const Text("Loading.....");
+                  else {
+                    for (int i = 0;
+                    i < (snapshot.data!).docs.length;
+                    i++) {
+                      DocumentSnapshot snap = (snapshot.data!).docs[i];
+                      currencyItems.add(
+                        DropdownMenuItem(
+                            child: Text(
+                              snap.get("name"),
+                              style: TextStyle(color: Colors.black38),
+                            ),
+                            value: ("${snap.get("name")}")),
+                      );
+                    }
+                  }
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        padding: new EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 90.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: new DropdownButtonHideUnderline(
+                          child: new DropdownButton<dynamic>(
+                            icon: Icon(Icons.keyboard_arrow_down),
+                            items: currencyItems,
+                            hint: new Text("Select The Groomer ..."),
+                            onChanged: (currencyValue) {
+                              setState(() {
+                                selectedCurrency = currencyValue;
+                              });
+                            },
+                            value: selectedCurrency,
+                            style: TextStyle(
+                              color: Colors.black38,
+                              fontSize: 16,
+                              height: 1.0,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            focusColor: Colors.white,
+                            dropdownColor: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+        ),
+
+
             Container(
               margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
               child: Text(
-                'Check any of the servaces you want to do it on your pet ...',
+                'Check any of the services you want to do it on your pet ...',
                 style: TextStyle(
                     color: const Color(0xFF52648B),
                     fontSize: 14,

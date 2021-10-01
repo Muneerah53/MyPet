@@ -1,4 +1,4 @@
-import 'CheckUP.dart';
+import 'check_up.dart';
 import 'OrderList.dart';
 import 'custom_checkbox.dart';
 import 'package:intl/intl.dart';
@@ -319,7 +319,7 @@ class selectState extends State<select> {
       int index, BuildContext context, DocumentSnapshot document) {
     String? petName = document['name'];
     String img =
-        document['species'] == "Dog" ? "images/dog.png" : "images/cat.jpeg";
+        document['species'] == "Dog" ? "images/dog.png" : "images/cat.png";
     return OutlinedButton(
         style: OutlinedButton.styleFrom(
             padding: EdgeInsets.all(0),

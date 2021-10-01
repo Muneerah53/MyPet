@@ -9,7 +9,11 @@ import 'petProfile.dart';
 import 'addPet.dart';
 import 'petOwner_main.dart';
 
-final ownerID ="363xkSdgEPZ8nkyMVMuXmmtt4YG2";
+//final ownerID ="363xkSdgEPZ8nkyMVMuXmmtt4YG2";
+
+User? user = FirebaseAuth.instance.currentUser;
+String owner =
+    FirebaseFirestore.instance.collection('pet owners').doc(user?.uid).id;
 
 class Mypets extends StatelessWidget {
 
@@ -121,7 +125,7 @@ class MyPets extends StatelessWidget {
                         fontSize: 25, color: Colors.white,
                         fontStyle: FontStyle.italic,), textAlign: TextAlign.center),
                       onTap:() {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => addPet(ownerID)))
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => addPet(owner)))
                             .catchError((error) => print('Delete failed: $error'));
                       }
                   ),),],),),
@@ -152,8 +156,8 @@ class MyPets extends StatelessWidget {
 
 
   Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ) {
-    User? user = FirebaseAuth.instance.currentUser;
-    DocumentReference owner = FirebaseFirestore.instance.collection('pet owners').doc(user?.uid);
+
+  //  DocumentReference owner = FirebaseFirestore.instance.collection('pet owners').doc(owner);
     //profile pic based on pet's species
     String img ="";
     if (document['ownerId'].toString() == owner.toString()){

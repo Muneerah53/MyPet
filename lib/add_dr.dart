@@ -17,9 +17,14 @@ class docListState extends State<docList> {
   final _controller = TextEditingController();
   //bool _value = false;
   FirebaseFirestore firestoreInstance= FirebaseFirestore.instance;
-  String title = "Doctors List";
-String _doc ='';
+  String title = "Employees List";
+String _name ='';
+var _work = ['Doctor', 'Groomer'];
+var selectedWork;
+var _types = ['Cats', 'Dogs','Both'];
+var selectedType;
 late String _selectedID;
+late int _type;
 
 
   @override
@@ -33,7 +38,8 @@ late String _selectedID;
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Color(0xFFF4E3E3),
+        resizeToAvoidBottomInset:false,
+        backgroundColor: Color(0xFFF4E3E3),
       appBar: AppBar(
         elevation:0,
         title: Text('$title',textAlign: TextAlign.center,
@@ -53,7 +59,7 @@ late String _selectedID;
                       DocumentReference doc = await firestoreInstance.collection(
                           "Dr").add(
                           {
-                            "DrName": _doc,
+                            "DrName": _name,
                           });
                       String _id = doc.id;
                       await firestoreInstance.collection("Dr").doc(_id).update(
@@ -77,7 +83,7 @@ late String _selectedID;
                   child:Padding(
                       padding: EdgeInsets.all(8.0),
                       child:
-                      Text("+ Add Doctor", style:
+                      Text("+ Add Employee", style:
                       TextStyle(fontSize: 18))),
                 style: ButtonStyle(
                     backgroundColor:
@@ -97,12 +103,12 @@ late String _selectedID;
 
 
           StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('Dr').snapshots(),
+              stream: FirebaseFirestore.instance.collection('Worker').snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Text('loading');
                 if (snapshot.data!.docs.isEmpty) return Padding(
                     padding: EdgeInsets.all(20),
-                    child: const Text('No Added Doctors', style: TextStyle(
+                    child: const Text('No Added Workers', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         color: Colors.grey), textAlign: TextAlign.center));
@@ -116,7 +122,7 @@ late String _selectedID;
                               padding: EdgeInsets.all(0),
                               side: BorderSide(color: Colors.transparent)),
                           child: Card(
-                              color: Colors.white,
+                              color: (snapshot.data!).docs[index]['job']=="Doctor" ? Color(0xFFC6D8FF) : Color(0xFFFFC6F4),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20.0)),
                               child: Container(
@@ -131,7 +137,7 @@ late String _selectedID;
                                   // margin: EdgeInsets.only(top: 10),
                                   child: ListTile(
                                     title: Text(
-                                        (snapshot.data!).docs[index]['DrName']
+                                        (snapshot.data!).docs[index]['name']
                                         //,style: statusStyles[document['species']]
                                         , style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -142,8 +148,15 @@ late String _selectedID;
                               )
                           ) // changeTimeSelected(index),
                           , onPressed: () {
-                            _doc =  (snapshot.data!).docs[index]['DrName'];
-                            _selectedID = (snapshot.data!).docs[index]['DrID'];
+                            String speciality;
+                            _name =  (snapshot.data!).docs[index]['name'];
+                            _selectedID = (snapshot.data!).docs[index]['id'];
+                            selectedWork =  (snapshot.data!).docs[index]['job'];
+                            if((snapshot.data!).docs[index]['speciality']=="Cats And Dogs")
+                              speciality = "Both";
+                            else speciality = (snapshot.data!).docs[index]['speciality'];
+                            selectedType = speciality;
+
                         dialog();
                       }
 
@@ -168,8 +181,8 @@ late String _selectedID;
   }
 
   dialog(){
-    bool newDr = _doc == '';
-    String _oldName = _doc;
+    bool newDr = _name == '';
+    String _oldName = _name;
     String btnTxt = newDr ? 'Add' : 'Update';
     return  showDialog(
         barrierDismissible: false,
@@ -180,33 +193,42 @@ late String _selectedID;
             elevation: 0,
             content: Stack(
               children: <Widget>[
-    Positioned(
-            top: -15,  right: -15,
-
-                child :IconButton(
-                      iconSize:34,
-                     // padding: const EdgeInsets.fromLTRB(9, 0, 9, 0),
-                      icon: const Icon(
-                        Icons.close,
-                        color: Color(0xFF7F3557),
-                      ),
-                      onPressed: () {
-                        _doc ='';
-                        Navigator.of(context).pop();
-                      }
-                  ),
-                )
-            ,
+ //   Positioned(top: -15,  right: -15, child: null),
                 Form(
                   key: _dformKey,
-                  child: Column(
+                   child: SingleChildScrollView(
+                    child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      SizedBox(height: 20.0,),
+                      Row(
+crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SizedBox(width:20),
+                      Text("Employee Info", style: TextStyle( fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,)),
+                      Align(
+                    alignment: Alignment.topRight,
+                     child: IconButton(
+                          iconSize:34,
+                          alignment: Alignment.topRight,
+                          // padding: const EdgeInsets.fromLTRB(9, 0, 9, 0),
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            _name ='';
+                            selectedType=null;
+                            selectedWork=null;
+                            Navigator.of(context).pop();
+                          }
+                     ) )
+                   ]),
+                     // SizedBox(height: 20.0,),
                       Padding(
                         padding: EdgeInsets.fromLTRB(8,20,8,8),
                         child:  TextFormField(
-                          controller: TextEditingController(text: _doc),
+                          controller: TextEditingController(text: _name),
                           style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
                           ),
@@ -214,8 +236,8 @@ late String _selectedID;
                             icon: Icon(Icons.person,),
                             filled: true,
                             fillColor: Colors.white,
-                            hintText: "Enter Doctor\'s name",
-                            labelText: "Name",
+                            hintText: "Enter Name",
+                            hintStyle: TextStyle(color:Colors.grey),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                                 borderSide: BorderSide(
@@ -233,11 +255,124 @@ late String _selectedID;
                           },
 
                           onChanged: (String value) {
-                            _doc = value;
+                            _name = value;
                           },
 
                         ),
+
                       ),
+
+                     Visibility(
+                       visible: newDr,
+                       child:
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8,20,8,8),
+                        child: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                color: Colors.white),
+                            child:
+                            DropdownButtonFormField<String>(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please choose job';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  icon: Icon(Icons.work),
+                                  enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.white))),
+
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+                              ),
+                              isExpanded: true,
+                              value: selectedWork,
+                              iconSize: 20,
+                              elevation: 8,
+                              onChanged: ( newValue) {
+                                setState(() {
+                                  selectedWork = newValue!;
+                                });
+                              },
+                              hint: Text(
+                                "Choose Job",
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              items: List.generate(
+                                _work.length,
+                                    (index) => DropdownMenuItem(
+
+                                  child: Text(
+                                    _work[index],
+                                    style:  TextStyle(
+                                        color: Colors.blueGrey),
+                                  ),
+                                  value: _work[index],
+
+                                ),
+                              ),
+                            )),
+                      )
+                     ),
+
+
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8,20,8,8),
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                              color: Colors.white),
+                              child:
+                              DropdownButtonFormField<String>(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please choose speciality';
+                                  }
+                                  return null;
+                                },
+                                  decoration: InputDecoration(
+                                      icon: Icon(Icons.pets),
+                                      enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.white))),
+
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+                                ),
+                                isExpanded: true,
+                                value: selectedType,
+                                iconSize: 20,
+                                elevation: 8,
+                                onChanged: ( newValue) {
+                                  setState(() {
+                                    selectedType = newValue!;
+                                  });
+                                },
+                                hint: Text(
+                                  "Choose Speciality",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                                items: List.generate(
+                                  _types.length,
+                                      (index) => DropdownMenuItem(
+
+                                    child: Text(
+                                      _types[index],
+                                      style:  TextStyle(
+                                          color: Colors.blueGrey),
+                                    ),
+                                    value: _types[index],
+
+                                  ),
+                                ),
+                              )),
+                        ),
+
+
+
 
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -258,13 +393,20 @@ late String _selectedID;
                             ),
                           onPressed: () {
                             if (_dformKey.currentState!.validate()) {
+                              String speciality;
+                              if(selectedType.toString()=="Both")
+                                speciality="Cats And Dogs";
+                              else speciality=selectedType.toString();
+
                               if(newDr)
-                                saveDr(_doc);
-                              else updateDr(_doc, _oldName);
+                                saveDr(_name,speciality,selectedWork);
+                              else updateDr(_name, _oldName,speciality);
                               Navigator.of(context).pop();
                             }
                           },
                         )),
+
+
 
                        Visibility(
                             visible: !newDr,
@@ -294,7 +436,8 @@ late String _selectedID;
                         )
 
                     ],
-                  ),
+                    )
+                ),
                 ),
               ],
             ),
@@ -307,12 +450,14 @@ late String _selectedID;
 
 
 
-  Future<void> updateDr(String doc, String oldName) async {
+  Future<void> updateDr(String doc, String oldName, String speciality) async {
 firestoreInstance
-        .collection('Dr')
+        .collection('Worker')
         .doc(_selectedID)
         .update({
-      "DrName": _doc,
+      "name": _name,
+  "speciality": speciality,
+
     });
 
     QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
@@ -323,28 +468,32 @@ firestoreInstance
     List<QueryDocumentSnapshot> docs = snapshot.docs;
     for (var doc in docs) {
       if (doc.data() != null) {
-        doc.reference.update({"DrName": _doc});
+        doc.reference.update({"DrName": _name});
       }
     }
 
-_doc = '';
+_name = '';
   }
 
 
-  Future<void> saveDr(String doc) async {
+  Future<void> saveDr(String doc, var type,var work) async {
+
+
     DocumentReference doc = await firestoreInstance.collection(
-          "Dr").add(
+          "Worker").add(
           {
-            "DrName": _doc,
+            "name": _name,
+            "job": work.toString(),
+            "speciality": type
           });
 
     String _id = doc.id;
-    await firestoreInstance.collection("Dr").doc(_id).update(
-        {"DrID": _id});
+    await firestoreInstance.collection("Worker").doc(_id).update(
+        {"id": _id});
   }
 
   Future<void> deleteDr(String oldName) async {
-    firestoreInstance.collection("Dr").doc(_selectedID).delete();
+    firestoreInstance.collection("Worker").doc(_selectedID).delete();
 
     QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
         .collection('appointment ')
@@ -357,11 +506,11 @@ _doc = '';
         doc.reference.delete();
       }
 
-
-      _selectedID='';
     }
 
 
+    _name=_selectedID='';
+    selectedWork=selectedType=null;
   }
 
 

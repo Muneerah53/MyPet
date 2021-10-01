@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 //import 'package:provider/provider.dart';
 import 'login.dart';
 import 'package:email_validator/email_validator.dart';
+import 'petOwner_main.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,7 +60,6 @@ class Home extends StatelessWidget {
     }
     return double.tryParse(s) != null;
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -319,7 +319,7 @@ class Home extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
-                                  return LoginPage();
+                                  return ownerPage();
                                 }),
                               );
                             } else {

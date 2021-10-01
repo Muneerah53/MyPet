@@ -16,6 +16,7 @@ class appointmentFormState extends State<appointmentForm> {
   String selectedTime = '30 Minutes';
   var _types = ['Check-Up', 'Grooming'];
   String selectedType = 'Check-Up';
+  String selectedWork="Doctor";
  FirebaseFirestore firestoreInstance= FirebaseFirestore.instance;
  String title = _selectedAppointment == null ? "Add" : "Edit";
   var selectedDoctor;
@@ -179,8 +180,11 @@ class appointmentFormState extends State<appointmentForm> {
                         onChanged: (String? newValue) {
                           setState(() {
                             selectedType = newValue!;
-                            if(selectedType=='Check-Up') _type=0;
-                            else _type=1;
+                            if(selectedType=='Check-Up') {
+                              _type=0;
+                            selectedWork="Doctor";
+                            }
+                            else {_type=1;  selectedWork="Groomer";}
                           });
                         },
                         items: List.generate(
@@ -267,14 +271,11 @@ class appointmentFormState extends State<appointmentForm> {
 
 
       // Doc
-
-      Visibility(
-          visible: _type==0,
-          child: Wrap( children: <Widget>[
+Wrap( children: <Widget>[
             Container(
                 child:  Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                    child: Text("Doctor:",
+                    child: Text("Employee:",
                         textAlign: TextAlign.left,
                         style:  TextStyle(
                             color: Color(0xFF52648B),
@@ -287,25 +288,26 @@ class appointmentFormState extends State<appointmentForm> {
         Visibility(
             visible: _selectedAppointment==null,
             child: StreamBuilder<QuerySnapshot>(
-                stream: firestoreInstance.collection("Dr").snapshots(),
+                stream: firestoreInstance.collection("Worker").where("job", isEqualTo: selectedWork.toString()).snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData)
                     const Text("Loading...");
                   if (snapshot.data==null) return Padding(
                       padding: EdgeInsets.all(20),
-                      child: const Text('You haven\'t added Any Doctors!',
+                      child: const Text('You haven\'t added Any Workers!',
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color:Colors.grey), textAlign:TextAlign.center));
                   else {
                     List<DropdownMenuItem<dynamic>> drNames = [];
+                    drNames.clear();
                     for (int i = 0; i < snapshot.data!.docs.length; i++) {
                       DocumentSnapshot snap = snapshot.data!.docs[i];
                       drNames.add(
                         DropdownMenuItem(
                           child: Text(
-                            snap['DrName'],
+                            snap['name'],
                             style: TextStyle(color: Colors.blueGrey),
                           ),
-                          value: snap['DrName'],
+                          value: snap['name'],
                         ),
                       );
                     }
@@ -329,10 +331,10 @@ class appointmentFormState extends State<appointmentForm> {
                             });
                           },
                           value: selectedDoctor,
-                    validator: (value) => value == null ? 'Please Choose Doctor' : null,
+                    validator: (value) => value == null ? 'Please Choose $selectedWork' : null,
                           isExpanded: true,
                           hint: new Text(
-                            "Choose Doctor",
+                            "Choose $selectedWork",
                             style: TextStyle(color: Colors.blueGrey),
                           ),
                         ),
@@ -363,7 +365,7 @@ replacement:  Container(
             ),
           ),
         )  ),
-          ]))
+          ])
 
 
 

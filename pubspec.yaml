@@ -32,6 +32,7 @@ dependencies:
   firebase_core: ^1.6.0
   firebase_auth: ^3.1.1
   cloud_firestore: ^2.5.2
+  firebase_database: ^7.2.2
   syncfusion_flutter_calendar: ^19.2.62
 
   email_validator: '^2.0.1'
@@ -70,6 +71,10 @@ flutter:
      - images/image_1.png
      - images/image_2.png
      - images/image_3.png
+     - images/cat.png
+     - images/owner.png
+     - images/dog.png
+     - images/Add.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

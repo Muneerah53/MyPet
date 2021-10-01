@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mypet/Appointment.dart';
+import 'package:mypet/Mypets.dart';
+import 'OwnerProfile.dart';
 
-class PetPage extends StatefulWidget {
-  const PetPage({Key? key}) : super(key: key);
+class ownerPage extends StatefulWidget {
+  const ownerPage({Key? key}) : super(key: key);
 
   @override
   _PetPageState createState() => _PetPageState();
 }
 
-class _PetPageState extends State<PetPage> {
+class _PetPageState extends State<ownerPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -67,13 +69,13 @@ class _PetPageState extends State<PetPage> {
                               ),
                               elevation: 4.0,
                               child: new InkWell(
-                                /* onTap: () {
+                                 onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => nPage()),
+                                        builder: (context) => Mypets()),
                                   );
-                                },*/
+                                },
                                 child: Container(
                                   decoration: new BoxDecoration(
                                     borderRadius: new BorderRadius.circular(16.0),
@@ -167,13 +169,13 @@ class _PetPageState extends State<PetPage> {
                               ),
                               elevation: 4.0,
                               child: new InkWell(
-                               /* onTap: () {
+                             onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => nPage()),
+                                        builder: (context) => Profile()),
                                   );
-                                },*/
+                                },
                                 child: Container(
                                   decoration: new BoxDecoration(
                                     borderRadius: new BorderRadius.circular(16.0),

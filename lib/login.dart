@@ -3,7 +3,7 @@ import 'register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'admin_main.dart';
-
+import 'petOwner_main.dart';
 void main() {
   runApp(login());
 }
@@ -183,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
         }else{
           final UserCredential authResult = (await FirebaseAuth.instance
               .signInWithEmailAndPassword(email: _email, password: _password));
-         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => userHome()));
+         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ownerPage()));
         }
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

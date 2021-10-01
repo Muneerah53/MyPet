@@ -319,7 +319,7 @@ class Home extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
-                                  return PetPage();
+                                  return ownerPage();
                                 }),
                               );
                             } else {

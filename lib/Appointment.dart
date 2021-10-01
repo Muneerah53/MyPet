@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'petOwner_main.dart';
+import 'appointment_main.dart';
 
-
-void main(){
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(appointmentPage());
 }
 
 class appointmentPage extends StatelessWidget {
-  final Future<FirebaseApp> fbApp =  Firebase.initializeApp();
+  final Future<FirebaseApp> fbApp = Firebase.initializeApp();
   appointmentPage({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -20,7 +20,7 @@ class appointmentPage extends StatelessWidget {
     return MaterialApp(
         title: 'MyPet',
         theme: ThemeData(
-          scaffoldBackgroundColor: Color(0xFFF4E3E3) ,
+          scaffoldBackgroundColor: Color(0xFFF4E3E3),
           // Define the default brightness and colors.
           primaryColor: const Color(0XFFFF6B81),
           primarySwatch: Colors.pink,
@@ -36,17 +36,19 @@ class appointmentPage extends StatelessWidget {
         ),
         home: FutureBuilder(
           future: fbApp,
-          builder:(context,snapshot) {
-            if (snapshot.hasError){
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
               print("An error has occured ${snapshot.error.toString()}");
-              return const Text("Something went wrong");}
-            else if (snapshot.hasData) {
-              return const MyHomePage(title: 'Home',);
+              return const Text("Something went wrong");
+            } else if (snapshot.hasData) {
+              return const MyHomePage(
+                title: 'Home',
+              );
+            } else {
+              return const Center(child: CircularProgressIndicator());
             }
-            else{return const Center(child:CircularProgressIndicator());}
           },
-        )
-    );
+        ));
   }
 }
 
@@ -69,7 +71,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -85,25 +86,36 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 0,
         brightness: Brightness.light,
         backgroundColor: Colors.red[50],
-        leading: IconButton(
+        leading: BackButton(
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => ownerPage()),
+              MaterialPageRoute(builder: (context) => ownerPage()),
             );
           },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color: Colors.black,
-          ),
+          // icon: Icon(
+          //   Icons.arrow_back_ios,
+          //   size: 20,
+          //   color: Colors.black,
+          // ),
         ),
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          //mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: (CrossAxisAlignment.center),
           children: [
+            // Container(
+            //   margin: const EdgeInsets.fromLTRB(0, 80, 330, 0),
+            //   padding: EdgeInsets.only(left: 10.0),
+            //   width: 50,
+            //   height: 50,
+            //   child: BackButton(
+            //     color: Colors.white,
+            //   ),
+            //   decoration: BoxDecoration(
+            //       color: Colors.lightBlueAccent, shape: (BoxShape.circle)),
+            // ),
             Container(
               margin: const EdgeInsets.fromLTRB(0, 30, 0, 40),
               child: Text(
@@ -115,18 +127,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-
             SizedBox(height: 50),
             Container(
               width: 344,
               height: 153,
               child: ElevatedButton(
                   onPressed: () {
-                    /*Navigator.push(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => appointCalendar()),
-                    );*/
+                          builder: (BuildContext context) => AppoinMain()),
+                    );
                   },
                   child: Text('Appointment Booking',
                       style: TextStyle(
@@ -135,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                        MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
@@ -146,11 +157,11 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 153,
               child: ElevatedButton(
                   onPressed: () {
-                    /*Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => appointCalendar()),
-                    );*/
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (BuildContext context) => AppoinMain()),
+                    // );
                   },
                   child: Text('Upcoming Appointment',
                       style: TextStyle(
@@ -159,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFFFF6B81)),
+                        MaterialStateProperty.all(Color(0XFFFF6B81)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
@@ -183,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                        MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),

@@ -3,8 +3,8 @@ library event_calendar;
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app3/OrderList.dart';
-import 'package:flutter_app3/appointment_main.dart';
+import 'OrderList.dart';
+import 'appointment_main.dart';
 
 part 'Grooming.dart';
 

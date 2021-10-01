@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app3/OrderList.dart';
+import 'OrderList.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_app3/appointment_main.dart';
+import 'appointment_main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CheckUP extends StatefulWidget {

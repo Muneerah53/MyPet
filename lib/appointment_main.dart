@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app3/CheckUP.dart';
-import 'package:flutter_app3/custom_checkbox.dart';
-import 'package:flutter_app3/select.dart';
+import 'CheckUP.dart';
+import 'custom_checkbox.dart';
+import 'select.dart';
 // Future<void> main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
 //   //await Firebase.initializeApp();
@@ -36,16 +36,16 @@ import 'package:flutter_app3/select.dart';
 // }
 //
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, this.title}) : super(key: key);
-
-  final String? title;
+class AppoinMain extends StatefulWidget {
+  // const AppoinMain({Key? key, this.title}) : super(key: key);
+  //
+  // final String? title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<AppoinMain> createState() => _AppoinMainState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _AppoinMainState extends State<AppoinMain> {
   int _counter = 0;
   bool type = false; // default false: 0 -> Check-Up
   int t = 0;

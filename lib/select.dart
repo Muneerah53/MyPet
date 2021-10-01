@@ -1,10 +1,15 @@
-import 'package:flutter_app3/CheckUP.dart';
-import 'package:flutter_app3/OrderList.dart';
-import 'package:flutter_app3/custom_checkbox.dart';
+import 'CheckUP.dart';
+import 'OrderList.dart';
+import 'custom_checkbox.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+User? user = FirebaseAuth.instance.currentUser;
+String owner =
+    FirebaseFirestore.instance.collection('pet owners').doc(user?.uid).id;
 
 class select extends StatefulWidget {
   final int type;
@@ -224,8 +229,7 @@ class selectState extends State<select> {
               child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection("pets")
-                      .where('ownerId',
-                          isEqualTo: "363xkSdgEPZ8nkyMVMuXmmtt4YG2")
+                      .where('ownerId', isEqualTo: (owner))
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const Text('loading');
@@ -259,7 +263,7 @@ class selectState extends State<select> {
                           (petIndex == null)) {
                         massage =
                             'There is a missing field you you should fill it all  ';
-                        showAlertDialog(context, massage);
+                        showAlertDialog(context);
                       } else {
                         date =
                             DateFormat('EEE, MMM dd yyyy').format(selectedDate);
@@ -276,9 +280,7 @@ class selectState extends State<select> {
                       if ((_date == null) ||
                           (timeIndex == null) ||
                           (petIndex == null)) {
-                        massage =
-                            'There is a missing field you you should fill it all  ';
-                        showAlertDialog(context, massage);
+                        showAlertDialog(context);
                       } else {
                         date =
                             DateFormat('EEE, MMM dd yyyy').format(selectedDate);
@@ -387,7 +389,7 @@ class selectState extends State<select> {
 }
 
 //
-showAlertDialog(BuildContext context, String massage) {
+showAlertDialog(BuildContext context) {
   // set up the button
   Widget okButton = TextButton(
     child: Text("OK"),
@@ -399,7 +401,7 @@ showAlertDialog(BuildContext context, String massage) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("Missing Input"),
-    content: Text(massage),
+    content: Text('There is a missing field you you should fill it all '),
     actions: [
       okButton,
     ],

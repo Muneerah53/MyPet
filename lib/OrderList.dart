@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app3/Payment.dart';
+import 'Payment.dart';
 import 'package:intl/intl.dart';
 
 class OrderList extends StatefulWidget {

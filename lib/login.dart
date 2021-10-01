@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:email_validator/email_validator.dart';
 import 'admin_main.dart';
 import 'petOwner_main.dart';
+
 void main() {
   runApp(login());
 }
@@ -71,13 +73,15 @@ class _LoginPageState extends State<LoginPage> {
                   width: 0,
                   style: BorderStyle.none,
                 ))),
-        validator: (Value) {
-          if (Value == null || Value.isEmpty) {
-            return '* Required';
-          } else if (!Value.contains('@'))
-            return 'Invalid Email';
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Email must not be empty';
+          }
           else
+          if (EmailValidator.validate(value))
             return null;
+          else
+            return "Please enter a valid email";
         },
         onSaved: (Value) => _email = Value!,
       ),
@@ -124,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
         height: 60,
         width: 200,
         decoration: BoxDecoration(
-            color: Colors.blueGrey, borderRadius: BorderRadius.circular(16)),
+        color: Color(0xff313540), borderRadius: BorderRadius.circular(16)),
         child:
         TextButton(
           onPressed: validateAndSubmit ,

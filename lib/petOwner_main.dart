@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mypet/Appointment.dart';
 import 'package:mypet/Mypets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'OwnerProfile.dart';
+import 'login.dart';
 
 class ownerPage extends StatefulWidget {
   const ownerPage({Key? key}) : super(key: key);
@@ -26,7 +28,12 @@ class _PetPageState extends State<ownerPage> {
                   Icons.logout,
                   color: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut().catchError((error){
+                    print(error.toString());
+                  });
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                },
               ),
             ],
           ),

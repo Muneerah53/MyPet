@@ -184,9 +184,16 @@ class Home extends StatelessWidget {
                           onChanged: (value) {
                             _email = value;
                           },
-                          validator: (value) => EmailValidator.validate(value!)
-                              ? null
-                              : "Please enter a valid email",
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Email must not be empty';
+                            }
+                            else
+                              if (EmailValidator.validate(value))
+                                return null;
+                              else
+                                return "Please enter a valid email";
+                          },
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -325,16 +332,16 @@ class Home extends StatelessWidget {
                             } else {
                               print('user does not exist');
                             }
-                          } else {
+                          } /*else {
                             //show message try again
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
                                   "please validate all fields before submiting"),
                               duration: Duration(seconds: 6),
                             ));
-                          }
+                          }*/
                         },
-                        color: Colors.blueGrey,
+                        color: Color(0xff313540),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),

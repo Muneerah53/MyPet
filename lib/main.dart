@@ -88,7 +88,7 @@ class Home extends StatelessWidget {
 
                               child :
                               RaisedButton(
-                                  color: Colors.blueGrey,
+                                  color: Color(0xff313540),
                                   shape:RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                       bottomLeft : Radius.circular(10),

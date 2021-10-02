@@ -160,17 +160,17 @@ class Home extends StatelessWidget {
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please enter a valid Mobile Number';
+                              return 'phone number must not be empty';
                             } else if (value.length != 10) {
-                              return 'mobile number must be 10 digits';
+                              return 'phone number must be 10 digits';
                             } else if (!isNumeric(value)) {
-                              return 'mobile number must be numeric';
+                              return 'phone number must be numeric';
                             }
                           },
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            hintText: "Enter your mobile phone",
+                            hintText: "Enter your phone number",
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25.0),
                                 borderSide: BorderSide(
@@ -215,7 +215,7 @@ class Home extends StatelessWidget {
                             if (value!.isEmpty) {
                               return 'password must not be empty';
                             } else if (value.length < 6) {
-                              return 'password must be at least 6 characters long';
+                              return 'password must be at least 6 characters';
                             }
                           },
                           decoration: InputDecoration(
@@ -240,7 +240,7 @@ class Home extends StatelessWidget {
                             if (value!.isEmpty) {
                               return 'password must not be empty';
                             } else if (_password != _confirmpassword) {
-                              return 'password not matching ';
+                              return 'password did not match';
                             }
                           },
                           decoration: InputDecoration(

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 User? user = FirebaseAuth.instance.currentUser;
 String owner =
     FirebaseFirestore.instance.collection('pet owners').doc(user?.uid).id;
@@ -394,7 +393,9 @@ showAlertDialog(BuildContext context) {
   Widget okButton = TextButton(
     child: Text("OK"),
     onPressed: () {
-      Navigator.of(context).pop();
+
+     // Navigator.of(context).pop();
+      Navigator.of(context, rootNavigator: true).pop();
     },
   );
 

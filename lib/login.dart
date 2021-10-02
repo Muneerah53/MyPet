@@ -102,9 +102,9 @@ class _LoginPageState extends State<LoginPage> {
                   ))),
           validator: (Value) {
             if (Value == null || Value.isEmpty) {
-              return '* Required';
+              return 'password must not be empty';
             }else if (Value.length<6)
-              return 'Password must be at least 6';
+              return 'password must be at least 6 characters';
             return null;
           },
           onSaved: (Value) => _password = Value!,

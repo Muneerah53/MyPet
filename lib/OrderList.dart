@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'Payment.dart';
+import 'package:mypet/petOwner_main.dart';
 import 'package:intl/intl.dart';
 
 class OrderList extends StatefulWidget {
@@ -10,8 +10,9 @@ class OrderList extends StatefulWidget {
   final String? pet;
   final String? time;
   final double? total;
+  final String? appointID;
 
-  const OrderList({this.type, this.date, this.pet, this.time, this.total});
+  const OrderList({this.type, this.date, this.pet, this.time, this.total,this.appointID});
 
   @override
   _OrderListState createState() => _OrderListState();
@@ -24,6 +25,7 @@ class _OrderListState extends State<OrderList> {
   String? d;
   String? tt;
   double? to;
+  String? appointID;
   String? aa;
   void initState() {
     super.initState();
@@ -32,6 +34,7 @@ class _OrderListState extends State<OrderList> {
     tt = widget.time;
     p = widget.pet;
     to = widget.total;
+    appointID = widget.appointID;
     title = (t == 0) ? "Check-Up" : "Grooming"; //here var is call and set to
   }
 
@@ -250,7 +253,7 @@ class _OrderListState extends State<OrderList> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => Payment()),
+                        builder: (BuildContext context) => ownerPage()),
                   );
                 },
                 child: Text('Confirm',
@@ -274,13 +277,29 @@ class _OrderListState extends State<OrderList> {
     return aa;
   }
 
-  void saveData() {
+  Future<void> saveData() async {
     FirebaseFirestore.instance.collection('orderService').add({
+      'appointmentID': appointID,
       'service': title,
       'pet': p,
       'time': tt,
       'date': d,
       'totalPrice': totalss(t.toString())
     });
+
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+        .collection('appointment ')
+        .where('appointmentID', isEqualTo: appointID)
+        .get();
+
+    List<QueryDocumentSnapshot> docs = snapshot.docs;
+    for (var doc in docs) {
+      if (doc.data() != null) {
+        doc.reference.update({
+          "state": "Booked"
+        });
+      }
+    }
+
   }
 }

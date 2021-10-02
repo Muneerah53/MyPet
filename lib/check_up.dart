@@ -9,10 +9,11 @@ import 'appointment_main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CheckUP extends StatefulWidget {
-  CheckUP({this.date, this.pet, this.time});
+  CheckUP({this.date, this.pet, this.time,this.appointID});
   final String? date;
   final String? pet;
   final String? time;
+  final String? appointID;
 
   _CheckUPState createState() => _CheckUPState();
 }
@@ -24,11 +25,13 @@ class _CheckUPState extends State<CheckUP> {
   String? d;
   String? p;
   String? ti;
+  String? id;
   void initState() {
     super.initState();
     d = widget.date;
     p = widget.pet;
     ti = widget.time;
+    id= widget.appointID;
   }
 
   @override
@@ -179,6 +182,7 @@ class _CheckUPState extends State<CheckUP> {
                                 date: d,
                                 pet: p,
                                 time: ti,
+                               appointID: id,
                               )),
                     );
                   }

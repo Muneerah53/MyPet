@@ -7,8 +7,9 @@ class Grooming extends StatefulWidget {
   final String? date;
   final String? pet;
   final String? time;
+  final String? appointID;
 
-  const Grooming({this.title, this.date, this.pet, this.time});
+  const Grooming({this.title, this.date, this.pet, this.time, this.appointID});
   @override
   _GroomingState createState() => _GroomingState();
 }
@@ -35,6 +36,7 @@ class _GroomingState extends State<Grooming> {
   String? d;
   String? p;
   String? ti;
+  String? id;
   double? total = 0.0;
 
   bool type = false; // default false: 0 -> Check-Up
@@ -49,6 +51,7 @@ class _GroomingState extends State<Grooming> {
     d = widget.date;
     p = widget.pet;
     ti = widget.time;
+    id= widget.appointID;
   }
 
   Widget build(BuildContext context) {
@@ -716,6 +719,7 @@ class _GroomingState extends State<Grooming> {
                                 date: d,
                                 pet: p,
                                 time: ti,
+                                appointID: id,
                                 total: total)),
                       );
                     }

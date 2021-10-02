@@ -29,6 +29,7 @@ class selectState extends State<select> {
   String? date = ' no pet have been selected';
   String? pets = 'no pet have been selected';
   String? time = 'no time have been \n selected';
+  String? appointID;
   int? timeIndex;
   int? petIndex;
   String title = ' ';
@@ -148,6 +149,7 @@ class selectState extends State<select> {
                           isEqualTo:
                               DateFormat('dd/MM/yyyy').format(selectedDate))
                       .where('typeID', isEqualTo: t)
+                      .where('state', isEqualTo: "available")
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const Text('loading');
@@ -174,7 +176,8 @@ class selectState extends State<select> {
                               style: OutlinedButton.styleFrom(
                                   padding: EdgeInsets.all(0),
                                   side: BorderSide(color: Colors.transparent)),
-                              onPressed: () => changeTimeSelected(index, stime),
+                              onPressed: () => changeTimeSelected(index, stime, ((snapshot.data!).docs[index]
+                          ['appointmentID'])),
                               child: Card(
                                   color: timeIndex == index
                                       ? Color(0XFFFF6B81)
@@ -274,6 +277,7 @@ class selectState extends State<select> {
                                       date: date,
                                       time: time,
                                       pet: pets,
+                                    appointID: appointID
                                     )));
                       }
                     } else {
@@ -291,6 +295,7 @@ class selectState extends State<select> {
                                       date: date,
                                       time: time,
                                       pet: pets,
+                                    appointID: appointID
                                     )));
                       }
                     }
@@ -373,10 +378,11 @@ class selectState extends State<select> {
             )));
   }
 
-  changeTimeSelected(int index, String? t) {
+  changeTimeSelected(int index, String? t, String? id) {
     setState(() {
       timeIndex = index;
       time = t;
+      appointID = id;
     });
   }
 

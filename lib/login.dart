@@ -102,9 +102,9 @@ class _LoginPageState extends State<LoginPage> {
                   ))),
           validator: (Value) {
             if (Value == null || Value.isEmpty) {
-              return 'password must not be empty';
+              return 'Password must not be empty';
             }else if (Value.length<6)
-              return 'password must be at least 6 characters';
+              return 'Password must be at least 6 characters';
             return null;
           },
           onSaved: (Value) => _password = Value!,
@@ -189,11 +189,23 @@ class _LoginPageState extends State<LoginPage> {
               .signInWithEmailAndPassword(email: _email, password: _password));
          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ownerPage()));
         }
-      } catch (e) {
+      } on FirebaseAuthException catch (e) {
+        String msgError = "";
+        if (e.code == 'user-not-found') {
+          msgError = "No user found for that email ";
+          print('No user found for that email');
+        } else if (e.code == 'wrong-password') {
+          msgError = "Wrong email or password.";
+          print('Wrong email or password');
+        }
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('No user found for that email'),
+          content: Text(msgError),
           backgroundColor: Theme.of(context).errorColor,
         ));
+        //ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          //content: Text('No user found for that email'),
+          //backgroundColor: Theme.of(context).errorColor,
+        //));
       }
     }
   }

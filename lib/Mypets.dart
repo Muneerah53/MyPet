@@ -171,8 +171,7 @@ class MyPets extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child:
         Container(
-
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.only(top: 20,),
           margin: EdgeInsets.only(left: 20,right:20),
           width: 160,
 
@@ -201,7 +200,6 @@ class MyPets extends StatelessWidget {
               ),
               Container(
 
-                margin: EdgeInsets.only(top: 20,bottom: 20),
                 child:ListTile(
                     title: Text(document['name'],style: statusStyles[document['species']],
                         textAlign: TextAlign.center),

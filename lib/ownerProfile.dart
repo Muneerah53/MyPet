@@ -43,10 +43,11 @@ class Profile extends StatelessWidget {
           ),
         ),
       ),
-      body:Stack(
+      body:SingleChildScrollView(
 
-        children: <Widget>[
-          Row(
+        child:  Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [ Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Container(
@@ -59,9 +60,21 @@ class Profile extends StatelessWidget {
             ],
           ),
 
-
-          Container(
-            padding: EdgeInsets.only(top: 220, bottom: 270,left:20,right: 20),
+            Container(
+              margin: EdgeInsets.only(top: 5),
+              child: Center(
+                child: Text(
+                  'Profile Information',
+                  style: TextStyle(
+                    fontSize: 30, color: Colors.blueGrey,
+                    fontStyle: FontStyle.italic,),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+ Container(
+            padding: EdgeInsets.only(left:20,right: 20),
+   height: 300,
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('pet owners').snapshots(),
                 builder: (context, snapshot) {
@@ -78,23 +91,11 @@ class Profile extends StatelessWidget {
 
 
 
-          Container(
-            padding: EdgeInsets.only(bottom: 440),
-            child: Center(
-              child: Text(
-                'Profile Information',
-                style: TextStyle(
-                  fontSize: 30, color: Colors.blueGrey,
-                  fontStyle: FontStyle.italic,),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
 
           Row(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(top: 500, left:30),
+                  padding: EdgeInsets.only( left:30),
                   child: Text(
                     'My Pets',
                     style: TextStyle(
@@ -104,7 +105,7 @@ class Profile extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 490,left: 170),
+                  padding: EdgeInsets.only(left: 170),
                   child:
                   //Add button
                   MaterialButton(
@@ -127,8 +128,8 @@ class Profile extends StatelessWidget {
 
           //pest cards
           Container(
-            margin: EdgeInsets.only(top: 550, bottom: 50),
-            height: 300,
+
+            height: 260,
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('pets').snapshots(),
 
@@ -146,9 +147,8 @@ class Profile extends StatelessWidget {
           ),
 
 
-        ],
-      ),
-    );
+    ],  ),
+    ),);
   }
 
 

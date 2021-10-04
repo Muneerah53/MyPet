@@ -43,9 +43,11 @@ class editProfile extends StatelessWidget {
           ),
         ),
       ),
-      body: Stack(
+      body: SingleChildScrollView(
 
-        children: <Widget>[
+        child:  Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -59,39 +61,35 @@ class editProfile extends StatelessWidget {
             ],
           ),
 
+      Container(
+        padding: EdgeInsets.only(top: 10),
+        child: Center(
+          child: Text(
+            'Edit My Information',
+            style: TextStyle(
+              fontSize: 30, color: Colors.blueGrey,
+              fontStyle: FontStyle.italic,),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+
 
           Container(
 
-            padding: EdgeInsets.only(top: 220, left: 20, right: 20),
-            width: 500, height: 900,
-            child: ListView.builder(scrollDirection: Axis.vertical,
-              itemCount: 1,
-              itemBuilder: (context, index) =>
-
+            padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+            width: 500, height: 680,
+            child:
                   _buildOwnerCard(context, owner),
-            ),
+
 
           ),
 
-
-          Container(
-
-            padding: EdgeInsets.only(bottom: 440),
-            child: Center(
-              child: Text(
-                'Edit My Information',
-                style: TextStyle(
-                  fontSize: 30, color: Colors.blueGrey,
-                  fontStyle: FontStyle.italic,),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
 
 
         ],
       ),
-    );
+    ),);
   }
 
 

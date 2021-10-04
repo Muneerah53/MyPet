@@ -75,7 +75,6 @@ class MyPets extends StatelessWidget {
       ),
       body:SingleChildScrollView(
         child:  Column(
-    mainAxisAlignment: MainAxisAlignment.center,
     children: [
     Container(
             child: Center(
@@ -132,7 +131,7 @@ class MyPets extends StatelessWidget {
           Container(
 
             padding: EdgeInsets.only(left:25,right:25,top: 10),
-            height: 600,
+            height: 530,
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('pets').snapshots(),
                 builder: (context, snapshot) {

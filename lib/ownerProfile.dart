@@ -46,7 +46,6 @@ class Profile extends StatelessWidget {
       body:SingleChildScrollView(
 
         child:  Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [ Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[

@@ -22,10 +22,11 @@ String _name ='';
 var _work = ['Doctor', 'Groomer'];
 var selectedWork;
 var _types = ['Cats', 'Dogs','Both'];
+
+static final RegExp nameRegExp = RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]');
+
 var selectedType;
 late String _selectedID;
-late int _type;
-
 
   @override
   void dispose() {
@@ -247,12 +248,13 @@ crossAxisAlignment: CrossAxisAlignment.center,
                             ),
                           ),
 
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter name';
-                            }
-                            return null;
-                          },
+                          validator: (value) => value!.isEmpty
+                              ? 'Enter Name'
+                              : value.length < 3
+                              ? 'Name must be 3 letters or more'
+                              : (nameRegExp.hasMatch(value)
+                              ? 'Enter a Valid Name'
+                              : null),
 
                           onChanged: (String value) {
                             _name = value;

@@ -185,7 +185,6 @@ class editProfile extends StatelessWidget{
               //Edit button
 
               MaterialButton(
-
                 minWidth: 200,
                 height: 60,
                 padding: const EdgeInsets.all(20),
@@ -194,7 +193,7 @@ class editProfile extends StatelessWidget{
                 child: const Text('Edit my information'),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
-                onPressed: (){
+                onPressed: () async {
                   int change=0;
                   if( !fnameController.text.isEmpty){
                     owner.reference.update({'fname': fnameController.text});
@@ -207,6 +206,8 @@ class editProfile extends StatelessWidget{
                     });
                     change++;}
                   if( !emailController.text.isEmpty){
+    await FirebaseAuth.instance.currentUser!.updateEmail(emailController.text);
+
                     owner.reference.update({
                       'email': emailController.text
                     });

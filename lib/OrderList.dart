@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mypet/petOwner_main.dart';
+import 'Payment.dart';
 import 'package:intl/intl.dart';
 
 class OrderList extends StatefulWidget {
@@ -253,7 +253,7 @@ class _OrderListState extends State<OrderList> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => ownerPage()),
+                        builder: (BuildContext context) => Payment()),
                   );
                 },
                 child: Text('Confirm',

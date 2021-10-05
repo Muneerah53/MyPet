@@ -700,6 +700,9 @@ class _GroomingState extends State<Grooming> {
               height: 73,
               child: ElevatedButton(
                   onPressed: () {
+                    if(selectedCurrency==null)
+                      showAlertDialog(context,'You Must Select a Groomer');
+                    else
                     if (!(ShowerAndDryingV ||
                         DryCleanV ||
                         ShavingV ||
@@ -707,7 +710,7 @@ class _GroomingState extends State<Grooming> {
                         EarCleaningV ||
                         CutnailsV ||
                         NeedsAnesthesiaV)) {
-                      showAlertDialog(context);
+                      showAlertDialog(context,"You Must Select at Least One Servace");
                     } else {
                       t = 1;
                       total = TotalPrice();
@@ -790,19 +793,19 @@ class _GroomingState extends State<Grooming> {
     return t;
   }
 
-  showAlertDialog(BuildContext context) {
+  showAlertDialog(BuildContext context,message) {
     // set up the button
     Widget okButton = TextButton(
       child: Text("OK"),
       onPressed: () {
-        Navigator.of(context).pop();
+        Navigator.of(context, rootNavigator: true).pop();
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Missing Input"),
-      content: Text("You Must Select at Least One Servace "),
+      content: Text(message),
       actions: [
         okButton,
       ],

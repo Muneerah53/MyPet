@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'petOwner_main.dart';
+var primaryColor = const Color(0xff313540);
 class Payment extends StatefulWidget {
   const Payment({Key? key}) : super(key: key);
 
@@ -26,22 +27,13 @@ class _PaymentState extends State<Payment> {
               decoration: BoxDecoration(
                   color: Colors.lightBlueAccent, shape: (BoxShape.circle)),
             ),
+
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-              child: Text(
-                'Payment',
-                style: TextStyle(
-                    color: Color(0XFFFF6B81),
-                    fontSize: 34,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 280.0),
+              padding: EdgeInsets.only(top: 280.0,left: 30,bottom: 20),
               child: Center(
                 child: Text(
-                  ':)',
+                  'your Appointment is Confirmed :),'
+                      '\nsee you soon',
                   style: TextStyle(
                       color: Color(0XFF52648B),
                       fontSize: 34,
@@ -50,6 +42,22 @@ class _PaymentState extends State<Payment> {
                 ),
               ),
             ),
+
+            MaterialButton(
+              minWidth: 200,
+              height: 60,
+              padding: const EdgeInsets.all(20),
+              color: primaryColor,
+              textColor: Colors.white,
+              child: const Text('Done'),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              onPressed: () async {
+                  Navigator.push(context,MaterialPageRoute(builder: (_) =>ownerPage())) .catchError((error) => print('Delete failed: $error'));;
+
+
+              },),
+
           ]),
         )));
   }

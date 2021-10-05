@@ -73,11 +73,10 @@ class MyPets extends StatelessWidget {
           ),
         ),
       ),
-      body:Stack(
-        children: <Widget>[
-
-          Container(
-            padding: EdgeInsets.only(bottom: 750),
+      body:SingleChildScrollView(
+        child:  Column(
+    children: [
+    Container(
             child: Center(
               child: Text(
                 'My Pets',
@@ -90,10 +89,8 @@ class MyPets extends StatelessWidget {
           ),
 
           Container(//add
-
-
             padding: EdgeInsets.all(10),
-            margin: EdgeInsets.only(left: 30,right:20,top:90,bottom: 10),
+            margin: EdgeInsets.only(left: 25,right:25,top:10),
             width: 365,height: 200,
 
             //i dont know why this cammand does not work
@@ -132,7 +129,9 @@ class MyPets extends StatelessWidget {
 
           //pest cards
           Container(
-            padding: EdgeInsets.only(top: 300,left:25,right:25),
+
+            padding: EdgeInsets.only(left:25,right:25,top: 10),
+            height: 530,
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('pets').snapshots(),
                 builder: (context, snapshot) {
@@ -140,7 +139,6 @@ class MyPets extends StatelessWidget {
                   return ListView.builder(scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>
-
                     //card pets method
                     _buildPetsCard(context, (snapshot.data!).docs[index]),
                   );
@@ -150,7 +148,7 @@ class MyPets extends StatelessWidget {
 
         ],
       ),
-    );
+    ),);
   }
 
 
@@ -171,26 +169,18 @@ class MyPets extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child:
         Container(
-
-          padding: EdgeInsets.all(10),
-          margin: EdgeInsets.only(left: 20,right:20),
-          width: 160,
-
-          //i dont know why this cammand does not work
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(40)),
+          margin: EdgeInsets.only(left: 25,right:25),
 
             color: Colors.white,
-          ),
+
           child:
           Column(
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-
                   Container(
-                    margin: EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.only(top: 20),
                     child: CircleAvatar(
                         radius: 50,
                         backgroundImage:new AssetImage(img)),
@@ -201,7 +191,6 @@ class MyPets extends StatelessWidget {
               ),
               Container(
 
-                margin: EdgeInsets.only(top: 20,bottom: 20),
                 child:ListTile(
                     title: Text(document['name'],style: statusStyles[document['species']],
                         textAlign: TextAlign.center),

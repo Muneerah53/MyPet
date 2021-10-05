@@ -400,7 +400,7 @@ showAlertDialog(BuildContext context) {
   Widget okButton = TextButton(
     child: Text("OK"),
     onPressed: () {
-      Navigator.of(context).pop();
+      Navigator.of(context, rootNavigator: true).pop();
     },
   );
 

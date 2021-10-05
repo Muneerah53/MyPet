@@ -160,7 +160,7 @@ class Home extends StatelessWidget {
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'phone number must not be empty';
+                              return 'Please enter your phone number';
                             } else if (value.length != 10) {
                               return 'phone number must be 10 digits';
                             } else if (!isNumeric(value)) {
@@ -186,7 +186,7 @@ class Home extends StatelessWidget {
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Email must not be empty';
+                              return 'Please enter your email';
                             }
                             else
                               if (EmailValidator.validate(value))
@@ -213,7 +213,7 @@ class Home extends StatelessWidget {
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'password must not be empty';
+                              return 'Please enter your password';
                             } else if (value.length < 6) {
                               return 'password must be at least 6 characters';
                             }
@@ -238,7 +238,7 @@ class Home extends StatelessWidget {
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'password must not be empty';
+                              return 'Please confirm your password ';
                             } else if (_password != _confirmpassword) {
                               return 'password did not match';
                             }

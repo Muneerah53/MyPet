@@ -149,7 +149,7 @@ class selectState extends State<select> {
                           isEqualTo:
                               DateFormat('dd/MM/yyyy').format(selectedDate))
                       .where('typeID', isEqualTo: t)
-                      .where('state', isEqualTo: "available")
+                      .where('state', isEqualTo: "Available")
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const Text('loading');

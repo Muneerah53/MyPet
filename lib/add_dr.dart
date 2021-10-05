@@ -60,7 +60,7 @@ late String _selectedID;
                       DocumentReference doc = await firestoreInstance.collection(
                           "Dr").add(
                           {
-                            "DrName": _name,
+                            "empName": _name,
                           });
                       String _id = doc.id;
                       await firestoreInstance.collection("Dr").doc(_id).update(
@@ -464,13 +464,13 @@ firestoreInstance
 
     QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
         .collection('appointment ')
-        .where('DrName', isEqualTo: oldName)
+        .where('empName', isEqualTo: oldName)
         .get();
 
     List<QueryDocumentSnapshot> docs = snapshot.docs;
     for (var doc in docs) {
       if (doc.data() != null) {
-        doc.reference.update({"DrName": _name});
+        doc.reference.update({"empName": _name});
       }
     }
 
@@ -499,7 +499,7 @@ _name = '';
 
     QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
         .collection('appointment ')
-        .where('DrName', isEqualTo: oldName)
+        .where('empName', isEqualTo: oldName)
         .get();
 
     List<QueryDocumentSnapshot> docs = snapshot.docs;

@@ -1,5 +1,6 @@
 library event_calendar;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +19,7 @@ late TimeOfDay _endTime;
 String _doc = '';
 String _id = '';
 late int _type;
+late Color _background;
 
 class appointCalendar extends StatefulWidget {
   const appointCalendar({Key? key}) : super(key: key);
@@ -136,8 +138,10 @@ class appointCalendarState extends State<appointCalendar> {
         ? ''
         : appointmentDetails.docName;
     _id = appointmentDetails.id;
-    _selectedAppointment = appointmentDetails;
     _type = appointmentDetails.type;
+    _background = appointmentDetails.background;
+
+    _selectedAppointment = appointmentDetails;
 
     Navigator.push<Widget>(
       context,
@@ -179,7 +183,7 @@ class Appointment {
         required this.start,
         required this.end,
         required this.background,
-        required this.type,
+        required this.type, this.status='',
       });
   String title;
   String id;
@@ -190,6 +194,7 @@ class Appointment {
   TimeOfDay end;
   Color background;
   int type;
+  String status;
 }
 
 _AppointmentDataSource _getCalendarDataSource()  {
@@ -225,18 +230,20 @@ _AppointmentDataSource _getCalendarDataSource()  {
 
       Appointment a = Appointment(
           id: doc['appointmentID'].toString(),
-          docName: doc['DrName'].toString(),
+          docName: doc['empName'].toString(),
           from: _startDateTime,
           to: _endDateTime,
           start: TimeOfDay.fromDateTime(_startDateTime),
           end: TimeOfDay.fromDateTime(_endDateTime),
-          background: doc['typeID'] == 0 ? Color(0xFFda6773) : Color(
-              0xFF5CC486),
-          type: doc['typeID']
+          background: doc['typeID'] == 0 ? Color(0xFFC6D8FF) : Color(0xFFFFC6F4),
+          type: doc['typeID'],
+          status:  doc['state'].toString()
       );
 
       int t = a.type;
-      a.title = t == 0 ? "Check-Up By " + a.docName : "Grooming";
+      String name = a.docName;
+      String s=a.status;
+      a.title = ((t==0 ? "Check-Up by $name" : "Grooming by $name"))+" [$s]";
       _appointments.add(a);
     }
     _events.notifyListeners(CalendarDataSourceAction.add, _appointments);
@@ -289,6 +296,10 @@ class _AppointmentDataSource extends CalendarDataSource {
     return appointments![index].docName;
   }
 
+
+  String getStatus(int index) {
+    return appointments![index].status;
+  }
 
 
 }

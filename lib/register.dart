@@ -118,7 +118,7 @@ class Home extends StatelessWidget {
                               return 'Please enter your first name';
                             }
                             else if(!RegExp('[a-zA-Z _]+').hasMatch(_firstName)){
-                              return 'Please enter valid first name';
+                              return 'first name must contain only letters';
                             }
                           },
                           decoration: InputDecoration(
@@ -143,7 +143,7 @@ class Home extends StatelessWidget {
                               return 'Please enter your last name';
                             }
                             else if(!RegExp('[a-zA-Z _]+').hasMatch(_lastName)){
-                              return 'Please enter valid last name ';
+                              return 'last name must contain only letters';
                             }
                           },
                           decoration: InputDecoration(

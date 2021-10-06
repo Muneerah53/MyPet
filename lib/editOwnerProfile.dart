@@ -153,7 +153,7 @@ class editProfile extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(top: 10),
               child: ListTile(
-                title: Text("Mobile:  ", style: petCardTitleStyle),
+                title: Text("Phone number:  ", style: petCardTitleStyle),
 
               ),
             ), Container(
@@ -189,7 +189,7 @@ class editProfile extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               color: primaryColor,
               textColor: Colors.white,
-              child: const Text('Edit my information'),
+              child: const Text('Edit My Information'),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               onPressed: () async {

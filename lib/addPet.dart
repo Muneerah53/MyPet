@@ -35,7 +35,7 @@ class _addPet extends State<addPet> {
   String currentValuesp = 'Cat';
   String val = '';
   String currentValuegn = 'Male';
-  List<String> specieses = ['Cat', 'Dog', 'Fish', 'Bird', 'Rabbit','Turtle'];
+  List<String> specieses = ['Cat', 'Dog'];
   List<String> genders = ['Male', 'Female'];
 
   var added = false;
@@ -225,6 +225,12 @@ class _addPet extends State<addPet> {
                           if (petName.isEmpty ||dateController.text.isEmpty){
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text("Please enter your pet's name and birthdate"),
+                              backgroundColor: Theme.of(context).errorColor,
+                            ));
+                          }
+                          else if(!RegExp('[a-zA-Z _]+').hasMatch(petName)){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("Please enter valid pet name "),
                               backgroundColor: Theme.of(context).errorColor,
                             ));
                           }

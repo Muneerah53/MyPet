@@ -117,6 +117,9 @@ class Home extends StatelessWidget {
                             if (value!.isEmpty) {
                               return 'Please enter your first name';
                             }
+                            else if(!RegExp('[a-zA-Z _]+').hasMatch(_firstName)){
+                              return 'Please enter valid first name';
+                            }
                           },
                           decoration: InputDecoration(
                             filled: true,
@@ -138,6 +141,9 @@ class Home extends StatelessWidget {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please enter your last name';
+                            }
+                            else if(!RegExp('[a-zA-Z _]+').hasMatch(_lastName)){
+                              return 'Please enter valid last name ';
                             }
                           },
                           decoration: InputDecoration(

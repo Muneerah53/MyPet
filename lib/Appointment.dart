@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:mypet/admin_calender.dart';
+//import 'package:MyPet/admin_calender.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'petOwner_main.dart';
@@ -101,7 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: Center(
-        child: Column(
+        child: SingleChildScrollView(
+
+    child:Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: (CrossAxisAlignment.center),
           children: [
@@ -127,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 40),
             Container(
               width: 344,
               height: 153,
@@ -151,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 40),
             Container(
               width: 344,
               height: 153,
@@ -175,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 40),
             Container(
               width: 344,
               height: 153,
@@ -202,6 +204,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-    );
+      )   );
   }
 }

@@ -88,7 +88,12 @@ class MyPets extends StatelessWidget {
             ),
           ),
 
-          Container(//add
+    GestureDetector(
+    onTap:() {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => addPet(owner)))
+        .catchError((error) => print('Delete failed: $error'));
+    },
+    child:Container(//add
             padding: EdgeInsets.all(10),
             margin: EdgeInsets.only(left: 25,right:25,top:10),
             width: 365,height: 200,
@@ -120,11 +125,10 @@ class MyPets extends StatelessWidget {
                       title: Text('Add new pet', style: TextStyle(
                         fontSize: 25, color: Colors.white,
                         fontStyle: FontStyle.italic,), textAlign: TextAlign.center),
-                      onTap:() {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => addPet(owner)))
-                            .catchError((error) => print('Delete failed: $error'));
-                      }
-                  ),),],),),
+
+                  ),),],),
+    )
+          ),
 
 
           //pest cards
@@ -164,7 +168,14 @@ class MyPets extends StatelessWidget {
         img="images/cat.png";
 
 
-      return Card(
+      return GestureDetector(
+          onTap: (){
+
+            Navigator.push(context,MaterialPageRoute(builder:(context) {
+              return pet(document['petId']);
+
+            } ));},
+          child: Card(
 
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child:
@@ -194,15 +205,10 @@ class MyPets extends StatelessWidget {
                 child:ListTile(
                     title: Text(document['name'],style: statusStyles[document['species']],
                         textAlign: TextAlign.center),
-                    onTap: (){
-
-                      Navigator.push(context,MaterialPageRoute(builder:(context) {
-                        return pet(document['petId']);
-
-                      } ));}),
+              ),
               ),],
           ),
-        ),);
+        ),));
 
     }else
       return Card();}

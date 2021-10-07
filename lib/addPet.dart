@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:mypet/Mypets.dart';
+import 'package:MyPet/MyPets.dart';
 
 // Future AddPetAsync(petName, gender, disease, specie) async {
 //
@@ -70,8 +70,9 @@ class _addPet extends State<addPet> {
             ),
           ),
         ),
-        body: Center(
-          child: Container(
+      body:SingleChildScrollView(
+          child:  Column(
+              children: [ Container(
               padding: const EdgeInsets.all(15),
               color: Colors.red[50],
               child: Column(
@@ -288,7 +289,9 @@ class _addPet extends State<addPet> {
 
           ),
 
-        ));
+        ])
+
+      ));
 
   }
 }

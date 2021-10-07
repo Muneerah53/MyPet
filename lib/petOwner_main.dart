@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mypet/Appointment.dart';
-import 'package:mypet/Mypets.dart';
+import 'package:MyPet/Appointment.dart';
+import 'package:MyPet/MyPets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'OwnerProfile.dart';
 import 'login.dart';
@@ -88,7 +88,7 @@ class _PetPageState extends State<ownerPage> {
                                     borderRadius: new BorderRadius.circular(16.0),
                                     color: Color(0xFF2F3542),
                                   ),
-                                  width: 180,
+                                  width: MediaQuery.of(context).size.width * 0.45,
                                   height: 180,
                                   child: Center(
                                       child: Text(
@@ -120,7 +120,7 @@ class _PetPageState extends State<ownerPage> {
                                     borderRadius: new BorderRadius.circular(16.0),
                                     color: Color(0xFFFF6B81),
                                   ),
-                                  width: 180,
+                                  width:  MediaQuery.of(context).size.width * 0.45,
                                   height: 180,
                                   child: Center(
                                       child: Text(
@@ -156,7 +156,7 @@ class _PetPageState extends State<ownerPage> {
                                     borderRadius: new BorderRadius.circular(16.0),
                                     color: Color(0xFFFF6B81),
                                   ),
-                                  width: 180,
+                                  width: MediaQuery.of(context).size.width * 0.45,
                                   height: 180,
                                   child: Center(
                                       child: Text(
@@ -188,7 +188,7 @@ class _PetPageState extends State<ownerPage> {
                                     borderRadius: new BorderRadius.circular(16.0),
                                     color: Color(0xFF2F3542),
                                   ),
-                                  width: 180,
+                                  width: MediaQuery.of(context).size.width * 0.45,
                                   height: 180,
                                   child: Center(
                                       child: Text(

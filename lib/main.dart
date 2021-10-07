@@ -68,7 +68,7 @@ class Home extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(24),
                   child:
-                  Text("Hi there would you like start a journey in Mypet app ?  "
+                  Text("Hi there would you like start a journey in MyPet app ?  "
                       ,textAlign: TextAlign.center,
                       softWrap: true ,
                       style: new TextStyle(

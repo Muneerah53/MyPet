@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'models/global.dart';
-import 'package:mypet/Mypets.dart';
+import 'package:MyPet/MyPets.dart';
 
 final  primaryColor = const Color(0xff313540);
 
@@ -77,9 +77,9 @@ class pet extends StatelessWidget {
 
         children: <Widget>[ Center(child:
 
-        Container(
-          padding: EdgeInsets.only(bottom: 380,),
-          width: 150,
+
+          Container(
+        //  padding: EdgeInsets.only(bottom: 380,),
           child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.collection('pets').snapshots(),
               builder: (context, snapshot) {
@@ -93,12 +93,10 @@ class pet extends StatelessWidget {
               }
           ),
         ),
-
-
         ),
 
           Container(
-            padding: EdgeInsets.only(top: 180, left: 20, right: 20),
+        padding: EdgeInsets.only(top: 200, left: 20, right: 20),
 
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('pets')
@@ -116,18 +114,6 @@ class pet extends StatelessWidget {
           ),
 
 
-          Container(
-            padding: EdgeInsets.only(bottom: 350),
-            child: Center(
-              child: Text(
-                'Pet Information',
-                style: TextStyle(
-                  fontSize: 30, color: Colors.blueGrey,
-                  fontStyle: FontStyle.italic,),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
 
 
         ],
@@ -144,7 +130,7 @@ class pet extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0)),
         child: Container(
 
-          padding: EdgeInsets.only(left: 20, top: 90),
+          padding: EdgeInsets.only(left: 20, top: 20),
 
           width: 250,
           height: 500,
@@ -228,11 +214,27 @@ class pet extends StatelessWidget {
         img = "images/dog.png";
       else
         img = "images/cat.png";
-      return CircleAvatar(
+      return Column(
+
+        children: <Widget>[
+        CircleAvatar(
 
         radius: 80,
         backgroundImage: new AssetImage(img),
+      ),
+        Container(
+          padding: EdgeInsets.only(bottom: 350),
 
+            child: Text(
+              'Pet Information',
+              style: TextStyle(
+                fontSize: 30, color: Colors.blueGrey,
+                fontStyle: FontStyle.italic,),
+              textAlign: TextAlign.left,
+            ),
+
+        ),
+        ]
       );
     } else
       return Card();

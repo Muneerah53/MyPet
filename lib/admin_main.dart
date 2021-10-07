@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mypet/admin_calender.dart';
+import 'package:MyPet/admin_calender.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mypet/add_dr.dart';
-import 'package:mypet/login.dart';
+import 'package:MyPet/add_dr.dart';
+import 'package:MyPet/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdminHomePage extends StatefulWidget {

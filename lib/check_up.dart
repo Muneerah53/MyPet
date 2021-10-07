@@ -96,8 +96,7 @@ class _CheckUPState extends State<CheckUP> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              padding: new EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 90.0),
+                           padding: new EdgeInsets.symmetric(vertical: 8.0, horizontal:  MediaQuery.of(context).size.width * 0.189,),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(30),

@@ -73,19 +73,17 @@ class Profile extends StatelessWidget {
             ),
  Container(
             padding: EdgeInsets.only(left:20,right: 20),
-   height: 300,
+            height:300,
             child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('pet owners').snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text('loading');
-                  return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) =>
-                    //card pets method
-                    _buildOwnerCard(context, (snapshot.data!).docs[index]),
-                  );
-                }
-            ),
+ stream: FirebaseFirestore.instance.collection('pet owners').where('ownerID', isEqualTo: owner.toString()).snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return const Text('loading');
+            return
+              //card pets method
+              _buildOwnerCard(context, (snapshot.data!).docs[0]);
+
+          }
+      ),
           ),
 
 
@@ -104,12 +102,11 @@ class Profile extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 170),
+                  padding: EdgeInsets.only(left:  MediaQuery.of(context).size.width * 0.45,),
                   child:
                   //Add button
                   MaterialButton(
-
-                    minWidth: 80,
+                    minWidth: 50,
                     height: 25,
                     padding: const EdgeInsets.all(5),
                     color: primaryColor,
@@ -159,10 +156,10 @@ class Profile extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(
 
-          padding: EdgeInsets.only(left: 10, top: 20),
+          padding: EdgeInsets.only(left: 10, top: 5),
 
-          width: 250,
-          height: 230,
+          width: 290,
+          height: 220,
 
           //i dont know why this cammand does not work
           decoration: BoxDecoration(
@@ -178,7 +175,7 @@ class Profile extends StatelessWidget {
 
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 10),
+                 // margin: EdgeInsets.only(top: 10),
                   child: ListTile(
                     title: Text(
                         "First name:  " + document['fname'] + "\nLast name:  " +

@@ -260,6 +260,7 @@ else{
                                   onChanged: (String? newValue) {
                                     setState(() {
                                       selectedType = newValue!;
+                                      selectedDoctor = null;
                                       if (selectedType == 'Check-Up') {
                                         _type = 0;
                                         selectedWork = "Doctor";

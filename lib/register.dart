@@ -24,7 +24,7 @@ class register extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.pink,
         ),
         home: FutureBuilder(
           future: fbApp,

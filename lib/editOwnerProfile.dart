@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'models/global.dart';
 import 'ownerProfile.dart';
- final  validCharacters = RegExp(r'^[a-zA-Z]+$');
+ final  validCharacters = RegExp(r'^[a-zA-Z]');
 
 User? user = FirebaseAuth.instance.currentUser;
 DocumentReference owner = FirebaseFirestore.instance.collection('pet owners').doc(user?.uid);
@@ -263,19 +263,25 @@ class editProfile extends StatelessWidget {
                           .errorColor,
                     ));
                     emailError++;
-                  }
+                  } else {
+                    try {
+                      await FirebaseAuth.instance.currentUser!.updateEmail(
+                          emailController.text);
 
-                  else {
-                    await FirebaseAuth.instance.currentUser!.updateEmail(
-                        emailController.text);
-
-                    owner.reference.update({
-                      'email': emailController.text
-                    });
-                    userRef.update({
-                      'email': emailController.text
-                    });
-                    change++;
+                      owner.reference.update({'email': emailController.text});
+                      userRef.update({'email': emailController.text});
+                      change++;
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'email-already-in-use') {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              'The account already exists for that email.'),
+                          backgroundColor: Theme
+                              .of(context)
+                              .errorColor,),);
+                        emailError++;
+                      }
+                    }
                   }
                 }
 

@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'models/global.dart';
 import 'ownerProfile.dart';
- final  validCharacters = RegExp(r'^[a-zA-Z0-9]+$');
+ final  validCharacters = RegExp(r'^[a-zA-Z]+$');
 
 User? user = FirebaseAuth.instance.currentUser;
 DocumentReference owner = FirebaseFirestore.instance.collection('pet owners').doc(user?.uid);

@@ -64,19 +64,19 @@ class appointCalendarState extends State<appointCalendar> {
               Padding(
                   padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
                   child:SfCalendar(
+
         backgroundColor: Color(0xFFF4E3E3),
     view: _calendarView,
     showNavigationArrow: true,
     monthViewSettings: const MonthViewSettings(
     showAgenda: true,
-    agendaViewHeight: 500,
+    agendaViewHeight: 450,
     numberOfWeeksInView: 1
     ),
     dataSource: _events,
     onTap: onCalendarTapped,
     initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,
     DateTime.now().day, 0, 0, 0),
-    initialSelectedDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0),
     timeSlotViewSettings: const TimeSlotViewSettings(
     minimumAppointmentDuration: Duration(minutes: 30)),
     appointmentTextStyle: TextStyle(
@@ -98,7 +98,9 @@ class appointCalendarState extends State<appointCalendar> {
                     foregroundColor: Colors.white,
                     //mini: true,
                     onPressed: () {
-                      addAppointment(DateTime(_selected.date!.year,_selected.date!.month,_selected.date!.day,9,0,0));
+                      DateTime date = _selected.date!.isBefore(DateTime(DateTime.now().year, DateTime.now().month,
+                          DateTime.now().day, 0, 0, 0)) ? DateTime.now() : DateTime(_selected.date!.year,_selected.date!.month,_selected.date!.day,9,0,0);
+                      addAppointment(date);
                     },
                     child: Icon(Icons.add),
                   )
@@ -114,7 +116,13 @@ class appointCalendarState extends State<appointCalendar> {
         calendarTapDetails.targetElement != CalendarElement.appointment) {
       return;
     }
-    setState(() {
+  if(calendarTapDetails.date!.isBefore(DateTime(DateTime.now().year, DateTime.now().month,
+      DateTime.now().day, 0, 0, 0)) && calendarTapDetails.targetElement == CalendarElement.appointment)
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("You can't edit past appointments details."),
+      backgroundColor:Colors.red,),);
+
+  else{  setState(() {
       _selectedAppointment = null;
       _doc = '';
 
@@ -126,7 +134,7 @@ class appointCalendarState extends State<appointCalendar> {
         }} else {
         _selected = calendarTapDetails;
       }
-    });
+    }); }
   }
 
   void editAppointment(Appointment appointmentDetails) {

@@ -33,14 +33,16 @@ class selectState extends State<select> {
   int? timeIndex;
   int? petIndex;
   String title = ' ';
+  String emp = '';
   // String? petName;
   //String? stime;
-
+  var selectedCurrency;
   @override
   void initState() {
     super.initState();
     t = widget.type;
-    title = (t == 0) ? "Check-Up" : "Grooming"; //here var is call and set to
+    title = (t == 0) ? "Check-Up" : "Grooming";
+    emp = (t == 0) ? "Doctor" : "Groomer";//here var is call and set to
   }
 
   DateTime selectedDate = DateTime.now();
@@ -89,33 +91,118 @@ class selectState extends State<select> {
                       fontSize: 34,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.bold))),
+
           Container(
             padding: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+            child: Text(
+              'Select $emp:',
+              style: TextStyle(
+                  color: const Color(0xFF552648B),
+                  fontSize: 18,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),Container(
+            padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+            child: Form(
+              child: Column(
+                children: [
+                  StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("Worker")
+                          .where("job", isEqualTo: "$emp")
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        List<DropdownMenuItem> currencyItems = [];
+
+                        if (!snapshot.hasData)
+                          const Text("Loading.....");
+                        else {
+                          for (int i = 0;
+                          i < (snapshot.data!).docs.length;
+                          i++) {
+                            DocumentSnapshot snap = (snapshot.data!).docs[i];
+                            currencyItems.add(
+                              DropdownMenuItem(
+                                  child: Text(
+                                    snap.get("name"),
+                                    style: TextStyle(color: Colors.black38),
+                                  ),
+                                  value: ("${snap.get("name")}")),
+                            );
+                          }
+                        }
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(50, 5, 137, 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: new DropdownButtonHideUnderline(
+                                child: new DropdownButton<dynamic>(
+                                  icon: Icon(Icons.keyboard_arrow_down),
+                                  items: currencyItems,
+                                  hint: new Text("Select $emp ..."),
+                                  onChanged: (currencyValue) {
+                                    setState(() {
+                                      selectedCurrency = currencyValue;
+                                    });
+                                  },
+                                  value: selectedCurrency,
+                                  style: TextStyle(
+                                    color: Colors.black38,
+                                    fontSize: 16,
+                                    height: 1.0,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                  focusColor: Colors.white,
+                                  dropdownColor: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                ],
+              ),
+            ),
+          ),
+
+
+          Container(
+            padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
             child: Text(
               'Select Day:',
               style: TextStyle(
                   color: const Color(0xFF552648B),
-                  fontSize: 20,
+                  fontSize: 18,
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold),
             ),
           ),
           Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
               child: GestureDetector(
-                  onTap: () => showDialog(),
+                  onTap: () { if(selectedCurrency==null)
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("You Must Select a Doctort First"),
+                      backgroundColor:Colors.red,),);
+                    else
+                    showDialog();},
                   child: AbsorbPointer(
                     child: TextField(
                       controller: _date,
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.blueGrey,
+                        color: Colors.black38,
+                        fontSize: 16,
+                        height: 1.0,
+                        fontStyle: FontStyle.italic,
                       ),
                       decoration: InputDecoration(
-                        icon: Icon(
-                          Icons.calendar_today,
-                        ),
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Enter Date",
@@ -129,22 +216,23 @@ class selectState extends State<select> {
                     ),
                   ))),
           Container(
-            padding: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+            padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
             child: Text(
               'Select Time:',
               style: TextStyle(
                   color: const Color(0xFF552648B),
-                  fontSize: 20,
+                  fontSize: 18,
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold),
             ),
           ),
           Container(
               height: 120,
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
               child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('appointment ')
+                  .where('empName', isEqualTo: selectedCurrency.toString())
                       .where('date',
                           isEqualTo:
                               DateFormat('dd/MM/yyyy').format(selectedDate))
@@ -187,10 +275,10 @@ class selectState extends State<select> {
                                           BorderRadius.circular(20.0)),
                                   child: Container(
                                     padding:
-                                        EdgeInsets.only(top: 20, bottom: 20),
+                                        EdgeInsets.only(top: 10, bottom: 10),
                                     margin:
                                         EdgeInsets.only(left: 20, right: 20),
-                                    width: 160,
+                                    width: 145,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50.0),
                                     ),
@@ -206,7 +294,7 @@ class selectState extends State<select> {
                                             ,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 20,
+                                                fontSize: 18,
                                                 color: timeIndex == index
                                                     ? Colors.white
                                                     : Color(0XFF2F3542))),
@@ -216,12 +304,12 @@ class selectState extends State<select> {
                         });
                   })),
           Container(
-            padding: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+            padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
             child: Text(
               'Select Pet:',
               style: TextStyle(
                   color: const Color(0xFF552648B),
-                  fontSize: 20,
+                  fontSize: 18,
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold),
             ),
@@ -253,7 +341,56 @@ class selectState extends State<select> {
                           index, context, (snapshot.data!).docs[index]),
                     );
                   })),
+Visibility(
+    visible: t==0,
+          child: Column(
+
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Container(
+            padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
+            child: Text(
+              'Enter Reason:',
+              style: TextStyle(
+                  color: const Color(0xFF552648B),
+                  fontSize: 18,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
           Container(
+            padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+            //margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+            child: TextField(
+              keyboardType: TextInputType.multiline,
+              minLines: 1,
+              maxLines: 5,
+              style: TextStyle(
+                  fontSize: 16,
+                  height: 1.0,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.black38),
+              decoration: InputDecoration(
+                hintText: ('Enter your reason of visit...'),
+                contentPadding:
+                new EdgeInsets.symmetric(vertical: 25.0, horizontal: 10.0),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 1.0),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 1.0),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                hintStyle: TextStyle(color: Colors.black38),
+              ),
+            ),
+          ),
+])),
+
+    Container(
             child: Align(
               alignment: Alignment.bottomCenter,
               heightFactor: 1.5,
@@ -316,7 +453,7 @@ class selectState extends State<select> {
 
                   ),
             ),
-          ),
+    )
         ]));
   }
 

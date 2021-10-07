@@ -529,7 +529,7 @@ else{
                                   final DateTime? date = await showDatePicker(
                                     context: context,
                                     initialDate: _startDate,
-                                    firstDate: DateTime(1900),
+                                    firstDate: DateTime.now(),
                                     lastDate: DateTime(2100),
                                   );
 

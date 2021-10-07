@@ -26,7 +26,8 @@ class _adminHomePageState extends State<AdminHomePage> {
     return Scaffold(
       backgroundColor: const Color(0xFFF4E3E3),
       body: Center(
-        child: Column(
+        child: SingleChildScrollView(
+            child:Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
@@ -114,7 +115,7 @@ class _adminHomePageState extends State<AdminHomePage> {
 
             ),
           ],
-        ),
+        )),
       ),
     );
   }

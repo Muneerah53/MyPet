@@ -28,7 +28,7 @@ class _mainPageState extends State<mainPage> {
       _selectedIndex = i;
     });
   }
-
+  GlobalKey _globalKey = navKeys.globalKey;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _mainPageState extends State<mainPage> {
       },
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
-          key: globalKey,
+          key: _globalKey,
           currentIndex: _selectedIndex,
           selectedItemColor: Color(0xFFFF6B81),
           unselectedItemColor: Color(0xFF9db0a5),
@@ -117,7 +117,6 @@ class _mainPageState extends State<mainPage> {
 
   Widget _buildOffstageNavigator(int index) {
     Map<String, WidgetBuilder> routeBuilders = _routeBuilders(context, index);
-    print(index);
     return Offstage(
       offstage: _selectedIndex != index,
       child: Navigator(

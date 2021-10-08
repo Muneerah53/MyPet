@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:MyPet/Appointment.dart';
 import 'package:MyPet/MyPets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'OwnerProfile.dart';
 import 'login.dart';
 import 'package:MyPet/models/global.dart';
+
 
 
 
@@ -16,6 +19,8 @@ class ownerPage extends StatefulWidget {
 }
 
 class _PetPageState extends State<ownerPage> {
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,17 +49,20 @@ class _PetPageState extends State<ownerPage> {
           body: SingleChildScrollView(
             child: Column(
               children: [
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image(
-                        width: 150.0,
-                        height: 137.0,
+                        width: 130,
+                        height: 160,
                         fit: BoxFit.fill,
-                        image: new AssetImage('images/image_1.png'))
+                        image: new AssetImage('images/logo.jpeg'))
                   ],
                 ),
                 Row(
+                  children: [
+                    Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Image(
@@ -63,7 +71,22 @@ class _PetPageState extends State<ownerPage> {
                         fit: BoxFit.contain,
                         image: new AssetImage('images/image_2.png'))
                   ],
-                ),
+
+                ), /*Column(
+                      children: <Widget>[ Container(
+                        margin: EdgeInsets.only(left: 30),
+                        child:
+                        Text(
+                          'Welcome',
+                          style: TextStyle(
+                              color: Color(0XFF52648B),
+                              fontSize: 35,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.bold),
+                        ),
+
+                      ),],),*/
+                   ],),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

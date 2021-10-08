@@ -57,7 +57,7 @@ class pet extends StatelessWidget {
     return Scaffold(
 
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.red[50],
+      backgroundColor: Color(0xFFF4E3E3),
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation:0,

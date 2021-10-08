@@ -54,7 +54,7 @@ class _addPet extends State<addPet> {
     return Scaffold(
 
         resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.red[50],
+        backgroundColor: Color(0xFFF4E3E3),
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation:0,
@@ -74,8 +74,9 @@ class _addPet extends State<addPet> {
           child:  Column(
               children: [ Container(
               padding: const EdgeInsets.all(15),
-              color: Colors.red[50],
-              child: Column(
+              color:   Color(0xFFF4E3E3),
+
+        child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
 

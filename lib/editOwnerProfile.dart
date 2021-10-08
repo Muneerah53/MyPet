@@ -293,7 +293,7 @@ class editProfile extends StatelessWidget {
                   Navigator.push(
                       context, MaterialPageRoute(builder: (_) => Profile()))
                       .catchError((error) => print('Delete failed: $error'));
-                  ;
+
                 }
                 else if ((emailError == 0) & (change == 0) & (phoneError ==
                     0)&(fnameError==0)&(lnameError==0)) ScaffoldMessenger.of(

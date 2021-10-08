@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:MyPet/Appointment.dart';
 import 'package:MyPet/MyPets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'OwnerProfile.dart';
 import 'login.dart';
+
 
 class ownerPage extends StatefulWidget {
   const ownerPage({Key? key}) : super(key: key);
@@ -13,6 +16,8 @@ class ownerPage extends StatefulWidget {
 }
 
 class _PetPageState extends State<ownerPage> {
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,6 +47,7 @@ class _PetPageState extends State<ownerPage> {
             child: Column(
               children: [
                 Row(
+
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image(
@@ -52,6 +58,8 @@ class _PetPageState extends State<ownerPage> {
                   ],
                 ),
                 Row(
+                  children: [
+                    Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Image(
@@ -60,7 +68,22 @@ class _PetPageState extends State<ownerPage> {
                         fit: BoxFit.contain,
                         image: new AssetImage('images/image_2.png'))
                   ],
+
                 ),
+                    Column(
+                        children: <Widget>[ Container(
+                  padding: EdgeInsets.only(left: 30,bottom: 20),
+                  child: Center(
+                    child: Text(
+                      'Welcome,',
+                      style: TextStyle(
+                          color: Color(0XFF52648B),
+                          fontSize: 34,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),],),],),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

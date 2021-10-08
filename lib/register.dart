@@ -295,7 +295,6 @@ class Home extends StatelessWidget {
                                 msg =
                                 'The account already exists for that email.';
                               }
-                              //we can add any code we whant and set the error message based on the error code
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                 content: Text(msg),
@@ -329,12 +328,13 @@ class Home extends StatelessWidget {
                                 'ownerID': userCredential.user!.uid,
                                 'uid': userCredential.user!.uid
                               });
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  return ownerPage();
-                                }),
-                              );
+
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("account is created successfully "),
+                                backgroundColor:Colors.green,),);
+                              Navigator.push(context,MaterialPageRoute(builder: (_) =>ownerPage())) .catchError((error) => print('created failed: $error'));
+
+                           //   Navigator.push(context,MaterialPageRoute(builder: (context) {return ownerPage();}),);
                             } else {
                               print('user does not exist');
                             }
@@ -346,6 +346,8 @@ class Home extends StatelessWidget {
                               duration: Duration(seconds: 6),
                             ));
                           }*/
+
+
                         },
                         color: Color(0xff313540),
                         elevation: 0,

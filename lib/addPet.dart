@@ -257,7 +257,7 @@ class _addPet extends State<addPet> {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text("New pet is added successfully "),
                               backgroundColor:Colors.green,),);
-                            //Put your code here which you want to execute on Cancel button click.
+
                             Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
 
                           }

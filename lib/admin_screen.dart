@@ -35,7 +35,7 @@ class _managerPageState extends State<managerPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    GlobalKey _globalKey = navKeys.globalKeyAdmin;
     return WillPopScope(
       onWillPop: () async {
         final isFirstRouteInCurrentTab =
@@ -50,7 +50,7 @@ class _managerPageState extends State<managerPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         bottomNavigationBar: BottomNavigationBar(
-          key: globalKeyAdmin,
+          key: _globalKey,
           currentIndex: _selectedIndex,
           selectedItemColor: Color(0xFFFF6B81),
           unselectedItemColor: Color(0xFF9db0a5),
@@ -97,16 +97,11 @@ class _managerPageState extends State<managerPage> {
   }
 
 
-  void _next() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-  }
-
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context, int index) {
     return {
       '/': (context) {
         return [
           AdminHomePage(
-            onNext: _next
           ),
           appointCalendar(),
           docList(),
@@ -117,7 +112,6 @@ class _managerPageState extends State<managerPage> {
 
   Widget _buildOffstageNavigator(int index) {
     Map<String, WidgetBuilder> routeBuilders = _routeBuilders(context, index);
-    print(index);
     return Offstage(
       offstage: _selectedIndex != index,
       child: Navigator(

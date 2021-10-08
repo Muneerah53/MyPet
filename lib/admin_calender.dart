@@ -35,7 +35,7 @@ class appointCalendarState extends State<appointCalendar> {
   CalendarView _calendarView = CalendarView.month;
 
   late List<Appointment> appointments;
-
+  GlobalKey _globalKey = navKeys.globalKeyAdmin;
   @override
   void initState()  {
     _calendarView = CalendarView.month;
@@ -60,7 +60,7 @@ class appointCalendarState extends State<appointCalendar> {
                 style: TextStyle(color:Color(0XFFFF6B81))),
             leading: ElevatedButton(
               onPressed: () {
-                BottomNavigationBar navigationBar =  globalKeyAdmin.currentWidget as BottomNavigationBar;
+                BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
                 navigationBar.onTap!(0);
               },
               child: Icon(Icons.arrow_back_ios, color: Colors.white),

@@ -47,7 +47,7 @@ class Mypets extends StatelessWidget {
 }
 class MyPets extends StatelessWidget {
   var primaryColor = const Color(0xff313540);
-
+  GlobalKey _globalKey = navKeys.globalKey;
   @override
   Widget build(BuildContext context) {
 
@@ -59,7 +59,7 @@ class MyPets extends StatelessWidget {
           elevation:0,
           leading: ElevatedButton(
             onPressed: () {
-              BottomNavigationBar navigationBar =  globalKey.currentWidget as BottomNavigationBar;
+              BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
               navigationBar.onTap!(0);
             },
             child: Icon(Icons.arrow_back_ios, color: Colors.white),

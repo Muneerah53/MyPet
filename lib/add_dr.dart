@@ -15,6 +15,9 @@ class docList extends StatefulWidget {
 class docListState extends State<docList> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
+
+  GlobalKey _globalKey = navKeys.globalKeyAdmin;
+
   final _dformKey = GlobalKey<FormState>();
   final _controller = TextEditingController();
   //bool _value = false;
@@ -50,7 +53,7 @@ late String _selectedID;
                 style: TextStyle(color:Color(0XFFFF6B81))),
             leading: ElevatedButton(
               onPressed: () {
-                BottomNavigationBar navigationBar =  globalKeyAdmin.currentWidget as BottomNavigationBar;
+                BottomNavigationBar navigationBar = _globalKey.currentWidget as BottomNavigationBar;
                 navigationBar.onTap!(0);
               },
               child: Icon(Icons.arrow_back_ios, color: Colors.white),

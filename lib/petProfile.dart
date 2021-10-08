@@ -53,7 +53,7 @@ class pet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var primaryColor = const Color(0xff313540);
-
+    GlobalKey _globalKey = navKeys.globalKey;
     return Scaffold(
 
       resizeToAvoidBottomInset: true,
@@ -63,7 +63,7 @@ class pet extends StatelessWidget {
           elevation:0,
           leading: ElevatedButton(
             onPressed: () {
-              BottomNavigationBar navigationBar =  globalKey.currentWidget as BottomNavigationBar;
+              BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
               navigationBar.onTap!(0);
             },
             child: Icon(Icons.arrow_back_ios, color: Colors.white),

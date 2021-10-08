@@ -20,7 +20,7 @@ class ownerPage extends StatefulWidget {
 
 class _PetPageState extends State<ownerPage> {
 
-
+  GlobalKey _globalKey = navKeys.globalKey;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,7 +40,8 @@ class _PetPageState extends State<ownerPage> {
                   await FirebaseAuth.instance.signOut().catchError((error){
                     print(error.toString());
                   });
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+
+                  Navigator.of(context,rootNavigator: true).push(MaterialPageRoute(builder: (context) =>  LoginPage()));
                 },
               ),
             ],
@@ -103,7 +104,7 @@ class _PetPageState extends State<ownerPage> {
                               elevation: 4.0,
                               child: new InkWell(
                                  onTap: () {
-                                   BottomNavigationBar navigationBar =  globalKey.currentWidget as BottomNavigationBar;
+                                   BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
                                    navigationBar.onTap!(1);
                               //    Navigator.push(context, MaterialPageRoute(builder: (context) => Mypets()),);
                                 },
@@ -133,7 +134,7 @@ class _PetPageState extends State<ownerPage> {
                               elevation: 4.0,
                               child: new InkWell(
                                  onTap: () {
-                                   BottomNavigationBar navigationBar =  globalKey.currentWidget as BottomNavigationBar;
+                                   BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
                                    navigationBar.onTap!(2);
                                   /*Navigator.push(
                                     context,
@@ -203,7 +204,7 @@ class _PetPageState extends State<ownerPage> {
                               elevation: 4.0,
                               child: new InkWell(
                              onTap: () {
-                               BottomNavigationBar navigationBar =  globalKey.currentWidget as BottomNavigationBar;
+                               BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
                                navigationBar.onTap!(3);
                                   //Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()),);
                                 },

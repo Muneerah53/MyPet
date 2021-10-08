@@ -8,14 +8,14 @@ import 'package:MyPet/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdminHomePage extends StatefulWidget {
-  final Function onNext;
-  AdminHomePage({required this.onNext});
+
+  AdminHomePage();
 
   State<AdminHomePage> createState() => _adminHomePageState();
 }
 
 class _adminHomePageState extends State<AdminHomePage> {
-
+  GlobalKey _globalKey = navKeys.globalKeyAdmin;
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -41,8 +41,7 @@ class _adminHomePageState extends State<AdminHomePage> {
     await FirebaseAuth.instance.signOut().catchError((error){
     print(error.toString());
     });
- // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-    widget.onNext;
+    Navigator.of(context,rootNavigator: true).push(MaterialPageRoute(builder: (context) =>  LoginPage()));
             },
           ),
         ],
@@ -75,7 +74,7 @@ class _adminHomePageState extends State<AdminHomePage> {
               height: 153,
               child: ElevatedButton(
                   onPressed: () {
-                    BottomNavigationBar navigationBar =  globalKeyAdmin.currentWidget as BottomNavigationBar;
+                    BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
                     navigationBar.onTap!(1);
                  /*   Navigator.push(
                       context,
@@ -107,7 +106,7 @@ class _adminHomePageState extends State<AdminHomePage> {
               height: 153,
               child: ElevatedButton(
                   onPressed: () {
-                    BottomNavigationBar navigationBar =  globalKeyAdmin.currentWidget as BottomNavigationBar;
+                    BottomNavigationBar navigationBar =   _globalKey.currentWidget as BottomNavigationBar;
                     navigationBar.onTap!(2);
                   /*  Navigator.push(
                       context,

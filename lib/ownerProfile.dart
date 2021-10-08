@@ -17,7 +17,7 @@ int myPets = 0;
 
 class Profile extends StatelessWidget {
   String ownerID="";
-
+  GlobalKey _globalKey = navKeys.globalKey;
   @override
   Widget build(BuildContext context) {
 
@@ -29,7 +29,7 @@ class Profile extends StatelessWidget {
           elevation:0,
           leading: ElevatedButton(
             onPressed: () {
-              BottomNavigationBar navigationBar =  globalKey.currentWidget as BottomNavigationBar;
+              BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
               navigationBar.onTap!(0);
             },
             child: Icon(Icons.arrow_back_ios, color: Colors.white),

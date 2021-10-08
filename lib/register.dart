@@ -62,13 +62,14 @@ class Home extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.red[50],
+    backgroundColor: Color(0xFFF4E3E3),
       appBar: AppBar(
         elevation: 0,
         brightness: Brightness.light,
-        backgroundColor: Colors.red[50],
+        backgroundColor: Color(0xFFF4E3E3),
         leading: IconButton(
           onPressed: () {
             //  Navigator.push(

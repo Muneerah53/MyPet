@@ -46,15 +46,15 @@ class _PetPageState extends State<ownerPage> {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                Row(
 
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image(
-                        width: 150.0,
-                        height: 137.0,
+                        width: 130,
+                        height: 160,
                         fit: BoxFit.fill,
-                        image: new AssetImage('images/image_1.png'))
+                        image: new AssetImage('images/logo.jpeg'))
                   ],
                 ),
                 Row(
@@ -69,21 +69,21 @@ class _PetPageState extends State<ownerPage> {
                         image: new AssetImage('images/image_2.png'))
                   ],
 
-                ),
-                    Column(
-                        children: <Widget>[ Container(
-                  padding: EdgeInsets.only(left: 30,bottom: 20),
-                  child: Center(
-                    child: Text(
-                      'Welcome,',
-                      style: TextStyle(
-                          color: Color(0XFF52648B),
-                          fontSize: 34,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),],),],),
+                ), /*Column(
+                      children: <Widget>[ Container(
+                        margin: EdgeInsets.only(left: 30),
+                        child:
+                        Text(
+                          'Welcome',
+                          style: TextStyle(
+                              color: Color(0XFF52648B),
+                              fontSize: 35,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.bold),
+                        ),
+
+                      ),],),*/
+                   ],),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

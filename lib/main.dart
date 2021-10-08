@@ -45,12 +45,12 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red[50],
+      backgroundColor: Color(0xFFF4E3E3),
       body:  Center(
           child: Column(
               children: <Widget>[
                 Container(
-                    margin: EdgeInsets.fromLTRB(50, 40, 50, 30),
+                    margin: EdgeInsets.fromLTRB(50, 80, 50, 30),
                     width: 130,
                     height: 160,
                     decoration: BoxDecoration(
@@ -59,6 +59,8 @@ class Home extends StatelessWidget {
                         )
                     )
                 ),
+        Container(
+            margin: EdgeInsets.fromLTRB(0, 40, 0, 0),),
                 Image.asset(
                   'images/dog2.png',
                   height: 240,
@@ -66,7 +68,7 @@ class Home extends StatelessWidget {
                 ),
                 SizedBox(height: 30),
                 Padding(
-                  padding: const EdgeInsets.all(24),
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24,24),
                   child:
                   Text("Hi there would you like start a journey in MyPet app ?  "
                       ,textAlign: TextAlign.center,
@@ -99,7 +101,7 @@ class Home extends StatelessWidget {
                                     Navigator.push(
                                         context, MaterialPageRoute(builder: (_) => login()));
                                   },
-                                  child: Text("contuniue", style: new TextStyle(
+                                  child: Text("Start", style: new TextStyle(
                                     fontSize: 18.0,color: Colors.white,)
                                   )
                               )

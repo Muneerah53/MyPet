@@ -42,20 +42,24 @@ class _OrderListState extends State<OrderList> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFFF4E3E3),
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation:0,
+            leading: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.arrow_back_ios, color: Colors.white),
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(20),
+                primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
+              ),
+            )
+        ),
         body: SingleChildScrollView(
             child: Center(
                 child: Column(children: [
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 80, 330, 0),
-            padding: EdgeInsets.only(left: 10.0),
-            width: 50,
-            height: 50,
-            child: BackButton(
-              color: Colors.white,
-            ),
-            decoration: BoxDecoration(
-                color: Colors.lightBlueAccent, shape: (BoxShape.circle)),
-          ),
           Container(
             margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
             child: Text(

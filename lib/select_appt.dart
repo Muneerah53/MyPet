@@ -66,22 +66,28 @@ class selectState extends State<select> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFFF4E3E3),
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation:0,
+            leading: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.arrow_back_ios, color: Colors.white),
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(20),
+                primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
+              ),
+            )
+        ),
         // appBar: AppBar(
         //   elevation: 0,
         //   backgroundColor: Colors.transparent,
         // ),
+
         body: ListView(children: <Widget>[
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 10, 330, 0),
-            padding: EdgeInsets.only(left: 10.0),
-            width: 50,
-            height: 50,
-            child: BackButton(
-              color: Colors.white,
-            ),
-            decoration: BoxDecoration(
-                color: Colors.lightBlueAccent, shape: (BoxShape.circle)),
-          ),
+
           Container(
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Text(title,
@@ -405,17 +411,24 @@ Visibility(
                             'There is a missing field you you should fill it all  ';
                         showAlertDialog(context);
                       } else {
-                        date =
-                            DateFormat('EEE, MMM dd yyyy').format(selectedDate);
-                        Navigator.push(
+                        if (selectedCurrency == null) {
+                          showAlertDialog(context);
+                        } else {
+                          t = 0;
+                          date =
+                              DateFormat('EEE, MMM dd yyyy').format(selectedDate);
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (BuildContext context) => CheckUP(
-                                      date: date,
-                                      time: time,
-                                      pet: pets,
-                                    appointID: appointID
-                                    )));
+                                builder: (BuildContext context) => OrderList(
+                                  type: t,
+                                  date: date,
+                                  pet: pets,
+                                  time: time,
+                                  appointID: appointID,
+                                )),
+                          );
+                        }
                       }
                     } else {
                       if ((_date == null) ||

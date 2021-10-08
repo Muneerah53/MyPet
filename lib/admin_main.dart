@@ -1,3 +1,4 @@
+import 'package:MyPet/models/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:MyPet/admin_calender.dart';
@@ -7,8 +8,8 @@ import 'package:MyPet/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdminHomePage extends StatefulWidget {
-  AdminHomePage();
-
+  final Function onNext;
+  AdminHomePage({required this.onNext});
 
   State<AdminHomePage> createState() => _adminHomePageState();
 }
@@ -25,23 +26,37 @@ class _adminHomePageState extends State<AdminHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       backgroundColor: const Color(0xFFF4E3E3),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+            iconSize: 35.0,
+            icon: Icon(
+              Icons.logout,
+              color: Color(0xFF2F3542),
+            ),
+            onPressed: () async {
+    await FirebaseAuth.instance.signOut().catchError((error){
+    print(error.toString());
+    });
+ // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+    widget.onNext;
+            },
+          ),
+        ],
+      ),
       body: Center(
         child: SingleChildScrollView(
             child:Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-              alignment: Alignment.topLeft,
-                onPressed: () async {
-                await FirebaseAuth.instance.signOut().catchError((error){
-                  print(error.toString());
-                });
-                Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));},
-                icon: Icon(Icons.logout)),
+
             Container(
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
               child: Text(
-                'Admin',
+                'Manager',
                 style: TextStyle(
                     color: Color(0XFFFF6B81),
                     fontSize: 34,
@@ -60,11 +75,13 @@ class _adminHomePageState extends State<AdminHomePage> {
               height: 153,
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    BottomNavigationBar navigationBar =  globalKeyAdmin.currentWidget as BottomNavigationBar;
+                    navigationBar.onTap!(1);
+                 /*   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => appointCalendar()),
-                    );
+                    ); */
                   },
                   child: Text('Manage Schedule',
                       style: TextStyle(
@@ -90,11 +107,13 @@ class _adminHomePageState extends State<AdminHomePage> {
               height: 153,
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    BottomNavigationBar navigationBar =  globalKeyAdmin.currentWidget as BottomNavigationBar;
+                    navigationBar.onTap!(2);
+                  /*  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => docList()),
-                    );
+                    ); */
                   },
                   child: Text('Manage Employees',
                       style: TextStyle(

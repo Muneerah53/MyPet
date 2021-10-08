@@ -59,19 +59,20 @@ class pet extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.red[50],
       appBar: AppBar(
-        elevation: 0,
-        brightness: Brightness.light,
-        backgroundColor: Colors.red[50],
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets()));
-          },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color: Colors.black,
-          ),
-        ),
+          backgroundColor: Colors.transparent,
+          elevation:0,
+          leading: ElevatedButton(
+            onPressed: () {
+              BottomNavigationBar navigationBar =  globalKey.currentWidget as BottomNavigationBar;
+              navigationBar.onTap!(0);
+            },
+            child: Icon(Icons.arrow_back_ios, color: Colors.white),
+            style: ElevatedButton.styleFrom(
+              shape: CircleBorder(),
+              padding: EdgeInsets.all(20),
+              primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
+            ),
+          )
       ),
       body: Stack(
 

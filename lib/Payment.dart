@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'models/global.dart';
 import 'petOwner_main.dart';
 var primaryColor = const Color(0xff313540);
 class Payment extends StatefulWidget {
@@ -13,20 +14,25 @@ class _PaymentState extends State<Payment> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFFF4E3E3),
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation:0,
+            leading: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.arrow_back_ios, color: Colors.white),
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(20),
+                primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
+              ),
+            )
+        ),
         body: SingleChildScrollView(
             child: Center(
           child: Column(children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 80, 330, 0),
-              padding: EdgeInsets.only(left: 10.0),
-              width: 50,
-              height: 50,
-              child: BackButton(
-                color: Colors.white,
-              ),
-              decoration: BoxDecoration(
-                  color: Colors.lightBlueAccent, shape: (BoxShape.circle)),
-            ),
+
 
             Container(
               padding: EdgeInsets.only(top: 280.0,left: 30,bottom: 20),
@@ -53,7 +59,9 @@ class _PaymentState extends State<Payment> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               onPressed: () async {
-                  Navigator.push(context,MaterialPageRoute(builder: (_) =>ownerPage())) .catchError((error) => print('Delete failed: $error'));;
+                BottomNavigationBar navigationBar =  globalKey.currentWidget as BottomNavigationBar;
+                navigationBar.onTap!(0);
+                 // Navigator.push(context,MaterialPageRoute(builder: (_) =>ownerPage())) .catchError((error) => print('Delete failed: $error'));;
 
 
               },),

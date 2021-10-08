@@ -4,56 +4,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'petOwner_main.dart';
 import 'appointment_main.dart';
+import 'package:MyPet/models/global.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(appointmentPage());
-}
 
-class appointmentPage extends StatelessWidget {
-  final Future<FirebaseApp> fbApp = Firebase.initializeApp();
-  appointmentPage({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'MyPet',
-        theme: ThemeData(
-          scaffoldBackgroundColor: Color(0xFFF4E3E3),
-          // Define the default brightness and colors.
-          primaryColor: const Color(0XFFFF6B81),
-          primarySwatch: Colors.pink,
-          // Define the default font family.
-          fontFamily: 'Gotham',
-          // Define the default `TextTheme`. Use this to specify the default
-          // text styling for headlines, titles, bodies of text, and more.
-          textTheme: const TextTheme(
-            headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-            headline6: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-            bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Gotham'),
-          ),
-        ),
-        home: FutureBuilder(
-          future: fbApp,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              print("An error has occured ${snapshot.error.toString()}");
-              return const Text("Something went wrong");
-            } else if (snapshot.hasData) {
-              return const MyHomePage(
-                title: 'Home',
-              );
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ));
-  }
-}
+class appointmentPage extends StatefulWidget {
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const appointmentPage({Key? key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -64,13 +21,12 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<appointmentPage> createState() => _AppointPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _AppointPageState extends State<appointmentPage> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -82,24 +38,22 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.red[50],
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        elevation: 0,
-        brightness: Brightness.light,
-        backgroundColor: Colors.red[50],
-        leading: BackButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ownerPage()),
-            );
-          },
-          // icon: Icon(
-          //   Icons.arrow_back_ios,
-          //   size: 20,
-          //   color: Colors.black,
-          // ),
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation:0,
+            leading: ElevatedButton(
+              onPressed: () {
+                BottomNavigationBar navigationBar =  globalKey.currentWidget as BottomNavigationBar;
+                navigationBar.onTap!(0);
+              },
+              child: Icon(Icons.arrow_back_ios, color: Colors.white),
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(20),
+                primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
+              ),
+            )
         ),
-      ),
       body: Center(
         child: SingleChildScrollView(
 

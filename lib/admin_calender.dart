@@ -7,6 +7,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'models/global.dart';
+
 part "addappt.dart";
 
 late _AppointmentDataSource _events;
@@ -52,11 +54,24 @@ class appointCalendarState extends State<appointCalendar> {
     return Scaffold(
         backgroundColor: Color(0xFFF4E3E3),
         appBar: AppBar(
-          elevation:0,
-          title: Text('Schedule',textAlign: TextAlign.center,
-              style: TextStyle(color:Color(0XFFFF6B81))),
-          backgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+            elevation:0,
+            title: Text('Schedule',textAlign: TextAlign.center,
+                style: TextStyle(color:Color(0XFFFF6B81))),
+            leading: ElevatedButton(
+              onPressed: () {
+                BottomNavigationBar navigationBar =  globalKeyAdmin.currentWidget as BottomNavigationBar;
+                navigationBar.onTap!(0);
+              },
+              child: Icon(Icons.arrow_back_ios, color: Colors.white),
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(20),
+                primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
+              ),
+            )
         ),
+
         resizeToAvoidBottomInset: false,
         body:
         Stack(
@@ -70,7 +85,7 @@ class appointCalendarState extends State<appointCalendar> {
     showNavigationArrow: true,
     monthViewSettings: const MonthViewSettings(
     showAgenda: true,
-    agendaViewHeight: 450,
+    agendaViewHeight: 400,
     numberOfWeeksInView: 1
     ),
     dataSource: _events,

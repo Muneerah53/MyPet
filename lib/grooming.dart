@@ -56,22 +56,26 @@ class _GroomingState extends State<Grooming> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation:0,
+          leading: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Icon(Icons.arrow_back_ios, color: Colors.white),
+            style: ElevatedButton.styleFrom(
+              shape: CircleBorder(),
+              padding: EdgeInsets.all(20),
+              primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
+            ),
+          )
+      ),
       backgroundColor: const Color(0xFFF4E3E3),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 80, 330, 0),
-              padding: EdgeInsets.only(left: 10.0),
-              width: 50,
-              height: 50,
-              child: BackButton(
-                color: Colors.white,
-              ),
-              decoration: BoxDecoration(
-                  color: Colors.lightBlueAccent, shape: (BoxShape.circle)),
-            ),
             Container(
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Text(
@@ -83,72 +87,6 @@ class _GroomingState extends State<Grooming> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-
-        Container(
-          margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-            child:
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection("Worker").where("job", isEqualTo: "Groomer")
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  List<DropdownMenuItem> currencyItems = [];
-
-                  if (!snapshot.hasData)
-                    const Text("Loading.....");
-                  else {
-                    for (int i = 0;
-                    i < (snapshot.data!).docs.length;
-                    i++) {
-                      DocumentSnapshot snap = (snapshot.data!).docs[i];
-                      currencyItems.add(
-                        DropdownMenuItem(
-                            child: Text(
-                              snap.get("name"),
-                              style: TextStyle(color: Colors.black38),
-                            ),
-                            value: ("${snap.get("name")}")),
-                      );
-                    }
-                  }
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        padding: new EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 90.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: new DropdownButtonHideUnderline(
-                          child: new DropdownButton<dynamic>(
-                            icon: Icon(Icons.keyboard_arrow_down),
-                            items: currencyItems,
-                            hint: new Text("Select The Groomer ..."),
-                            onChanged: (currencyValue) {
-                              setState(() {
-                                selectedCurrency = currencyValue;
-                              });
-                            },
-                            value: selectedCurrency,
-                            style: TextStyle(
-                              color: Colors.black38,
-                              fontSize: 16,
-                              height: 1.0,
-                              fontStyle: FontStyle.italic,
-                            ),
-                            focusColor: Colors.white,
-                            dropdownColor: Colors.white,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                }),
-        ),
-
 
             Container(
               margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
@@ -700,9 +638,7 @@ class _GroomingState extends State<Grooming> {
               height: 73,
               child: ElevatedButton(
                   onPressed: () {
-                    if(selectedCurrency==null)
-                      showAlertDialog(context,'You Must Select a Groomer');
-                    else
+
                     if (!(ShowerAndDryingV ||
                         DryCleanV ||
                         ShavingV ||

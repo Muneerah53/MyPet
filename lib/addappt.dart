@@ -39,173 +39,184 @@ class appointmentFormState extends State<appointmentForm> {
       key: _scaffoldKey,
       backgroundColor: Color(0xFFF4E3E3),
       appBar: AppBar(
-        elevation: 0,
-        title: Text('$title Appointment', textAlign: TextAlign.left,
-            style: TextStyle(color: Color(0XFFFF6B81))),
-        backgroundColor: Colors.transparent,
-        actions: <Widget>[
-          IconButton(
-              iconSize: 34,
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-              icon: const Icon(
-                Icons.done,
-                color: Color(0xFF7F3557),
-              ),
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-    bool exists = false;
+          backgroundColor: Colors.transparent,
+          elevation:0,
+          title: Text('$title Appointment', textAlign: TextAlign.left,
+              style: TextStyle(color: Color(0XFFFF6B81))),
+          leading: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Icon(Icons.arrow_back_ios, color: Colors.white),
+            style: ElevatedButton.styleFrom(
+              shape: CircleBorder(),
+              padding: EdgeInsets.all(20),
+              primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
+            ),
+          )
+          ,actions: <Widget>[
+      IconButton(
+      iconSize: 34,
+          padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+          icon: const Icon(
+            Icons.done,
+            color: Color(0xFF7F3557),
+          ),
+          onPressed: () async {
+            if (_formKey.currentState!.validate()) {
+              bool exists = false;
 
 
-    _doc = selectedDoctor.toString();
-    await FirebaseFirestore.instance.collection("appointment ")
-        .where('empName',isEqualTo: _doc)
-        .where('date',isEqualTo: DateFormat('dd/MM/yyyy').format(_startDate))
-        .get().then((
-    QuerySnapshot data) {
-    for (var doc in data.docs) {
-    DateTime _date = DateFormat("dd/MM/yyyy").parse(doc['date'].toString());
+              _doc = selectedDoctor.toString();
+              await FirebaseFirestore.instance.collection("appointment ")
+                  .where('empName',isEqualTo: _doc)
+                  .where('date',isEqualTo: DateFormat('dd/MM/yyyy').format(_startDate))
+                  .get().then((
+                  QuerySnapshot data) {
+                for (var doc in data.docs) {
+                  DateTime _date = DateFormat("dd/MM/yyyy").parse(doc['date'].toString());
 
-    DateTime _startTimeFormat = DateFormat("hh:mm").parse(
-    doc['startTime'].toString());
-    TimeOfDay _start = TimeOfDay.fromDateTime(_startTimeFormat);
-
-
-    DateTime _startDateTime = DateTime(
-    _date.year,
-    _date.month,
-    _date.day,
-    _start.hour,
-    _start.minute,
-    0);
-    print(_startDateTime.isAtSameMomentAs(_startDate));
-    if (_startDateTime.isAtSameMomentAs(_startDate)) {
-    exists = true; break;
-    }
-    DateTime _endTimeFormat = DateFormat("h:mm").parse(
-    doc['endTime'].toString());
-    TimeOfDay _end = TimeOfDay.fromDateTime(_endTimeFormat);
-
-    DateTime _endDateTime = DateTime(
-    _date.year,
-    _date.month,
-    _date.day,
-    _end.hour,
-    _end.minute,
-    0);
+                  DateTime _startTimeFormat = DateFormat("hh:mm").parse(
+                      doc['startTime'].toString());
+                  TimeOfDay _start = TimeOfDay.fromDateTime(_startTimeFormat);
 
 
-    if (_endDateTime.isAtSameMomentAs(_endDate)) {
-    exists = true; break;
-    }
-    }
-    });
+                  DateTime _startDateTime = DateTime(
+                      _date.year,
+                      _date.month,
+                      _date.day,
+                      _start.hour,
+                      _start.minute,
+                      0);
+                  print(_startDateTime.isAtSameMomentAs(_startDate));
+                  if (_startDateTime.isAtSameMomentAs(_startDate)) {
+                    exists = true; break;
+                  }
+                  DateTime _endTimeFormat = DateFormat("h:mm").parse(
+                      doc['endTime'].toString());
+                  TimeOfDay _end = TimeOfDay.fromDateTime(_endTimeFormat);
 
-    if(exists)
-    {alertDialog(context, "Existing Appointment", "Appointments at this time exits.",);}
-else{
-    final List<Appointment> appointments = <Appointment>[];
-    //update
-    if (_selectedAppointment != null) {
-    Appointment appt = _selectedAppointment as Appointment;
-    final ds = await firestoreInstance.collection(
-    "appointment ").doc(_id).get();
-    String status = ds['state'].toString();
-    checkExistance();
-    if (status == "Booked") {
-    alertDialog(context, "Booked Appointment", "Appointment is already booked and cannot be changed;");
-    }
-
-    else {
-    Appointment temp = Appointment(
-    title: appt.title,
-    id: _id,
-    from: _startDate,
-    to: _endDate,
-    start: _startTime,
-    end: _endTime,
-    docName: _doc,
-    background: _background,
-    type: _type,
-    status: "Available");
-
-    firestoreInstance.collection("appointment ")
-        .doc(_id)
-        .update({
-    "empName": _doc,
-    "date": DateFormat('dd/MM/yyyy').format(_startDate),
-    "startTime": DateFormat.Hm().format(_startDate),
-    "endTime": DateFormat.Hm().format(_endDate),
-    });
-
-    _events.appointments!.removeAt(_events.appointments!
-        .indexOf(_selectedAppointment));
-    _events.notifyListeners(CalendarDataSourceAction.remove,
-    <Appointment>[]..add(_selectedAppointment!));
-    appointments.add(temp);
-    _events.appointments!.add(temp);
-    }
-    }
-    //add
-    else {
-    _doc = selectedDoctor.toString();
-    int n = getTime();
-    int type = getType();
-    num diff = _endDate
-        .difference(_startDate)
-        .inMinutes;
-    DateTime _appEnd = _startDate;
-    for (int i = 0; i < (diff / n).floor(); i++) {
-    DocumentReference doc = await firestoreInstance
-        .collection(
-    "appointment ").add(
-    {
-    "appointmentID": '',
-    "empName": _doc,
-    "date": DateFormat('dd/MM/yyyy').format(_startDate),
-    "startTime": DateFormat.Hm().format(_appEnd),
-    "endTime": DateFormat.Hm().format(
-    _appEnd.add(Duration(minutes: n))),
-    "state": "Available",
-    "typeID": type
-    });
-    String _id = doc.id;
-    await firestoreInstance.collection("appointment ").doc(
-    _id).update(
-    {"appointmentID": _id});
+                  DateTime _endDateTime = DateTime(
+                      _date.year,
+                      _date.month,
+                      _date.day,
+                      _end.hour,
+                      _end.minute,
+                      0);
 
 
-    appointments.add(Appointment(
-    title: (type == 0
-    ? "Check-Up by $_doc"
-        : "Grooming by $_doc") + " [Available]",
-    id: _id,
-    from: _appEnd,
-    to: _appEnd.add(Duration(minutes: n)),
-    start: TimeOfDay.fromDateTime(_appEnd),
-    // to: _endDate,
-    end: TimeOfDay.fromDateTime(_appEnd.add(Duration(
-    minutes: n))),
-    docName: _doc == '' ? '(No title)' : _doc,
-    background: type == 0 ? Color(0xFFC6D8FF) : Color(
-    0xFFFFC6F4),
-    type: type,
-    status: "Available"
-    ));
-
-    _events.appointments!.add(appointments[i]);
-    _appEnd = _appEnd.add(Duration(minutes: n));
-    }
-    }
-    _events.notifyListeners(
-    CalendarDataSourceAction.add, appointments);
-    _selectedAppointment = null;
-    Navigator.pop(context);
-
-    }
-
+                  if (_endDateTime.isAtSameMomentAs(_endDate)) {
+                    exists = true; break;
+                  }
                 }
-              })
-        ],
+              });
+
+              if(exists)
+              {alertDialog(context, "Existing Appointment", "Appointments at this time exits.",);}
+              else{
+                final List<Appointment> appointments = <Appointment>[];
+                //update
+                if (_selectedAppointment != null) {
+                  Appointment appt = _selectedAppointment as Appointment;
+                  final ds = await firestoreInstance.collection(
+                      "appointment ").doc(_id).get();
+                  String status = ds['state'].toString();
+                  checkExistance();
+                  if (status == "Booked") {
+                    alertDialog(context, "Booked Appointment", "Appointment is already booked and cannot be changed;");
+                  }
+
+                  else {
+                    Appointment temp = Appointment(
+                        title: appt.title,
+                        id: _id,
+                        from: _startDate,
+                        to: _endDate,
+                        start: _startTime,
+                        end: _endTime,
+                        docName: _doc,
+                        background: _background,
+                        type: _type,
+                        status: "Available");
+
+                    firestoreInstance.collection("appointment ")
+                        .doc(_id)
+                        .update({
+                      "empName": _doc,
+                      "date": DateFormat('dd/MM/yyyy').format(_startDate),
+                      "startTime": DateFormat.Hm().format(_startDate),
+                      "endTime": DateFormat.Hm().format(_endDate),
+                    });
+
+                    _events.appointments!.removeAt(_events.appointments!
+                        .indexOf(_selectedAppointment));
+                    _events.notifyListeners(CalendarDataSourceAction.remove,
+                        <Appointment>[]..add(_selectedAppointment!));
+                    appointments.add(temp);
+                    _events.appointments!.add(temp);
+                  }
+                }
+                //add
+                else {
+                  _doc = selectedDoctor.toString();
+                  int n = getTime();
+                  int type = getType();
+                  num diff = _endDate
+                      .difference(_startDate)
+                      .inMinutes;
+                  DateTime _appEnd = _startDate;
+                  for (int i = 0; i < (diff / n).floor(); i++) {
+                    DocumentReference doc = await firestoreInstance
+                        .collection(
+                        "appointment ").add(
+                        {
+                          "appointmentID": '',
+                          "empName": _doc,
+                          "date": DateFormat('dd/MM/yyyy').format(_startDate),
+                          "startTime": DateFormat.Hm().format(_appEnd),
+                          "endTime": DateFormat.Hm().format(
+                              _appEnd.add(Duration(minutes: n))),
+                          "state": "Available",
+                          "typeID": type
+                        });
+                    String _id = doc.id;
+                    await firestoreInstance.collection("appointment ").doc(
+                        _id).update(
+                        {"appointmentID": _id});
+
+
+                    appointments.add(Appointment(
+                        title: (type == 0
+                            ? "Check-Up by $_doc"
+                            : "Grooming by $_doc") + " [Available]",
+                        id: _id,
+                        from: _appEnd,
+                        to: _appEnd.add(Duration(minutes: n)),
+                        start: TimeOfDay.fromDateTime(_appEnd),
+                        // to: _endDate,
+                        end: TimeOfDay.fromDateTime(_appEnd.add(Duration(
+                            minutes: n))),
+                        docName: _doc == '' ? '(No title)' : _doc,
+                        background: type == 0 ? Color(0xFFC6D8FF) : Color(
+                            0xFFFFC6F4),
+                        type: type,
+                        status: "Available"
+                    ));
+
+                    _events.appointments!.add(appointments[i]);
+                    _appEnd = _appEnd.add(Duration(minutes: n));
+                  }
+                }
+                _events.notifyListeners(
+                    CalendarDataSourceAction.add, appointments);
+                _selectedAppointment = null;
+                Navigator.pop(context);
+
+              }
+
+            }
+          })
+      ],
       ),
 
 

@@ -1,4 +1,6 @@
+import 'package:MyPet/petOwner_screen.dart';
 import 'package:flutter/material.dart';
+import 'admin_screen.dart';
 import 'register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -183,11 +185,11 @@ class _LoginPageState extends State<LoginPage> {
         if(_email.contains("@admin.com")){
           final UserCredential authResult = (await FirebaseAuth.instance
               .signInWithEmailAndPassword(email: _email, password: _password));
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => AdminHomePage()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => managerPage()));
         }else{
           final UserCredential authResult = (await FirebaseAuth.instance
               .signInWithEmailAndPassword(email: _email, password: _password));
-         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ownerPage()));
+         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => mainPage()));
         }
       } on FirebaseAuthException catch (e) {
         String msgError = "";

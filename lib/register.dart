@@ -41,9 +41,9 @@ class register extends StatelessWidget {
         ));
   }
 }
-
+final _formKey = GlobalKey<FormState>();
 class Home extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+
   late UserCredential userCredential;
   String _email = "";
   String _password = "";

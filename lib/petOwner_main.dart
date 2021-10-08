@@ -4,6 +4,9 @@ import 'package:MyPet/MyPets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'OwnerProfile.dart';
 import 'login.dart';
+import 'package:MyPet/models/global.dart';
+
+
 
 class ownerPage extends StatefulWidget {
   const ownerPage({Key? key}) : super(key: key);
@@ -26,7 +29,7 @@ class _PetPageState extends State<ownerPage> {
                 iconSize: 35.0,
                 icon: Icon(
                   Icons.logout,
-                  color: Colors.black,
+                  color: Color(0xFF2F3542),
                 ),
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut().catchError((error){
@@ -77,11 +80,9 @@ class _PetPageState extends State<ownerPage> {
                               elevation: 4.0,
                               child: new InkWell(
                                  onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Mypets()),
-                                  );
+                                   BottomNavigationBar navigationBar =  globalKey.currentWidget as BottomNavigationBar;
+                                   navigationBar.onTap!(1);
+                              //    Navigator.push(context, MaterialPageRoute(builder: (context) => Mypets()),);
                                 },
                                 child: Container(
                                   decoration: new BoxDecoration(
@@ -109,11 +110,13 @@ class _PetPageState extends State<ownerPage> {
                               elevation: 4.0,
                               child: new InkWell(
                                  onTap: () {
-                                  Navigator.push(
+                                   BottomNavigationBar navigationBar =  globalKey.currentWidget as BottomNavigationBar;
+                                   navigationBar.onTap!(2);
+                                  /*Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => appointmentPage()),
-                                  );
+                                  ); */
                                 },
                                 child: Container(
                                   decoration: new BoxDecoration(
@@ -177,11 +180,9 @@ class _PetPageState extends State<ownerPage> {
                               elevation: 4.0,
                               child: new InkWell(
                              onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Profile()),
-                                  );
+                               BottomNavigationBar navigationBar =  globalKey.currentWidget as BottomNavigationBar;
+                               navigationBar.onTap!(3);
+                                  //Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()),);
                                 },
                                 child: Container(
                                   decoration: new BoxDecoration(

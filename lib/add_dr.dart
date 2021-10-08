@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'models/global.dart';
+
 class docList extends StatefulWidget {
   @override
   docListState createState() {
@@ -41,36 +43,24 @@ late String _selectedID;
     return Scaffold(
         resizeToAvoidBottomInset:false,
         backgroundColor: Color(0xFFF4E3E3),
-      appBar: AppBar(
-        elevation:0,
-        title: Text('$title',textAlign: TextAlign.center,
-            style: TextStyle(color:Color(0XFFFF6B81))),
-        backgroundColor: Colors.transparent,
-        /* actions: <Widget>[
-          IconButton(
-              iconSize:34,
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-              icon: const Icon(
-                Icons.done,
-                color: Color(0xFF7F3557),
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation:0,
+            title: Text('$title',textAlign: TextAlign.center,
+                style: TextStyle(color:Color(0XFFFF6B81))),
+            leading: ElevatedButton(
+              onPressed: () {
+                BottomNavigationBar navigationBar =  globalKeyAdmin.currentWidget as BottomNavigationBar;
+                navigationBar.onTap!(0);
+              },
+              child: Icon(Icons.arrow_back_ios, color: Colors.white),
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(20),
+                primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
               ),
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-
-                      DocumentReference doc = await firestoreInstance.collection(
-                          "Dr").add(
-                          {
-                            "empName": _name,
-                          });
-                      String _id = doc.id;
-                      await firestoreInstance.collection("Dr").doc(_id).update(
-                          {"DrID": _id});
-
-                    }
-    Navigator.pop(context);
-                  }
-      )]), */
-      ),
+            )
+        ),
       body:  Padding(
             padding: const EdgeInsets.all(20),
             child: ListView(

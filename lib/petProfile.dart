@@ -171,7 +171,7 @@ children: <Widget>[
                   child: const Text('Edit'),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  onPressed: ()
+                  onPressed: (){}
                   ,
 
                 ),

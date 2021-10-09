@@ -107,7 +107,7 @@ class Profile extends StatelessWidget {
                       fontSize: 28, ),),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),onPressed:(){
-                 //   Navigator.push(context,MaterialPageRoute(builder: (_) =>addPet(ownerID))) .catchError((error) => print('Delete failed: $error'));;
+                  Navigator.push(context,MaterialPageRoute(builder: (_) =>addPet(ownerID))) .catchError((error) => print('Delete failed: $error'));;
                   },
 
 

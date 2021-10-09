@@ -259,6 +259,7 @@ class _addPet extends State<addPet> {
                               backgroundColor:Colors.green,),);
                             //Put your code here which you want to execute on Cancel button click.
                             Navigator.of(context).pop();
+
                            // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
 
                                   }
@@ -295,6 +296,7 @@ class _addPet extends State<addPet> {
     )
         )
     );
+      )),),);
 
   }
 }

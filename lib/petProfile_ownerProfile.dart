@@ -9,7 +9,7 @@ import 'package:MyPet/MyPets.dart';
 
 final  primaryColor = const Color(0xff313540);
 GlobalKey _globalKey = navKeys.globalKey;
-
+int pets=0;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -115,6 +115,7 @@ class pet extends StatelessWidget {
             ),
           ),
 
+
         ], ),);
   }
 
@@ -172,8 +173,7 @@ class pet extends StatelessWidget {
                   child: const Text('Edit'),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  onPressed: () => showAlert(context,"Delete my pet",document)
-                  ,
+                 onPressed: () => showAlert(context,"Edit is not yet implemented ",document),
 
                 ),
                 Container(
@@ -191,8 +191,17 @@ class pet extends StatelessWidget {
                   child: const Text('Delete'),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  onPressed: () => showAlert(context,"Delete my pet",document),
+                  onPressed: (){
+                  //  =>showAlert(context,"Delete my pet",document),
+                  document.reference.delete().then((_) => print('Deleted'));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Pet deleted successfully"),
+                  backgroundColor:Colors.green,),);
+                  //   Navigator.of(context, rootNavigator: true).pop();
 
+                  Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => Profile()))
+                      .catchError((error) => print('Delete failed: $error'));}
 
                 ),
 
@@ -207,6 +216,7 @@ class pet extends StatelessWidget {
   Widget _buildPicCard(BuildContext context, DocumentSnapshot document) {
     String img = "";
     if (document['petId'] == petID) {
+      pets++;
       if (document['species'] == "Dog")
         img = "images/dog.png";
       else
@@ -253,32 +263,25 @@ class pet extends StatelessWidget {
           content: Text(message),
           actions: <Widget>[
             FlatButton(
-              child: Text("YES"),
+              child: Text("OK"),
               onPressed: () {
-                document.reference.delete().then((_) => print('Deleted'));
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Pet deleted successfully"),
-                  backgroundColor:Colors.green,),);
-                BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                navigationBar.onTap!(3);
-                // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
-                //Put your code here which you want to execute on Yes button click.
+                Navigator.of(context).pop();
 
               },
             ),
 
 
-            FlatButton(
+           /* FlatButton(
               child: Text("CANCEL"),
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text("Pet has not been deleted "),
                   backgroundColor:Colors.orange,),);
                 //Put your code here which you want to execute on Cancel button click.
-                Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
+                Navigator.of(context).pop();
 
               },
-            ),
+            ),*/
           ],
         );
       },

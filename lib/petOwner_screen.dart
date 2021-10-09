@@ -83,9 +83,9 @@ class _mainPageState extends State<mainPage> {
             ),
           ],
           onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
+           setState(() {
+             _selectedIndex = index;
+           }  );
           },
         ),
         body: Stack(
@@ -117,7 +117,7 @@ class _mainPageState extends State<mainPage> {
 
   Widget _buildOffstageNavigator(int index) {
     Map<String, WidgetBuilder> routeBuilders = _routeBuilders(context, index);
-    return Offstage(
+  return Offstage(
       offstage: _selectedIndex != index,
       child: Navigator(
         key: _navigatorKeys[index],

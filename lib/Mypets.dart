@@ -61,6 +61,9 @@ class MyPets extends StatelessWidget {
             onPressed: () {
               BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
               navigationBar.onTap!(0);
+
+//             Navigator.push(context,MaterialPageRoute(builder: (_) =>ownerPage()));
+
             },
 
               child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
@@ -92,7 +95,6 @@ class MyPets extends StatelessWidget {
             margin: EdgeInsets.only(left: 25,right:25,top:10),
             width: 365,height: 200,
 
-            //i dont know why this cammand does not work
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: primaryColor,),
             child:
             Column(

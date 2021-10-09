@@ -283,6 +283,7 @@ class Home extends StatelessWidget {
                         minWidth: 230,
                         height: 60,
                         onPressed: () async {
+
                           final form = _formKey.currentState;
                           if (form!.validate()) {
                             try {
@@ -331,12 +332,30 @@ class Home extends StatelessWidget {
                                 'uid': userCredential.user!.uid
                               });
 
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text("account is created successfully "),
-                                backgroundColor:Colors.green,),);
-                              Navigator.push(context,MaterialPageRoute(builder: (_) =>ownerPage())) .catchError((error) => print('created failed: $error'));
+                              await showDialog(
 
-                           //   Navigator.push(context,MaterialPageRoute(builder: (context) {return ownerPage();}),);
+                                context: context,
+                                builder: (context) => new AlertDialog(
+                                    backgroundColor: Colors.white,
+
+                                  title: new Text('Welcome'),
+                                  content: Text(
+                                      'Your account is create successfully.', textAlign: TextAlign.center,style: TextStyle( fontSize: 20 , color: Color(0xFF2F3542),)),
+                                  actions: <Widget>[
+                                    new FlatButton(
+                                      onPressed: () {
+                                       Navigator.push(context,MaterialPageRoute(builder: (_) => login()));
+                                        // dismisses only the dialog and returns nothing
+                                      },
+                                      child: new Text('Login',textAlign: TextAlign.center,style: TextStyle( fontSize: 20 , color: Color(0xFF2F3542),)),
+                                    ),
+                                  ],
+                                ),
+                              );
+                           /*   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("Your account is create successfully"),
+                                backgroundColor: Colors.green,));
+*/
                             } else {
                               print('user does not exist');
                             }
@@ -385,6 +404,7 @@ class Home extends StatelessWidget {
     );
   }
 }
+
 // we will be creating a widget for text field
 Widget inputFile({label, obscureText = false}) {
   return Column(

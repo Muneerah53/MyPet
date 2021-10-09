@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'petOwner_main.dart';
 
 import 'models/global.dart';
-import 'petProfile.dart';
+import 'petProfile_ownerProfile.dart';
 import 'editOwnerProfile.dart';
 import 'addPet.dart';
 
@@ -107,7 +107,7 @@ class Profile extends StatelessWidget {
                       fontSize: 28, ),),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),onPressed:(){
-                    Navigator.push(context,MaterialPageRoute(builder: (_) =>addPet(ownerID))) .catchError((error) => print('Delete failed: $error'));;
+                 //   Navigator.push(context,MaterialPageRoute(builder: (_) =>addPet(ownerID))) .catchError((error) => print('Delete failed: $error'));;
                   },
 
 

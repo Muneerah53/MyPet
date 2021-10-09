@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'ownerProfile.dart';
 import 'models/global.dart';
 import 'package:MyPet/MyPets.dart';
 
@@ -60,45 +60,45 @@ class pet extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       backgroundColor: Color(0xFFF4E3E3),
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation:0,
-          leading: ElevatedButton(
+        backgroundColor: Colors.transparent,
+        elevation:0,
+        leading: ElevatedButton(
             onPressed: () {
-              BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-              navigationBar.onTap!(1);
-            //  Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets()));
+              //BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+              //navigationBar.onTap!(3);
+           Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile()));
 
             },
 
-              child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-              style: backButton ),// <-- Button color// <-- Splash color
+            child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+            style: backButton ),// <-- Button color// <-- Splash color
 
       ),
       body: Stack(
 
 
-children: <Widget>[
+        children: <Widget>[
 
           Container(
-        //  padding: EdgeInsets.only(bottom: 380,),
-          child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('pets').snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return const Text('loading');
-                return ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) =>
-                  //card pets method
-                  _buildPicCard(context, (snapshot.data!).docs[index]),
-                );
-              }
+            //  padding: EdgeInsets.only(bottom: 380,),
+            child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('pets').snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const Text('loading');
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) =>
+                    //card pets method
+                    _buildPicCard(context, (snapshot.data!).docs[index]),
+                  );
+                }
+            ),
           ),
-        ),
 
 
 
-    Container(
-        padding: EdgeInsets.only(top: 200, left: 20, right: 20),
+          Container(
+            padding: EdgeInsets.only(top: 200, left: 20, right: 20),
 
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('pets')
@@ -115,7 +115,7 @@ children: <Widget>[
             ),
           ),
 
-           ], ),);
+        ], ),);
   }
 
 
@@ -213,25 +213,25 @@ children: <Widget>[
         img = "images/cat.png";
       return Column(
 
-        children: <Widget>[
-        CircleAvatar(
+          children: <Widget>[
+            CircleAvatar(
 
-        radius: 80,
-        backgroundImage: new AssetImage(img),
-      ),
-        Container(
-          padding: EdgeInsets.only(bottom: 350),
-
-            child: Text(
-              'Pet Information',
-              style: TextStyle(
-                fontSize: 30, color: Colors.blueGrey,
-                fontStyle: FontStyle.italic,),
-              textAlign: TextAlign.left,
+              radius: 80,
+              backgroundImage: new AssetImage(img),
             ),
+            Container(
+              padding: EdgeInsets.only(bottom: 350),
 
-        ),
-        ]
+              child: Text(
+                'Pet Information',
+                style: TextStyle(
+                  fontSize: 30, color: Colors.blueGrey,
+                  fontStyle: FontStyle.italic,),
+                textAlign: TextAlign.left,
+              ),
+
+            ),
+          ]
       );
     } else
       return Card();
@@ -260,8 +260,8 @@ children: <Widget>[
                   content: Text("Pet deleted successfully"),
                   backgroundColor:Colors.green,),);
                 BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                navigationBar.onTap!(1);
-               // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
+                navigationBar.onTap!(3);
+                // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
                 //Put your code here which you want to execute on Yes button click.
 
               },

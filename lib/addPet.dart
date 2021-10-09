@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:MyPet/MyPets.dart';
 import 'models/global.dart';
+GlobalKey _globalKey = navKeys.globalKey;
 
 // Future AddPetAsync(petName, gender, disease, specie) async {
 //
@@ -257,7 +258,9 @@ class _addPet extends State<addPet> {
                               content: Text("New pet is added successfully "),
                               backgroundColor:Colors.green,),);
                             //Put your code here which you want to execute on Cancel button click.
-                            Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
+                            BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                            navigationBar.onTap!(1);
+                           // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
 
                           }
 
@@ -280,8 +283,9 @@ class _addPet extends State<addPet> {
                           borderRadius: BorderRadius.circular(12)),
                       onPressed:( ){
 
-
-                        Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('update failed: $error'));;
+                        BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                        navigationBar.onTap!(1);
+                    //    Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('update failed: $error'));;
 
                       },
                     ),])

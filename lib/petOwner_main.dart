@@ -8,22 +8,25 @@ import 'OwnerProfile.dart';
 import 'login.dart';
 import 'package:MyPet/models/global.dart';
 
+GlobalKey _globalKey = navKeys.globalKey;
 
 
 
 class ownerPage extends StatefulWidget {
+
   const ownerPage({Key? key}) : super(key: key);
+
 
   @override
   _PetPageState createState() => _PetPageState();
 }
 
 class _PetPageState extends State<ownerPage> {
-
-  GlobalKey _globalKey = navKeys.globalKey;
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
+
       home: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -50,6 +53,7 @@ class _PetPageState extends State<ownerPage> {
           body: SingleChildScrollView(
             child: Column(
               children: [
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -58,6 +62,14 @@ class _PetPageState extends State<ownerPage> {
                         height: 110,
                         fit: BoxFit.fill,
                         image: new AssetImage('images/logo.jpeg'))
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(top:50),
+                    )
                   ],
                 ),
                 Row(
@@ -100,9 +112,9 @@ class _PetPageState extends State<ownerPage> {
                               elevation: 4.0,
                               child: new InkWell(
                                  onTap: () {
-                                  // BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                                   //navigationBar.onTap!(1);
-                               Navigator.push(context, MaterialPageRoute(builder: (context) => Mypets()),);
+                                  BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                                   navigationBar.onTap!(1);
+                              // Navigator.push(context, MaterialPageRoute(builder: (context) => Mypets()),);
                                 },
                                 child: Container(
                                   decoration: new BoxDecoration(
@@ -133,13 +145,9 @@ class _PetPageState extends State<ownerPage> {
                               elevation: 4.0,
                               child: new InkWell(
                                  onTap: () {
-                                 //  BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                                  // navigationBar.onTap!(2);
-                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => appointmentPage()),
-                                  );
+                                  BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                                  navigationBar.onTap!(2);
+                              //   Navigator.push(context, MaterialPageRoute(builder: (context) => appointmentPage()),);
                                 },
                                 child: Container(
                                   decoration: new BoxDecoration(
@@ -172,9 +180,9 @@ class _PetPageState extends State<ownerPage> {
                   elevation: 4.0,
                   child: new InkWell(
                     onTap: () {
-                    //  BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                     // navigationBar.onTap!(3);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()),);
+                    BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                    navigationBar.onTap!(3);
+                   // Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()),);
                     },
                     child: Container(
                       decoration: new BoxDecoration(
@@ -195,7 +203,7 @@ class _PetPageState extends State<ownerPage> {
                     ),
                   ),
                 ),],),
-                Row(
+              /*  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                             Card(
@@ -232,7 +240,7 @@ class _PetPageState extends State<ownerPage> {
                             ),],),
 
 
-
+*/
 
                 SizedBox(
                   height: 20.0,
@@ -252,4 +260,6 @@ class _PetPageState extends State<ownerPage> {
           )),
     );
   }
+
+
 }

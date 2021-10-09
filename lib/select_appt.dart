@@ -405,12 +405,17 @@ Visibility(
                       if ((_date == null) ||
                           (timeIndex == null) ||
                           (petIndex == null)) {
-                        massage =
-                            'There is a missing field you you should fill it all  ';
-                        showAlertDialog(context);
+
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("There is a missing field you you should fill it all"),
+                          backgroundColor: Theme.of(context).errorColor,
+                        ));
                       } else {
                         if (selectedCurrency == null) {
-                          showAlertDialog(context);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("There is a missing field you you should fill it all"),
+                            backgroundColor: Theme.of(context).errorColor,
+                          ));
                         } else {
                           t = 0;
                           date =
@@ -432,7 +437,10 @@ Visibility(
                       if ((_date == null) ||
                           (timeIndex == null) ||
                           (petIndex == null)) {
-                        showAlertDialog(context);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("There is a missing field you you should fill it all"),
+                          backgroundColor: Theme.of(context).errorColor,
+                        ));
                       } else {
                         date =
                             DateFormat('EEE, MMM dd yyyy').format(selectedDate);
@@ -542,29 +550,5 @@ Visibility(
   }
 }
 
-//
-showAlertDialog(BuildContext context) {
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.of(context, rootNavigator: true).pop();
-    },
-  );
 
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Missing Input"),
-    content: Text('There is a missing field you you should fill it all '),
-    actions: [
-      okButton,
-    ],
-  );
-// show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
+

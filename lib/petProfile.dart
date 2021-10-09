@@ -73,8 +73,8 @@ class pet extends StatelessWidget {
       ),
       body: Stack(
 
-        children: <Widget>[ Center(child:
 
+children: <Widget>[
 
           Container(
         //  padding: EdgeInsets.only(bottom: 380,),
@@ -91,9 +91,10 @@ class pet extends StatelessWidget {
               }
           ),
         ),
-        ),
 
-          Container(
+
+
+    Container(
         padding: EdgeInsets.only(top: 200, left: 20, right: 20),
 
             child: StreamBuilder<QuerySnapshot>(
@@ -111,12 +112,7 @@ class pet extends StatelessWidget {
             ),
           ),
 
-
-
-
-        ],
-      ),
-    );
+           ], ),);
   }
 
 
@@ -131,7 +127,7 @@ class pet extends StatelessWidget {
           padding: EdgeInsets.only(left: 20, top: 20),
 
           width: 250,
-          height: 500,
+          height: 380,
 
           //i dont know why this cammand does not work
           decoration: BoxDecoration(

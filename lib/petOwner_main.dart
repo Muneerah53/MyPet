@@ -100,9 +100,9 @@ class _PetPageState extends State<ownerPage> {
                               elevation: 4.0,
                               child: new InkWell(
                                  onTap: () {
-                                   BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                                   navigationBar.onTap!(1);
-                              //    Navigator.push(context, MaterialPageRoute(builder: (context) => Mypets()),);
+                                  // BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                                   //navigationBar.onTap!(1);
+                               Navigator.push(context, MaterialPageRoute(builder: (context) => Mypets()),);
                                 },
                                 child: Container(
                                   decoration: new BoxDecoration(
@@ -133,13 +133,13 @@ class _PetPageState extends State<ownerPage> {
                               elevation: 4.0,
                               child: new InkWell(
                                  onTap: () {
-                                   BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                                   navigationBar.onTap!(2);
-                                  /*Navigator.push(
+                                 //  BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                                  // navigationBar.onTap!(2);
+                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => appointmentPage()),
-                                  ); */
+                                  );
                                 },
                                 child: Container(
                                   decoration: new BoxDecoration(
@@ -172,9 +172,9 @@ class _PetPageState extends State<ownerPage> {
                   elevation: 4.0,
                   child: new InkWell(
                     onTap: () {
-                      BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                      navigationBar.onTap!(3);
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()),);
+                    //  BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                     // navigationBar.onTap!(3);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()),);
                     },
                     child: Container(
                       decoration: new BoxDecoration(

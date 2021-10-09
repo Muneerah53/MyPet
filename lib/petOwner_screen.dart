@@ -106,10 +106,10 @@ class _mainPageState extends State<mainPage> {
     return {
       '/': (context) {
         return [
-          ownerPage(),
-          Mypets(),
-          appointmentPage(),
-          Profile()
+          new ownerPage(),
+          new Mypets(),
+          new appointmentPage(),
+          new Profile()
         ].elementAt(index);
       },
     };

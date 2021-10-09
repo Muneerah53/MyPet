@@ -136,6 +136,15 @@ class MyPets extends StatelessWidget {
                 stream: FirebaseFirestore.instance.collection('pets').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
+                  if (snapshot.data!.docs.isEmpty)
+                    return Padding(
+                      padding: EdgeInsets.all(20),
+                      child: const Text('You haven\'t added Any Pets!',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.grey),
+                          textAlign: TextAlign.center));
                   return ListView.builder(scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>

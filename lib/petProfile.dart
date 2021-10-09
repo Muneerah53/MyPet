@@ -254,11 +254,9 @@ children: <Widget>[
             FlatButton(
               child: Text("YES"),
               onPressed: () {
-                document.reference.delete().then((_){ print('Deleted');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Pet deleted successfully"),
-        backgroundColor:Colors.green,),);
-                Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets()));
+                document.reference.delete().then((_){
+
+                Navigator.pop(context, true);
         }   );
 
                // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
@@ -271,16 +269,28 @@ children: <Widget>[
             FlatButton(
               child: Text("CANCEL"),
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Pet has not been deleted "),
-                  backgroundColor:Colors.orange,),);
+
                 //Put your code here which you want to execute on Cancel button click.
-                Navigator.of(context).pop();
+                Navigator.pop(context, false);
 
               },
             ),
           ],
         );
+      },
+    ).then((exit) {
+          if (exit == null) return;
+
+          if (exit) {
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Pet deleted successfully"),
+              backgroundColor:Colors.green,),);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Pet has not been deleted "),
+              backgroundColor:Colors.orange,),);
+          }
       },
     );
   }

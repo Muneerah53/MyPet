@@ -1,3 +1,4 @@
+import 'package:MyPet/appointment_main.dart';
 import 'package:flutter/material.dart';
 import 'models/global.dart';
 import 'petOwner_main.dart';
@@ -57,10 +58,10 @@ class _PaymentState extends State<Payment> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               onPressed: () async {
-                BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                navigationBar.onTap!(0);
-                 // Navigator.push(context,MaterialPageRoute(builder: (_) =>ownerPage())) .catchError((error) => print('Delete failed: $error'));;
 
+                 Navigator.push(context,MaterialPageRoute(builder: (_) =>AppoinMain())) .catchError((error) => print('Delete failed: $error'));;
+                 BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                 navigationBar.onTap!(0);
 
               },),
 

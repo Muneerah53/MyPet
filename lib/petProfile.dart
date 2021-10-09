@@ -171,7 +171,7 @@ children: <Widget>[
                   child: const Text('Edit'),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  onPressed: () => showAlert(context,"Delete my pet",document)
+                  onPressed: () => showAlert(context,"Edit is not yet implemented",document)
                   ,
 
                 ),
@@ -190,8 +190,17 @@ children: <Widget>[
                   child: const Text('Delete'),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  onPressed: () => showAlert(context,"Delete my pet",document),
+                    onPressed: (){
+                      //  =>showAlert(context,"Delete my pet",document),
+                      document.reference.delete().then((_) => print('Deleted'));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Pet deleted successfully"),
+                        backgroundColor:Colors.green,),);
+                      //   Navigator.of(context, rootNavigator: true).pop();
 
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => MyPets()))
+                          .catchError((error) => print('Delete failed: $error'));}
 
                 ),
 
@@ -252,23 +261,15 @@ children: <Widget>[
           content: Text(message),
           actions: <Widget>[
             FlatButton(
-              child: Text("YES"),
+              child: Text("OK"),
               onPressed: () {
-                document.reference.delete().then((_){ print('Deleted');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Pet deleted successfully"),
-        backgroundColor:Colors.green,),);
-                Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets()));
-        }   );
-
-               // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
-                //Put your code here which you want to execute on Yes button click.
+                Navigator.of(context).pop();
 
               },
             ),
 
 
-            FlatButton(
+            /* FlatButton(
               child: Text("CANCEL"),
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -278,7 +279,7 @@ children: <Widget>[
                 Navigator.of(context).pop();
 
               },
-            ),
+            ),*/
           ],
         );
       },

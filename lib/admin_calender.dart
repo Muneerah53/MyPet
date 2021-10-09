@@ -63,13 +63,10 @@ class appointCalendarState extends State<appointCalendar> {
                 BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
                 navigationBar.onTap!(0);
               },
-              child: Icon(Icons.arrow_back_ios, color: Colors.white),
-              style: ElevatedButton.styleFrom(
-                shape: CircleBorder(),
-                padding: EdgeInsets.all(20),
-                primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
-              ),
-            )
+
+                child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+                style: backButton ),// <-- Button color// <-- Splash color
+
         ),
 
         resizeToAvoidBottomInset: false,

@@ -78,8 +78,9 @@ class Home extends StatelessWidget {
           icon: Icon(
             Icons.arrow_back_ios,
             size: 20,
-            color: Colors.black,
-          ),
+            color:  Color(0xFF2F3542)),
+
+
         ),
       ),
       body: SingleChildScrollView(

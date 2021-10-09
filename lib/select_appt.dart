@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'models/global.dart';
 
 User? user = FirebaseAuth.instance.currentUser;
 String owner =
@@ -73,13 +74,10 @@ class selectState extends State<select> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Icon(Icons.arrow_back_ios, color: Colors.white),
-              style: ElevatedButton.styleFrom(
-                shape: CircleBorder(),
-                padding: EdgeInsets.all(20),
-                primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
-              ),
-            )
+
+                child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+                style: backButton ),// <-- Button color// <-- Splash color
+
         ),
         // appBar: AppBar(
         //   elevation: 0,

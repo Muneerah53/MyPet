@@ -23,7 +23,7 @@ class Profile extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.red[50],
+      backgroundColor: Color(0xFFF4E3E3),
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation:0,
@@ -32,13 +32,8 @@ class Profile extends StatelessWidget {
               BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
               navigationBar.onTap!(0);
             },
-            child: Icon(Icons.arrow_back_ios, color: Colors.white),
-            style: ElevatedButton.styleFrom(
-              shape: CircleBorder(),
-              padding: EdgeInsets.all(20),
-              primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
-            ),
-          )
+            child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+            style: backButton ),
       ),
       body:SingleChildScrollView(
 

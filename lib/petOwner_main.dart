@@ -50,13 +50,12 @@ class _PetPageState extends State<ownerPage> {
           body: SingleChildScrollView(
             child: Column(
               children: [
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image(
-                        width: 130,
-                        height: 160,
+                        width: 120,
+                        height: 110,
                         fit: BoxFit.fill,
                         image: new AssetImage('images/logo.jpeg'))
                   ],
@@ -88,11 +87,8 @@ class _PetPageState extends State<ownerPage> {
 
                       ),],),*/
                    ],),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
+
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -113,8 +109,8 @@ class _PetPageState extends State<ownerPage> {
                                     borderRadius: new BorderRadius.circular(16.0),
                                     color: Color(0xFF2F3542),
                                   ),
-                                  width: MediaQuery.of(context).size.width * 0.45,
-                                  height: 180,
+                                  width:  MediaQuery.of(context).size.width * 0.90,
+                                  height: 90,
                                   child: Center(
                                       child: Text(
                                         'My Pets',
@@ -126,7 +122,10 @@ class _PetPageState extends State<ownerPage> {
                                       )),
                                 ),
                               ),
-                            ),
+                            ),],),
+    Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
                             Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16.0),
@@ -147,8 +146,8 @@ class _PetPageState extends State<ownerPage> {
                                     borderRadius: new BorderRadius.circular(16.0),
                                     color: Color(0xFFFF6B81),
                                   ),
-                                  width:  MediaQuery.of(context).size.width * 0.45,
-                                  height: 180,
+                                  width:  MediaQuery.of(context).size.width * 0.90,
+                                  height: 90,
                                   child: Center(
                                       child: Text(
                                         'Appointment',
@@ -163,8 +162,42 @@ class _PetPageState extends State<ownerPage> {
                             ),
                           ],
                         ),
-                        Row(
-                          children: [
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  elevation: 4.0,
+                  child: new InkWell(
+                    onTap: () {
+                      BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                      navigationBar.onTap!(3);
+                      //Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()),);
+                    },
+                    child: Container(
+                      decoration: new BoxDecoration(
+                        borderRadius: new BorderRadius.circular(16.0),
+                        color: Color(0xFF2F3542),
+                      ),
+                      width:  MediaQuery.of(context).size.width * 0.90,
+                      height: 90,
+                      child: Center(
+                          child: Text(
+                            'View Profile',
+                            style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 26.0),
+                          )),
+                    ),
+                  ),
+                ),],),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                             Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16.0),
@@ -183,8 +216,8 @@ class _PetPageState extends State<ownerPage> {
                                     borderRadius: new BorderRadius.circular(16.0),
                                     color: Color(0xFFFF6B81),
                                   ),
-                                  width: MediaQuery.of(context).size.width * 0.45,
-                                  height: 180,
+                                  width:  MediaQuery.of(context).size.width * 0.90,
+                                  height: 90,
                                   child: Center(
                                       child: Text(
                                         'About Us',
@@ -196,43 +229,11 @@ class _PetPageState extends State<ownerPage> {
                                       )),
                                 ),
                               ),
-                            ),
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                              ),
-                              elevation: 4.0,
-                              child: new InkWell(
-                             onTap: () {
-                               BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                               navigationBar.onTap!(3);
-                                  //Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()),);
-                                },
-                                child: Container(
-                                  decoration: new BoxDecoration(
-                                    borderRadius: new BorderRadius.circular(16.0),
-                                    color: Color(0xFF2F3542),
-                                  ),
-                                  width: MediaQuery.of(context).size.width * 0.45,
-                                  height: 180,
-                                  child: Center(
-                                      child: Text(
-                                        'View Profile',
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.normal,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 26.0),
-                                      )),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                            ),],),
+
+
+
+
                 SizedBox(
                   height: 20.0,
                 ),

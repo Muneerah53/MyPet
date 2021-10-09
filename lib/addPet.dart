@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:MyPet/MyPets.dart';
+import 'models/global.dart';
 
 // Future AddPetAsync(petName, gender, disease, specie) async {
 //
@@ -62,13 +63,10 @@ class _addPet extends State<addPet> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Icon(Icons.arrow_back_ios, color: Colors.white),
-              style: ElevatedButton.styleFrom(
-                shape: CircleBorder(),
-                padding: EdgeInsets.all(20),
-                primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
-              ),
-            )
+
+                child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+                style: backButton ),// <-- Button color// <-- Splash color
+
         ),
       body:SingleChildScrollView(
           child:  Column(

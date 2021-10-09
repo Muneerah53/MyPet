@@ -63,13 +63,11 @@ class _GroomingState extends State<Grooming> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Icon(Icons.arrow_back_ios, color: Colors.white),
-            style: ElevatedButton.styleFrom(
-              shape: CircleBorder(),
-              padding: EdgeInsets.all(20),
-              primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
-            ),
-          )
+
+              child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+              style: ElevatedButton.styleFrom(shape: CircleBorder(), padding: EdgeInsets.all(20), primary: Colors.transparent, shadowColor: Colors.transparent,),
+    ),// <-- Button color// <-- Splash color
+
       ),
       backgroundColor: const Color(0xFFF4E3E3),
       body: SingleChildScrollView(

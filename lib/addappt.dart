@@ -47,11 +47,11 @@ class appointmentFormState extends State<appointmentForm> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Icon(Icons.arrow_back_ios, color: Colors.white),
+            child: Icon(Icons.arrow_back_ios, color: Color(0xFFF4E3E3),),
             style: ElevatedButton.styleFrom(
               shape: CircleBorder(),
               padding: EdgeInsets.all(20),
-              primary: Colors.lightBlueAccent, // <-- Button color// <-- Splash color
+              primary: Colors.transparent, // <-- Button color// <-- Splash color
             ),
           )
           ,actions: <Widget>[

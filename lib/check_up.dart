@@ -47,8 +47,9 @@ class _CheckUPState extends State<CheckUP> {
             width: 50,
             height: 50,
             child: BackButton(
-              color: Colors.white,
-            ),
+              color: Color(0xFF2F3542)),
+
+            
             decoration: BoxDecoration(
                 color: Colors.lightBlueAccent, shape: (BoxShape.circle)),
           ),

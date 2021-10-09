@@ -64,8 +64,7 @@ class pet extends StatelessWidget {
           elevation:0,
           leading: ElevatedButton(
             onPressed: () {
-              BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-              navigationBar.onTap!(1);
+              Navigator.of(context).pop();
             //  Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets()));
 
             },
@@ -255,12 +254,13 @@ children: <Widget>[
             FlatButton(
               child: Text("YES"),
               onPressed: () {
-                document.reference.delete().then((_) => print('Deleted'));
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Pet deleted successfully"),
-                  backgroundColor:Colors.green,),);
-                BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                navigationBar.onTap!(1);
+                document.reference.delete().then((_){ print('Deleted');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Pet deleted successfully"),
+        backgroundColor:Colors.green,),);
+                Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets()));
+        }   );
+
                // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
                 //Put your code here which you want to execute on Yes button click.
 
@@ -275,7 +275,7 @@ children: <Widget>[
                   content: Text("Pet has not been deleted "),
                   backgroundColor:Colors.orange,),);
                 //Put your code here which you want to execute on Cancel button click.
-                Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
+                Navigator.of(context).pop();
 
               },
             ),

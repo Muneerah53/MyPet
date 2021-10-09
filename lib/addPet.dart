@@ -258,8 +258,7 @@ class _addPet extends State<addPet> {
                               content: Text("New pet is added successfully "),
                               backgroundColor:Colors.green,),);
                             //Put your code here which you want to execute on Cancel button click.
-                            BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                            navigationBar.onTap!(1);
+                            Navigator.of(context).pop();
                            // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
 
                           }
@@ -283,8 +282,7 @@ class _addPet extends State<addPet> {
                           borderRadius: BorderRadius.circular(12)),
                       onPressed:( ){
 
-                        BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                        navigationBar.onTap!(1);
+                        Navigator.of(context).pop();
                     //    Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('update failed: $error'));;
 
                       },

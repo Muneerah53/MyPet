@@ -33,7 +33,7 @@ class register extends StatelessWidget {
               print("An error has occured ${snapshot.error.toString()}");
               return const Text("Something went wrong");
             } else if (snapshot.hasData) {
-              return Home();
+              return homereg();
             } else {
               return const Center(child: CircularProgressIndicator());
             }
@@ -42,7 +42,15 @@ class register extends StatelessWidget {
   }
 }
 final _formKey = GlobalKey<FormState>();
-class Home extends StatelessWidget {
+class homereg extends StatefulWidget {
+
+
+  homereg();
+  @override
+  State<homereg> createState() => Home();
+}
+
+class Home extends State<homereg> {
 
   late UserCredential userCredential;
   String _email = "";
@@ -73,7 +81,7 @@ class Home extends StatelessWidget {
         leading: IconButton(
           onPressed: () {
             //  Navigator.push(
-            Navigator.push(context, MaterialPageRoute(builder: (_) => LoginPage())); //register button******
+            Navigator.of(context,).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>  LoginPage()), (Route<dynamic> route)=>false); //register button******
           },
           icon: Icon(
               Icons.arrow_back_ios,
@@ -113,7 +121,11 @@ class Home extends StatelessWidget {
                         SizedBox(height: 10),
                         TextFormField(
                           onChanged: (value) {
-                            _firstName = value;
+
+                            setState(() {
+                              _firstName = value;
+                            });
+                           // _firstName = value;
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -332,30 +344,13 @@ class Home extends StatelessWidget {
                                 'uid': userCredential.user!.uid
                               });
 
-                              await showDialog(
 
-                                context: context,
-                                builder: (context) => new AlertDialog(
-                                  backgroundColor: Colors.white,
-
-                                  title: new Text('Welcome'),
-                                  content: Text(
-                                      'Your account is create successfully.', textAlign: TextAlign.center,style: TextStyle( fontSize: 20 , color: Color(0xFF2F3542),)),
-                                  actions: <Widget>[
-                                    new FlatButton(
-                                      onPressed: () {
-                                        Navigator.push(context,MaterialPageRoute(builder: (_) => login()));
-                                        // dismisses only the dialog and returns nothing
-                                      },
-                                      child: new Text('Login',textAlign: TextAlign.center,style: TextStyle( fontSize: 20 , color: Color(0xFF2F3542),)),
-                                    ),
-                                  ],
-                                ),
-                              );
-                              /*   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text("Your account is create successfully"),
                                 backgroundColor: Colors.green,));
-*/
+                              Navigator.of(context,).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>  LoginPage()), (Route<dynamic> route)=>false); //register button******
+
+
                             } else {
                               print('user does not exist');
                             }

@@ -65,7 +65,7 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-    backgroundColor: Color(0xFFF4E3E3),
+      backgroundColor: Color(0xFFF4E3E3),
       appBar: AppBar(
         elevation: 0,
         brightness: Brightness.light,
@@ -76,9 +76,9 @@ class Home extends StatelessWidget {
             Navigator.push(context, MaterialPageRoute(builder: (_) => LoginPage())); //register button******
           },
           icon: Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color:  Color(0xFF2F3542)),
+              Icons.arrow_back_ios,
+              size: 20,
+              color:  Color(0xFF2F3542)),
 
 
         ),
@@ -197,10 +197,10 @@ class Home extends StatelessWidget {
                               return 'Please enter your email';
                             }
                             else
-                              if (EmailValidator.validate(value))
-                                return null;
-                              else
-                                return "Please enter a valid email";
+                            if (EmailValidator.validate(value))
+                              return null;
+                            else
+                              return "Please enter a valid email";
                           },
                           decoration: InputDecoration(
                             filled: true,
@@ -336,7 +336,7 @@ class Home extends StatelessWidget {
 
                                 context: context,
                                 builder: (context) => new AlertDialog(
-                                    backgroundColor: Colors.white,
+                                  backgroundColor: Colors.white,
 
                                   title: new Text('Welcome'),
                                   content: Text(
@@ -344,7 +344,7 @@ class Home extends StatelessWidget {
                                   actions: <Widget>[
                                     new FlatButton(
                                       onPressed: () {
-                                       Navigator.push(context,MaterialPageRoute(builder: (_) => login()));
+                                        Navigator.push(context,MaterialPageRoute(builder: (_) => login()));
                                         // dismisses only the dialog and returns nothing
                                       },
                                       child: new Text('Login',textAlign: TextAlign.center,style: TextStyle( fontSize: 20 , color: Color(0xFF2F3542),)),
@@ -352,7 +352,7 @@ class Home extends StatelessWidget {
                                   ],
                                 ),
                               );
-                           /*   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              /*   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text("Your account is create successfully"),
                                 backgroundColor: Colors.green,));
 */

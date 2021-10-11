@@ -24,7 +24,7 @@ class register extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.pink,
         ),
         home: FutureBuilder(
           future: fbApp,
@@ -41,9 +41,9 @@ class register extends StatelessWidget {
         ));
   }
 }
-
+final _formKey = GlobalKey<FormState>();
 class Home extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+
   late UserCredential userCredential;
   String _email = "";
   String _password = "";
@@ -62,13 +62,14 @@ class Home extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.red[50],
+      backgroundColor: Color(0xFFF4E3E3),
       appBar: AppBar(
         elevation: 0,
         brightness: Brightness.light,
-        backgroundColor: Colors.red[50],
+        backgroundColor: Color(0xFFF4E3E3),
         leading: IconButton(
           onPressed: () {
             //  Navigator.push(
@@ -78,10 +79,11 @@ class Home extends StatelessWidget {
                 LoginPage()), (Route<dynamic> route) => false);
           },
           icon: Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color: Colors.black,
-          ),
+              Icons.arrow_back_ios,
+              size: 20,
+              color:  Color(0xFF2F3542)),
+
+
         ),
       ),
       body: SingleChildScrollView(
@@ -284,6 +286,7 @@ class Home extends StatelessWidget {
                         minWidth: 230,
                         height: 60,
                         onPressed: () async {
+
                           final form = _formKey.currentState;
                           if (form!.validate()) {
                             try {
@@ -298,7 +301,6 @@ class Home extends StatelessWidget {
                                 msg =
                                 'The account already exists for that email.';
                               }
-                              //we can add any code we whant and set the error message based on the error code
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                 content: Text(msg),
@@ -332,12 +334,31 @@ class Home extends StatelessWidget {
                                 'ownerID': userCredential.user!.uid,
                                 'uid': userCredential.user!.uid
                               });
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  return ownerPage();
-                                }),
+
+                              await showDialog(
+
+                                context: context,
+                                builder: (context) => new AlertDialog(
+                                  backgroundColor: Colors.white,
+
+                                  title: new Text('Welcome'),
+                                  content: Text(
+                                      'Your account is create successfully.', textAlign: TextAlign.center,style: TextStyle( fontSize: 20 , color: Color(0xFF2F3542),)),
+                                  actions: <Widget>[
+                                    new FlatButton(
+                                      onPressed: () {
+                                        Navigator.push(context,MaterialPageRoute(builder: (_) => login()));
+                                        // dismisses only the dialog and returns nothing
+                                      },
+                                      child: new Text('Login',textAlign: TextAlign.center,style: TextStyle( fontSize: 20 , color: Color(0xFF2F3542),)),
+                                    ),
+                                  ],
+                                ),
                               );
+                              /*   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("Your account is create successfully"),
+                                backgroundColor: Colors.green,));
+*/
                             } else {
                               print('user does not exist');
                             }
@@ -349,6 +370,8 @@ class Home extends StatelessWidget {
                               duration: Duration(seconds: 6),
                             ));
                           }*/
+
+
                         },
                         color: Color(0xff313540),
                         elevation: 0,
@@ -384,6 +407,7 @@ class Home extends StatelessWidget {
     );
   }
 }
+
 // we will be creating a widget for text field
 Widget inputFile({label, obscureText = false}) {
   return Column(

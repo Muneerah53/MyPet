@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'petOwner_main.dart';
 
 import 'models/global.dart';
 import 'petProfile_ownerProfile.dart';
 import 'editOwnerProfile.dart';
 import 'addPet.dart';
 
-User? user = FirebaseAuth.instance.currentUser;
-String owner = FirebaseFirestore.instance.collection('pet owners').doc(user?.uid).id;
 
 int myPets = 0;
 
+
 class Profile extends StatelessWidget {
-  String ownerID="";
+
   GlobalKey _globalKey = navKeys.globalKey;
   @override
   Widget build(BuildContext context) {
@@ -65,9 +61,9 @@ class Profile extends StatelessWidget {
             ),
  Container(
             padding: EdgeInsets.only(left:20,right: 20),
-            height:300,
+            height:270,
             child: StreamBuilder<QuerySnapshot>(
- stream: FirebaseFirestore.instance.collection('pet owners').where('ownerID', isEqualTo: owner.toString()).snapshots(),
+ stream: FirebaseFirestore.instance.collection('pet owners').where('ownerID', isEqualTo: getuser()).snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const Text('loading');
             return
@@ -107,7 +103,8 @@ class Profile extends StatelessWidget {
                       fontSize: 28, ),),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),onPressed:(){
-                  Navigator.push(context,MaterialPageRoute(builder: (_) =>addPet(ownerID))) .catchError((error) => print('Delete failed: $error'));;
+                    print(user!.email.toString());
+                    Navigator.push(context,MaterialPageRoute(builder: (_) =>addPet(getuser()))) .catchError((error) => print('Delete failed: $error'));;
                   },
 
 
@@ -119,10 +116,21 @@ class Profile extends StatelessWidget {
 
             height: 260,
             child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('pets').snapshots(),
-
+                stream: FirebaseFirestore.instance
+                    .collection("pets")
+                    .where('ownerId', isEqualTo: (getuser()))
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
+                  if (snapshot.data!.docs.isEmpty)
+                    return Padding(
+                        padding: EdgeInsets.all(20),
+                        child: const Text('You do not have Any Pets yet!',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.grey),
+                            textAlign: TextAlign.center));
                   return ListView.builder(scrollDirection: Axis.horizontal,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>
@@ -141,9 +149,8 @@ class Profile extends StatelessWidget {
 
 
   Widget _buildOwnerCard(BuildContext context, DocumentSnapshot document ) {
-
-    if (document['ownerID'].toString() == owner.toString()){
-      ownerID = document['ownerID'].toString();
+    if (document['ownerID'].toString() == getuser()){
+     // ownerID = document['ownerID'].toString();
       return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(
@@ -208,7 +215,7 @@ class Profile extends StatelessWidget {
   Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ) {
     String img ="";
 
-    if (document['ownerId'].toString()==owner.toString()){
+    if (document['ownerId'].toString()==getuser()){
       myPets--;
       if (document['species']=="Dog")
         img="images/dog.png";
@@ -267,5 +274,9 @@ class Profile extends StatelessWidget {
     'Cat' : statusCatStyle,
     'Dog' : statusDogStyle
   };
+  String getuser(){
+    User? user = FirebaseAuth.instance.currentUser;
+    return user!.uid.toString();
+  }
 
 }

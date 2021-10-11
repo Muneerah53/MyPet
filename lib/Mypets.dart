@@ -6,14 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'models/global.dart';
 import 'petProfile.dart';
 import 'addPet.dart';
-import 'petOwner_main.dart';
 
-//final ownerID ="363xkSdgEPZ8nkyMVMuXmmtt4YG2";
-
-User? user = FirebaseAuth.instance.currentUser;
-String owner =
-    FirebaseFirestore.instance.collection('pet owners').doc(user?.uid).id;
-
+GlobalKey _globalKey = navKeys.globalKey;
+int pets=0;
 class Mypets extends StatelessWidget {
 
   final Future<FirebaseApp> fbApp =  Firebase.initializeApp();
@@ -47,7 +42,6 @@ class Mypets extends StatelessWidget {
 }
 class MyPets extends StatelessWidget {
   var primaryColor = const Color(0xff313540);
-  GlobalKey _globalKey = navKeys.globalKey;
   @override
   Widget build(BuildContext context) {
 
@@ -62,7 +56,6 @@ class MyPets extends StatelessWidget {
               BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
               navigationBar.onTap!(0);
 
-//             Navigator.push(context,MaterialPageRoute(builder: (_) =>ownerPage()));
 
             },
 
@@ -87,7 +80,7 @@ class MyPets extends StatelessWidget {
 
     GestureDetector(
     onTap:() {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => addPet(owner)))
+    Navigator.push(context, MaterialPageRoute(builder: (_) => addPet(getuser())))
         .catchError((error) => print('Delete failed: $error'));
     },
     child:Container(//add
@@ -133,18 +126,21 @@ class MyPets extends StatelessWidget {
             padding: EdgeInsets.only(left:25,right:25,top: 10),
             height: 530,
             child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('pets').snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection("pets")
+                    .where('ownerId', isEqualTo: (getuser()))
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
                   if (snapshot.data!.docs.isEmpty)
                     return Padding(
-                      padding: EdgeInsets.all(20),
-                      child: const Text('You haven\'t added Any Pets!',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.grey),
-                          textAlign: TextAlign.center));
+                        padding: EdgeInsets.all(20),
+                        child: const Text('You haven\'t added Any Pets!',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.grey),
+                            textAlign: TextAlign.center));
                   return ListView.builder(scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>
@@ -154,7 +150,16 @@ class MyPets extends StatelessWidget {
                 }
             ),
           ),
-
+            Container(
+            padding: EdgeInsets.only(left:25,right:25,top: 10),
+    height: 530,
+    child: Text(msg(),
+    style: TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+    color: Colors.grey),
+    textAlign: TextAlign.center)
+    ),
         ],
       ),
     ),);
@@ -163,10 +168,10 @@ class MyPets extends StatelessWidget {
 
   Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ) {
 
-  //  DocumentReference owner = FirebaseFirestore.instance.collection('pet owners').doc(owner);
     //profile pic based on pet's species
     String img ="";
-    if (document['ownerId'].toString() == owner.toString()){
+    if (document['ownerId'].toString() == getuser()){
+      pets++;
       if (document['species']=="Dog")
         img="images/dog.png";
       else
@@ -175,7 +180,6 @@ class MyPets extends StatelessWidget {
 
       return GestureDetector(
           onTap: (){
-
             Navigator.push(context,MaterialPageRoute(builder:(context) {
               return pet(document['petId']);
 
@@ -221,5 +225,15 @@ class MyPets extends StatelessWidget {
     'Cat' : statusCatStyle,
     'Dog' : statusDogStyle
   };
+}
+String getuser(){
+  User? user = FirebaseAuth.instance.currentUser;
+  return user!.uid.toString();
+}
+String msg(){
+  if (true)
+ return 'You haven\'t added Any Pets!';
+  else
+    return '';
 }
 

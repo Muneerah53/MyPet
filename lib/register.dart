@@ -72,7 +72,10 @@ class Home extends StatelessWidget {
         leading: IconButton(
           onPressed: () {
             //  Navigator.push(
-            Navigator.push(context, MaterialPageRoute(builder: (_) => LoginPage())); //register button******
+          //  Navigator.push(context, MaterialPageRoute(builder: (_) => LoginPage()));
+            //register button******
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                LoginPage()), (Route<dynamic> route) => false);
           },
           icon: Icon(
             Icons.arrow_back_ios,

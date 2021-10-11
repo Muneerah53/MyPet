@@ -44,7 +44,9 @@ class _PetPageState extends State<ownerPage> {
                     print(error.toString());
                   });
 
-                  Navigator.of(context,rootNavigator: true).push(MaterialPageRoute(builder: (context) =>  LoginPage()));
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                      LoginPage()), (Route<dynamic> route) => false);
+
                 },
               ),
             ],

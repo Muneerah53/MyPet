@@ -225,10 +225,11 @@ class _addPet extends State<addPet> {
                             MaterialButton(
                                 minWidth: 200,
                                 height: 60,
-                                padding: const EdgeInsets.all(20),
-                                color: primaryColor,
-                                textColor: Colors.white,
-                                child: const Text('Add pet'),
+                                padding: const EdgeInsets.all(10),
+                                color: greenColor,
+                                textColor: primaryColor,
+                                child: const Text('Add pet',style: TextStyle( fontSize: 18),
+                                ),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12)),
                                 onPressed: () async {
@@ -275,9 +276,10 @@ class _addPet extends State<addPet> {
                       minWidth: 200,
                       height: 60,
                       padding: const EdgeInsets.all(20),
-                      color: primaryColor,
-                      textColor: Colors.white,
-                      child: const Text('Cancel'),
+                      color: redColor,
+                      textColor: primaryColor,
+                      child: const Text('Cancel',style: TextStyle( fontSize: 18),
+                      ),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                       onPressed:( ){

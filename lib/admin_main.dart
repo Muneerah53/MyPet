@@ -41,7 +41,7 @@ class _adminHomePageState extends State<AdminHomePage> {
     await FirebaseAuth.instance.signOut().catchError((error){
     print(error.toString());
     });
-    Navigator.of(context,rootNavigator: true).push(MaterialPageRoute(builder: (context) =>  LoginPage()));
+    Navigator.of(context,rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => new  LoginPage()));
             },
           ),
         ],
@@ -63,10 +63,16 @@ class _adminHomePageState extends State<AdminHomePage> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(width: 50),
-            CircleAvatar(
-              radius: 70,
-              backgroundImage:AssetImage('images/logo.jpeg'),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                    width: 120,
+                    height: 110,
+                    fit: BoxFit.fill,
+                    image: new AssetImage('images/logo.jpeg'))
+              ],
             ),
             SizedBox(height: 50),
             Container(

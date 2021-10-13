@@ -7,7 +7,6 @@ import 'ownerProfile.dart';
 import 'models/global.dart';
 import 'package:MyPet/MyPets.dart';
 
-final  primaryColor = const Color(0xff313540);
 GlobalKey _globalKey = navKeys.globalKey;
 int pets=0;
 Future<void> main() async {
@@ -173,7 +172,7 @@ class pet extends StatelessWidget {
                   child: const Text('Edit'),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                 onPressed: () => showAlert(context,"Edit is not yet implemented ",document),
+                    onPressed: (){}
 
                 ),
                 Container(
@@ -191,17 +190,7 @@ class pet extends StatelessWidget {
                   child: const Text('Delete'),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  onPressed: (){
-                  //  =>showAlert(context,"Delete my pet",document),
-                  document.reference.delete().then((_) => print('Deleted'));
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Pet deleted successfully"),
-                  backgroundColor:Colors.green,),);
-                  //   Navigator.of(context, rootNavigator: true).pop();
-
-                  Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => Profile()))
-                      .catchError((error) => print('Delete failed: $error'));}
+                  onPressed: () => showAlert(context,"Delete my pet",document),
 
                 ),
 
@@ -263,28 +252,46 @@ class pet extends StatelessWidget {
           content: Text(message),
           actions: <Widget>[
             FlatButton(
-              child: Text("OK"),
+              child: Text("YES"),
               onPressed: () {
-                Navigator.of(context).pop();
+                document.reference.delete().then((_){
+
+                  Navigator.pop(context, true);
+                }   );
+
+                // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
+                //Put your code here which you want to execute on Yes button click.
 
               },
             ),
 
 
-           /* FlatButton(
+            FlatButton(
               child: Text("CANCEL"),
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Pet has not been deleted "),
-                  backgroundColor:Colors.orange,),);
+
                 //Put your code here which you want to execute on Cancel button click.
-                Navigator.of(context).pop();
+                Navigator.pop(context, false);
 
               },
-            ),*/
+            ),
           ],
         );
       },
+    ).then((exit) {
+      if (exit == null) return;
+
+      if (exit) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Pet deleted successfully"),
+          backgroundColor:Colors.green,),);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Pet has not been deleted "),
+          backgroundColor:Colors.orange,),);
+      }
+    },
     );
   }
 

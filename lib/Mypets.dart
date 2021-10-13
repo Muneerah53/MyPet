@@ -69,12 +69,10 @@ class MyPets extends StatelessWidget {
     Container(
             child: Center(
               child: Text(
-                'My Pets',
-                style: TextStyle(
-                  fontSize: 30, color: Colors.blueGrey,
-                  fontStyle: FontStyle.italic,),
-                textAlign: TextAlign.center,
-              ),
+                'My Pets', style: TextStyle(
+                    color: Color(0xffe57285),
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold)),
             ),
           ),
 

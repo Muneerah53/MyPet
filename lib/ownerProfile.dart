@@ -39,6 +39,8 @@ class Profile extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(top: 5),
+                width: 120,
+                height: 110,
                 child: CircleAvatar(
                   radius: 80,
                   backgroundImage: new AssetImage("images/owner.png"),
@@ -49,15 +51,15 @@ class Profile extends StatelessWidget {
 
             Container(
               margin: EdgeInsets.only(top: 5),
-              child: Center(
                 child: Text(
                   'Profile Information',
                   style: TextStyle(
-                    fontSize: 30, color: Colors.blueGrey,
-                    fontStyle: FontStyle.italic,),
+                      color: Color(0xffe57285),
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
-              ),
+
             ),
  Container(
             padding: EdgeInsets.only(left:20,right: 20),
@@ -84,7 +86,8 @@ class Profile extends StatelessWidget {
                   child: Text(
                     'My Pets',
                     style: TextStyle(
-                        fontSize: 30, color: Colors.black87,
+                        color: Color(0xffe57285),
+                        fontSize: 30,
                         fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
@@ -113,8 +116,8 @@ class Profile extends StatelessWidget {
 
           //pest cards
           Container(
-
-            height: 260,
+            padding: EdgeInsets.only(left:  MediaQuery.of(context).size.width * 0.15,),
+            height: 220,
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection("pets")
@@ -186,7 +189,7 @@ class Profile extends StatelessWidget {
 
                 //Edit button
                 Container(
-                  margin: EdgeInsets.only(left: 15,right: 15,bottom: 10),
+                  margin: EdgeInsets.only(left: 15,right: 15,bottom: 20),
                 ),
 
 
@@ -194,8 +197,9 @@ class Profile extends StatelessWidget {
                 MaterialButton(
 
                   minWidth: 130,
-                  height: 25,
+                  height: 35,
                   padding: const EdgeInsets.all(10),
+
                   color: primaryColor,
                   textColor: Colors.white,
                   child: const Text('Edit'),
@@ -223,7 +227,6 @@ class Profile extends StatelessWidget {
         img="images/cat.png";
 
       return Card(
-
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
 
           child: Container(
@@ -244,10 +247,11 @@ class Profile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Container(
-
-                      margin: EdgeInsets.only(top: 20),
+                      margin: EdgeInsets.only(top: 10),
+                      width: 120,
+                      height: 120,
                       child: CircleAvatar(
-                          radius: 50,
+                          radius: 80,
                           backgroundImage:new AssetImage(img)),
 
 
@@ -256,16 +260,17 @@ class Profile extends StatelessWidget {
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 10),
+                  margin: EdgeInsets.only(top: 5),
+                  child:Center(
                   child: ListTile(
-                      title: Text("  "+document['name'],style: statusStyles[document['species']]),
+                      title: Text(document['name'],style: statusStyles[document['species']],   textAlign: TextAlign.center,),
                       onTap: (){
 
                         Navigator.push(context,MaterialPageRoute(builder:(context) {
                           return pet(document['petId']);
 
                         } ));}),
-                ),],
+                ),),],
             ),));
     }
     else return Card();

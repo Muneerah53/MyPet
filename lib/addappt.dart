@@ -134,7 +134,7 @@ class appointmentFormState extends State<appointmentForm> {
                         to: _endDate,
                         start: _startTime,
                         end: _endTime,
-                        docName: _doc,
+                        docName: appt.docName,
                         background: _background,
                         type: _type,
                         status: "Available");
@@ -142,7 +142,7 @@ class appointmentFormState extends State<appointmentForm> {
                     firestoreInstance.collection("appointment ")
                         .doc(_id)
                         .update({
-                      "empName": _doc,
+                      "empName": appt.docName,
                       "date": DateFormat('dd/MM/yyyy').format(_startDate),
                       "startTime": DateFormat.Hm().format(_startDate),
                       "endTime": DateFormat.Hm().format(_endDate),

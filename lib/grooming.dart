@@ -204,7 +204,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(45, 0, 0, 0),
+              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -231,7 +231,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(50, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -281,7 +281,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(50, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -331,7 +331,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(45, 15, 220, 0),
+              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
               child: Text(
                 'Level of Shaving ..',
                 style: TextStyle(
@@ -341,7 +341,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -431,7 +431,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(50, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -481,7 +481,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(50, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -531,7 +531,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(50, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -581,7 +581,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(50, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
               child: Row(
                 children: [
                   Container(

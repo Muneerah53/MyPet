@@ -113,7 +113,7 @@ class selectState extends State<select> {
                 children: [
                   StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
-                          .collection("Worker")
+                          .collection("Employee")
                           .where("job", isEqualTo: "$emp")
                           .snapshots(),
                       builder: (context, snapshot) {
@@ -140,7 +140,7 @@ class selectState extends State<select> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              padding: const EdgeInsets.fromLTRB(50, 5, 137, 10),
+                              padding: const EdgeInsets.fromLTRB(30, 5, 137, 10),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),

@@ -2,6 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 import 'models/global.dart';
 
@@ -24,14 +26,16 @@ class docListState extends State<docList> {
   FirebaseFirestore firestoreInstance= FirebaseFirestore.instance;
   String title = "Employees List";
 String _name ='';
+String _id ='';
 var _work = ['Doctor', 'Groomer'];
 var selectedWork;
 var _types = ['Cats', 'Dogs','Both'];
 
 static final RegExp nameRegExp = RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]');
+static final RegExp idRegExp = RegExp(r'^[0-9]*$)');
 
 var selectedType;
-late String _selectedID;
+String _selectedEmp='';
 
   @override
   void dispose() {
@@ -93,12 +97,12 @@ late String _selectedID;
 
 
           StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('Worker').snapshots(),
+              stream: FirebaseFirestore.instance.collection('Employee').snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Text('loading');
                 if (snapshot.data!.docs.isEmpty) return Padding(
                     padding: EdgeInsets.all(20),
-                    child: const Text('No Added Workers', style: TextStyle(
+                    child: const Text('No Added Employees', style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         color: Colors.grey), textAlign: TextAlign.center));
@@ -126,8 +130,14 @@ late String _selectedID;
                                 Container(
                                   // margin: EdgeInsets.only(top: 10),
                                   child: ListTile(
+                                    leading: Text((snapshot.data!).docs[index]['empID']
+                                        //,style: statusStyles[document['species']]
+                                        , style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                            color: Color(0XFF2F3542))),
                                     title: Text(
-                                        (snapshot.data!).docs[index]['name']
+                                        (snapshot.data!).docs[index]['empName']
                                         //,style: statusStyles[document['species']]
                                         , style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -139,12 +149,13 @@ late String _selectedID;
                           ) // changeTimeSelected(index),
                           , onPressed: () {
                             String speciality;
-                            _name =  (snapshot.data!).docs[index]['name'];
-                            _selectedID = (snapshot.data!).docs[index]['id'];
+                            _name =  (snapshot.data!).docs[index]['empName'];
+                            _id =  (snapshot.data!).docs[index]['empID'];
+                            _selectedEmp = (snapshot.data!).docs[index].reference.id;
                             selectedWork =  (snapshot.data!).docs[index]['job'];
-                            if((snapshot.data!).docs[index]['speciality']=="Cats And Dogs")
+                            if((snapshot.data!).docs[index]['specialty']=="Cats And Dogs")
                               speciality = "Both";
-                            else speciality = (snapshot.data!).docs[index]['speciality'];
+                            else speciality = (snapshot.data!).docs[index]['specialty'];
                             selectedType = speciality;
 
                         dialog();
@@ -171,8 +182,7 @@ late String _selectedID;
   }
 
   dialog(){
-    bool newDr = _name == '';
-    String _oldName = _name;
+    bool newDr = _selectedEmp == '';
     String btnTxt = newDr ? 'Add' : 'Update';
     return  showDialog(
         barrierDismissible: false,
@@ -207,14 +217,52 @@ crossAxisAlignment: CrossAxisAlignment.center,
                             color: Colors.grey,
                           ),
                           onPressed: () {
-                            _name ='';
-                            selectedType=null;
-                            selectedWork=null;
+                            reset();
                             Navigator.of(context).pop();
                           }
                      ) )
                    ]),
                      // SizedBox(height: 20.0,),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8,20,8,8),
+                        child:  TextFormField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters:[FilteringTextInputFormatter.digitsOnly],
+                          enabled: newDr,
+                            controller: TextEditingController(text: _id),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+                          ),
+                          decoration: InputDecoration(
+                            icon: Icon(
+                              Icons.badge,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: "Enter ID",
+                            hintStyle: TextStyle(color:Colors.grey),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                )
+                            ),
+                          ),
+
+                          validator: (value) => value!.isEmpty
+                              ? 'Enter ID'
+                              : value.length > 3
+                              ? 'ID must be 3 digits or less'
+                              : null,
+
+                          onChanged: (String value) {
+                            _id = value;
+                          },
+
+                        ),
+
+                      ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(8,20,8,8),
                         child:  TextFormField(
@@ -252,7 +300,6 @@ crossAxisAlignment: CrossAxisAlignment.center,
                         ),
 
                       ),
-
                      Visibility(
                        visible: newDr,
                        child:
@@ -382,16 +429,25 @@ crossAxisAlignment: CrossAxisAlignment.center,
                               shape: MaterialStateProperty.all(RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20.0))),
                             ),
-                          onPressed: () {
+                          onPressed: () async {
                             if (_dformKey.currentState!.validate()) {
                               String speciality;
                               if(selectedType.toString()=="Both")
                                 speciality="Cats And Dogs";
                               else speciality=selectedType.toString();
 
-                              if(newDr)
-                                saveDr(_name,speciality,selectedWork);
-                              else updateDr(_name, _oldName,speciality);
+                              if(newDr) {
+                                if(saveDr(_name,speciality,selectedWork)==true)
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content: Text("New Employee is added successfully"),
+                                    backgroundColor:Colors.green,),);
+                                else
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content: Text("Employee with the same id already exists."),
+                                    backgroundColor:Colors.green,),);
+                              }
+                              else await updateDr(_name, speciality);
+
                               Navigator.of(context).pop();
                             }
                           },
@@ -416,8 +472,8 @@ crossAxisAlignment: CrossAxisAlignment.center,
                                           borderRadius: BorderRadius.circular(
                                               20.0))),
                                 ),
-                                onPressed: () {
-                                  deleteDr(_oldName);
+                                onPressed: () async {
+                                   deleteDr();
 
                                   Navigator.of(context).pop();
                                 },
@@ -441,19 +497,19 @@ crossAxisAlignment: CrossAxisAlignment.center,
 
 
 
-  Future<void> updateDr(String doc, String oldName, String speciality) async {
+  Future<void> updateDr(String doc,String speciality) async {
 firestoreInstance
-        .collection('Worker')
-        .doc(_selectedID)
+        .collection('Employee')
+        .doc(_selectedEmp)
         .update({
-      "name": _name,
-  "speciality": speciality,
+      "empName": _name,
+  "specialty": speciality,
 
     });
 
     QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
         .collection('appointment ')
-        .where('empName', isEqualTo: oldName)
+        .where('empID', isEqualTo: _id)
         .get();
 
     List<QueryDocumentSnapshot> docs = snapshot.docs;
@@ -463,32 +519,43 @@ firestoreInstance
       }
     }
 
-_name = '';
+reset();
   }
 
 
-  Future<void> saveDr(String doc, var type,var work) async {
+  Future<bool> saveDr(String doc, var type,var work) async {
+
+    QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
+        .collection('Employee')
+        .where('empID', isEqualTo: _id)
+        .get();
+
+    List<QueryDocumentSnapshot> docs = snapshot.docs;
 
 
-    DocumentReference doc = await firestoreInstance.collection(
-          "Worker").add(
-          {
-            "name": _name,
-            "job": work.toString(),
-            "speciality": type
-          });
+  if(docs.isNotEmpty)   return Future<bool>.value(false);
 
-    String _id = doc.id;
-    await firestoreInstance.collection("Worker").doc(_id).update(
-        {"id": _id});
+  await firestoreInstance.collection(
+      "Employee").add(
+      {
+        'empID': _id,
+        "empName": _name,
+        "job": work.toString(),
+        "specialty": type
+      });
+    reset();
+    return Future<bool>.value(true);
+
+
   }
 
-  Future<void> deleteDr(String oldName) async {
-    firestoreInstance.collection("Worker").doc(_selectedID).delete();
+  Future<void> deleteDr() async {
+    print(_selectedEmp);
+    firestoreInstance.collection("Employee").doc(_selectedEmp).delete();
 
     QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
         .collection('appointment ')
-        .where('empName', isEqualTo: oldName)
+        .where('empID', isEqualTo: _id)
         .get();
 
     List<QueryDocumentSnapshot> docs = snapshot.docs;
@@ -499,8 +566,12 @@ _name = '';
 
     }
 
+    reset();
 
-    _name=_selectedID='';
+  }
+
+  void reset() {
+    _name=_selectedEmp=_id='';
     selectedWork=selectedType=null;
   }
 

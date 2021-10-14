@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'Appointment.dart';
 import 'models/global.dart';
 import 'petOwner_main.dart';
-var primaryColor = const Color(0xff313540);
+
 class Payment extends StatefulWidget {
   const Payment({Key? key}) : super(key: key);
 

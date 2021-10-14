@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'Payment.dart';
 import 'ownerProfile.dart';
 import 'models/global.dart';
 import 'package:MyPet/MyPets.dart';

@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:MyPet/MyPets.dart';
 import 'models/global.dart';
+import 'models/global.dart';
+
 GlobalKey _globalKey = navKeys.globalKey;
 
 // Future AddPetAsync(petName, gender, disease, specie) async {

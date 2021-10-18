@@ -9,11 +9,11 @@ import 'ownerProfile.dart';
 final  validCharacters = RegExp(r'^[a-zA-Z]');
 
 class editPet extends StatefulWidget {
-  final DocumentSnapshot petID;
+  final DocumentSnapshot pet;
 
-  editPet(this.petID);
+  editPet(this.pet);
   @override
-  State<editPet> createState() => _editPet(petID);
+  State<editPet> createState() => _editPet(pet);
 }
 
 class _editPet extends State<editPet> {
@@ -28,16 +28,13 @@ class _editPet extends State<editPet> {
 
   String petName = '';
   String petBirthDate = '';
+  var currentValuesp;
+  var currentValuegn;
 
 
 
   var backColor = const Color(0xfff3e3e3);
 
-  String currentValuesp = 'Cat';
-  String val = '';
-  String currentValuegn = 'Male';
-  List<String> specieses = ['Cat', 'Dog'];
-  List<String> genders = ['Male', 'Female'];
 
   //this is use to check the status of the form
   final _formKey = GlobalKey<FormState>();
@@ -74,22 +71,48 @@ class _editPet extends State<editPet> {
 
         ),
         body: SingleChildScrollView(
-            child: Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                    child: _buildPetCard(context,pet)))));
+
+            child:  Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+
+                  Container(
+                    //  padding: EdgeInsets.only(bottom: 380,),
+                    child:_buildPicCard(context, pet),
+                          ),],
+    ),
+    Row(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: <Widget>[
+
+    Form(
+                      key: _formKey,
+                      child: SingleChildScrollView(
+                          child: _buildPetCard(context,pet))
+                  ),
+
+
+                ])])));
 }
 
 Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
+
+  String currentValuespHint = pet['species'].toString();
+  String currentValuegnHint = pet['gender'].toString();
+  List<String> specieses = ['Cat', 'Dog'];
+  List<String> genders = ['Male', 'Female'];
   return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-    margin: EdgeInsets.only(left: 20, top: 20),
+    margin: EdgeInsets.only(left: 20, top: 20,right: 20),
 
     child: Container(
 
       padding: EdgeInsets.only(left: 10, top: 10),
 
-  width: 380,
+  width: 370,
   height: 700,
 
   //i dont know why this cammand does not work
@@ -205,19 +228,21 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
                                 alignedDropdown: true,
                                 child: DropdownButton<String>(
                                     isExpanded: true,
+                                    hint: Text(currentValuespHint),
                                     value: currentValuesp,
-                                    items: specieses
-                                        .map<DropdownMenuItem<String>>((val) {
+                                    onChanged: (val) {
+                                      setState(() {
+                                        currentValuesp= val!;
+                                        speciesController.text = currentValuesp;
+                                      });
+                                    },
+                                    items: specieses.map<DropdownMenuItem<String>>((val) {
                                       return DropdownMenuItem<String>(
                                         value: val,
                                         child: Text('$val',style: TextStyle (color: Colors.black54)),
                                       );
                                     }).toList(),
-                                    onChanged: (val) {
-                                      setState(() {
-                                        currentValuesp = val!;
-                                      });
-                                    },
+
                                     style: const TextStyle(color: Colors.black)),
                               ))),
 
@@ -231,6 +256,7 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
                       ),
                       Container(
                           height: 58.0,
+
                           decoration: const BoxDecoration(
                               color: Colors.transparent,
                               borderRadius:
@@ -241,7 +267,15 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
                                 alignedDropdown: true,
                                 child: DropdownButton<String>(
                                     isExpanded: true,
-                                    value: currentValuegn,
+                                    hint: Text(currentValuegnHint),
+                                    value:currentValuegn,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        currentValuegn = val!;
+                                        genderController.text = currentValuegn;
+                                        print(currentValuegn);
+                                     });
+                                    },
                                     items: genders
                                         .map<DropdownMenuItem<String>>((val) {
                                       return DropdownMenuItem<String>(
@@ -249,11 +283,7 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
                                         child: Text('$val',style: TextStyle (color: Colors.black54)),
                                       );
                                     }).toList(),
-                                    onChanged: (val) {
-                                      setState(() {
-                                        currentValuegn = val!;
-                                      });
-                                    },
+
                                     style: const TextStyle(color: Colors.black)),
                               ))),
 
@@ -261,7 +291,7 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
                       FlatButton(
                           minWidth: 250,
                           height: 60,
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(20),
                           color: greenColor,
                           textColor: primaryColor,
                           child: const Text('Edit My Pet Information',style: TextStyle( fontSize: 18),
@@ -269,43 +299,60 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12)),
                           onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              DocumentReference doc = await pets.add({
-                                'petId': '',
-                                'name': petName,
-                                'birthDate': dateController.text,
-                                'gender': currentValuegn,
-                                'species': currentValuesp,
-                                'ownerId': '',
-                              });
-                              String _id = doc.id;
-                              await pets.doc(_id).update({"petId": _id});
+  int change = 0;
+  int dateError = 0;
+  int nameError = 0;
+  int genderError = 0;
+  int  speciesError = 0;
 
-                              // String ownerId= await FirebaseFirestore.instance.collection('pet owners').doc().id ;
-                              // await pets.doc(_id).update({"ownerId":ownerId});
+  if (!nameController.text.isEmpty) {
+  if (!validCharacters.hasMatch(nameController.text)) {
+  nameError++;
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  content: Text("name must contain only characters"),
+  backgroundColor: Theme
+      .of(context)
+      .errorColor,
+  ));
+  }
+  else {
+  document.reference.update({'name': nameController.text});
+  change++;
+  }}
 
-                              User? user = FirebaseAuth.instance.currentUser;
-                              DocumentReference ref = FirebaseFirestore
-                                  .instance
-                                  .collection('pet owners')
-                                  .doc(user?.uid);
-                              await pets.doc(_id).update({"ownerId": ref.id});
+  if (!dateController.text.isEmpty) {
+  document.reference.update({'birthDate':   dateController.text});
+  change++;
+  }
+  if (!speciesController.text.isEmpty) {
+    document.reference.update({
+  'species': speciesController.text
+  });
+  change++;
+  }
+  if (!genderController.text.isEmpty) {
+  document.reference.update({'gender': genderController.text});
+  change++;
+  }
 
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text("New pet is added successfully "),
-                                backgroundColor:Colors.green,),);
-                              //Put your code here which you want to execute on Cancel button click.
-                              Navigator.of(context).pop();
 
-                              // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
+  if (change > 0) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  content: Text("your pet information is updated successfully "),
+  backgroundColor: Colors.green,),);
+  Navigator.of(context).pop();
 
-                            }
-                          }),
-                      Container(
-                        margin:
-                        EdgeInsets.only(left: 15, right: 15, bottom: 20),
-                      ),
-
+  }
+  else if ((nameError == 0) & (change == 0) & (genderError ==
+  0)&(dateError==0)&(speciesError==0)) ScaffoldMessenger.of(
+  context).showSnackBar(SnackBar(
+  content: Text("Please fill any of the fields"),
+  backgroundColor: Theme
+      .of(context)
+      .errorColor,
+  )
+  );
+  },),],),),
                       //Edit button
                       FlatButton(
 
@@ -326,11 +373,35 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
                         },
                       ),])
 
-            ),
 
-          ],),],),),);
+
+          ],),),);
 
 
 
 }
+
+  Widget _buildPicCard(BuildContext context, DocumentSnapshot document) {
+    String img = "";
+      if (document['species'] == "Dog")
+        img = "images/dog.png";
+      else
+        img = "images/cat.png";
+      return Column(
+
+          children: <Widget>[
+
+            Container(
+              margin: EdgeInsets.only(top: 5),
+              width: 120,
+              height: 110,
+              child:    CircleAvatar(
+                backgroundImage: new AssetImage(img),
+              ),),
+
+
+          ]
+      );
+    }
+
 }

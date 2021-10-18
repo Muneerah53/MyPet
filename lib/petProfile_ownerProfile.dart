@@ -166,7 +166,7 @@ class pet extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   color: greenColor,
                   textColor: primaryColor,
-                  child: const Text('Edit'),
+                  child: const Text('Edit',style: TextStyle( fontSize: 18)),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   onPressed: (){
@@ -190,7 +190,7 @@ class pet extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   color: redColor,
                   textColor: primaryColor,
-                  child: const Text('Delete'),
+                  child: const Text('Delete',style: TextStyle( fontSize: 18)),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   onPressed: () => showAlert(context,"Delete my pet",document),

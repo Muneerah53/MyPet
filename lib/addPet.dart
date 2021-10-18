@@ -224,7 +224,7 @@ class _addPet extends State<addPet> {
 
                             SizedBox(height: 85),
 
-                            MaterialButton(
+                            FlatButton(
                                 minWidth: 200,
                                 height: 60,
                                 padding: const EdgeInsets.all(10),
@@ -273,7 +273,7 @@ class _addPet extends State<addPet> {
                             ),
 
                     //Edit button
-                    MaterialButton(
+                   FlatButton(
 
                       minWidth: 200,
                       height: 60,

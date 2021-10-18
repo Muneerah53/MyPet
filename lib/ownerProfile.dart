@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'login.dart';
 
 import 'Payment.dart';
 import 'models/global.dart';
@@ -24,14 +25,28 @@ class Profile extends StatelessWidget {
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation:0,
-          leading: ElevatedButton(
+        actions: [
+        IconButton(
+        iconSize: 35.0,
+        icon: Icon(
+          Icons.logout,
+          color: Color(0xFF2F3542),
+        ),
+        onPressed: () async {
+          await FirebaseAuth.instance.signOut().catchError((error){
+            print(error.toString());
+          });
+
+          Navigator.of(context,rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => new  LoginPage()));
+        },
+      ), ElevatedButton(
             onPressed: () {
               BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
               navigationBar.onTap!(0);
             },
             child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
             style: backButton ),
-      ),
+    ],),
       body:SingleChildScrollView(
 
         child:  Column(
@@ -51,7 +66,7 @@ class Profile extends StatelessWidget {
           ),
 
             Container(
-              margin: EdgeInsets.only(top: 5),
+              margin: EdgeInsets.only(top: 5,bottom: 10),
                 child: Text(
                   'Profile Information',
                   style: TextStyle(
@@ -178,7 +193,7 @@ class Profile extends StatelessWidget {
 
                 ),
                 Container(
-                 // margin: EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.only(top: 10),
                   child: ListTile(
                     title: Text(
                         "First name:  " + document['fname'] + "\nLast name:  " +
@@ -249,8 +264,8 @@ class Profile extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(top: 10),
-                      width: 120,
-                      height: 120,
+                      width: 100,
+                      height: 100,
                       child: CircleAvatar(
                           radius: 80,
                           backgroundImage:new AssetImage(img)),

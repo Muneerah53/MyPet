@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'edit_pet_profile.dart';
 
 import 'models/global.dart';
 import 'package:MyPet/MyPets.dart';
@@ -161,17 +162,22 @@ children: <Widget>[
 
 
                 //Edit button
-                MaterialButton(
+                FlatButton(
 
                   minWidth: 200,
                   height: 60,
                   padding: const EdgeInsets.all(20),
-                  color: primaryColor,
-                  textColor: Colors.white,
-                  child: const Text('Edit'),
+                  color: greenColor,
+                  textColor: primaryColor,
+                  child: const Text('Edit',style: TextStyle( fontSize: 18,
+                  ),),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  onPressed: (){}
+                  onPressed: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => editPet(document)))
+                        .catchError((error) => print('Delete failed: $error'));
+                  }
                   ,
 
                 ),
@@ -180,14 +186,15 @@ children: <Widget>[
                 ),
 
                 //delete button
-                MaterialButton(
+                FlatButton(
 
                   minWidth: 200,
                   height: 60,
                   padding: const EdgeInsets.all(20),
-                  color: primaryColor,
-                  textColor: Colors.white,
-                  child: const Text('Delete'),
+                  color: redColor,
+                  textColor: primaryColor,
+                  child: const Text('Delete',style: TextStyle( fontSize: 18,
+                  ),),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   onPressed: () => showAlert(context,"Delete my pet",document),
@@ -213,20 +220,23 @@ children: <Widget>[
       return Column(
 
         children: <Widget>[
-        CircleAvatar(
 
-        radius: 80,
+      Container(
+      margin: EdgeInsets.only(top: 5),
+    width: 120,
+    height: 110,
+    child:    CircleAvatar(
         backgroundImage: new AssetImage(img),
-      ),
+      ),),
         Container(
           padding: EdgeInsets.only(bottom: 350),
 
             child: Text(
-              'Pet Information',
-              style: TextStyle(
-                fontSize: 30, color: Colors.blueGrey,
-                fontStyle: FontStyle.italic,),
-              textAlign: TextAlign.left,
+              'Pet Information', style: TextStyle(
+    color: Color(0xffe57285),
+    fontSize: 30,
+    fontWeight: FontWeight.bold),
+    textAlign: TextAlign.center,
             ),
 
         ),

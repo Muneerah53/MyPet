@@ -40,16 +40,16 @@ class _CheckUPState extends State<CheckUP> {
       backgroundColor: const Color(0xFFF4E3E3),
       body: SingleChildScrollView(
         child:
-            Column(crossAxisAlignment: (CrossAxisAlignment.center), children: [
+        Column(crossAxisAlignment: (CrossAxisAlignment.center), children: [
           Container(
             margin: const EdgeInsets.fromLTRB(0, 80, 330, 0),
             padding: EdgeInsets.only(left: 10.0),
             width: 50,
             height: 50,
             child: BackButton(
-              color: Color(0xFF2F3542)),
+                color: Color(0xFF2F3542)),
 
-            
+
             decoration: BoxDecoration(
                 color: Colors.lightBlueAccent, shape: (BoxShape.circle)),
           ),
@@ -80,8 +80,8 @@ class _CheckUPState extends State<CheckUP> {
                           const Text("Loading.....");
                         else {
                           for (int i = 0;
-                              i < (snapshot.data!).docs.length;
-                              i++) {
+                          i < (snapshot.data!).docs.length;
+                          i++) {
                             DocumentSnapshot snap = (snapshot.data!).docs[i];
                             currencyItems.add(
                               DropdownMenuItem(
@@ -97,7 +97,7 @@ class _CheckUPState extends State<CheckUP> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                           padding: new EdgeInsets.symmetric(vertical: 8.0, horizontal:  MediaQuery.of(context).size.width * 0.189,),
+                              padding: new EdgeInsets.symmetric(vertical: 8.0, horizontal:  MediaQuery.of(context).size.width * 0.189,),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(30),
@@ -146,7 +146,7 @@ class _CheckUPState extends State<CheckUP> {
               decoration: InputDecoration(
                 hintText: ('Reason...'),
                 contentPadding:
-                    new EdgeInsets.symmetric(vertical: 25.0, horizontal: 10.0),
+                new EdgeInsets.symmetric(vertical: 25.0, horizontal: 10.0),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white, width: 1.0),
                   borderRadius: BorderRadius.circular(30),
@@ -178,18 +178,18 @@ class _CheckUPState extends State<CheckUP> {
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => OrderList(
-                                type: t,
-                                date: d,
-                                pet: p,
-                                time: ti,
-                               appointID: id,
-                              )),
+                            type: t,
+                            date: d,
+                            pet: p,
+                            time: ti,
+                            appointID: id,
+                          )),
                     );
                   }
                 },
                 child: Text('Next',
                     style:
-                        TextStyle(fontStyle: FontStyle.italic, fontSize: 25)),
+                    TextStyle(fontStyle: FontStyle.italic, fontSize: 25)),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Color(0XFF2F3542)),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(

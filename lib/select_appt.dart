@@ -68,15 +68,15 @@ class selectState extends State<select> {
     return Scaffold(
         backgroundColor: const Color(0xFFF4E3E3),
         appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation:0,
-            leading: ElevatedButton(
+          backgroundColor: Colors.transparent,
+          elevation:0,
+          leading: ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
 
-                child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-                style: backButton ),// <-- Button color// <-- Splash color
+              child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+              style: backButton ),// <-- Button color// <-- Splash color
 
         ),
         // appBar: AppBar(
@@ -195,7 +195,7 @@ class selectState extends State<select> {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("You Must Select a Doctort First"),
                       backgroundColor:Colors.red,),);
-                    else
+                  else
                     showDialog();},
                   child: AbsorbPointer(
                     child: TextField(
@@ -236,10 +236,10 @@ class selectState extends State<select> {
               child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('appointment ')
-                  .where('empName', isEqualTo: selectedCurrency.toString())
+                      .where('empName', isEqualTo: selectedCurrency.toString())
                       .where('date',
-                          isEqualTo:
-                              DateFormat('dd/MM/yyyy').format(selectedDate))
+                      isEqualTo:
+                      DateFormat('dd/MM/yyyy').format(selectedDate))
                       .where('typeID', isEqualTo: t)
                       .where('state', isEqualTo: "Available")
                       .snapshots(),
@@ -260,7 +260,7 @@ class selectState extends State<select> {
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
                           String? stime = ((snapshot.data!).docs[index]
-                                  ['startTime'] +
+                          ['startTime'] +
                               ' - ' +
                               (snapshot.data!).docs[index]['endTime']);
 
@@ -269,19 +269,19 @@ class selectState extends State<select> {
                                   padding: EdgeInsets.all(0),
                                   side: BorderSide(color: Colors.transparent)),
                               onPressed: () => changeTimeSelected(index, stime, ((snapshot.data!).docs[index]
-                          ['appointmentID'])),
+                              ['appointmentID'])),
                               child: Card(
                                   color: timeIndex == index
                                       ? Color(0XFFFF6B81)
                                       : Colors.white,
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
-                                          BorderRadius.circular(20.0)),
+                                      BorderRadius.circular(20.0)),
                                   child: Container(
                                     padding:
-                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    EdgeInsets.only(top: 10, bottom: 10),
                                     margin:
-                                        EdgeInsets.only(left: 20, right: 20),
+                                    EdgeInsets.only(left: 20, right: 20),
                                     width: 145,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50.0),
@@ -291,10 +291,10 @@ class selectState extends State<select> {
                                       child: ListTile(
                                         title: Text(
                                             ((snapshot.data!).docs[index]
-                                                    ['startTime'] +
+                                            ['startTime'] +
                                                 ' - ' +
                                                 (snapshot.data!).docs[index][
-                                                    'endTime']) //,style: statusStyles[document['species']]
+                                                'endTime']) //,style: statusStyles[document['species']]
                                             ,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -345,56 +345,56 @@ class selectState extends State<select> {
                           index, context, (snapshot.data!).docs[index]),
                     );
                   })),
-Visibility(
-    visible: t==0,
-          child: Column(
+          Visibility(
+              visible: t==0,
+              child: Column(
 
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Container(
-            padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
-            child: Text(
-              'Enter Reason:',
-              style: TextStyle(
-                  color: const Color(0xFF552648B),
-                  fontSize: 18,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
+                      child: Text(
+                        'Enter Reason:',
+                        style: TextStyle(
+                            color: const Color(0xFF552648B),
+                            fontSize: 18,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+                      //margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      child: TextField(
+                        keyboardType: TextInputType.multiline,
+                        minLines: 1,
+                        maxLines: 5,
+                        style: TextStyle(
+                            fontSize: 16,
+                            height: 1.0,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.black38),
+                        decoration: InputDecoration(
+                          hintText: ('Enter your reason of visit...'),
+                          contentPadding:
+                          new EdgeInsets.symmetric(vertical: 25.0, horizontal: 10.0),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white, width: 1.0),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white, width: 1.0),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(color: Colors.black38),
+                        ),
+                      ),
+                    ),
+                  ])),
+
           Container(
-            padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
-            //margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: TextField(
-              keyboardType: TextInputType.multiline,
-              minLines: 1,
-              maxLines: 5,
-              style: TextStyle(
-                  fontSize: 16,
-                  height: 1.0,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.black38),
-              decoration: InputDecoration(
-                hintText: ('Enter your reason of visit...'),
-                contentPadding:
-                new EdgeInsets.symmetric(vertical: 25.0, horizontal: 10.0),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 1.0),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 1.0),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                filled: true,
-                fillColor: Colors.white,
-                hintStyle: TextStyle(color: Colors.black38),
-              ),
-            ),
-          ),
-])),
-
-    Container(
             child: Align(
               alignment: Alignment.bottomCenter,
               heightFactor: 1.5,
@@ -448,11 +448,11 @@ Visibility(
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) => Grooming(
-                                      date: date,
-                                      time: time,
-                                      pet: pets,
+                                    date: date,
+                                    time: time,
+                                    pet: pets,
                                     appointID: appointID
-                                    )));
+                                )));
                       }
                     }
                   },
@@ -464,15 +464,15 @@ Visibility(
                               fontStyle: FontStyle.italic, fontSize: 20))),
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Color(0XFF2F3542)),
+                    MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )
-                  //Icon(Icons.navigate_next),
+                //Icon(Icons.navigate_next),
 
-                  ),
+              ),
             ),
-    )
+          )
         ]));
   }
 
@@ -480,7 +480,7 @@ Visibility(
       int index, BuildContext context, DocumentSnapshot document) {
     String? petName = document['name'];
     String img =
-        document['species'] == "Dog" ? "images/dog.png" : "images/cat.png";
+    document['species'] == "Dog" ? "images/dog.png" : "images/cat.png";
     return OutlinedButton(
         style: OutlinedButton.styleFrom(
             padding: EdgeInsets.all(0),
@@ -521,7 +521,7 @@ Visibility(
                       title: Text(
                           "   " +
                               document[
-                                  'name'] //,style: statusStyles[document['species']]
+                              'name'] //,style: statusStyles[document['species']]
                           ,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -549,6 +549,3 @@ Visibility(
     });
   }
 }
-
-
-

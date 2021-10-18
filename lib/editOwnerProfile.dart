@@ -12,6 +12,7 @@ User? user = FirebaseAuth.instance.currentUser;
 DocumentReference owner = FirebaseFirestore.instance.collection('pet owners').doc(user?.uid);
 DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(user?.uid);
 
+
 class editProfile extends StatelessWidget {
   final DocumentSnapshot owner;
 
@@ -180,13 +181,15 @@ class editProfile extends StatelessWidget {
 
             //Edit button
 
-            MaterialButton(
+            FlatButton(
               minWidth: 200,
               height: 60,
               padding: const EdgeInsets.all(20),
-              color: primaryColor,
-              textColor: Colors.white,
-              child: const Text('Edit My Information'),
+              color: greenColor,
+              textColor: primaryColor,
+              child: const Text('Edit My Information',style: TextStyle( fontSize: 18,
+                ),
+            ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               onPressed: () async {
@@ -308,14 +311,15 @@ class editProfile extends StatelessWidget {
             ),
 
             //Edit button
-            MaterialButton(
+            FlatButton(
 
               minWidth: 200,
               height: 60,
               padding: const EdgeInsets.all(20),
-              color: primaryColor,
-              textColor: Colors.white,
-              child: const Text('Cancel'),
+              color: redColor,
+              textColor: primaryColor,
+              child: const Text('Cancel',style: TextStyle( fontSize: 18),
+              ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               onPressed: () {
@@ -336,4 +340,9 @@ class editProfile extends StatelessWidget {
     }
     return double.tryParse(s) != null;
   }
+  DocumentReference getuser(){
+    User? user = FirebaseAuth.instance.currentUser;
+   return FirebaseFirestore.instance.collection('pet owners').doc(user?.uid);
+  }
+
 }

@@ -39,7 +39,7 @@ class appointmentFormState extends State<appointmentForm> {
       key: _scaffoldKey,
       backgroundColor: Color(0xFFF4E3E3),
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
           elevation:0,
           title: Text('$title Appointment', textAlign: TextAlign.left,
               style: TextStyle(color: Color(0XFFFF6B81))),
@@ -47,12 +47,8 @@ class appointmentFormState extends State<appointmentForm> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Icon(Icons.arrow_back_ios, color: Color(0xFFF4E3E3),),
-            style: ElevatedButton.styleFrom(
-              shape: CircleBorder(),
-              padding: EdgeInsets.all(20),
-              primary: Colors.transparent, // <-- Button color// <-- Splash color
-            ),
+            child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+          style: backButton
           )
           ,actions: <Widget>[
       IconButton(

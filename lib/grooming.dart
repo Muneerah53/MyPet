@@ -7,15 +7,16 @@ class Grooming extends StatefulWidget {
   final String? date;
   final String? pet;
   final String? time;
-  final String? appointID;
+  final String? appointID,petId;
 
-  const Grooming({this.title, this.date, this.pet, this.time, this.appointID});
+  const Grooming({this.title, this.date, this.pet, this.time, this.appointID,  this.petId});
   @override
   _GroomingState createState() => _GroomingState();
 }
 
 class _GroomingState extends State<Grooming> {
   var selectedCurrency;
+
   bool ShowerAndDryingV = false;
   bool DryCleanV = false;
   int? t = 0;
@@ -36,7 +37,7 @@ class _GroomingState extends State<Grooming> {
   String? d;
   String? p;
   String? ti;
-  String? id;
+  String? id,pid;
   double? total = 0.0;
 
   bool type = false; // default false: 0 -> Check-Up
@@ -48,6 +49,7 @@ class _GroomingState extends State<Grooming> {
 
   void initState() {
     super.initState();
+    pid = widget.petId;
     d = widget.date;
     p = widget.pet;
     ti = widget.time;
@@ -655,8 +657,10 @@ class _GroomingState extends State<Grooming> {
                                 type: t,
                                 date: d,
                                 pet: p,
+                                petId: pid,
                                 time: ti,
                                 appointID: id,
+                                desc: getService().toString(),
                                 total: total)),
                       );
                     }
@@ -725,6 +729,35 @@ class _GroomingState extends State<Grooming> {
       t = t + 30.0;
     }
     return t;
+  }
+
+
+
+  List<String> getService() {
+    List<String> services=<String>[];
+    if (ShowerAndDryingV) {
+     services.add("Shower and Drying");
+    }
+    if (DryCleanV) {
+      services.add("Dry Clean");
+    }
+    if (ShavingV) {
+      services.add("Shaving");
+    }
+    if (HairCutV) {
+      services.add("Hair Cut");
+    }
+    if (EarCleaningV) {
+      services.add("Ear Cleaning");
+    }
+    if (CutnailsV) {
+      services.add("Cut Nails");
+    }
+    if (NeedsAnesthesiaV) {
+      services.add("Anesthesia");
+    }
+    print(services.toString());
+    return services;
   }
 
   showAlertDialog(BuildContext context,message) {

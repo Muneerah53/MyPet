@@ -1,4 +1,4 @@
-import 'check_up.dart';
+
 import 'OrderList.dart';
 import 'custom_checkbox.dart';
 import 'package:intl/intl.dart';
@@ -26,9 +26,11 @@ class select extends StatefulWidget {
 }
 
 class selectState extends State<select> {
+  String reason='';
   int t = 0;
   String? date = ' no pet have been selected';
   String? pets = 'no pet have been selected';
+  String? pid;
   String? time = 'no time have been \n selected';
   String? appointID;
   int? timeIndex;
@@ -129,10 +131,10 @@ class selectState extends State<select> {
                             currencyItems.add(
                               DropdownMenuItem(
                                   child: Text(
-                                    snap.get("name"),
+                                    snap.get("empName"),
                                     style: TextStyle(color: Colors.black38),
                                   ),
-                                  value: ("${snap.get("name")}")),
+                                  value: ("${snap.get("empID")}")),
                             );
                           }
                         }
@@ -193,7 +195,7 @@ class selectState extends State<select> {
               child: GestureDetector(
                   onTap: () { if(selectedCurrency==null)
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("You Must Select a Doctort First"),
+                      content: Text("You Must Select a Doctor First"),
                       backgroundColor:Colors.red,),);
                     else
                     showDialog();},
@@ -235,13 +237,13 @@ class selectState extends State<select> {
               padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
               child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection('appointment ')
-                  .where('empName', isEqualTo: selectedCurrency.toString())
+                      .collection('Work Shift')
+                  .where('empID', isEqualTo: selectedCurrency.toString())
                       .where('date',
                           isEqualTo:
                               DateFormat('dd/MM/yyyy').format(selectedDate))
-                      .where('typeID', isEqualTo: t)
-                      .where('state', isEqualTo: "Available")
+                      .where('type', isEqualTo: title)
+                      .where('status', isEqualTo: "Available")
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const Text('loading');
@@ -365,7 +367,15 @@ Visibility(
           Container(
             padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
             //margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: TextField(
+            child: TextFormField(
+    validator: (Value) {
+    if (Value!.isEmpty) {
+    return "Please enter your reason of visit";
+    }
+    },
+              onChanged: (value){
+                reason = value;
+              },
               keyboardType: TextInputType.multiline,
               minLines: 1,
               maxLines: 5,
@@ -429,6 +439,8 @@ Visibility(
                                   pet: pets,
                                   time: time,
                                   appointID: appointID,
+                                  petId: pid,
+                                  desc: reason
                                 )),
                           );
                         }
@@ -451,6 +463,7 @@ Visibility(
                                       date: date,
                                       time: time,
                                       pet: pets,
+                                    petId: pid,
                                     appointID: appointID
                                     )));
                       }
@@ -479,13 +492,14 @@ Visibility(
   Widget _buildListItem(
       int index, BuildContext context, DocumentSnapshot document) {
     String? petName = document['name'];
+    String? petID = document['petId'];
     String img =
         document['species'] == "Dog" ? "images/dog.png" : "images/cat.png";
     return OutlinedButton(
         style: OutlinedButton.styleFrom(
             padding: EdgeInsets.all(0),
             side: BorderSide(color: Colors.transparent)),
-        onPressed: () => changePetSelected(index, petName),
+        onPressed: () => changePetSelected(index, petName, petID),
         child: Card(
             color: petIndex == index ? Color(0XFFFF6B81) : Colors.white,
             shape: RoundedRectangleBorder(
@@ -542,10 +556,11 @@ Visibility(
     });
   }
 
-  changePetSelected(int index, String? p) {
+  changePetSelected(int index, String? p, String? petId) {
     setState(() {
       petIndex = index;
       pets = p;
+      pid = petId;
     });
   }
 }

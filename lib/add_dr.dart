@@ -1,11 +1,11 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-
+import 'admin_calender.dart' as cal;
 import 'models/global.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class docList extends StatefulWidget {
   @override
@@ -68,8 +68,6 @@ String _selectedEmp='';
             padding: const EdgeInsets.all(20),
             child: ListView(
               children: <Widget>[
-
-
                 ElevatedButton(
                   onPressed: () {
                    dialog();
@@ -506,19 +504,7 @@ firestoreInstance
   "specialty": speciality,
 
     });
-
-    QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
-        .collection('appointment ')
-        .where('empID', isEqualTo: _id)
-        .get();
-
-    List<QueryDocumentSnapshot> docs = snapshot.docs;
-    for (var doc in docs) {
-      if (doc.data() != null) {
-        doc.reference.update({"empName": _name});
-      }
-    }
-
+cal.updateName(_id,_name);
 reset();
   }
 
@@ -554,7 +540,7 @@ reset();
     firestoreInstance.collection("Employee").doc(_selectedEmp).delete();
 
     QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
-        .collection('appointment ')
+        .collection('Work Shift')
         .where('empID', isEqualTo: _id)
         .get();
 
@@ -565,6 +551,13 @@ reset();
       }
 
     }
+
+    var appoints = cal.events.appointments!.where((element) {return element.docID==_id;}).toList();
+    for (var i in appoints) {
+      cal.events.appointments!.remove(i);
+    }
+
+    cal.events.notifyListeners(CalendarDataSourceAction.reset,cal.events.appointments!);
 
     reset();
 

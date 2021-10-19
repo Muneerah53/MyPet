@@ -1,5 +1,7 @@
 part of event_calendar;
 
+
+
 class appointmentForm extends StatefulWidget {
   @override
   appointmentFormState createState() {
@@ -23,6 +25,7 @@ class appointmentFormState extends State<appointmentForm> {
   FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
   String title = _selectedAppointment == null ? "Add" : "Edit";
   var selectedDoctor;
+  String? doctorName='';
 
 
   @override
@@ -68,8 +71,8 @@ class appointmentFormState extends State<appointmentForm> {
 
 
               _doc = selectedDoctor.toString();
-              await FirebaseFirestore.instance.collection("appointment ")
-                  .where('empName',isEqualTo: _doc)
+              await FirebaseFirestore.instance.collection("Work Shift")
+                  .where('empID',isEqualTo: _doc)
                   .where('date',isEqualTo: DateFormat('dd/MM/yyyy').format(_startDate))
                   .get().then((
                   QuerySnapshot data) {
@@ -119,8 +122,8 @@ class appointmentFormState extends State<appointmentForm> {
                 if (_selectedAppointment != null) {
                   Appointment appt = _selectedAppointment as Appointment;
                   final ds = await firestoreInstance.collection(
-                      "appointment ").doc(_id).get();
-                  String status = ds['state'].toString();
+                      "Work Shift").doc(_id).get();
+                  String status = ds['status'].toString();
                   checkExistance();
                   if (status == "Booked") {
                     alertDialog(context, "Booked Appointment", "Appointment is already booked and cannot be changed;");
@@ -134,33 +137,32 @@ class appointmentFormState extends State<appointmentForm> {
                         to: _endDate,
                         start: _startTime,
                         end: _endTime,
-                        docName: appt.docName,
+                        docID: appt.docID,
+                        docName:_docName,
                         background: _background,
                         type: _type,
                         status: "Available");
 
-                    firestoreInstance.collection("appointment ")
+                    firestoreInstance.collection("Work Shift")
                         .doc(_id)
                         .update({
-                      "empName": appt.docName,
                       "date": DateFormat('dd/MM/yyyy').format(_startDate),
                       "startTime": DateFormat.Hm().format(_startDate),
                       "endTime": DateFormat.Hm().format(_endDate),
                     });
 
-                    _events.appointments!.removeAt(_events.appointments!
+                    events.appointments!.removeAt(events.appointments!
                         .indexOf(_selectedAppointment));
-                    _events.notifyListeners(CalendarDataSourceAction.remove,
+                    events.notifyListeners(CalendarDataSourceAction.remove,
                         <Appointment>[]..add(_selectedAppointment!));
                     appointments.add(temp);
-                    _events.appointments!.add(temp);
+                    events.appointments!.add(temp);
                   }
                 }
                 //add
                 else {
                   _doc = selectedDoctor.toString();
                   int n = getTime();
-                  int type = getType();
                   num diff = _endDate
                       .difference(_startDate)
                       .inMinutes;
@@ -168,27 +170,24 @@ class appointmentFormState extends State<appointmentForm> {
                   for (int i = 0; i < (diff / n).floor(); i++) {
                     DocumentReference doc = await firestoreInstance
                         .collection(
-                        "appointment ").add(
+                        "Work Shift").add(
                         {
                           "appointmentID": '',
-                          "empName": _doc,
+                          "empID": _doc,
                           "date": DateFormat('dd/MM/yyyy').format(_startDate),
                           "startTime": DateFormat.Hm().format(_appEnd),
                           "endTime": DateFormat.Hm().format(
                               _appEnd.add(Duration(minutes: n))),
-                          "state": "Available",
-                          "typeID": type
+                          "status": "Available",
+                          "type": selectedType
                         });
                     String _id = doc.id;
-                    await firestoreInstance.collection("appointment ").doc(
+                    await firestoreInstance.collection("Work Shift").doc(
                         _id).update(
                         {"appointmentID": _id});
 
-
                     appointments.add(Appointment(
-                        title: (type == 0
-                            ? "Check-Up by $_doc"
-                            : "Grooming by $_doc") + " [Available]",
+                        title: selectedType+' by $_docName',
                         id: _id,
                         from: _appEnd,
                         to: _appEnd.add(Duration(minutes: n)),
@@ -196,18 +195,19 @@ class appointmentFormState extends State<appointmentForm> {
                         // to: _endDate,
                         end: TimeOfDay.fromDateTime(_appEnd.add(Duration(
                             minutes: n))),
-                        docName: _doc == '' ? '(No title)' : _doc,
-                        background: type == 0 ? Color(0xFFC6D8FF) : Color(
+                        docID: _doc == '' ? '(No title)' : _doc,
+                        docName: _docName.toString(),
+                        background: selectedType == 'Check-Up' ? Color(0xFFC6D8FF) : Color(
                             0xFFFFC6F4),
-                        type: type,
+                        type: selectedType,
                         status: "Available"
                     ));
 
-                    _events.appointments!.add(appointments[i]);
+                    events.appointments!.add(appointments[i]);
                     _appEnd = _appEnd.add(Duration(minutes: n));
                   }
                 }
-                _events.notifyListeners(
+                events.notifyListeners(
                     CalendarDataSourceAction.add, appointments);
                 _selectedAppointment = null;
                 Navigator.pop(context);
@@ -273,11 +273,11 @@ class appointmentFormState extends State<appointmentForm> {
                                       selectedType = newValue!;
                                       selectedDoctor = null;
                                       if (selectedType == 'Check-Up') {
-                                        _type = 0;
+
                                         selectedWork = "Doctor";
                                       }
                                       else {
-                                        _type = 1;
+
                                         selectedWork = "Groomer";
                                       }
                                     });
@@ -387,7 +387,7 @@ class appointmentFormState extends State<appointmentForm> {
                   Visibility(
                       visible: _selectedAppointment == null,
                       child: StreamBuilder<QuerySnapshot>(
-                          stream: firestoreInstance.collection("Worker")
+                          stream: firestoreInstance.collection("Employee")
                               .where("job", isEqualTo: selectedWork.toString())
                               .snapshots(),
                           builder: (context, snapshot) {
@@ -397,7 +397,7 @@ class appointmentFormState extends State<appointmentForm> {
                               return Padding(
                                   padding: EdgeInsets.all(20),
                                   child: const Text(
-                                      'You haven\'t added Any Workers!',
+                                      'You haven\'t added Any Employees!',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20,
@@ -405,17 +405,19 @@ class appointmentFormState extends State<appointmentForm> {
                                       textAlign: TextAlign.center));
                             else {
                               List<DropdownMenuItem<dynamic>> drNames = [];
+                            Map<String,String> drs = {};
                               drNames.clear();
                               for (int i = 0; i <
                                   snapshot.data!.docs.length; i++) {
                                 DocumentSnapshot snap = snapshot.data!.docs[i];
+                                drs[snap['empID']] =  snap['empName'];
                                 drNames.add(
                                   DropdownMenuItem(
                                     child: Text(
-                                      snap['name'],
+                                      snap['empID'] + ': ' + snap['empName'],
                                       style: TextStyle(color: Colors.blueGrey),
                                     ),
-                                    value: snap['name'],
+                                    value: snap['empID'],
                                   ),
                                 );
                               }
@@ -437,8 +439,10 @@ class appointmentFormState extends State<appointmentForm> {
                                   elevation: 8,
                                   items: drNames,
                                   onChanged: (drValue) {
+
                                     setState(() {
                                       selectedDoctor = drValue;
+                                      _docName = drs[selectedDoctor].toString();
                                     });
                                   },
                                   value: selectedDoctor,
@@ -667,7 +671,7 @@ class appointmentFormState extends State<appointmentForm> {
                                         diffES
                                         ?
                                     null
-                                        : "There must be $selectedTime differnce between end and start time",
+                                        : "There must be $selectedTime difference between end and start time",
                                     enabled: false,
                                     textAlign: TextAlign.left,
 
@@ -737,31 +741,50 @@ class appointmentFormState extends State<appointmentForm> {
                 SizedBox(height: 10.0,),
 
 
+                Row(
+                  children: <Widget>[
+                    Align(
+                        alignment: Alignment.bottomRight,
+                        heightFactor: 1.5,
+                        child:
+
+                        FloatingActionButton(
+                          backgroundColor: const Color(0xFF9C4350),
+                          foregroundColor: Colors.white,
+                          mini: true,
+
+                          onPressed: () async {
+
+                          },
+                          child: Icon(Icons.add),
+                        )
+                    ),
                 if(_selectedAppointment != null)
                   Align(
                       alignment: Alignment.bottomRight,
-                      heightFactor: 5,
+                      heightFactor: 1.5,
                       child:
 
                       FloatingActionButton(
                         backgroundColor: const Color(0xFF9C4350),
                         foregroundColor: Colors.white,
                         mini: true,
+
                         onPressed: () async {
-                          firestoreInstance.collection("appointment ").doc(
+                          firestoreInstance.collection("Work Shift").doc(
                               _selectedAppointment!.id).snapshots().listen((
                               docSnapshot) {
                             if (docSnapshot.exists) {
                               Map<String, dynamic>? data = docSnapshot.data();
 
-                              if (data?['state'] == 'Available') {
-                                firestoreInstance.collection("appointment ")
+                              if (data?['status'] == 'Available') {
+                                firestoreInstance.collection("Work Shift")
                                     .doc(_selectedAppointment!.id)
                                     .delete();
-                                _events.appointments!.removeAt(
-                                    _events.appointments!
+                                events.appointments!.removeAt(
+                                    events.appointments!
                                         .indexOf(_selectedAppointment));
-                                _events.notifyListeners(
+                                events.notifyListeners(
                                     CalendarDataSourceAction.remove,
                                     <Appointment>[]
                                       ..add(_selectedAppointment!));
@@ -794,7 +817,7 @@ class appointmentFormState extends State<appointmentForm> {
                         child: Icon(Icons.delete),
                       )
                   )
-
+     ] )
               ],
 
 
@@ -831,7 +854,7 @@ class appointmentFormState extends State<appointmentForm> {
 
   Future<bool> checkExistance() async {
     _doc = selectedDoctor.toString();
-   await FirebaseFirestore.instance.collection("appointment ")
+   await FirebaseFirestore.instance.collection("Work Shift")
     .where('empName',isEqualTo: _doc)
     .where('date',isEqualTo: DateFormat('dd/MM/yyyy').format(_startDate))
     .get().then((

@@ -1,5 +1,10 @@
 library event_calendar;
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'models/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -8,20 +13,24 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'models/global.dart';
-
+import 'admin_viewappts.dart';
 part "addappt.dart";
 
-late _AppointmentDataSource _events;
+
+late _AppointmentDataSource events;
 Appointment? _selectedAppointment;
 late CalendarTapDetails _selected;
+DateTime sDate= DateTime(2015);
 late DateTime _startDate;
 late TimeOfDay _startTime;
 late DateTime _endDate;
 late TimeOfDay _endTime;
 String _doc = '';
+String _docName ='';
 String _id = '';
-late int _type;
+late String _type;
 late Color _background;
+
 
 class appointCalendar extends StatefulWidget {
   const appointCalendar({Key? key}) : super(key: key);
@@ -40,7 +49,7 @@ class appointCalendarState extends State<appointCalendar> {
   void initState()  {
     _calendarView = CalendarView.month;
    // appointments = <Appointment>[];
-    _events = _getCalendarDataSource();
+    events = getCalendarDataSource();
     _selectedAppointment = null;
     _doc = '';
     _id='';
@@ -85,7 +94,7 @@ class appointCalendarState extends State<appointCalendar> {
     agendaViewHeight: 400,
     numberOfWeeksInView: 1
     ),
-    dataSource: _events,
+    dataSource: events,
     onTap: onCalendarTapped,
     initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,
     DateTime.now().day, 0, 0, 0),
@@ -110,9 +119,25 @@ class appointCalendarState extends State<appointCalendar> {
                     foregroundColor: Colors.white,
                     //mini: true,
                     onPressed: () {
-                      DateTime date = _selected.date!.isBefore(DateTime(DateTime.now().year, DateTime.now().month,
-                          DateTime.now().day, 0, 0, 0)) ? DateTime.now() : DateTime(_selected.date!.year,_selected.date!.month,_selected.date!.day,9,0,0);
-                      addAppointment(date);
+                      try{
+                        DateTime date = _selected.date!.isBefore(
+                            DateTime(DateTime
+                                .now()
+                                .year, DateTime
+                                .now()
+                                .month,
+                                DateTime
+                                    .now()
+                                    .day, 0, 0, 0)) ? DateTime.now() : DateTime(
+                            _selected.date!.year, _selected.date!.month,
+                            _selected.date!.day, 9, 0, 0);
+                        addAppointment(date);
+                      }
+                      catch(LateInitializationError){
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Please sleect a date first."),
+                          backgroundColor:Colors.red,),);
+                      }
                     },
                     child: Icon(Icons.add),
                   )
@@ -120,6 +145,7 @@ class appointCalendarState extends State<appointCalendar> {
             ])
     );
   }
+
 
 
 
@@ -154,9 +180,10 @@ class appointCalendarState extends State<appointCalendar> {
     _endDate = appointmentDetails.to;
     _startTime = appointmentDetails.start;
     _endTime = appointmentDetails.end;
-    _doc = appointmentDetails.docName == '(No title)'
+    _docName = appointmentDetails.docName;
+    _doc = appointmentDetails.docID == '(No title)'
         ? ''
-        : appointmentDetails.docName;
+        : appointmentDetails.docID;
     _id = appointmentDetails.id;
     _type = appointmentDetails.type;
     _background = appointmentDetails.background;
@@ -173,7 +200,7 @@ class appointCalendarState extends State<appointCalendar> {
   void addAppointment(DateTime date) {
     _selectedAppointment = null;
     _doc = '';
-    _type = 0;
+    _type = '';
 
     _startDate = date;
     _endDate = date.add(const Duration(minutes: 30));
@@ -189,6 +216,42 @@ class appointCalendarState extends State<appointCalendar> {
   }
 
 
+
+
+}
+void updateName(String id,String name){
+
+  var appoints = events.appointments!.where((element) { print( element.docID==id); return element.docID==id;}).toList();
+
+  for (var appt in appoints) {
+    var appointments = <Appointment>[];
+    String s = appt.status;
+    Appointment temp = Appointment(
+        title: appt.type+' ' "by $name"+" [$s]",
+        id: appt.id,
+        from: appt.from,
+        to: appt.to,
+        start: appt.start,
+        end: appt.end,
+        docID: appt.docID,
+        docName: name,
+        background: appt.background,
+        type: appt.type,
+        status: s);
+
+
+    events.appointments!.removeAt(events.appointments!
+        .indexOf(appt));
+  events.notifyListeners(CalendarDataSourceAction.remove, <Appointment>[]..add(appt!));
+    appointments.add(temp);
+    events.appointments!.add(temp);
+    events.notifyListeners(CalendarDataSourceAction.reset,appointments);
+  }
+
+
+
+
+
 }
 
 class Appointment {
@@ -197,30 +260,32 @@ class Appointment {
           {
         this.title='Appointment',
         this.id = '',
+        this.docID = '',
         this.docName = '',
         required this.from,
         required this.to,
         required this.start,
         required this.end,
         required this.background,
-        required this.type, this.status='',
+        required this.type, this.status=''
       });
   String title;
   String id;
+  String docID;
   String docName;
   DateTime from;
   DateTime to;
   TimeOfDay start;
   TimeOfDay end;
   Color background;
-  int type;
+  String type;
   String status;
 }
 
-_AppointmentDataSource _getCalendarDataSource()  {
+_AppointmentDataSource getCalendarDataSource()  {
   List<Appointment> _appointments = <Appointment>[];
 
-  FirebaseFirestore.instance.collection("appointment ").get().then((QuerySnapshot data) {
+  FirebaseFirestore.instance.collection("Work Shift").get().then((QuerySnapshot data) async {
     for (var doc in data.docs) {
       DateTime _date = DateFormat("dd/MM/yyyy").parse(doc['date'].toString());
 
@@ -250,23 +315,28 @@ _AppointmentDataSource _getCalendarDataSource()  {
 
       Appointment a = Appointment(
           id: doc['appointmentID'].toString(),
-          docName: doc['empName'].toString(),
+          docID: doc['empID'].toString(),
           from: _startDateTime,
           to: _endDateTime,
           start: TimeOfDay.fromDateTime(_startDateTime),
           end: TimeOfDay.fromDateTime(_endDateTime),
-          background: doc['typeID'] == 0 ? Color(0xFFC6D8FF) : Color(0xFFFFC6F4),
-          type: doc['typeID'],
-          status:  doc['state'].toString()
+          background: doc['type'] == 'Check-Up' ? Color(0xFFC6D8FF) : Color(0xFFFFC6F4),
+          type: doc['type'].toString(),
+          status:  doc['status'].toString()
       );
-
-      int t = a.type;
-      String name = a.docName;
+      String? name;
+     await FirebaseFirestore.instance.collection("Employee").where('empID', isEqualTo: a.docID)
+      .get().then((QuerySnapshot data) {
+        for (var doc in data.docs) {
+          name = doc['empName'].toString();
+        }
+        });
+      a.docName = name?? a.docID;
       String s=a.status;
-      a.title = ((t==0 ? "Check-Up by $name" : "Grooming by $name"))+" [$s]";
+      a.title = a.type+' ' "by $name"+" [$s]";
       _appointments.add(a);
     }
-    _events.notifyListeners(CalendarDataSourceAction.add, _appointments);
+    events.notifyListeners(CalendarDataSourceAction.add, _appointments);
   });
   return _AppointmentDataSource(_appointments);
 }
@@ -313,10 +383,12 @@ class _AppointmentDataSource extends CalendarDataSource {
   }
 
   String getDoctor(int index) {
-    return appointments![index].docName;
+    return appointments![index].docID;
   }
 
-
+  String getName(int index) {
+    return appointments![index].docName;
+  }
   String getStatus(int index) {
     return appointments![index].status;
   }

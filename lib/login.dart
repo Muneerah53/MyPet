@@ -1,4 +1,5 @@
 import 'package:MyPet/petOwner_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'admin_screen.dart';
 import 'register.dart';
@@ -8,7 +9,7 @@ import 'package:email_validator/email_validator.dart';
 import 'admin_main.dart';
 import 'petOwner_main.dart';
 
-void main() {
+Future<void> main() async {
   runApp(login());
 }
 
@@ -182,13 +183,16 @@ class _LoginPageState extends State<LoginPage> {
   void validateAndSubmit() async {
     if (validateAndSave()) {
       try {
+
         if(_email.contains("@admin.com")){
           final UserCredential authResult = (await FirebaseAuth.instance
               .signInWithEmailAndPassword(email: _email, password: _password));
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => managerPage()));
         }else{
-          final UserCredential authResult = (await FirebaseAuth.instance
-              .signInWithEmailAndPassword(email: _email, password: _password));
+
+          final UserCredential authResult = (await FirebaseAuth.instance.
+          signInWithEmailAndPassword(email: _email, password: _password));
+
          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => mainPage()));
         }
       } on FirebaseAuthException catch (e) {

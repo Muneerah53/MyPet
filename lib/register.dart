@@ -324,14 +324,14 @@ class Home extends State<homereg> {
 
                             if (userCredential != null &&
                                 userCredential.user != null) {
-                              await FirebaseFirestore.instance
+                              /*await FirebaseFirestore.instance
                                   .collection('users')
                                   .doc(userCredential.user!.uid)
                                   .set({
                                 'email': _email,
-                                'password': _password,
+                               // 'password': _password,
                                 'uid': userCredential.user!.uid
-                              });
+                              });*/
                               await FirebaseFirestore.instance
                                   .collection('pet owners')
                                   .doc(userCredential.user!.uid)

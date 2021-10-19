@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'Payment.dart';
 import 'ownerProfile.dart';
 import 'models/global.dart';
-import 'package:MyPet/MyPets.dart';
+import 'edit_pet_profile.dart';
 
 GlobalKey _globalKey = navKeys.globalKey;
 int pets=0;
@@ -115,7 +112,6 @@ class pet extends StatelessWidget {
             ),
           ),
 
-
         ], ),);
   }
 
@@ -163,17 +159,23 @@ class pet extends StatelessWidget {
 
 
                 //Edit button
-                MaterialButton(
+                FlatButton(
 
                   minWidth: 200,
                   height: 60,
                   padding: const EdgeInsets.all(20),
-                  color: primaryColor,
-                  textColor: Colors.white,
-                  child: const Text('Edit'),
+                  color: greenColor,
+                  textColor: primaryColor,
+                  child: const Text('Edit',style: TextStyle( fontSize: 18)),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                    onPressed: (){}
+                  onPressed: (){
+
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => editPet(document)))
+                        .catchError((error) => print('Delete failed: $error'));
+                  }
+                  ,
 
                 ),
                 Container(
@@ -181,17 +183,18 @@ class pet extends StatelessWidget {
                 ),
 
                 //delete button
-                MaterialButton(
+                FlatButton(
 
                   minWidth: 200,
                   height: 60,
                   padding: const EdgeInsets.all(20),
-                  color: primaryColor,
-                  textColor: Colors.white,
-                  child: const Text('Delete'),
+                  color: redColor,
+                  textColor: primaryColor,
+                  child: const Text('Delete',style: TextStyle( fontSize: 18)),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   onPressed: () => showAlert(context,"Delete my pet",document),
+
 
                 ),
 
@@ -206,7 +209,6 @@ class pet extends StatelessWidget {
   Widget _buildPicCard(BuildContext context, DocumentSnapshot document) {
     String img = "";
     if (document['petId'] == petID) {
-      pets++;
       if (document['species'] == "Dog")
         img = "images/dog.png";
       else
@@ -214,11 +216,14 @@ class pet extends StatelessWidget {
       return Column(
 
           children: <Widget>[
-            CircleAvatar(
 
-              radius: 80,
-              backgroundImage: new AssetImage(img),
-            ),
+            Container(
+              margin: EdgeInsets.only(top: 5),
+              width: 120,
+              height: 110,
+              child:    CircleAvatar(
+                backgroundImage: new AssetImage(img),
+              ),),
             Container(
               padding: EdgeInsets.only(bottom: 350),
 

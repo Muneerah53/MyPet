@@ -59,16 +59,16 @@ class _GroomingState extends State<Grooming> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation:0,
-          leading: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+        backgroundColor: Colors.transparent,
+        elevation:0,
+        leading: ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
 
-              child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-              style: ElevatedButton.styleFrom(shape: CircleBorder(), padding: EdgeInsets.all(20), primary: Colors.transparent, shadowColor: Colors.transparent,),
-    ),// <-- Button color// <-- Splash color
+          child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+          style: ElevatedButton.styleFrom(shape: CircleBorder(), padding: EdgeInsets.all(20), primary: Colors.transparent, shadowColor: Colors.transparent,),
+        ),// <-- Button color// <-- Splash color
 
       ),
       backgroundColor: const Color(0xFFF4E3E3),
@@ -126,9 +126,9 @@ class _GroomingState extends State<Grooming> {
                             border: ShowerAndDryingV
                                 ? null
                                 : Border.all(
-                                    color: Color(0XFFF4F4F4),
-                                    width: 2.0,
-                                  ),
+                              color: Color(0XFFF4F4F4),
+                              width: 2.0,
+                            ),
                             color: ShowerAndDryingV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -137,10 +137,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: ShowerAndDryingV
                             ? Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 20,
-                              )
+                          Icons.check,
+                          color: Colors.white,
+                          size: 20,
+                        )
                             : null,
                       ),
                     ),
@@ -165,7 +165,7 @@ class _GroomingState extends State<Grooming> {
                   Container(
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.black26),
+                              (states) => Colors.black26),
                       value: 1,
                       groupValue: _Value,
                       onChanged: (value) {
@@ -185,7 +185,7 @@ class _GroomingState extends State<Grooming> {
                   Container(
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.black26),
+                              (states) => Colors.black26),
                       value: 2,
                       groupValue: _Value,
                       onChanged: (value) {
@@ -212,7 +212,7 @@ class _GroomingState extends State<Grooming> {
                   Container(
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.black26),
+                              (states) => Colors.black26),
                       value: 3,
                       groupValue: _Value,
                       onChanged: (value) {
@@ -260,9 +260,9 @@ class _GroomingState extends State<Grooming> {
                             border: DryCleanV
                                 ? null
                                 : Border.all(
-                                    color: Color(0XFFF4F4F4),
-                                    width: 2.0,
-                                  ),
+                              color: Color(0XFFF4F4F4),
+                              width: 2.0,
+                            ),
                             color: DryCleanV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -271,10 +271,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: DryCleanV
                             ? Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 20,
-                              )
+                          Icons.check,
+                          color: Colors.white,
+                          size: 20,
+                        )
                             : null,
                       ),
                     ),
@@ -310,9 +310,9 @@ class _GroomingState extends State<Grooming> {
                             border: ShavingV
                                 ? null
                                 : Border.all(
-                                    color: Color(0XFFF4F4F4),
-                                    width: 2.0,
-                                  ),
+                              color: Color(0XFFF4F4F4),
+                              width: 2.0,
+                            ),
                             color: ShavingV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -321,10 +321,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: ShavingV
                             ? Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 20,
-                              )
+                          Icons.check,
+                          color: Colors.white,
+                          size: 20,
+                        )
                             : null,
                       ),
                     ),
@@ -349,7 +349,7 @@ class _GroomingState extends State<Grooming> {
                   Container(
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.black26),
+                              (states) => Colors.black26),
                       value: 1,
                       groupValue: _Value2,
                       onChanged: (value) {
@@ -370,7 +370,7 @@ class _GroomingState extends State<Grooming> {
                     margin: const EdgeInsets.fromLTRB(35, 0, 0, 0),
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.black26),
+                              (states) => Colors.black26),
                       value: 2,
                       groupValue: _Value2,
                       onChanged: (value) {
@@ -391,7 +391,7 @@ class _GroomingState extends State<Grooming> {
                     margin: const EdgeInsets.fromLTRB(35, 0, 0, 0),
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.black26),
+                              (states) => Colors.black26),
                       value: 3,
                       groupValue: _Value2,
                       onChanged: (value) {
@@ -412,7 +412,7 @@ class _GroomingState extends State<Grooming> {
                     margin: const EdgeInsets.fromLTRB(35, 0, 0, 0),
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.black26),
+                              (states) => Colors.black26),
                       value: 4,
                       groupValue: _Value2,
                       onChanged: (value) {
@@ -460,9 +460,9 @@ class _GroomingState extends State<Grooming> {
                             border: HairCutV
                                 ? null
                                 : Border.all(
-                                    color: Color(0XFFF4F4F4),
-                                    width: 2.0,
-                                  ),
+                              color: Color(0XFFF4F4F4),
+                              width: 2.0,
+                            ),
                             color: HairCutV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -471,10 +471,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: HairCutV
                             ? Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 20,
-                              )
+                          Icons.check,
+                          color: Colors.white,
+                          size: 20,
+                        )
                             : null,
                       ),
                     ),
@@ -510,9 +510,9 @@ class _GroomingState extends State<Grooming> {
                             border: EarCleaningV
                                 ? null
                                 : Border.all(
-                                    color: Color(0XFFF4F4F4),
-                                    width: 2.0,
-                                  ),
+                              color: Color(0XFFF4F4F4),
+                              width: 2.0,
+                            ),
                             color: EarCleaningV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -521,10 +521,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: EarCleaningV
                             ? Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 20,
-                              )
+                          Icons.check,
+                          color: Colors.white,
+                          size: 20,
+                        )
                             : null,
                       ),
                     ),
@@ -560,9 +560,9 @@ class _GroomingState extends State<Grooming> {
                             border: CutnailsV
                                 ? null
                                 : Border.all(
-                                    color: Color(0XFFF4F4F4),
-                                    width: 2.0,
-                                  ),
+                              color: Color(0XFFF4F4F4),
+                              width: 2.0,
+                            ),
                             color: CutnailsV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -571,10 +571,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: CutnailsV
                             ? Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 20,
-                              )
+                          Icons.check,
+                          color: Colors.white,
+                          size: 20,
+                        )
                             : null,
                       ),
                     ),
@@ -610,9 +610,9 @@ class _GroomingState extends State<Grooming> {
                             border: NeedsAnesthesiaV
                                 ? null
                                 : Border.all(
-                                    color: Color(0XFFF4F4F4),
-                                    width: 2.0,
-                                  ),
+                              color: Color(0XFFF4F4F4),
+                              width: 2.0,
+                            ),
                             color: NeedsAnesthesiaV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -621,10 +621,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: NeedsAnesthesiaV
                             ? Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 20,
-                              )
+                          Icons.check,
+                          color: Colors.white,
+                          size: 20,
+                        )
                             : null,
                       ),
                     ),
@@ -667,10 +667,10 @@ class _GroomingState extends State<Grooming> {
                   },
                   child: Text('Next',
                       style:
-                          TextStyle(fontStyle: FontStyle.italic, fontSize: 25)),
+                      TextStyle(fontStyle: FontStyle.italic, fontSize: 25)),
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Color(0XFF2F3542)),
+                    MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),

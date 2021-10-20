@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'check_up.dart';
+// import 'check_up.dart';
 import 'custom_checkbox.dart';
 import 'select_appt.dart';
 import 'models/global.dart';

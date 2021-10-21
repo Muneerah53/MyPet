@@ -12,6 +12,28 @@ class AppointmentTile extends StatefulWidget {
 class _AppointmentTileState extends State<AppointmentTile> {
   bool isLoading = true;
 
+  delAppoitment() async {
+    await FirebaseFirestore.instance
+        .collection("appointment")
+        .doc(widget.appointmentModel.appointmentUID)
+        .delete()
+        .then((value) async {
+      log("delete");
+      await FirebaseFirestore.instance
+          .collection('Work Shift')
+          .doc(widget.appointmentModel.workshiftID)
+          .update({"status": "Available"}).then((value) {
+        log("update");
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Appointment has been deleted."),
+          backgroundColor: Colors.green,
+        ));
+        log("init data from child");
+        widget.initData();
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();

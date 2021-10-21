@@ -7,9 +7,10 @@ class Grooming extends StatefulWidget {
   final String? date;
   final String? pet;
   final String? time;
-  final String? appointID,petId;
+  final String? appointID, petId;
 
-  const Grooming({this.title, this.date, this.pet, this.time, this.appointID,  this.petId});
+  const Grooming(
+      {this.title, this.date, this.pet, this.time, this.appointID, this.petId});
   @override
   _GroomingState createState() => _GroomingState();
 }
@@ -37,7 +38,7 @@ class _GroomingState extends State<Grooming> {
   String? d;
   String? p;
   String? ti;
-  String? id,pid;
+  String? id, pid;
   double? total = 0.0;
 
   bool type = false; // default false: 0 -> Check-Up
@@ -53,23 +54,26 @@ class _GroomingState extends State<Grooming> {
     d = widget.date;
     p = widget.pet;
     ti = widget.time;
-    id= widget.appointID;
+    id = widget.appointID;
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation:0,
+        elevation: 0,
         leading: ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-
           child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-          style: ElevatedButton.styleFrom(shape: CircleBorder(), padding: EdgeInsets.all(20), primary: Colors.transparent, shadowColor: Colors.transparent,),
-        ),// <-- Button color// <-- Splash color
-
+          style: ElevatedButton.styleFrom(
+            shape: CircleBorder(),
+            padding: EdgeInsets.all(20),
+            primary: Colors.transparent,
+            shadowColor: Colors.transparent,
+          ),
+        ), // <-- Button color// <-- Splash color
       ),
       backgroundColor: const Color(0xFFF4E3E3),
       body: SingleChildScrollView(
@@ -89,7 +93,7 @@ class _GroomingState extends State<Grooming> {
             ),
 
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 40, 0, 0),
               child: Text(
                 'Check any of the services you want to do it on your pet ...',
                 style: TextStyle(
@@ -99,7 +103,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(50, 40, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 40, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -126,9 +130,9 @@ class _GroomingState extends State<Grooming> {
                             border: ShowerAndDryingV
                                 ? null
                                 : Border.all(
-                              color: Color(0XFFF4F4F4),
-                              width: 2.0,
-                            ),
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
                             color: ShowerAndDryingV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -137,10 +141,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: ShowerAndDryingV
                             ? Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 20,
-                        )
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
                             : null,
                       ),
                     ),
@@ -149,7 +153,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(55, 20, 220, 10),
+              margin: const EdgeInsets.fromLTRB(0, 20, 200, 10),
               child: Text(
                 'Shampoo Type...',
                 style: TextStyle(
@@ -159,13 +163,13 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(45, 0, 0, 0),
+              margin: const EdgeInsets.fromLTRB(15, 0, 0, 0),
               child: Row(
                 children: [
                   Container(
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.black26),
+                          (states) => Colors.black26),
                       value: 1,
                       groupValue: _Value,
                       onChanged: (value) {
@@ -185,7 +189,7 @@ class _GroomingState extends State<Grooming> {
                   Container(
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.black26),
+                          (states) => Colors.black26),
                       value: 2,
                       groupValue: _Value,
                       onChanged: (value) {
@@ -206,13 +210,13 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(15, 0, 0, 0),
               child: Row(
                 children: [
                   Container(
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.black26),
+                          (states) => Colors.black26),
                       value: 3,
                       groupValue: _Value,
                       onChanged: (value) {
@@ -233,7 +237,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -260,9 +264,9 @@ class _GroomingState extends State<Grooming> {
                             border: DryCleanV
                                 ? null
                                 : Border.all(
-                              color: Color(0XFFF4F4F4),
-                              width: 2.0,
-                            ),
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
                             color: DryCleanV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -271,10 +275,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: DryCleanV
                             ? Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 20,
-                        )
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
                             : null,
                       ),
                     ),
@@ -283,7 +287,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -310,9 +314,9 @@ class _GroomingState extends State<Grooming> {
                             border: ShavingV
                                 ? null
                                 : Border.all(
-                              color: Color(0XFFF4F4F4),
-                              width: 2.0,
-                            ),
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
                             color: ShavingV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -321,10 +325,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: ShavingV
                             ? Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 20,
-                        )
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
                             : null,
                       ),
                     ),
@@ -333,7 +337,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(30, 30, 220, 0),
               child: Text(
                 'Level of Shaving ..',
                 style: TextStyle(
@@ -343,13 +347,13 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(15, 0, 0, 0),
               child: Row(
                 children: [
                   Container(
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.black26),
+                          (states) => Colors.black26),
                       value: 1,
                       groupValue: _Value2,
                       onChanged: (value) {
@@ -370,7 +374,7 @@ class _GroomingState extends State<Grooming> {
                     margin: const EdgeInsets.fromLTRB(35, 0, 0, 0),
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.black26),
+                          (states) => Colors.black26),
                       value: 2,
                       groupValue: _Value2,
                       onChanged: (value) {
@@ -391,7 +395,7 @@ class _GroomingState extends State<Grooming> {
                     margin: const EdgeInsets.fromLTRB(35, 0, 0, 0),
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.black26),
+                          (states) => Colors.black26),
                       value: 3,
                       groupValue: _Value2,
                       onChanged: (value) {
@@ -412,7 +416,7 @@ class _GroomingState extends State<Grooming> {
                     margin: const EdgeInsets.fromLTRB(35, 0, 0, 0),
                     child: Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.black26),
+                          (states) => Colors.black26),
                       value: 4,
                       groupValue: _Value2,
                       onChanged: (value) {
@@ -433,7 +437,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -460,9 +464,9 @@ class _GroomingState extends State<Grooming> {
                             border: HairCutV
                                 ? null
                                 : Border.all(
-                              color: Color(0XFFF4F4F4),
-                              width: 2.0,
-                            ),
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
                             color: HairCutV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -471,10 +475,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: HairCutV
                             ? Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 20,
-                        )
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
                             : null,
                       ),
                     ),
@@ -483,7 +487,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -510,9 +514,9 @@ class _GroomingState extends State<Grooming> {
                             border: EarCleaningV
                                 ? null
                                 : Border.all(
-                              color: Color(0XFFF4F4F4),
-                              width: 2.0,
-                            ),
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
                             color: EarCleaningV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -521,10 +525,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: EarCleaningV
                             ? Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 20,
-                        )
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
                             : null,
                       ),
                     ),
@@ -533,7 +537,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -560,9 +564,9 @@ class _GroomingState extends State<Grooming> {
                             border: CutnailsV
                                 ? null
                                 : Border.all(
-                              color: Color(0XFFF4F4F4),
-                              width: 2.0,
-                            ),
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
                             color: CutnailsV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -571,10 +575,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: CutnailsV
                             ? Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 20,
-                        )
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
                             : null,
                       ),
                     ),
@@ -583,7 +587,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(30, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 30, 0, 0),
               child: Row(
                 children: [
                   Container(
@@ -610,9 +614,9 @@ class _GroomingState extends State<Grooming> {
                             border: NeedsAnesthesiaV
                                 ? null
                                 : Border.all(
-                              color: Color(0XFFF4F4F4),
-                              width: 2.0,
-                            ),
+                                    color: Color(0XFFF4F4F4),
+                                    width: 2.0,
+                                  ),
                             color: NeedsAnesthesiaV
                                 ? Colors.pinkAccent
                                 : Color(0XFFF4F4F4),
@@ -621,10 +625,10 @@ class _GroomingState extends State<Grooming> {
                         height: 25,
                         child: NeedsAnesthesiaV
                             ? Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 20,
-                        )
+                                Icons.check,
+                                color: Colors.white,
+                                size: 20,
+                              )
                             : null,
                       ),
                     ),
@@ -638,7 +642,6 @@ class _GroomingState extends State<Grooming> {
               height: 73,
               child: ElevatedButton(
                   onPressed: () {
-
                     if (!(ShowerAndDryingV ||
                         DryCleanV ||
                         ShavingV ||
@@ -646,7 +649,8 @@ class _GroomingState extends State<Grooming> {
                         EarCleaningV ||
                         CutnailsV ||
                         NeedsAnesthesiaV)) {
-                      showAlertDialog(context,"You Must Select at Least One Servace");
+                      showAlertDialog(
+                          context, "You Must Select at Least One Servace");
                     } else {
                       t = 1;
                       total = TotalPrice();
@@ -667,10 +671,10 @@ class _GroomingState extends State<Grooming> {
                   },
                   child: Text('Next',
                       style:
-                      TextStyle(fontStyle: FontStyle.italic, fontSize: 25)),
+                          TextStyle(fontStyle: FontStyle.italic, fontSize: 25)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                        MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
@@ -731,12 +735,10 @@ class _GroomingState extends State<Grooming> {
     return t;
   }
 
-
-
   List<String> getService() {
-    List<String> services=<String>[];
+    List<String> services = <String>[];
     if (ShowerAndDryingV) {
-     services.add("Shower and Drying");
+      services.add("Shower and Drying");
     }
     if (DryCleanV) {
       services.add("Dry Clean");
@@ -760,7 +762,7 @@ class _GroomingState extends State<Grooming> {
     return services;
   }
 
-  showAlertDialog(BuildContext context,message) {
+  showAlertDialog(BuildContext context, message) {
     // set up the button
     Widget okButton = TextButton(
       child: Text("OK"),

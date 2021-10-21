@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'check_up.dart';
+//import 'check_up.dart';
 import 'custom_checkbox.dart';
 import 'select_appt.dart';
 import 'models/global.dart';
@@ -68,16 +68,14 @@ class _AppoinMainState extends State<AppoinMain> {
     return Scaffold(
       backgroundColor: const Color(0xFFF4E3E3),
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation:0,
-          leading: ElevatedButton(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-
-              child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-              style: backButton ),// <-- Button color// <-- Splash color
-
+            child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+            style: backButton), // <-- Button color// <-- Splash color
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -86,7 +84,6 @@ class _AppoinMainState extends State<AppoinMain> {
             Container(
                 child: Row(
               children: [
-
                 // Container(
                 //     margin: const EdgeInsets.fromLTRB(250, 80, 0, 0),
                 //     child: PopupMenuButton(

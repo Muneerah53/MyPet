@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'Payment.dart';
 import 'package:intl/intl.dart';
 import 'models/global.dart';
-import 'models/data.dart';
+//import 'models/data.dart';
 
 class OrderList extends StatefulWidget {
   final int? type;
@@ -16,7 +16,15 @@ class OrderList extends StatefulWidget {
   final String? appointID;
   final String? petId;
   final String desc;
-  const OrderList({this.type, this.date, this.pet, this.time, this.total,this.appointID, this.petId,  required this.desc});
+  const OrderList(
+      {this.type,
+      this.date,
+      this.pet,
+      this.time,
+      this.total,
+      this.appointID,
+      this.petId,
+      required this.desc});
 
   @override
   _OrderListState createState() => _OrderListState();
@@ -51,16 +59,14 @@ class _OrderListState extends State<OrderList> {
     return Scaffold(
         backgroundColor: const Color(0xFFF4E3E3),
         appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation:0,
-            leading: ElevatedButton(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-
-                child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-                style: backButton ),// <-- Button color// <-- Splash color
-
+              child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+              style: backButton), // <-- Button color// <-- Splash color
         ),
         body: SingleChildScrollView(
             child: Center(
@@ -287,20 +293,22 @@ class _OrderListState extends State<OrderList> {
   }
 
   Future<void> saveData() async {
-    DocumentReference doc = await FirebaseFirestore.instance.collection('appointment').add({
+    DocumentReference doc =
+        await FirebaseFirestore.instance.collection('appointment').add({
       'workshiftID': appointID,
-      'service': title+": "+description,
+      'service': title + ": " + description,
       'petID': pid,
       'petOwnerID': getuser(),
       'totalPrice': totalss(t.toString())
     });
 
-    await  FirebaseFirestore.instance.collection("appointment").doc(
-        doc.id).update(
-        {"appointmentID": doc.id});
+    await FirebaseFirestore.instance
+        .collection("appointment")
+        .doc(doc.id)
+        .update({"appointmentID": doc.id});
 
-
-    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
         .collection('Work Shift')
         .where('appointmentID', isEqualTo: appointID)
         .get();
@@ -308,14 +316,8 @@ class _OrderListState extends State<OrderList> {
     List<QueryDocumentSnapshot> docs = snapshot.docs;
     for (var doc in docs) {
       if (doc.data() != null) {
-        doc.reference.update({
-          "status": "Booked"
-        });
+        doc.reference.update({"status": "Booked"});
       }
     }
-
   }
-
-
-
 }

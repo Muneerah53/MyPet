@@ -1,4 +1,3 @@
-
 import 'OrderList.dart';
 import 'custom_checkbox.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +25,7 @@ class select extends StatefulWidget {
 }
 
 class selectState extends State<select> {
-  String reason='';
+  String reason = '';
   int t = 0;
   String? date = ' no pet have been selected';
   String? pets = 'no pet have been selected';
@@ -45,7 +44,7 @@ class selectState extends State<select> {
     super.initState();
     t = widget.type;
     title = (t == 0) ? "Check-Up" : "Grooming";
-    emp = (t == 0) ? "Doctor" : "Groomer";//here var is call and set to
+    emp = (t == 0) ? "Doctor" : "Groomer"; //here var is call and set to
   }
 
   DateTime selectedDate = DateTime.now();
@@ -70,16 +69,14 @@ class selectState extends State<select> {
     return Scaffold(
         backgroundColor: const Color(0xFFF4E3E3),
         appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation:0,
-            leading: ElevatedButton(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-
-                child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-                style: backButton ),// <-- Button color// <-- Splash color
-
+              child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+              style: backButton), // <-- Button color// <-- Splash color
         ),
         // appBar: AppBar(
         //   elevation: 0,
@@ -87,7 +84,6 @@ class selectState extends State<select> {
         // ),
 
         body: ListView(children: <Widget>[
-
           Container(
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Text(title,
@@ -97,7 +93,6 @@ class selectState extends State<select> {
                       fontSize: 34,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.bold))),
-
           Container(
             padding: const EdgeInsets.fromLTRB(30, 30, 0, 0),
             child: Text(
@@ -108,7 +103,8 @@ class selectState extends State<select> {
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold),
             ),
-          ),Container(
+          ),
+          Container(
             padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
             child: Form(
               child: Column(
@@ -125,8 +121,8 @@ class selectState extends State<select> {
                           const Text("Loading.....");
                         else {
                           for (int i = 0;
-                          i < (snapshot.data!).docs.length;
-                          i++) {
+                              i < (snapshot.data!).docs.length;
+                              i++) {
                             DocumentSnapshot snap = (snapshot.data!).docs[i];
                             currencyItems.add(
                               DropdownMenuItem(
@@ -142,7 +138,8 @@ class selectState extends State<select> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              padding: const EdgeInsets.fromLTRB(30, 5, 137, 10),
+                              padding:
+                                  const EdgeInsets.fromLTRB(30, 5, 137, 10),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
@@ -177,8 +174,6 @@ class selectState extends State<select> {
               ),
             ),
           ),
-
-
           Container(
             padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
             child: Text(
@@ -193,12 +188,17 @@ class selectState extends State<select> {
           Container(
               padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
               child: GestureDetector(
-                  onTap: () { if(selectedCurrency==null)
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("You Must Select a Doctor First"),
-                      backgroundColor:Colors.red,),);
+                  onTap: () {
+                    if (selectedCurrency == null)
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("You Must Select a Doctor First"),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
                     else
-                    showDialog();},
+                      showDialog();
+                  },
                   child: AbsorbPointer(
                     child: TextField(
                       controller: _date,
@@ -238,7 +238,7 @@ class selectState extends State<select> {
               child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('Work Shift')
-                  .where('empID', isEqualTo: selectedCurrency.toString())
+                      .where('empID', isEqualTo: selectedCurrency.toString())
                       .where('date',
                           isEqualTo:
                               DateFormat('dd/MM/yyyy').format(selectedDate))
@@ -270,8 +270,11 @@ class selectState extends State<select> {
                               style: OutlinedButton.styleFrom(
                                   padding: EdgeInsets.all(0),
                                   side: BorderSide(color: Colors.transparent)),
-                              onPressed: () => changeTimeSelected(index, stime, ((snapshot.data!).docs[index]
-                          ['appointmentID'])),
+                              onPressed: () => changeTimeSelected(
+                                  index,
+                                  stime,
+                                  ((snapshot.data!).docs[index]
+                                      ['appointmentID'])),
                               child: Card(
                                   color: timeIndex == index
                                       ? Color(0XFFFF6B81)
@@ -347,64 +350,64 @@ class selectState extends State<select> {
                           index, context, (snapshot.data!).docs[index]),
                     );
                   })),
-Visibility(
-    visible: t==0,
-          child: Column(
-
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Container(
-            padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
-            child: Text(
-              'Enter Reason:',
-              style: TextStyle(
-                  color: const Color(0xFF552648B),
-                  fontSize: 18,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
+          Visibility(
+              visible: t == 0,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
+                      child: Text(
+                        'Enter Reason:',
+                        style: TextStyle(
+                            color: const Color(0xFF552648B),
+                            fontSize: 18,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+                      //margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      child: TextFormField(
+                        validator: (Value) {
+                          if (Value!.isEmpty) {
+                            return "Please enter your reason of visit";
+                          }
+                        },
+                        onChanged: (value) {
+                          reason = value;
+                        },
+                        keyboardType: TextInputType.multiline,
+                        minLines: 1,
+                        maxLines: 5,
+                        style: TextStyle(
+                            fontSize: 16,
+                            height: 1.0,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.black38),
+                        decoration: InputDecoration(
+                          hintText: ('Enter your reason of visit...'),
+                          contentPadding: new EdgeInsets.symmetric(
+                              vertical: 25.0, horizontal: 10.0),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 1.0),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 1.0),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(color: Colors.black38),
+                        ),
+                      ),
+                    ),
+                  ])),
           Container(
-            padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
-            //margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: TextFormField(
-    validator: (Value) {
-    if (Value!.isEmpty) {
-    return "Please enter your reason of visit";
-    }
-    },
-              onChanged: (value){
-                reason = value;
-              },
-              keyboardType: TextInputType.multiline,
-              minLines: 1,
-              maxLines: 5,
-              style: TextStyle(
-                  fontSize: 16,
-                  height: 1.0,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.black38),
-              decoration: InputDecoration(
-                hintText: ('Enter your reason of visit...'),
-                contentPadding:
-                new EdgeInsets.symmetric(vertical: 25.0, horizontal: 10.0),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 1.0),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 1.0),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                filled: true,
-                fillColor: Colors.white,
-                hintStyle: TextStyle(color: Colors.black38),
-              ),
-            ),
-          ),
-])),
-
-    Container(
             child: Align(
               alignment: Alignment.bottomCenter,
               heightFactor: 1.5,
@@ -415,33 +418,33 @@ Visibility(
                       if ((_date == null) ||
                           (timeIndex == null) ||
                           (petIndex == null)) {
-
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("There is a missing field you you should fill it all"),
+                          content: Text(
+                              "There is a missing field you you should fill it all"),
                           backgroundColor: Theme.of(context).errorColor,
                         ));
                       } else {
                         if (selectedCurrency == null) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("There is a missing field you you should fill it all"),
+                            content: Text(
+                                "There is a missing field you you should fill it all"),
                             backgroundColor: Theme.of(context).errorColor,
                           ));
                         } else {
                           t = 0;
-                          date =
-                              DateFormat('EEE, MMM dd yyyy').format(selectedDate);
+                          date = DateFormat('EEE, MMM dd yyyy')
+                              .format(selectedDate);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) => OrderList(
-                                  type: t,
-                                  date: date,
-                                  pet: pets,
-                                  time: time,
-                                  appointID: appointID,
-                                  petId: pid,
-                                  desc: reason
-                                )),
+                                    type: t,
+                                    date: date,
+                                    pet: pets,
+                                    time: time,
+                                    appointID: appointID,
+                                    petId: pid,
+                                    desc: reason)),
                           );
                         }
                       }
@@ -450,7 +453,8 @@ Visibility(
                           (timeIndex == null) ||
                           (petIndex == null)) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("There is a missing field you you should fill it all"),
+                          content: Text(
+                              "There is a missing field you you should fill it all"),
                           backgroundColor: Theme.of(context).errorColor,
                         ));
                       } else {
@@ -460,12 +464,11 @@ Visibility(
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) => Grooming(
-                                      date: date,
-                                      time: time,
-                                      pet: pets,
+                                    date: date,
+                                    time: time,
+                                    pet: pets,
                                     petId: pid,
-                                    appointID: appointID
-                                    )));
+                                    appointID: appointID)));
                       }
                     }
                   },
@@ -485,7 +488,7 @@ Visibility(
 
                   ),
             ),
-    )
+          )
         ]));
   }
 
@@ -530,7 +533,9 @@ Visibility(
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 10),
+                  margin: EdgeInsets.only(
+                    top: 3,
+                  ),
                   child: ListTile(
                       title: Text(
                           "   " +
@@ -564,6 +569,3 @@ Visibility(
     });
   }
 }
-
-
-

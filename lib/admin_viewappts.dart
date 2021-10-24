@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:intl/intl.dart';
 
+import 'admin_appointDetails.dart';
 import 'models/global.dart';
 
 class AdminAppointments extends StatefulWidget {
@@ -15,14 +16,16 @@ final List<Appointment> _allappointments = <Appointment>[];
 class AdminAppointmentsState extends State<AdminAppointments> {
   GlobalKey _globalKey = navKeys.globalKeyAdmin;
   Map<String, bool> EmpList = {};
-
+bool vis = false;
   void initState()  {
     _dataSource = getCalendarDataSource();
 
     super.initState();
 
   }
-
+void dispose(){
+  super.dispose();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,123 +34,69 @@ class AdminAppointmentsState extends State<AdminAppointments> {
             elevation:0,
             leading: ElevatedButton(
                 onPressed: () {
-                  BottomNavigationBar navigationBar = _globalKey.currentWidget as BottomNavigationBar;
-                  navigationBar.onTap!(0);
+Navigator.of(context).pop();
                 },
                 child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
                 style: backButton ),// <-- Button color// <-- Splash color
 
           ),
           backgroundColor: Color(0xFFF4E3E3),
-          body: Column(
-            children: <Widget>[
-              SafeArea(
-                   child:  Container(
-              child: OutlinedButton(
-              child: Text('Employees'),
-             onPressed: () => dialog(context),
+          body:
 
-              ),
-
-              /*
-                    Switch(
-                      value: _isJoseph,
-                      onChanged: (value) {
-
-                        setState(() {
-                          if (value) {
-                          _updateJosephAppointments();
-                          _dataSource.appointments!.addAll(_josephAppointments);
-                            _dataSource.notifyListeners(
-                                CalendarDataSourceAction.reset, _josephAppointments);
-                          } else {
-                            for (int i = 0; i < _josephAppointments.length; i++) {
-                              _dataSource.appointments!.remove(_josephAppointments[i]);
-                            }
-                            _josephAppointments.clear();
-                            _dataSource.notifyListeners(
-                                CalendarDataSourceAction.reset, _josephAppointments);
-                          }
-                          _isJoseph = value;
-                        });
-                      },
-                      activeTrackColor: Colors.lightGreenAccent,
-                      activeColor: Colors.green,
-                    ),
-                    Text('Dr.Joseph (Nephrologist)'),
-                  ],
+          Column(
+              children: <Widget>[
+                TextButton.icon(
+                 
+                  onPressed: () {
+                  setState((){
+                    dialog(context);});
+                }, icon: Icon(
+                  Icons.filter_alt,
                 ),
-              ),
-              Row(
-                children: <Widget>[
-                  Switch(
-                    value: _isStephen,
-                    onChanged: (value) {
-                      setState(() {
-                        if (value) {
-                          _updateStephenAppointments();
-                          _dataSource.appointments!.addAll(_stephenAppointments);
-                          _dataSource.notifyListeners(
-                              CalendarDataSourceAction.reset, _stephenAppointments);
-                        } else {
-                          for (int i = 0; i < _stephenAppointments.length; i++) {
-                            _dataSource.appointments!.remove(_stephenAppointments[i]);
-                          }
-                          _stephenAppointments.clear();
-                          _dataSource.notifyListeners(
-                              CalendarDataSourceAction.reset, _stephenAppointments);
-                        }
-                        _isStephen = value;
-                      });
-                    },
-                    activeTrackColor: Colors.lightBlue,
-                    activeColor: Colors.blue,
+                label: Text('Filter Employees'),)
+
+                , Expanded(
+                  child:
+                  Row(
+                    children: <Widget>[
+                      SfCalendar(
+                        onTap: onCalendarTapped,
+                        backgroundColor: Color(0xFFF4E3E3),
+                        view: CalendarView.month,
+                        showNavigationArrow: true,
+                        monthViewSettings: const MonthViewSettings(
+                            showAgenda: true,
+                            agendaViewHeight: 500,
+                            numberOfWeeksInView: 1
+                        ),
+                        dataSource: _dataSource,
+                        initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,
+                            DateTime.now().day, 0, 0, 0),
+                        timeSlotViewSettings: const TimeSlotViewSettings(
+                            minimumAppointmentDuration: Duration(minutes: 30)),
+                        appointmentTextStyle: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      )
+
+
+                    ],
                   ),
-                  Text('Dr.Stephen (Cardiologist)'),
-                ],
-              ),
-              Expanded(
-                  child: SfCalendar(
-                    view: CalendarView.week,
-                    dataSource: _dataSource,
-                  ))
-              */
+                )
+              ]
+          ),
 
-
-                   )
-
-              ),
-
-              SfCalendar(
-
-                backgroundColor: Color(0xFFF4E3E3),
-                view: CalendarView.month,
-                showNavigationArrow: true,
-                monthViewSettings: const MonthViewSettings(
-                    showAgenda: true,
-                    agendaViewHeight: 100,
-                    numberOfWeeksInView: 1
-                ),
-                dataSource: _dataSource,
-                initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,
-                    DateTime.now().day, 0, 0, 0),
-                timeSlotViewSettings: const TimeSlotViewSettings(
-                    minimumAppointmentDuration: Duration(minutes: 30)),
-                appointmentTextStyle: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              )
-
-   ]
-    ));
+    );
   }
 
 
 
 
 
-  void _updateAppointments(String empID, bool? add) {
-  List<Appointment> app =  _allappointments.where((element){return element.id.toString() ==empID;} ).toList();
+  void _updateAppointments(String empID, bool add) {
+    print(_allappointments.length);
+  List<Appointment> app =  _allappointments.where((element){ return element.notes == empID;} ).toList();
+
     if(add as bool) {
       _dataSource.appointments!.addAll(app);
       _dataSource.notifyListeners(
@@ -158,7 +107,7 @@ class AdminAppointmentsState extends State<AdminAppointments> {
       for(Appointment a in app) {
         _dataSource.appointments!.remove(a);
         _dataSource.notifyListeners(
-            CalendarDataSourceAction.reset, app);
+            CalendarDataSourceAction.remove, app);
       }
 
 
@@ -173,11 +122,16 @@ class AdminAppointmentsState extends State<AdminAppointments> {
     return  showDialog(
         context: context,
         builder: (BuildContext context) {
+          return StatefulBuilder( // StatefulBuilder
+              builder: (context, setState){
           return AlertDialog(
               backgroundColor: Color(0xFFE3D9D9),
               elevation: 0,
               content: Container(
-                child:StreamBuilder<QuerySnapshot>(
+                  width: double.maxFinite,
+                child:
+
+                StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection("Employee")
                         .snapshots(),
@@ -193,7 +147,7 @@ class AdminAppointmentsState extends State<AdminAppointments> {
                                     color: Colors.grey),
                                 textAlign: TextAlign.center));
                       return ListView.builder(
-                        //  shrinkWrap: true,
+                          shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
@@ -206,9 +160,10 @@ class AdminAppointmentsState extends State<AdminAppointments> {
                                 onChanged: (value){
 
                                   setState((){
-                                    EmpList[key] = value!;});
+                                    EmpList[key] = value!;
+                                  });
 
-                                  _updateAppointments(key, value);
+                                  _updateAppointments(key, value as bool);
                                 }
                             );
                           });
@@ -217,10 +172,29 @@ class AdminAppointmentsState extends State<AdminAppointments> {
               )
           );
         });
-
+        });
   }
 
+  void onCalendarTapped(CalendarTapDetails calendarTapDetails) {
+    if (calendarTapDetails.targetElement != CalendarElement.appointment) {
+      return;
+    }
+   Appointment a = calendarTapDetails.appointments![0];
 
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (BuildContext context) => new AppointmentDetails(
+              appointID: a.id.toString(),
+            details: a.notes
+
+
+
+          )),
+    );
+
+
+  }
 
 
 }
@@ -253,7 +227,9 @@ await FirebaseFirestore.instance
       await FirebaseFirestore.instance.collection("Work Shift").where('appointmentID', isEqualTo: workshiftID)
           .get().then((QuerySnapshot wdata) async {
             String id;
-            var docWork =  wdata.docs.single;
+            var docWork;
+            try { docWork =  wdata.docs.single; }
+            catch(StateError){print('Not Found: '+workshiftID );}
 if(docWork.exists) {
   empId = docWork['empID'].toString();
   type = docWork['type'].toString();
@@ -295,18 +271,22 @@ if(docWork.exists) {
 
 
 Appointment a = Appointment(
-  id: empId,
+   id: appointmentID,
   startTime:_startDateTime,
   endTime:_endDateTime,
-  subject: 'Customer: $name \n $docName ',
-  notes: type,
-  color: Colors.lightBlue,
+  subject: 'Customer: $name, $docName ',
+  notes: empId+","+docName+","+name+","
+      +DateFormat('dd/MM/yyyy').format(_startDateTime)+","+DateFormat.Hm().format(_startDateTime)
+      +","+DateFormat('dd/MM/yyyy').format(_endDateTime)+","+DateFormat.Hm().format(_endDateTime),
+  color: type=='Check-Up' ? Colors.lightBlue : Colors.pinkAccent[100] as Color,
 );
 
       _appointments.add(a);
+            _allappointments.add(a);
     });}
+
+    print(_appointments.length);
           _dataSource.notifyListeners(CalendarDataSourceAction.add, _appointments);
-   _allappointments.addAll(_appointments);
   });
 
   return DataSource(_appointments);

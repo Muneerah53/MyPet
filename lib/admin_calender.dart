@@ -221,7 +221,7 @@ class appointCalendarState extends State<appointCalendar> {
 }
 void updateName(String id,String name){
 
-  var appoints = events.appointments!.where((element) { print( element.docID==id); return element.docID==id;}).toList();
+  var appoints = events.appointments!.where((element) { return element.docID==id;}).toList();
 
   for (var appt in appoints) {
     var appointments = <Appointment>[];

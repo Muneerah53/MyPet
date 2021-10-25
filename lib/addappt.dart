@@ -193,8 +193,7 @@ class appointmentFormState extends State<appointmentForm> {
                             minutes: n))),
                         docID: _doc == '' ? '(No title)' : _doc,
                         docName: _docName.toString(),
-                        background: selectedType == 'Check-Up' ? Color(0xFFC6D8FF) : Color(
-                            0xFFFFC6F4),
+                        background: selectedType == 'Check-Up' ? Colors.lightBlue : Colors.pinkAccent[100] as Color,
                         type: selectedType,
                         status: "Available"
                     ));

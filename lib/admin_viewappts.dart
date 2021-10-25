@@ -19,8 +19,7 @@ class AdminAppointmentsState extends State<AdminAppointments> {
 bool vis = false;
   void initState()  {
     _dataSource = getCalendarDataSource();
-    _dataSource.notifyListeners(
-        CalendarDataSourceAction.reset, <Appointment>[]);
+
     super.initState();
 
   }
@@ -53,8 +52,9 @@ Navigator.of(context).pop();
                     dialog(context);});
                 }, icon: Icon(
                   Icons.filter_alt,
+                  color: Colors.pinkAccent
                 ),
-                label: Text('Filter Employees'),)
+                label: Text('Filter Employees', style: TextStyle(color: Colors.pinkAccent)),)
 
                 , Expanded(
                   child:
@@ -96,8 +96,9 @@ Navigator.of(context).pop();
 
   void _updateAppointments(String empID, bool add) {
 
-  List<Appointment> app =  _allappointments.where((element){ return element.recurrenceId == empID;} ).toList();
-
+  List<Appointment> app =  _allappointments.where((element){ return element.location == empID;} ).toList();
+  print('$empID and $add');
+  print(app.length);
     if(add as bool) {
       _dataSource.appointments!.addAll(app);
       _dataSource.notifyListeners(
@@ -128,6 +129,23 @@ Navigator.of(context).pop();
           return AlertDialog(
               backgroundColor: Color(0xFFE3D9D9),
               elevation: 0,
+              actions: [
+          ElevatedButton(
+            onPressed: ()=>Navigator.pop(context),
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      left: 40, right: 40, top: 20, bottom: 20),
+                  child: Text("OK",
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic, fontSize: 18))),
+              style: ButtonStyle(
+                backgroundColor:
+                MaterialStateProperty.all(Color(0XFF2F3542)),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0))),
+              )
+                ),
+              ],
               content: Container(
                   width: double.maxFinite,
                 child:
@@ -273,10 +291,10 @@ if(docWork.exists) {
 
 Appointment a = Appointment(
    id: appointmentID,
-  recurrenceId: empId,
+  location: empId,
   startTime:_startDateTime,
   endTime:_endDateTime,
-  subject: 'Customer: $name, $docName ',
+  subject: 'Customer: $name, Employee: $docName ',
   notes: empId+","+docName+","+name+","
       +DateFormat('dd/MM/yyyy').format(_startDateTime)+","+DateFormat.Hm().format(_startDateTime)
       +","+DateFormat('dd/MM/yyyy').format(_endDateTime)+","+DateFormat.Hm().format(_endDateTime),

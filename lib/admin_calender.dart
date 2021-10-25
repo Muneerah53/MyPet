@@ -320,7 +320,7 @@ _AppointmentDataSource getCalendarDataSource()  {
           to: _endDateTime,
           start: TimeOfDay.fromDateTime(_startDateTime),
           end: TimeOfDay.fromDateTime(_endDateTime),
-          background: doc['type'] == 'Check-Up' ? Color(0xFFC6D8FF) : Color(0xFFFFC6F4),
+          background: doc['type'] == 'Check-Up' ? Colors.lightBlue : Colors.pinkAccent[100] as Color,
           type: doc['type'].toString(),
           status:  doc['status'].toString()
       );

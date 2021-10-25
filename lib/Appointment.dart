@@ -83,10 +83,10 @@ class _AppointPageState extends State<appointmentPage> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 30),
             Container(
               width: 344,
-              height: 153,
+              height: 120,
               child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -107,10 +107,10 @@ class _AppointPageState extends State<appointmentPage> {
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 30),
             Container(
               width: 344,
-              height: 153,
+              height: 120,
               child: ElevatedButton(
                   onPressed: () {
                     // Navigator.push(
@@ -131,10 +131,10 @@ class _AppointPageState extends State<appointmentPage> {
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 30),
             Container(
               width: 344,
-              height: 153,
+              height: 120,
               child: ElevatedButton(
                   onPressed: () {
                     /*Navigator.push(

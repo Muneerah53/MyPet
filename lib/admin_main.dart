@@ -76,10 +76,10 @@ class _adminHomePageState extends State<AdminHomePage> {
                     image: new AssetImage('images/logo.jpeg'))
               ],
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 30),
             Container(
               width: 344,
-              height: 153,
+              height: 120,
               child: ElevatedButton(
                   onPressed: () {
                     BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
@@ -108,10 +108,10 @@ class _adminHomePageState extends State<AdminHomePage> {
 
 
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 30),
             Container(
               width: 344,
-              height: 153,
+              height: 120,
               child: ElevatedButton(
                   onPressed: () {
                     BottomNavigationBar navigationBar =   _globalKey.currentWidget as BottomNavigationBar;
@@ -140,10 +140,10 @@ class _adminHomePageState extends State<AdminHomePage> {
 
 
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 30),
             Container(
               width: 344,
-              height: 153,
+              height: 120,
               child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(

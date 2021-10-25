@@ -26,6 +26,18 @@ class Profile extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation:0,
         actions: [
+
+          ElevatedButton(
+              onPressed: () {
+                BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                navigationBar.onTap!(0);
+              },
+              child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+              style: backButton ),
+        Container(
+          padding: EdgeInsets.only( left: 290, right: 0),
+
+        ),
         IconButton(
         iconSize: 35.0,
         icon: Icon(
@@ -39,13 +51,7 @@ class Profile extends StatelessWidget {
 
           Navigator.of(context,rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => new  LoginPage()));
         },
-      ), ElevatedButton(
-            onPressed: () {
-              BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-              navigationBar.onTap!(0);
-            },
-            child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-            style: backButton ),
+      ),
     ],),
       body:SingleChildScrollView(
 

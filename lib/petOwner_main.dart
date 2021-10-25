@@ -68,7 +68,7 @@ class _PetPageState extends State<ownerPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding: EdgeInsets.only(top:50),
+                      padding: EdgeInsets.only(top:30),
                     )
                   ],
                 ),
@@ -122,7 +122,7 @@ class _PetPageState extends State<ownerPage> {
                                     color: Color(0xFF2F3542),
                                   ),
                                   width:  MediaQuery.of(context).size.width * 0.90,
-                                  height: 90,
+                                  height: 120,
                                   child: Center(
                                       child: Text(
                                         'My Pets',
@@ -135,6 +135,10 @@ class _PetPageState extends State<ownerPage> {
                                 ),
                               ),
                             ),],),
+                Container(
+                  padding: EdgeInsets.only( top: 20),
+
+                ),
     Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -155,7 +159,7 @@ class _PetPageState extends State<ownerPage> {
                                     color: Color(0xFFFF6B81),
                                   ),
                                   width:  MediaQuery.of(context).size.width * 0.90,
-                                  height: 90,
+                                  height: 120,
                                   child: Center(
                                       child: Text(
                                         'Appointment',
@@ -170,6 +174,10 @@ class _PetPageState extends State<ownerPage> {
                             ),
                           ],
                         ),
+                Container(
+                  padding: EdgeInsets.only( top: 20),
+
+                ),
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -190,7 +198,7 @@ class _PetPageState extends State<ownerPage> {
                         color: Color(0xFF2F3542),
                       ),
                       width:  MediaQuery.of(context).size.width * 0.90,
-                      height: 90,
+                      height: 120,
                       child: Center(
                           child: Text(
                             'View Profile',
@@ -242,19 +250,7 @@ class _PetPageState extends State<ownerPage> {
 
 */
 
-                SizedBox(
-                  height: 20.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image(
-                        width: 210.0,
-                        height: 120.0,
-                        fit: BoxFit.contain,
-                        image: new AssetImage('images/image_3.png'))
-                  ],
-                ),
+
               ],
             ),
           )),

@@ -103,18 +103,18 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(20, 40, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 50, 0, 0),
               child: Row(
                 children: [
                   Container(
-                      child: Text("Shower & Drying",
+                      child: Text("Shower & Drying         30\$",
                           style: TextStyle(
                               color: const Color(0xFF552648B),
                               fontSize: 20,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold))),
                   const SizedBox(
-                    width: 130.0,
+                    width: 43.0,
                   ),
                   Container(
                     child: GestureDetector(
@@ -237,18 +237,18 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(20, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 40, 0, 0),
               child: Row(
                 children: [
                   Container(
-                      child: Text("Dry Cleaning  ",
+                      child: Text("Dry Cleaning                 20\$",
                           style: TextStyle(
                               color: const Color(0xFF552648B),
                               fontSize: 20,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold))),
                   const SizedBox(
-                    width: 160.0,
+                    width: 42.0,
                   ),
                   Container(
                     child: GestureDetector(
@@ -287,18 +287,18 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(20, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 50, 0, 0),
               child: Row(
                 children: [
                   Container(
-                      child: Text("Shaving",
+                      child: Text("Shaving                          30\$",
                           style: TextStyle(
                               color: const Color(0xFF552648B),
                               fontSize: 20,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold))),
                   const SizedBox(
-                    width: 218.0,
+                    width: 44.0,
                   ),
                   Container(
                     child: GestureDetector(
@@ -337,7 +337,7 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(30, 30, 220, 0),
+              margin: const EdgeInsets.fromLTRB(30, 20, 220, 0),
               child: Text(
                 'Level of Shaving ..',
                 style: TextStyle(
@@ -437,18 +437,18 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(20, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 50, 0, 0),
               child: Row(
                 children: [
                   Container(
-                      child: Text("Hair Cut ",
+                      child: Text("Hair Cut                         30\$",
                           style: TextStyle(
                               color: const Color(0xFF552648B),
                               fontSize: 20,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold))),
                   const SizedBox(
-                    width: 210.0,
+                    width: 45.0,
                   ),
                   Container(
                     child: GestureDetector(
@@ -487,18 +487,18 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(20, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 50, 0, 0),
               child: Row(
                 children: [
                   Container(
-                      child: Text("Ear Cleaning ",
+                      child: Text("Ear Cleaning                    2\$ ",
                           style: TextStyle(
                               color: const Color(0xFF552648B),
                               fontSize: 20,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold))),
                   const SizedBox(
-                    width: 167.0,
+                    width: 38.0,
                   ),
                   Container(
                     child: GestureDetector(
@@ -537,18 +537,18 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(20, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 50, 0, 0),
               child: Row(
                 children: [
                   Container(
-                      child: Text("Cut Nails ",
+                      child: Text("Cut Nails                          5\$",
                           style: TextStyle(
                               color: const Color(0xFF552648B),
                               fontSize: 20,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold))),
                   const SizedBox(
-                    width: 202.0,
+                    width: 47.0,
                   ),
                   Container(
                     child: GestureDetector(
@@ -587,18 +587,18 @@ class _GroomingState extends State<Grooming> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(20, 30, 0, 0),
+              margin: const EdgeInsets.fromLTRB(20, 50, 0, 0),
               child: Row(
                 children: [
                   Container(
-                      child: Text("Needs Anesthesia",
+                      child: Text("Needs Anesthesia      30\$",
                           style: TextStyle(
                               color: const Color(0xFF552648B),
                               fontSize: 20,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold))),
                   const SizedBox(
-                    width: 118.0,
+                    width: 48.0,
                   ),
                   Container(
                     child: GestureDetector(

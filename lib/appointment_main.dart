@@ -118,7 +118,7 @@ class _AppoinMainState extends State<AppoinMain> {
             Container(
               margin: const EdgeInsets.fromLTRB(0, 60, 0, 40),
               width: 344,
-              height: 153,
+              height: 120,
               child: ElevatedButton(
                 onPressed: () {
                   t = 0;
@@ -143,7 +143,7 @@ class _AppoinMainState extends State<AppoinMain> {
             SizedBox(width: 50),
             Container(
               width: 344,
-              height: 153,
+              height: 120,
               child: ElevatedButton(
                   onPressed: () {
                     t = 1;
@@ -164,6 +164,20 @@ class _AppoinMainState extends State<AppoinMain> {
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
+            ),
+
+            SizedBox(
+              height: 20.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                    width: 210.0,
+                    height: 120.0,
+                    fit: BoxFit.contain,
+                    image: new AssetImage('images/image_3.png'))
+              ],
             ),
           ],
         ),

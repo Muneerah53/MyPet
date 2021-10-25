@@ -19,7 +19,8 @@ class AdminAppointmentsState extends State<AdminAppointments> {
 bool vis = false;
   void initState()  {
     _dataSource = getCalendarDataSource();
-
+    _dataSource.notifyListeners(
+        CalendarDataSourceAction.reset, <Appointment>[]);
     super.initState();
 
   }
@@ -94,8 +95,8 @@ Navigator.of(context).pop();
 
 
   void _updateAppointments(String empID, bool add) {
-    print(_allappointments.length);
-  List<Appointment> app =  _allappointments.where((element){ return element.notes == empID;} ).toList();
+
+  List<Appointment> app =  _allappointments.where((element){ return element.recurrenceId == empID;} ).toList();
 
     if(add as bool) {
       _dataSource.appointments!.addAll(app);
@@ -272,6 +273,7 @@ if(docWork.exists) {
 
 Appointment a = Appointment(
    id: appointmentID,
+  recurrenceId: empId,
   startTime:_startDateTime,
   endTime:_endDateTime,
   subject: 'Customer: $name, $docName ',

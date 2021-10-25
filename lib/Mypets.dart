@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'models/global.dart';
+import 'models/data.dart';
 import 'petProfile.dart';
 import 'addPet.dart';
 
@@ -224,10 +225,7 @@ class MyPets extends StatelessWidget {
     'Dog' : statusDogStyle
   };
 }
-String getuser(){
-  User? user = FirebaseAuth.instance.currentUser;
-  return user!.uid.toString();
-}
+
 String msg(){
   if (true)
  return 'You haven\'t added Any Pets!';

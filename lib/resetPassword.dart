@@ -7,49 +7,55 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:email_validator/email_validator.dart';
 import 'admin_main.dart';
 import 'petOwner_main.dart';
-import 'resetPassword.dart';
+import 'login.dart';
+import 'models/global.dart';
 void main() {
-  runApp(login());
+  runApp(Reset());
 }
 
-class LoginPage extends StatefulWidget {
+class ResetPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new _LoginPageState();
+  State<StatefulWidget> createState() => new _ResetPageState();
 }
 
-class login extends StatelessWidget {
+class Reset extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: ResetPage(),
     );
   }
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ResetPageState extends State<ResetPage> {
   final _formKey = new GlobalKey<FormState>();
   String _email = '';
-  String _password = '';
+  final auth = FirebaseAuth.instance ;
 
-  bool validatePassword(String value) {
-    //Pattern pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
-    RegExp regex = new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
-    if (!regex.hasMatch(value))
-      return true;
-    else
-      return false;
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Color(0xFFF4E3E3),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation:0,
+        leading: ElevatedButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => login()));
+            },
+
+            child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+            style: backButton ),// <-- Button color// <-- Splash color
+
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
-                margin: EdgeInsets.fromLTRB(50, 50, 50, 30),
+                margin: EdgeInsets.fromLTRB(50, 10, 50, 30),
                 width: 130,
                 height: 160,
                 decoration: BoxDecoration(
@@ -88,61 +94,19 @@ class _LoginPageState extends State<LoginPage> {
             return 'Email must not be empty';
           }
           else
-          if (EmailValidator.validate(value))
+          if (EmailValidator.validate(value.replaceAll(" ", "")))
             return null;
           else
             return "Please enter a valid email";
         },
         onSaved: (Value) => _email = Value!,
       ),
-      SizedBox(height: 30),
-      Padding(
-        padding: EdgeInsets.symmetric(horizontal: 2),
-        child: new TextFormField(
-          obscureText: true,
-          decoration: InputDecoration(
-              errorMaxLines: 2 ,
-              filled: true,
-              fillColor: Colors.white,
-              hintText: 'Enter your password',
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                  borderSide: BorderSide(
-                    width: 0,
-                    style: BorderStyle.none,
-                  ))),
-          validator: (Value) {
-            if (Value == null || Value.isEmpty) {
-              return 'Password must not be empty';
-            }else if (validatePassword(Value))
-              return 'Must be at least 8 characters and should contain at least a small letter,a capital letter,and a number';
-            return null;
-          },
-
-          onSaved: (Value) => _password = Value!,
-        ),
-      )
     ];
   }
   List<Widget> buildSubmitButtons() {
     return [
-      Row (
-        mainAxisAlignment :MainAxisAlignment.end ,
-        children :[
-          TextButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => Reset()));
-            },
-            child: Text(
-              'Forgot password ?',
-              style: TextStyle(
-                  color: Colors.blueGrey, fontSize: 15),
-            ),
-          ),
-        ],
-      ),
 
-      SizedBox(height: 45),
+      SizedBox(height: 80),
       Container(
         height: 60,
         width: 200,
@@ -152,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
         TextButton(
           onPressed: validateAndSubmit ,
           child: Text(
-            'Login',
+            'Reset password',
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         ),
@@ -167,30 +131,6 @@ class _LoginPageState extends State<LoginPage> {
       //     color: Colors.blueGrey,
       //   ),
       // ),
-
-      SizedBox(height: 13,),
-      Row(
-          mainAxisAlignment :MainAxisAlignment.center ,
-          children :[
-            Text('Dont Have An Accont Yet ?',
-                style: TextStyle(color: Colors.blueGrey, fontSize: 15)),
-
-            TextButton(
-              child: Text(
-                "SignUp",
-                style: TextStyle(
-                  fontSize: 15.0,
-                  color: Colors.redAccent,
-                ),
-              ),
-              onPressed: () {
-                //  Navigator.push(
-                Navigator.push(context, MaterialPageRoute(builder: (_) => register()));
-
-              },
-            ),
-          ]
-      )
     ];
   }
   bool validateAndSave() {
@@ -204,15 +144,12 @@ class _LoginPageState extends State<LoginPage> {
   void validateAndSubmit() async {
     if (validateAndSave()) {
       try {
-        if(_email.contains("@admin.com")){
-          final UserCredential authResult = (await FirebaseAuth.instance
-              .signInWithEmailAndPassword(email: _email, password: _password));
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => managerPage()));
-        }else{
-          final UserCredential authResult = (await FirebaseAuth.instance
-              .signInWithEmailAndPassword(email: _email, password: _password));
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => mainPage()));
-        }
+        auth.sendPasswordResetEmail(email :_email);
+
+
+        Navigator.push(context, MaterialPageRoute(builder: (_) => login()));
+
+
       } on FirebaseAuthException catch (e) {
         String msgError = "";
         if (e.code == 'user-not-found') {
@@ -226,11 +163,12 @@ class _LoginPageState extends State<LoginPage> {
           content: Text(msgError),
           backgroundColor: Theme.of(context).errorColor,
         ));
-        //ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //content: Text('No user found for that email'),
-        //backgroundColor: Theme.of(context).errorColor,
-        //));
+
+
       }
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text("check your email"),
+      //   backgroundColor:Colors.green,),);
     }
   }
 }

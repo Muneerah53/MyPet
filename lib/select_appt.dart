@@ -244,7 +244,7 @@ class selectState extends State<select> {
                               DateFormat('dd/MM/yyyy').format(selectedDate))
                       .where('type', isEqualTo: title)
                       .where('status', isEqualTo: "Available")
-                      .orderBy('startTime')
+                     // .orderBy('startTime')
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const Text('loading');

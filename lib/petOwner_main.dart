@@ -8,6 +8,8 @@ import 'OwnerProfile.dart';
 import 'login.dart';
 import 'package:MyPet/models/global.dart';
 
+import 'models/notifaction_service.dart';
+
 GlobalKey _globalKey = navKeys.globalKey;
 
 
@@ -22,6 +24,12 @@ class ownerPage extends StatefulWidget {
 }
 
 class _PetPageState extends State<ownerPage> {
+@override
+  void initState() {
+    super.initState();
+    NotificationService.init();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -82,6 +90,17 @@ class _PetPageState extends State<ownerPage> {
                         height: 120.0,
                         fit: BoxFit.contain,
                         image: new AssetImage('images/image_2.png'))
+                    ,TextButton(
+                      child: Text('Send Notifaction'),
+                      onPressed: (){
+                        NotificationService.showNotifaction(
+                          title: 'Hello!',
+                          body: 'Youve been notifed :)',
+                          payload: 'hi'
+                      );},
+
+                    )
+
                   ],
 
                 ), /*Column(

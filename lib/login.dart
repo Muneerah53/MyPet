@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
             if (Value == null || Value.isEmpty) {
               return 'Password must not be empty';
             }else if (validatePassword(Value))
-              return 'Must be at least 8 characters and should contaian at least a small letter,a capital letter,and a number';
+              return 'Must be at least 8 characters and should contain at least a small letter,a capital letter,and a number';
             return null;
           },
 

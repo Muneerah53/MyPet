@@ -2,7 +2,6 @@ import 'package:MyPet/appointment_main.dart';
 import 'package:flutter/material.dart';
 import 'Appointment.dart';
 import 'models/global.dart';
-import 'petOwner_main.dart';
 
 class Payment extends StatefulWidget {
   const Payment({Key? key}) : super(key: key);
@@ -43,27 +42,5 @@ class _PaymentState extends State<Payment> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-            ),
-            MaterialButton(
-              minWidth: 200,
-              height: 60,
-              padding: const EdgeInsets.all(20),
-              color: primaryColor,
-              textColor: Colors.white,
-              child: const Text('Done'),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              onPressed: () async {
-                Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => appointmentPage()))
-                    .catchError((error) => print('Delete failed: $error'));
-                ;
-                BottomNavigationBar navigationBar =
-                    _globalKey.currentWidget as BottomNavigationBar;
-                navigationBar.onTap!(0);
-              },
-            ),
-          ]),
-        )));
-  }
-}
+            ),],),),),);
+  }}

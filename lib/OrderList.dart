@@ -31,6 +31,8 @@ class OrderList extends StatefulWidget {
 }
 
 class _OrderListState extends State<OrderList> {
+  fbHelper fb = fbHelper();
+
   int? t = 0;
   String title = '';
   String? p;
@@ -298,7 +300,7 @@ class _OrderListState extends State<OrderList> {
       'workshiftID': appointID,
       'service': title + ": " + description,
       'petID': pid,
-      'petOwnerID': getuser(),
+      'petOwnerID': fb.getuser(),
       'totalPrice': totalss(t.toString())
     });
 

@@ -223,7 +223,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
-                                  details[4]+"-"+ details[6],
+                                  details[4]+"-"+ details[5],
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,

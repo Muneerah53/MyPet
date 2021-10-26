@@ -547,6 +547,16 @@ reset();
     List<QueryDocumentSnapshot> docs = snapshot.docs;
     for (var doc in docs) {
       if (doc.data() != null) {
+        if(doc['status']=='Booked'){
+await firestoreInstance.collection('Work Shift').where('workshiftID''', isEqualTo: doc.id).get().then((value) {
+            for (var d in value.docs)
+              d.reference.delete();
+          }
+              );
+
+
+        }
+
         doc.reference.delete();
       }
 

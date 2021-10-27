@@ -1,9 +1,11 @@
 //import 'package:MyPet/Mypets.dart';
+import 'dart:convert';
+
+import 'package:MyPet/paymentscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'Payment.dart';
-import 'package:intl/intl.dart';
 import 'models/global.dart';
 import 'models/data.dart';
 
@@ -34,6 +36,7 @@ class _OrderListState extends State<OrderList> {
   fbHelper fb = fbHelper();
 
   int? t = 0;
+  int price = 1;
   String title = '';
   String? p;
   String? pid;
@@ -253,13 +256,26 @@ class _OrderListState extends State<OrderList> {
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.right,
                         ),
+                      ),],),),
+
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                       ElevatedButton(
+                                child: Text("PAY"),
+                                 onPressed: () async {
+
+                                     Navigator.push(context, MaterialPageRoute(builder: (context)=> Paymentscreen(t)));
+                                 },
+
+                         ),],
                       ),
-                    ],
-                  ),
+                    ],),
                 ),
-              ],
-            ),
-          ),
+
+
+
+
           Container(
             margin: const EdgeInsets.fromLTRB(0, 30, 0, 80),
             width: 193,

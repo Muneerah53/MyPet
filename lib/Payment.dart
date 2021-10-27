@@ -60,7 +60,6 @@ class _PaymentState extends State<Payment> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               onPressed: () async {
-
                 Navigator.push(context,
                         MaterialPageRoute(builder: (_) => appointmentPage()))
                     .catchError((error) => print('Delete failed: $error'));

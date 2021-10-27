@@ -87,8 +87,10 @@ class _LoginPageState extends State<LoginPage> {
           if (value!.isEmpty) {
             return 'Email must not be empty';
           }
-          else
-          if (EmailValidator.validate(value))
+          else if (EmailValidator.validate(value.trim())) {
+            return null;
+          }
+          else if (EmailValidator.validate(value))
             return null;
           else
             return "Please enter a valid email";

@@ -188,10 +188,12 @@ class Home extends State<homereg> {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please enter your phone number';
-                            } else if (value.length != 10) {
-                              return 'phone number must be 10 digits';
                             } else if (!isNumeric(value)) {
                               return 'phone number must be numeric';
+                            } else if (value.length != 10) {
+                              return 'phone number must be 10 digits';
+                            } else if (!(value.startsWith('05'))) {
+                              return 'Invalid phone number format (ex.05########)';
                             }
                           },
                           decoration: InputDecoration(
@@ -214,9 +216,9 @@ class Home extends State<homereg> {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please enter your email';
-                            }
-                            else
-                            if (EmailValidator.validate(value))
+                            } else if (EmailValidator.validate(value.trim())) {
+                              return null;
+                            }else if (EmailValidator.validate(value))
                               return null;
                             else
                               return "Please enter a valid email";

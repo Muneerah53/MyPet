@@ -20,12 +20,22 @@ class _Paymentscreen extends State<Paymentscreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       body: WebView(
+        onPageStarted:(url) {
+          if (url.contains('/success')) {
+            print(url);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Payment()));
+          }
+          if (url.contains('/cancel')) {
+            Navigator.of(context).pop();
+          }
+        },
         onPageFinished:(url){
-        if(url.toLowerCase().contains('/checkout')){
+         if(url.contains('/success')){
             print(url);
             Navigator.push(context, MaterialPageRoute(builder: (context)=> Payment()));
           }
-            if(url.toLowerCase().contains('/cancel')) {
+            if(url.contains('/cancel')) {
                   Navigator.of(context).pop();
             }
         },

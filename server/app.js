@@ -3,8 +3,8 @@ var express = require('express');
 var app = express();
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
-    'client_id': 'AYJJj1Yd6L9KabNsAPb2GC39g7U-3sE5v4SrUNL-D2jcxw5_4vhxQtBIEIyGJJ3netfn-k4z2Xe95J3l',
-    'client_secret': 'EBEhYp9MFD-od9YepZHtiMyVFFo27q91wqGmhzBzOd1rcnvNzyo1PDsGYk0j2mtjpkM13hKy0zw-QoBJ'
+    'client_id': 'AW-aLVh8jQcdMlCOA6VAHqUNBSK7WU-NCBBcr7NMsWNHhPy818KYEOFRsBO1VdPcGPyK9_q1_mEwuUxL',
+    'client_secret': 'EBMmSjV6AMm-sj2xcdOVTtaxrnpRYPmGmMbyEGntbveHoP_a5CtiBW8znJFGQYFpxSv3LcYjEIi7f-5h'
 });
 
 
@@ -16,7 +16,7 @@ app.get('/pay', (req, res) => {
             "payment_method": "paypal"
         },
         "redirect_urls": {
-            "return_url": "http://success.url",
+            "return_url": "http://172.20.10.3:8000/success",
             "cancel_url": "http://cancel.url"
         },
         "transactions": [{
@@ -77,7 +77,7 @@ app.get('/success', (req, res) => {
             console.log(JSON.stringify(payment));
         }
     });
-
+    res.send("thanks for using mypet");
 
 });
 

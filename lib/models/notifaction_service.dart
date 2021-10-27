@@ -22,25 +22,37 @@ class NotificationService {
         title,
         body,
         await notificationDetails(),
-        payload: payload);
+       );
 
 
 
   }
 
 
-  static Future showScheduledNotifaction({int id=0, String? title, String? body, String? payload, DateTime? now}) async
+  static Future showScheduledNotifaction({int id=0, String? title, String? body, DateTime? t}) async
   {
 
     _notifactions.zonedSchedule(
         id,
         title,
-        body,
-        tz.TZDateTime.from(DateTime.now().add(const Duration(seconds: 20)),tz.local),
+        'Your Appointment is in 1 hour.',
+        tz.TZDateTime.now(tz.local).add(const Duration(hours: 1)),
+        //tz.TZDateTime.from(t!.subtract(const Duration(hours: 1)),tz.local),
         await notificationDetails(),
-        payload: payload,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
+
+
+    _notifactions.zonedSchedule(
+        id,
+        title,
+        'Your Appointment is in 12 hour.',
+        tz.TZDateTime.now(tz.local).add(const Duration(hours: 12)),
+       // tz.TZDateTime.from(t!.subtract(const Duration(hours: 12)),tz.local),
+        await notificationDetails(),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
+
   }
 
 

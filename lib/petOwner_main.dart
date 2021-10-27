@@ -94,10 +94,14 @@ class _PetPageState extends State<ownerPage> {
                       child: Text('Send Notifaction'),
                       onPressed: (){
                         NotificationService.showNotifaction(
-                          title: 'Hello!',
-                          body: 'Youve been notifed :)',
-                          payload: 'hi'
-                      );},
+                          title: 'Appointment Confirmed',
+                          body: 'Your appointment has been succesfully confirnmed.',
+                      );
+                        NotificationService.showScheduledNotifaction(
+                          title: 'Reminder',
+                          body: 'Your appointment has been succesfully confirnmed.',
+                        );
+                        },
 
                     )
 

@@ -45,7 +45,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.u444.mypet"
-        minSdkVersion 16
+        minSdkVersion  16
         targetSdkVersion 30
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
@@ -67,5 +67,4 @@ flutter {
 
 dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"}

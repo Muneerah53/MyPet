@@ -3,7 +3,8 @@
     package="com.u444.mypet">
    <application
        tools:replace="android:label"
-        android:label="MyPet">
+        android:label="MyPet"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

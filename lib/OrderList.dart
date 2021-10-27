@@ -1,12 +1,11 @@
 //import 'package:MyPet/Mypets.dart';
 import 'dart:convert';
 
+import 'package:MyPet/paymentscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_braintree/flutter_braintree.dart';
 import 'Payment.dart';
-import 'package:http/http.dart' as http;
 import 'models/global.dart';
 import 'models/data.dart';
 
@@ -35,6 +34,7 @@ class OrderList extends StatefulWidget {
 
 class _OrderListState extends State<OrderList> {
   int? t = 0;
+  int price = 1;
   String title = '';
   String? p;
   String? pid;
@@ -262,26 +262,8 @@ class _OrderListState extends State<OrderList> {
                        ElevatedButton(
                                 child: Text("PAY"),
                                  onPressed: () async {
-                                  var Url= '';
-                                   var request = BraintreeDropInRequest(
-                                       tokenizationKey: 'sandbox_mfm2pyg3_kjztn8zbdtwzvhhr',
-                                       collectDeviceData: true,
-                                       paypalRequest: BraintreePayPalRequest(
-                                           amount: '1.00', displayName: 'MyPet'),
-                                       cardEnabled: true);
 
-                                   BraintreeDropInResult? result = await BraintreeDropIn.start(request);
-                                   if (result != null) {
-                                     print(result.paymentMethodNonce.description);
-                                     print(result.paymentMethodNonce.nonce);
-
-                                     final http.Response response = await http.post(Uri.tryParse(
-                                      '$url?payment_method_nonce=${result.paymentMethodNonce.nonce}&device_data=${result.daviceData}'
-                                     ));
-                                     final payResult = jsonDecode(response.body);
-                                     if (payResult['result']=='success') print('payment done');
-
-                                   }
+                                     Navigator.push(context, MaterialPageRoute(builder: (context)=> Paymentscreen(t)));
                                  },
 
                          ),],

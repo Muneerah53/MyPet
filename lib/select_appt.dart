@@ -135,11 +135,13 @@ class selectState extends State<select> {
                           }
                         }
                         return Row(
+
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
                               padding:
                                   const EdgeInsets.fromLTRB(30, 5, 137, 10),
+
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
@@ -148,7 +150,7 @@ class selectState extends State<select> {
                                 child: new DropdownButton<dynamic>(
                                   icon: Icon(Icons.keyboard_arrow_down),
                                   items: currencyItems,
-                                  hint: new Text("Select $emp ..."),
+                                  hint: new Text("Select $emp ...            "),
                                   onChanged: (currencyValue) {
                                     setState(() {
                                       selectedCurrency = currencyValue;

@@ -20,21 +20,19 @@ class OrderList extends StatefulWidget {
   final String desc;
   const OrderList(
       {this.type,
-      this.date,
-      this.pet,
-      this.time,
-      this.total,
-      this.appointID,
-      this.petId,
-      required this.desc});
+        this.date,
+        this.pet,
+        this.time,
+        this.total,
+        this.appointID,
+        this.petId,
+        required this.desc});
 
   @override
   _OrderListState createState() => _OrderListState();
 }
 
 class _OrderListState extends State<OrderList> {
-  fbHelper fb = fbHelper();
-
   int? t = 0;
   int price = 1;
   String title = '';
@@ -76,229 +74,234 @@ class _OrderListState extends State<OrderList> {
         body: SingleChildScrollView(
             child: Center(
                 child: Column(children: [
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-            child: Text(
-              'Order List',
-              style: TextStyle(
-                  color: Color(0XFFFF6B81),
-                  fontSize: 34,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(20, 20, 0, 30),
-            alignment: Alignment.topLeft,
-            child: Text(
-              'Appointments',
-              style: TextStyle(
-                  color: Color(0XFF52648B),
-                  fontSize: 24,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold),
-              textAlign: TextAlign.right,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(25, 10, 25, 70),
-            height: 350,
-            width: double.infinity,
-            decoration: new BoxDecoration(
-              color: Color(0xffF4F4F4),
-              borderRadius: new BorderRadius.all(Radius.circular(25.0)),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(20, 40, 20, 30),
-                        child: Text(
-                          'Servise: ',
-                          style: TextStyle(
-                              color: Color(0XFF52648B),
-                              fontSize: 18,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(10, 40, 20, 30),
-                        child: Text(
-                          title,
-                          style: TextStyle(
-                              color: Color(0XFF52648B),
-                              fontSize: 18,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                    ],
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                    child: Text(
+                      'Order List',
+                      style: TextStyle(
+                          color: Color(0XFFFF6B81),
+                          fontSize: 34,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: Text(
-                          'Pet: ',
-                          style: TextStyle(
-                              color: Color(0XFF52648B),
-                              fontSize: 18,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(35, 0, 20, 0),
-                        child: Text(
-                          p.toString(),
-                          style: TextStyle(
-                              color: Color(0XFF52648B),
-                              fontSize: 18,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                    ],
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(20, 20, 0, 30),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Appointments',
+                      style: TextStyle(
+                          color: Color(0XFF52648B),
+                          fontSize: 24,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.right,
+                    ),
                   ),
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(20, 30, 20, 30),
-                        child: Text(
-                          'Time: ',
-                          style: TextStyle(
-                              color: Color(0XFF52648B),
-                              fontSize: 18,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.right,
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(25, 10, 25, 70),
+                    height: 480,
+                    width: double.infinity,
+                    decoration: new BoxDecoration(
+                      color: Color(0xffF4F4F4),
+                      borderRadius: new BorderRadius.all(Radius.circular(25.0)),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(20, 40, 20, 30),
+                                child: Text(
+                                  'Servise: ',
+                                  style: TextStyle(
+                                      color: Color(0XFF52648B),
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(10, 40, 20, 30),
+                                child: Text(
+                                  title,
+                                  style: TextStyle(
+                                      color: Color(0XFF52648B),
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(20, 30, 20, 30),
-                        child: Text(
-                          tt.toString(),
-                          style: TextStyle(
-                              color: Color(0XFF52648B),
-                              fontSize: 18,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.right,
+                        Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                child: Text(
+                                  'Pet: ',
+                                  style: TextStyle(
+                                      color: Color(0XFF52648B),
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(35, 0, 20, 0),
+                                child: Text(
+                                  p.toString(),
+                                  style: TextStyle(
+                                      color: Color(0XFF52648B),
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(20, 30, 20, 30),
+                                child: Text(
+                                  'Time: ',
+                                  style: TextStyle(
+                                      color: Color(0XFF52648B),
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(20, 30, 20, 30),
+                                child: Text(
+                                  tt.toString(),
+                                  style: TextStyle(
+                                      color: Color(0XFF52648B),
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+                                child: Text(
+                                  'Date: ',
+                                  style: TextStyle(
+                                      color: Color(0XFF52648B),
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+                                child: Text(
+                                  d.toString(),
+                                  style: TextStyle(
+                                      color: Color(0XFF52648B),
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                child: Text(
+                                  'Total: ',
+                                  style: TextStyle(
+                                      color: Color(0XFF52648B),
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                child: Text(
+                                  totalss(t.toString())! + '\$',
+                                  style: TextStyle(
+                                      color: Color(0XFF52648B),
+                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),],),),
+
+
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 30, 0, 10),
+                        width: 193,
+                        height: 73,
+                        child: FlatButton(
+                          onPressed: () async {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> Paymentscreen(aa , t, d , p, tt, to, appointID, pid, description)));},
+                          minWidth: 200,
+                          height: 60,
+                          padding: const EdgeInsets.all(20),
+                          color: greenColor,
+                          textColor: primaryColor,
+                          child: const Text('Pay',style: TextStyle( fontSize: 18),
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+
+                        )
+                    ),
+
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        width: 193,
+                        height: 73,
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          minWidth: 200,
+                          height: 60,
+                          padding: const EdgeInsets.all(20),
+                          color: redColor,
+                          textColor: primaryColor,
+                          child: const Text('Cancel',style: TextStyle( fontSize: 18),
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+
+
+                        )),],
                   ),
+
                 ),
-                Container(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
-                        child: Text(
-                          'Date: ',
-                          style: TextStyle(
-                              color: Color(0XFF52648B),
-                              fontSize: 18,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
-                        child: Text(
-                          d.toString(),
-                          style: TextStyle(
-                              color: Color(0XFF52648B),
-                              fontSize: 18,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: Text(
-                          'Total: ',
-                          style: TextStyle(
-                              color: Color(0XFF52648B),
-                              fontSize: 18,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: Text(
-                          totalss(t.toString())! + '\$',
-                          style: TextStyle(
-                              color: Color(0XFF52648B),
-                              fontSize: 18,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),],),),
-
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                       ElevatedButton(
-                                child: Text("PAY"),
-                                 onPressed: () async {
-
-                                     Navigator.push(context, MaterialPageRoute(builder: (context)=> Paymentscreen(t)));
-                                 },
-
-                         ),],
-                      ),
-                    ],),
-                ),
-
-
-
-
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 30, 0, 80),
-            width: 193,
-            height: 73,
-            child: ElevatedButton(
-                onPressed: () {
-                  saveData();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => Payment()),
-                  );
-                },
-                child: Text('Confirm',
-                    style:
-                        TextStyle(fontStyle: FontStyle.italic, fontSize: 25)),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0XFF2F3542)),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0))),
-                )),
-          ),
-        ]))));
+                ],),
+            ),));
   }
 
   String? totalss(String m) {
@@ -310,32 +313,32 @@ class _OrderListState extends State<OrderList> {
     return aa;
   }
 
-  Future<void> saveData() async {
-    DocumentReference doc =
-        await FirebaseFirestore.instance.collection('appointment').add({
-      'workshiftID': appointID,
-      'service': title + ": " + description,
-      'petID': pid,
-      'petOwnerID': fb.getuser(),
-      'totalPrice': totalss(t.toString())
-    });
-
-    await FirebaseFirestore.instance
-        .collection("appointment")
-        .doc(doc.id)
-        .update({"appointmentID": doc.id});
-
-    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-        .instance
-        .collection('Work Shift')
-        .where('appointmentID', isEqualTo: appointID)
-        .get();
-
-    List<QueryDocumentSnapshot> docs = snapshot.docs;
-    for (var doc in docs) {
-      if (doc.data() != null) {
-        doc.reference.update({"status": "Booked"});
-      }
-    }
-  }
+// Future<void> saveData() async {
+//   DocumentReference doc =
+//       await FirebaseFirestore.instance.collection('appointment').add({
+//     'workshiftID': appointID,
+//     'service': title + ": " + description,
+//     'petID': pid,
+//     'petOwnerID': getuser(),
+//     'totalPrice': totalss(t.toString())
+//   });
+//
+//   await FirebaseFirestore.instance
+//       .collection("appointment")
+//       .doc(doc.id)
+//       .update({"appointmentID": doc.id});
+//
+//   QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+//       .instance
+//       .collection('Work Shift')
+//       .where('appointmentID', isEqualTo: appointID)
+//       .get();
+//
+//   List<QueryDocumentSnapshot> docs = snapshot.docs;
+//   for (var doc in docs) {
+//     if (doc.data() != null) {
+//       doc.reference.update({"status": "Booked"});
+//     }
+//   }
+// }
 }

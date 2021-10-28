@@ -97,9 +97,11 @@ class _PetPageState extends State<ownerPage> {
                           title: 'Appointment Confirmed',
                           body: 'Your appointment has been succesfully confirnmed.',
                       );
+
                         NotificationService.showScheduledNotifaction(
                           title: 'Reminder',
                           body: 'Your appointment has been succesfully confirnmed.',
+                          t: DateTime.now().add(Duration(hours: 1, minutes: 10))
                         );
                         },
 

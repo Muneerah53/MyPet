@@ -1,4 +1,5 @@
 //import 'package:MyPet/Mypets.dart';
+import 'package:MyPet/paymentscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -240,11 +241,10 @@ appointment? a;
             height: 73,
             child: ElevatedButton(
                 onPressed: () {
-                  fb.saveData(a!);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => Payment(appoint: a)),
+                        builder: (BuildContext context) => Paymentscreen(appoint: a)),
                   );
                 },
                 child: Text('Confirm',

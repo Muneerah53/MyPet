@@ -3,56 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Payment.dart';
+import 'appointment_object.dart';
 import 'models/data.dart';
+import 'models/notifaction_service.dart';
 
 
 class Paymentscreen extends StatefulWidget{
-  Paymentscreen(
-      this.price,
-      this.type,
-      this.date,
-      this.pet,
-      this.time,
-      this.total,
-      this.appointID,
-      this.petId,
-      this.desc);
-  final price;
-  final int? type;
-  final String? date;
-  final String? pet;
-  final String? time;
-  final double? total;
-  final String? appointID;
-  final String? petId;
-  final String desc;
+  final appointment? appoint;
+
+
+  Paymentscreen({this.appoint});
 
   @override
   _Paymentscreen createState()=>_Paymentscreen();
 }
 class _Paymentscreen extends State<Paymentscreen>{
-  int? t = 0;
-  int price = 1;
-  String title = '';
-  String? p;
-  String? pid;
-  String? d;
-  String? tt;
-  double? to;
-  String? appointID;
-  String? aa;
-  late String description;
+appointment? a;
+fbHelper fb = fbHelper();
   void initState() {
     super.initState();
-    description = widget.desc;
-    t = widget.type;
-    d = widget.date;
-    tt = widget.time;
-    p = widget.pet;
-    pid = widget.petId;
-    to = widget.total;
-    appointID = widget.appointID;
-    title = (t == 0) ? "Check-Up" : "Grooming"; //here var is call and set to
+a= widget.appoint; //here var is call and set to
   }
   String _loadHTML(){
     return r'''...''';
@@ -75,7 +45,17 @@ class _Paymentscreen extends State<Paymentscreen>{
           onPageFinished:(url){
             if(url.contains('/success')){
               print(url);
-              saveData();
+              fb.saveData(a!);
+              NotificationService.showNotifaction(
+                  title: 'Success!',
+                  body: 'Your appointment has been confirmed.');
+
+
+              NotificationService.showScheduledNotifaction(
+                  title: 'Reminder',
+                  t: a!.getStart()
+              );
+
               Navigator.push(context, MaterialPageRoute(builder: (context)=> Payment()));
             }
             if(url.contains('/cancel')) {
@@ -88,49 +68,7 @@ class _Paymentscreen extends State<Paymentscreen>{
         )
     );
   }
-  Future<void> saveData() async {
-    DocumentReference doc =
-    await FirebaseFirestore.instance.collection('appointment').add({
-      'workshiftID': appointID,
-      'service': title + ": " + description,
-      'petID': pid,
-      'petOwnerID': getuser(),
-      'totalPrice': totalss(t.toString())
-    });
-
-    await FirebaseFirestore.instance
-        .collection("appointment")
-        .doc(doc.id)
-        .update({"appointmentID": doc.id});
-
-    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-        .instance
-        .collection('Work Shift')
-        .where('appointmentID', isEqualTo: appointID)
-        .get();
-
-    List<QueryDocumentSnapshot> docs = snapshot.docs;
-    for (var doc in docs) {
-      if (doc.data() != null) {
-        doc.reference.update({"status": "Booked"});
-      }
-    }
   }
-
-  String? totalss(String m) {
-    if (m == "0") {
-      aa = "50";
-    } else {
-      aa = to.toString();
-    }
-    return aa;
-  }
-}
-
-String getuser(){
-  User? user = FirebaseAuth.instance.currentUser;
-  return user!.uid.toString();
-}
 
 /* var Url= 'http://10.0.2.2:8000/pay';
 var request = BraintreeDropInRequest(

@@ -32,7 +32,7 @@ class Paymentscreen extends StatefulWidget{
 }
 class _Paymentscreen extends State<Paymentscreen>{
   int? t = 0;
-  int price = 1;
+  int price= 0;
   String title = '';
   String? p;
   String? pid;
@@ -51,11 +51,13 @@ class _Paymentscreen extends State<Paymentscreen>{
     p = widget.pet;
     pid = widget.petId;
     to = widget.total;
+     price= to!.toInt();
+
     appointID = widget.appointID;
     title = (t == 0) ? "Check-Up" : "Grooming"; //here var is call and set to
   }
   String _loadHTML(){
-    return r'''...''';
+    return 'http://172.20.10.3:8000/price?id=$price';
   }
 
   @override
@@ -84,7 +86,8 @@ class _Paymentscreen extends State<Paymentscreen>{
           },
 
           javascriptMode: JavascriptMode.unrestricted,
-          initialUrl: 'http://172.20.10.3:8000/pay',
+          initialUrl: _loadHTML(),
+          //Uri.dataFromString(_loadHTML(), mimeType: 'text/html').toString(),
         )
     );
   }

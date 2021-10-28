@@ -1,13 +1,29 @@
 var paypal = require('paypal-rest-sdk');
 var express = require('express');
 var app = express();
+
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({
+    extended:false
+}));
+app.use(bodyParser.json())
+var amount = 0;
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
     'client_id': 'AW-aLVh8jQcdMlCOA6VAHqUNBSK7WU-NCBBcr7NMsWNHhPy818KYEOFRsBO1VdPcGPyK9_q1_mEwuUxL',
     'client_secret': 'EBMmSjV6AMm-sj2xcdOVTtaxrnpRYPmGmMbyEGntbveHoP_a5CtiBW8znJFGQYFpxSv3LcYjEIi7f-5h'
 });
 
+app.get('/price', function(request, response) {
+    console.log(request.body)
+    amount = request.query.id; // $_GET["id"]
+    console.log('id:'+amount);
+     response.redirect('/pay');
 
+  });
+
+
+    
 app.get('/pay', (req, res) => {
 
     var create_payment_json = {
@@ -24,14 +40,14 @@ app.get('/pay', (req, res) => {
                 "items": [{
                     "name": "item",
                     "sku": "item",
-                    "price": "1",
+                    "price": amount,
                     "currency": "USD",
                     "quantity": 1
                 }]
             },
             "amount": {
                 "currency": "USD",
-                "total": "1"
+                "total": amount
             },
             "description": "This is the payment description."
         }]
@@ -62,7 +78,7 @@ app.get('/success', (req, res) => {
         "transactions": [{
             "amount": {
                 "currency": "USD",
-                "total": "1"
+                "total": amount
             }
         }]
     };

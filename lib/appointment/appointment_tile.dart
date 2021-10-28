@@ -1,6 +1,6 @@
 import 'dart:developer';
-
 import 'package:MyPet/appointment/appointment_model.dart';
+import 'appointment_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,9 +16,19 @@ class AppointmentTile extends StatefulWidget {
 
 class _AppointmentTileState extends State<AppointmentTile> {
   bool isLoading = true;
+  updateAppoitment() async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => AppointmentUpdate(widget.appointmentModel)))
+        .then((value) => widget.initData());
 
-
-
+    /*Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AppointmentUpdate(widget.appointmentModel)),
+    );*/
+  }
   delAppoitment() async {
     await FirebaseFirestore.instance
         .collection("appointment")
@@ -85,7 +95,7 @@ class _AppointmentTileState extends State<AppointmentTile> {
                     padding: const EdgeInsets.all(4.0),
                     child: ElevatedButton(
                       onPressed: () {
-
+                        updateAppoitment();
                       },
                       child: Text('Update'),
                       style: ElevatedButton.styleFrom(

@@ -111,7 +111,11 @@ class appointmentFormState extends State<appointmentForm> {
               });
 
               if(exists)
-              {alertDialog(context, "Existing Appointment", "Appointments at this time exits.",);}
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                      "Appointments at this time already exits."),
+                  backgroundColor: Theme.of(context).errorColor,
+                ));
               else{
                 final List<Appointment> appointments = <Appointment>[];
                 //update
@@ -122,7 +126,11 @@ class appointmentFormState extends State<appointmentForm> {
                   String status = ds['status'].toString();
                   checkExistance();
                   if (status == "Booked") {
-                    alertDialog(context, "Booked Appointment", "Appointment is already booked and cannot be changed;");
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                          "Appointment is already booked and cannot be changed"),
+                      backgroundColor: Theme.of(context).errorColor,
+                    ));
                   }
 
                   else {
@@ -749,9 +757,164 @@ class appointmentFormState extends State<appointmentForm> {
                           mini: true,
 
                           onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              bool exists = false;
 
+
+                              _doc = selectedDoctor.toString();
+                              await FirebaseFirestore.instance.collection("Work Shift")
+                                  .where('empID',isEqualTo: _doc)
+                                  .where('date',isEqualTo: DateFormat('dd/MM/yyyy').format(_startDate))
+                                  .get().then((
+                                  QuerySnapshot data) {
+                                for (var doc in data.docs) {
+                                  DateTime _date = DateFormat("dd/MM/yyyy").parse(doc['date'].toString());
+
+                                  DateTime _startTimeFormat = DateFormat("hh:mm").parse(
+                                      doc['startTime'].toString());
+                                  TimeOfDay _start = TimeOfDay.fromDateTime(_startTimeFormat);
+
+
+                                  DateTime _startDateTime = DateTime(
+                                      _date.year,
+                                      _date.month,
+                                      _date.day,
+                                      _start.hour,
+                                      _start.minute,
+                                      0);
+                                  print(_startDateTime.isAtSameMomentAs(_startDate));
+                                  if (_startDateTime.isAtSameMomentAs(_startDate)) {
+                                    exists = true; break;
+                                  }
+                                  DateTime _endTimeFormat = DateFormat("h:mm").parse(
+                                      doc['endTime'].toString());
+                                  TimeOfDay _end = TimeOfDay.fromDateTime(_endTimeFormat);
+
+                                  DateTime _endDateTime = DateTime(
+                                      _date.year,
+                                      _date.month,
+                                      _date.day,
+                                      _end.hour,
+                                      _end.minute,
+                                      0);
+
+
+                                  if (_endDateTime.isAtSameMomentAs(_endDate)) {
+                                    exists = true; break;
+                                  }
+                                }
+                              });
+
+                              if(exists)
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      "Appointments at this time already exits."),
+                                  backgroundColor: Theme.of(context).errorColor,
+                                ));
+                              else{
+                                final List<Appointment> appointments = <Appointment>[];
+                                //update
+                                if (_selectedAppointment != null) {
+                                  Appointment appt = _selectedAppointment as Appointment;
+                                  final ds = await firestoreInstance.collection(
+                                      "Work Shift").doc(_id).get();
+                                  String status = ds['status'].toString();
+                                  checkExistance();
+                                  if (status == "Booked") {
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content: Text(
+                                          "Appointment is already booked and cannot be changed"),
+                                      backgroundColor: Theme.of(context).errorColor,
+                                    ));
+                                  }
+
+                                  else {
+                                    Appointment temp = Appointment(
+                                        title: appt.title,
+                                        id: _id,
+                                        from: _startDate,
+                                        to: _endDate,
+                                        start: _startTime,
+                                        end: _endTime,
+                                        docID: appt.docID,
+                                        docName:_docName,
+                                        background: _background,
+                                        type: _type,
+                                        status: "Available");
+
+                                    firestoreInstance.collection("Work Shift")
+                                        .doc(_id)
+                                        .update({
+                                      "date": DateFormat('dd/MM/yyyy').format(_startDate),
+                                      "startTime": DateFormat.Hm().format(_startDate),
+                                      "endTime": DateFormat.Hm().format(_endDate),
+                                    });
+
+                                    events.appointments!.removeAt(events.appointments!
+                                        .indexOf(_selectedAppointment));
+                                    events.notifyListeners(CalendarDataSourceAction.remove,
+                                        <Appointment>[]..add(_selectedAppointment!));
+                                    appointments.add(temp);
+                                    events.appointments!.add(temp);
+                                  }
+                                }
+                                //add
+                                else {
+                                  _doc = selectedDoctor.toString();
+                                  int n = getTime();
+                                  num diff = _endDate
+                                      .difference(_startDate)
+                                      .inMinutes;
+                                  DateTime _appEnd = _startDate;
+                                  for (int i = 0; i < (diff / n).floor(); i++) {
+                                    DocumentReference doc = await firestoreInstance
+                                        .collection(
+                                        "Work Shift").add(
+                                        {
+                                          "appointmentID": '',
+                                          "empID": _doc,
+                                          "date": DateFormat('dd/MM/yyyy').format(_startDate),
+                                          "startTime": DateFormat.Hm().format(_appEnd),
+                                          "endTime": DateFormat.Hm().format(
+                                              _appEnd.add(Duration(minutes: n))),
+                                          "status": "Available",
+                                          "type": selectedType
+                                        });
+                                    String _id = doc.id;
+                                    await firestoreInstance.collection("Work Shift").doc(
+                                        _id).update(
+                                        {"appointmentID": _id});
+
+                                    appointments.add(Appointment(
+                                        title: selectedType+' by $_docName',
+                                        id: _id,
+                                        from: _appEnd,
+                                        to: _appEnd.add(Duration(minutes: n)),
+                                        start: TimeOfDay.fromDateTime(_appEnd),
+                                        // to: _endDate,
+                                        end: TimeOfDay.fromDateTime(_appEnd.add(Duration(
+                                            minutes: n))),
+                                        docID: _doc == '' ? '(No title)' : _doc,
+                                        docName: _docName.toString(),
+                                        background: selectedType == 'Check-Up' ? Colors.lightBlue : Colors.pinkAccent[100] as Color,
+                                        type: selectedType,
+                                        status: "Available"
+                                    ));
+
+                                    events.appointments!.add(appointments[i]);
+                                    _appEnd = _appEnd.add(Duration(minutes: n));
+                                  }
+                                }
+                                events.notifyListeners(
+                                    CalendarDataSourceAction.add, appointments);
+                                _selectedAppointment = null;
+                                Navigator.pop(context);
+
+                              }
+
+                            }
                           },
-                          child: Icon(Icons.add),
+                          child: Icon(Icons.check),
                         )
                     ),
                 if(_selectedAppointment != null)
@@ -787,24 +950,11 @@ class appointmentFormState extends State<appointmentForm> {
                                 Navigator.pop(context);
                               }
                               else {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text("Appointment is Booked"),
-                                      content: Text(
-                                          "This appointment is booked and cannot be changed."),
-                                      actions: [
-                                        TextButton(
-                                          child: Text("OK"),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        )
-                                      ],
-                                    );;
-                                  },
-                                );
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      "Appointment is already booked and cannot be deleted."),
+                                  backgroundColor: Theme.of(context).errorColor,
+                                ));
                               }
                             }
                           });

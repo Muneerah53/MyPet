@@ -1,12 +1,14 @@
 import 'package:MyPet/appointment_main.dart';
 import 'package:flutter/material.dart';
 import 'Appointment.dart';
+import 'appointment_object.dart';
 import 'models/global.dart';
 import 'models/notifaction_service.dart';
 import 'petOwner_main.dart';
 
 class Payment extends StatefulWidget {
-  const Payment({Key? key}) : super(key: key);
+  final appointment? appoint;
+  const Payment({Key? key, this.appoint}) : super(key: key);
 
   @override
   _PaymentState createState() => _PaymentState();
@@ -14,10 +16,12 @@ class Payment extends StatefulWidget {
 
 class _PaymentState extends State<Payment> {
   GlobalKey _globalKey = navKeys.globalKey;
+  appointment? a;
   @override
   void initState() {
     super.initState();
-    NotificationService.init();
+    a = widget.appoint;
+    print(a!.getStart());
   }
   @override
   Widget build(BuildContext context) {
@@ -61,6 +65,15 @@ class _PaymentState extends State<Payment> {
                   borderRadius: BorderRadius.circular(12)),
               onPressed: () async {
 
+                    NotificationService.showNotifaction(
+                        title: 'Success!',
+                        body: 'Your appointment has been confirmed.');
+
+
+                    NotificationService.showScheduledNotifaction(
+                        title: 'Reminder',
+                      t: a!.getStart()
+                    );
                 Navigator.push(context,
                         MaterialPageRoute(builder: (_) => appointmentPage()))
                     .catchError((error) => print('Delete failed: $error'));

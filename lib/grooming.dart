@@ -1,16 +1,16 @@
-part of event_calendar;
+import 'OrderList.dart';
+import 'appointment_object.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
-//bool? _isChecked = false;
+
 
 class Grooming extends StatefulWidget {
-  final String? title;
-  final String? date;
-  final String? pet;
-  final String? time;
-  final String? appointID, petId;
+  final appointment? appoint;
+
 
   const Grooming(
-      {this.title, this.date, this.pet, this.time, this.appointID, this.petId});
+      {this.appoint});
   @override
   _GroomingState createState() => _GroomingState();
 }
@@ -35,12 +35,9 @@ class _GroomingState extends State<Grooming> {
   bool NeedsAnesthesiaV = false;
   int _Value = 1;
   int _Value2 = 2;
-  String? d;
-  String? p;
-  String? ti;
-  String? id, pid;
-  double? total = 0.0;
 
+  double? total = 0.0;
+appointment? a;
   bool type = false; // default false: 0 -> Check-Up
   setType() {
     setState(() {
@@ -50,11 +47,8 @@ class _GroomingState extends State<Grooming> {
 
   void initState() {
     super.initState();
-    pid = widget.petId;
-    d = widget.date;
-    p = widget.pet;
-    ti = widget.time;
-    id = widget.appointID;
+    a = widget.appoint;
+
   }
 
   Widget build(BuildContext context) {
@@ -653,19 +647,15 @@ class _GroomingState extends State<Grooming> {
                           context, "You Must Select at Least One Servace");
                     } else {
                       t = 1;
-                      total = TotalPrice();
+                      a!.total = TotalPrice();
+                      a!.desc = a!.type!+":"+ getService().toString();
+
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) => OrderList(
-                                type: t,
-                                date: d,
-                                pet: p,
-                                petId: pid,
-                                time: ti,
-                                appointID: id,
-                                desc: getService().toString(),
-                                total: total)),
+                                appoint: a)),
                       );
                     }
                   },

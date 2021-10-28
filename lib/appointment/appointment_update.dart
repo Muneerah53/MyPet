@@ -324,7 +324,7 @@ class _AppointmentUpdateState extends State<AppointmentUpdate> {
           .doc(selectedShiftID)
           .update({
         "status": "Booked",
-        "appointmentID": "${widget.model.appointmentUID}"
+        //"appointmentID": "${widget.model.appointmentUID}"
       });
 
       await FirebaseFirestore.instance

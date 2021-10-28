@@ -60,7 +60,14 @@ class Home extends State<homereg> {
   String _phoneNumber = "";
   String _confirmpassword = "";
   final _auth = FirebaseAuth.instance;
-
+  bool validatePassword(String value) {
+    //Pattern pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
+    RegExp regex = new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+    if (!regex.hasMatch(value))
+      return true;
+    else
+      return false;
+  }
   //to validate the phone number
   bool isNumeric(String s) {
     if (s == null) {
@@ -231,14 +238,16 @@ class Home extends State<homereg> {
                           onChanged: (value) {
                             _password = value;
                           },
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter your password';
-                            } else if (value.length < 6) {
-                              return 'password must be at least 6 characters';
-                            }
+                          validator: (Value) {
+                            if (Value == null || Value.isEmpty) {
+                              return 'Password must not be empty';
+                            }else if (validatePassword(Value))
+                              return 'Must be at least 8 characters and should contaian at least a small letter,a capital letter,and a number';
+                            return null;
                           },
+
                           decoration: InputDecoration(
+                            errorMaxLines: 2 ,
                             filled: true,
                             fillColor: Colors.white,
                             hintText: "Enter Password",

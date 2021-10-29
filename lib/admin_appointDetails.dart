@@ -108,7 +108,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                              Expanded(child: Container(
                                margin: const EdgeInsets.fromLTRB(10, 40, 20, 5),
                                child: Text(
-                                 snapshot.data!.docs[0]['service'],
+                                 snapshot.data!.docs[0]['service'].toString(),
                                  maxLines: 3,
                                  overflow: TextOverflow.ellipsis,
                                  style: TextStyle(
@@ -139,7 +139,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
-                               details[0]+" "+ details[1],
+                               details[0].toString()+" "+ details[1].toString(),
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -167,7 +167,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
-                                  details[2],
+                                  details[2].toString(),
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -195,7 +195,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
-                                  details[3],
+                                  details[3].toString(),
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -223,7 +223,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
-                                  details[4]+"-"+ details[5],
+                                  details[4].toString()+"-"+ details[5].toString(),
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -252,7 +252,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
-                                 snapshot.data!.docs[0]['totalPrice']+" SR",
+                                 snapshot.data!.docs[0]['totalPrice'].toString()+" SR",
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -324,7 +324,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                                     Container(
                                       margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                       child: Text(
-                                        s.data!.docs[0]['name'],
+                                        s.data!.docs[0]['name'].toString(),
                                         style: TextStyle(
                                             color: Color(0XFF52648B),
                                             fontSize: 18,
@@ -353,7 +353,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                                     Container(
                                       margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                       child: Text(
-                                        s.data!.docs[0]['birthDate'],
+                                        s.data!.docs[0]['birthDate'].toString(),
                                         style: TextStyle(
                                             color: Color(0XFF52648B),
                                             fontSize: 18,
@@ -381,7 +381,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                                     Container(
                                       margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                       child: Text(
-                                        s.data!.docs[0]['gender'],
+                                        s.data!.docs[0]['gender'].toString(),
                                         style: TextStyle(
                                             color: Color(0XFF52648B),
                                             fontSize: 18,
@@ -409,7 +409,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                                     Container(
                                       margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                       child: Text(
-                                        s.data!.docs[0]['species'],
+                                        s.data!.docs[0]['species'].toString(),
                                         style: TextStyle(
                                             color: Color(0XFF52648B),
                                             fontSize: 18,

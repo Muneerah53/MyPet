@@ -142,7 +142,7 @@ class _AppoinMainState extends State<AppoinMain> {
             SizedBox(width: 50),
             Container(
               width: 344,
-              height: 153,
+              height: 120,
               child: ElevatedButton(
                   onPressed: () {
                     t = 1;

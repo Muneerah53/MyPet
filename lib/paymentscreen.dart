@@ -19,15 +19,15 @@ class Paymentscreen extends StatefulWidget{
 }
 class _Paymentscreen extends State<Paymentscreen>{
 appointment? a;
-double? to;
+double? price;
 fbHelper fb = fbHelper();
   void initState() {
     super.initState();
 a= widget.appoint;
-to = a!.total;//here var is call and set to
+price = a!.total;//here var is call and set to
   }
 String _loadHTML(){
-  return 'http://172.20.10.3:8000/price?id=$to';
+  return 'http://172.20.10.3:8000/price?id=$price';
 }
 
   @override

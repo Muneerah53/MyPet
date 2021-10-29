@@ -19,14 +19,16 @@ class Paymentscreen extends StatefulWidget{
 }
 class _Paymentscreen extends State<Paymentscreen>{
 appointment? a;
+double? to;
 fbHelper fb = fbHelper();
   void initState() {
     super.initState();
-a= widget.appoint; //here var is call and set to
+a= widget.appoint;
+to = a!.total;//here var is call and set to
   }
-  String _loadHTML(){
-    return r'''...''';
-  }
+String _loadHTML(){
+  return 'http://172.20.10.3:8000/price?id=$to';
+}
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,7 @@ a= widget.appoint; //here var is call and set to
           },
 
           javascriptMode: JavascriptMode.unrestricted,
-          initialUrl: 'http://172.20.10.3:8000/pay',
+          initialUrl: _loadHTML(),
         )
     );
   }

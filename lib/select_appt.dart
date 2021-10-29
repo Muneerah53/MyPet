@@ -1,10 +1,11 @@
 import 'OrderList.dart';
-import 'custom_checkbox.dart';
+import 'appointment_object.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'grooming.dart';
 import 'models/global.dart';
 
 User? user = FirebaseAuth.instance.currentUser;
@@ -25,6 +26,7 @@ class select extends StatefulWidget {
 }
 
 class selectState extends State<select> {
+  appointment a = appointment();
   String reason = '';
   int t = 0;
   String? date = ' no pet have been selected';
@@ -135,11 +137,13 @@ class selectState extends State<select> {
                           }
                         }
                         return Row(
+
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
                               padding:
                                   const EdgeInsets.fromLTRB(30, 5, 137, 10),
+
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
@@ -148,7 +152,7 @@ class selectState extends State<select> {
                                 child: new DropdownButton<dynamic>(
                                   icon: Icon(Icons.keyboard_arrow_down),
                                   items: currencyItems,
-                                  hint: new Text("Select $emp ..."),
+                                  hint: new Text("Select $emp ...            "),
                                   onChanged: (currencyValue) {
                                     setState(() {
                                       selectedCurrency = currencyValue;
@@ -244,7 +248,7 @@ class selectState extends State<select> {
                               DateFormat('dd/MM/yyyy').format(selectedDate))
                       .where('type', isEqualTo: title)
                       .where('status', isEqualTo: "Available")
-                      // .orderBy('startTime')
+                     // .orderBy('startTime')
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const Text('loading');
@@ -418,34 +422,37 @@ class selectState extends State<select> {
                     if (t == 0) {
                       if ((_date == null) ||
                           (timeIndex == null) ||
-                          (petIndex == null)) {
+                          (petIndex == null) ||
+                            (reason.isEmpty)
+                      ) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
-                              "There is a missing field you you should fill it all"),
+                              "Please fill out all fields."),
                           backgroundColor: Theme.of(context).errorColor,
                         ));
                       } else {
                         if (selectedCurrency == null) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(
-                                "There is a missing field you you should fill it all"),
+                                "Please fill out all fields."),
                             backgroundColor: Theme.of(context).errorColor,
                           ));
                         } else {
-                          t = 0;
-                          date = DateFormat('EEE, MMM dd yyyy')
+
+                          a.date = DateFormat('EEE, MMM dd yyyy')
                               .format(selectedDate);
+                          a.time = time;
+                          a.petId= pid;
+                          a.petName= pets;
+                          a.appointID = appointID;
+                          a.desc = 'Check-Up: $reason';
+                          a.type = title;
+                          print(a.toString());
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) => OrderList(
-                                    type: t,
-                                    date: date,
-                                    pet: pets,
-                                    time: time,
-                                    appointID: appointID,
-                                    petId: pid,
-                                    desc: reason)),
+                                    appoint: a)),
                           );
                         }
                       }
@@ -455,21 +462,25 @@ class selectState extends State<select> {
                           (petIndex == null)) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
-                              "There is a missing field you you should fill it all"),
+                              "Please fill out all fields."),
                           backgroundColor: Theme.of(context).errorColor,
                         ));
                       } else {
-                        date =
-                            DateFormat('EEE, MMM dd yyyy').format(selectedDate);
+                        a.date = DateFormat('EEE, MMM dd yyyy')
+                            .format(selectedDate);
+                        a.time = time;
+                            a.petId= pid;
+                        a.petName= pets;
+                        a.appointID = appointID;
+                       // a.desc = 'Check-Up: $reason';
+                        a.type = title;
+                        print(a.info());
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) => Grooming(
-                                    date: date,
-                                    time: time,
-                                    pet: pets,
-                                    petId: pid,
-                                    appointID: appointID)));
+                                  appoint: a,
+                                   )));
                       }
                     }
                   },

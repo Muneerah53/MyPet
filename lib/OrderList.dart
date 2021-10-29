@@ -1,59 +1,34 @@
 //import 'package:MyPet/Mypets.dart';
+import 'package:MyPet/paymentscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'Payment.dart';
 import 'package:intl/intl.dart';
+import 'appointment_object.dart';
 import 'models/global.dart';
 import 'models/data.dart';
 
 class OrderList extends StatefulWidget {
-  final int? type;
-  final String? date;
-  final String? pet;
-  final String? time;
-  final double? total;
-  final String? appointID;
-  final String? petId;
-  final String desc;
+  final appointment? appoint;
+
   const OrderList(
-      {this.type,
-      this.date,
-      this.pet,
-      this.time,
-      this.total,
-      this.appointID,
-      this.petId,
-      required this.desc});
+      {this.appoint,
+});
 
   @override
-  _OrderListState createState() => _OrderListState();
+  OrderListState createState() => OrderListState();
 }
 
-class _OrderListState extends State<OrderList> {
+class OrderListState extends State<OrderList> {
   fbHelper fb = fbHelper();
 
-  int? t = 0;
-  String title = '';
-  String? p;
-  String? pid;
-  String? d;
-  String? tt;
-  double? to;
-  String? appointID;
+appointment? a;
   String? aa;
-  late String description;
+
   void initState() {
     super.initState();
-    description = widget.desc;
-    t = widget.type;
-    d = widget.date;
-    tt = widget.time;
-    p = widget.pet;
-    pid = widget.petId;
-    to = widget.total;
-    appointID = widget.appointID;
-    title = (t == 0) ? "Check-Up" : "Grooming"; //here var is call and set to
+    a = widget.appoint;//here var is call and set to
   }
 
   @override
@@ -113,7 +88,7 @@ class _OrderListState extends State<OrderList> {
                       Container(
                         margin: const EdgeInsets.fromLTRB(20, 40, 20, 30),
                         child: Text(
-                          'Servise: ',
+                          'Service: ',
                           style: TextStyle(
                               color: Color(0XFF52648B),
                               fontSize: 18,
@@ -125,7 +100,7 @@ class _OrderListState extends State<OrderList> {
                       Container(
                         margin: const EdgeInsets.fromLTRB(10, 40, 20, 30),
                         child: Text(
-                          title,
+                          a!.desc!,
                           style: TextStyle(
                               color: Color(0XFF52648B),
                               fontSize: 18,
@@ -155,7 +130,7 @@ class _OrderListState extends State<OrderList> {
                       Container(
                         margin: const EdgeInsets.fromLTRB(35, 0, 20, 0),
                         child: Text(
-                          p.toString(),
+                          a!.petName.toString(),
                           style: TextStyle(
                               color: Color(0XFF52648B),
                               fontSize: 18,
@@ -185,7 +160,7 @@ class _OrderListState extends State<OrderList> {
                       Container(
                         margin: const EdgeInsets.fromLTRB(20, 30, 20, 30),
                         child: Text(
-                          tt.toString(),
+                          a!.time.toString(),
                           style: TextStyle(
                               color: Color(0XFF52648B),
                               fontSize: 18,
@@ -215,7 +190,7 @@ class _OrderListState extends State<OrderList> {
                       Container(
                         margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
                         child: Text(
-                          d.toString(),
+                          a!.date.toString(),
                           style: TextStyle(
                               color: Color(0XFF52648B),
                               fontSize: 18,
@@ -245,7 +220,7 @@ class _OrderListState extends State<OrderList> {
                       Container(
                         margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: Text(
-                          totalss(t.toString())! + '\$',
+                          totalss(a!.type)! + '\$',
                           style: TextStyle(
                               color: Color(0XFF52648B),
                               fontSize: 18,
@@ -261,65 +236,63 @@ class _OrderListState extends State<OrderList> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.fromLTRB(0, 30, 0, 80),
-            width: 193,
-            height: 73,
-            child: ElevatedButton(
+                margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                width: 193,
+                height: 73,
+                child: FlatButton(
                 onPressed: () {
-                  saveData();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => Payment()),
+                        builder: (BuildContext context) => Paymentscreen(appoint: a)),
                   );
-                },
-                child: Text('Confirm',
-                    style:
-                        TextStyle(fontStyle: FontStyle.italic, fontSize: 25)),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0XFF2F3542)),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0))),
+                }, minWidth: 200,
+                    height: 60,
+                    padding: const EdgeInsets.all(20),
+                    color: greenColor,
+                    textColor: primaryColor,
+                    child: const Text('Confirm', style:
+                        TextStyle( fontSize: 18),),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+
+
                 )),
-          ),
-        ]))));
+
+                  Container(
+                      margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      width: 193,
+                      height: 73,
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        minWidth: 200,
+                        height: 60,
+                        padding: const EdgeInsets.all(20),
+                        color: redColor,
+                        textColor: primaryColor,
+                        child: const Text('Cancel',style: TextStyle( fontSize: 18),
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+
+
+                      )),
+
+
+                ]))));
   }
 
-  String? totalss(String m) {
-    if (m == "0") {
+  String? totalss(String? m) {
+    if (m == "Check-Up") {
+      a!.total =50.0;
       aa = "50";
     } else {
-      aa = to.toString();
+      aa = a!.total.toString();
     }
     return aa;
   }
 
-  Future<void> saveData() async {
-    DocumentReference doc =
-        await FirebaseFirestore.instance.collection('appointment').add({
-      'workshiftID': appointID,
-      'service': title + ": " + description,
-      'petID': pid,
-      'petOwnerID': fb.getuser(),
-      'totalPrice': totalss(t.toString())
-    });
 
-    await FirebaseFirestore.instance
-        .collection("appointment")
-        .doc(doc.id)
-        .update({"appointmentID": doc.id});
-
-    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-        .instance
-        .collection('Work Shift')
-        .where('appointmentID', isEqualTo: appointID)
-        .get();
-
-    List<QueryDocumentSnapshot> docs = snapshot.docs;
-    for (var doc in docs) {
-      if (doc.data() != null) {
-        doc.reference.update({"status": "Booked"});
-      }
-    }
-  }
 }

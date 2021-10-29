@@ -1,7 +1,9 @@
 import 'package:MyPet/appointment_main.dart';
 import 'package:flutter/material.dart';
 import 'Appointment.dart';
+import 'appointment_object.dart';
 import 'models/global.dart';
+import 'models/notifaction_service.dart';
 import 'petOwner_main.dart';
 
 class Payment extends StatefulWidget {
@@ -13,6 +15,12 @@ class Payment extends StatefulWidget {
 
 class _PaymentState extends State<Payment> {
   GlobalKey _globalKey = navKeys.globalKey;
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +62,7 @@ class _PaymentState extends State<Payment> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               onPressed: () async {
+
                 Navigator.push(context,
                         MaterialPageRoute(builder: (_) => appointmentPage()))
                     .catchError((error) => print('Delete failed: $error'));

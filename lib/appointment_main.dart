@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'check_up.dart';
-import 'custom_checkbox.dart';
 import 'select_appt.dart';
 import 'models/global.dart';
 
@@ -69,15 +67,14 @@ class _AppoinMainState extends State<AppoinMain> {
       backgroundColor: const Color(0xFFF4E3E3),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation:0,
+        elevation: 0,
         leading: ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
 
             child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-            style: backButton ),// <-- Button color// <-- Splash color
-
+            style: backButton), // <-- Button color// <-- Splash color
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -85,28 +82,27 @@ class _AppoinMainState extends State<AppoinMain> {
           children: [
             Container(
                 child: Row(
-                  children: [
-
-                    // Container(
-                    //     margin: const EdgeInsets.fromLTRB(250, 80, 0, 0),
-                    //     child: PopupMenuButton(
-                    //       itemBuilder: (context) => [
-                    //         PopupMenuItem(
-                    //           child: Text("home"),
-                    //           value: 1,
-                    //         ),
-                    //         PopupMenuItem(
-                    //           child: Text("profile"),
-                    //           value: 2,
-                    //         ),
-                    //         PopupMenuItem(
-                    //           child: Text("logOut"),
-                    //           value: 1,
-                    //         ),
-                    //       ],
-                    //     )),
-                  ],
-                )),
+              children: [
+                // Container(
+                //     margin: const EdgeInsets.fromLTRB(250, 80, 0, 0),
+                //     child: PopupMenuButton(
+                //       itemBuilder: (context) => [
+                //         PopupMenuItem(
+                //           child: Text("home"),
+                //           value: 1,
+                //         ),
+                //         PopupMenuItem(
+                //           child: Text("profile"),
+                //           value: 2,
+                //         ),
+                //         PopupMenuItem(
+                //           child: Text("logOut"),
+                //           value: 1,
+                //         ),
+                //       ],
+                //     )),
+              ],
+            )),
             Container(
               margin: const EdgeInsets.fromLTRB(0, 50, 0, 40),
               child: Text(
@@ -121,7 +117,7 @@ class _AppoinMainState extends State<AppoinMain> {
             Container(
               margin: const EdgeInsets.fromLTRB(0, 60, 0, 40),
               width: 344,
-              height: 153,
+              height: 120,
               child: ElevatedButton(
                 onPressed: () {
                   t = 0;
@@ -138,7 +134,7 @@ class _AppoinMainState extends State<AppoinMain> {
                         fontWeight: FontWeight.bold)),
                 style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFFFF6B81)),
+                        MaterialStateProperty.all(Color(0XFFFF6B81)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0)))),
               ),
@@ -163,10 +159,24 @@ class _AppoinMainState extends State<AppoinMain> {
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                        MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
+            ),
+
+            SizedBox(
+              height: 20.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                    width: 210.0,
+                    height: 120.0,
+                    fit: BoxFit.contain,
+                    image: new AssetImage('images/image_3.png'))
+              ],
             ),
           ],
         ),

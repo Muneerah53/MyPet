@@ -41,11 +41,9 @@ class _AppointPageState extends State<appointmentPage> {
           elevation: 0,
           leading: ElevatedButton(
               onPressed: () {
-                // BottomNavigationBar navigationBar =
-                // _globalKey.currentWidget as BottomNavigationBar;
-                // navigationBar.onTap!(0);
+                BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                navigationBar.onTap!(0);
 
-              Navigator.push(context,MaterialPageRoute(builder: (_) =>ownerPage()));
               },
               child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
               style: backButton), // <-- Button color// <-- Splash color

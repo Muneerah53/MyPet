@@ -54,7 +54,7 @@ dev_dependencies:
 
 
 flutter_icons:
-  image_path: "assets/images/logo.jpeg"
+  image_path: "assets/images/logo4.png"
   android: true
   ios: true
 
@@ -88,6 +88,7 @@ flutter:
      - images/owner.png
      - images/dog.png
      - images/Add.png
+     - images/logo4.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

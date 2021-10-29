@@ -146,8 +146,10 @@ class _ResetPageState extends State<ResetPage> {
       try {
         auth.sendPasswordResetEmail(email :_email);
 
-
-        Navigator.push(context, MaterialPageRoute(builder: (_) => login()));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("We sent instructions to your email to change your password ,please check your email"),
+          backgroundColor:Colors.green,),);
+      //  Navigator.push(context, MaterialPageRoute(builder: (_) => login()));
 
 
       } on FirebaseAuthException catch (e) {
@@ -166,9 +168,7 @@ class _ResetPageState extends State<ResetPage> {
 
 
       }
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //   content: Text("check your email"),
-      //   backgroundColor:Colors.green,),);
+
     }
   }
 }

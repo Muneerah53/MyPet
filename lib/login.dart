@@ -1,5 +1,8 @@
+import 'dart:developer';
 import 'package:MyPet/petOwner_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'admin_screen.dart';
 import 'register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +11,8 @@ import 'package:email_validator/email_validator.dart';
 import 'admin_main.dart';
 import 'petOwner_main.dart';
 import 'resetPassword.dart';
-void main() {
+
+Future<void> main() async {
   runApp(login());
 }
 
@@ -31,16 +35,14 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = new GlobalKey<FormState>();
   String _email = '';
   String _password = '';
-
   bool validatePassword(String value) {
     //Pattern pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
-    RegExp regex = new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+    RegExp regex = new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[!@#\$&*~]).{8,}$');
     if (!regex.hasMatch(value))
       return true;
     else
       return false;
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,11 +88,7 @@ class _LoginPageState extends State<LoginPage> {
         validator: (value) {
           if (value!.isEmpty) {
             return 'Email must not be empty';
-          }
-          else if (EmailValidator.validate(value.trim())) {
-            return null;
-          }
-          else if (EmailValidator.validate(value))
+          } else if (EmailValidator.validate(value))
             return null;
           else
             return "Please enter a valid email";
@@ -117,15 +115,15 @@ class _LoginPageState extends State<LoginPage> {
             if (Value == null || Value.isEmpty) {
               return 'Password must not be empty';
             }else if (validatePassword(Value))
-              return 'Must be at least 8 characters and should contain at least a small letter,a capital letter,and a number';
+              return 'Must be at least 8 characters and should contain a small letter,a capital letter,and a special character';
             return null;
           },
-
           onSaved: (Value) => _password = Value!,
         ),
       )
     ];
   }
+
   List<Widget> buildSubmitButtons() {
     return [
       Row (
@@ -162,6 +160,7 @@ class _LoginPageState extends State<LoginPage> {
       SizedBox(
         height: 15,
       ),
+
       // Text(
       //   "OR",
       //   style: TextStyle(
@@ -169,32 +168,33 @@ class _LoginPageState extends State<LoginPage> {
       //     color: Colors.blueGrey,
       //   ),
       // ),
+        SizedBox(height: 13,),
+    Row(
+    mainAxisAlignment :MainAxisAlignment.center ,
+    children :[
+    Text('Dont Have An Accont Yet ?',
+    style: TextStyle(color: Colors.blueGrey, fontSize: 15)),
 
-      SizedBox(height: 13,),
-      Row(
-          mainAxisAlignment :MainAxisAlignment.center ,
-          children :[
-            Text('Dont Have An Accont Yet ?',
-                style: TextStyle(color: Colors.blueGrey, fontSize: 15)),
+    TextButton(
+    child: Text(
+    "SignUp",
+    style: TextStyle(
+    fontSize: 15.0,
+    color: Colors.redAccent,
+    ),
+    ),
+    onPressed: () {
+    //  Navigator.push(
+    Navigator.push(context, MaterialPageRoute(builder: (_) => register()));
 
-            TextButton(
-              child: Text(
-                "SignUp",
-                style: TextStyle(
-                  fontSize: 15.0,
-                  color: Colors.redAccent,
-                ),
-              ),
-              onPressed: () {
-                //  Navigator.push(
-                Navigator.push(context, MaterialPageRoute(builder: (_) => register()));
-
-              },
-            ),
-          ]
-      )
+    },
+    ),
+    ]
+    )
     ];
   }
+
+
   bool validateAndSave() {
     final form = _formKey.currentState;
     if (form!.validate()) {
@@ -203,17 +203,21 @@ class _LoginPageState extends State<LoginPage> {
     }
     return false;
   }
+
   void validateAndSubmit() async {
     if (validateAndSave()) {
       try {
-        if(_email.contains("@admin.com")){
-          final UserCredential authResult = (await FirebaseAuth.instance
-              .signInWithEmailAndPassword(email: _email, password: _password));
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => managerPage()));
-        }else{
-          final UserCredential authResult = (await FirebaseAuth.instance
-              .signInWithEmailAndPassword(email: _email, password: _password));
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => mainPage()));
+        final UserCredential authResult = (await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: _email, password: _password));
+        String uid = authResult.user!.uid;
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('uid', uid);
+        if (_email.contains("@admin.com")) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => managerPage()));
+        } else {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => mainPage()));
         }
       } on FirebaseAuthException catch (e) {
         String msgError = "";

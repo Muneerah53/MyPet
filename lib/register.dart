@@ -62,7 +62,7 @@ class Home extends State<homereg> {
   final _auth = FirebaseAuth.instance;
   bool validatePassword(String value) {
     //Pattern pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
-    RegExp regex = new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+    RegExp regex = new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[!@#\$&*~]).{8,}$');
     if (!regex.hasMatch(value))
       return true;
     else
@@ -244,7 +244,7 @@ class Home extends State<homereg> {
                             if (Value == null || Value.isEmpty) {
                               return 'Password must not be empty';
                             }else if (validatePassword(Value))
-                              return 'Must be at least 8 characters and should contain at least a small letter,a capital letter,and a number';
+                              return 'Must be at least 8 characters and should contain a small letter,a capital letter,and a special character';
                             return null;
                           },
                           decoration: InputDecoration(

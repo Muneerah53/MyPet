@@ -1,5 +1,6 @@
 // import 'dart:developer';
 import 'package:MyPet/appointment/appointment_model.dart';
+import 'package:MyPet/models/notifaction_service.dart';
 import 'appointment_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class _AppointmentTileState extends State<AppointmentTile> {
         .delete()
         .then((value) async {
       // log("delete");
+      NotificationService.cancel(widget.appointmentModel.appointmentUID.hashCode);
       await FirebaseFirestore.instance
           .collection('Work Shift')
           .doc(widget.appointmentModel.workshiftID)

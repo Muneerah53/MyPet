@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../appointment_object.dart';
+import 'notifaction_service.dart';
 
 class fbHelper {
 
@@ -35,6 +36,13 @@ class fbHelper {
         .collection("appointment")
         .doc(doc.id)
         .update({"appointmentID": doc.id});
+
+    NotificationService.showScheduledNotifaction(
+        id: doc.id.hashCode,
+        title: 'Reminder',
+        t: a!.getStart()
+    );
+
 
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance

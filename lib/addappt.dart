@@ -510,8 +510,8 @@ class appointmentFormState extends State<appointmentForm> {
                                     null
                                         : "There must be $selectedTime difference between end and start time";
 
-                                //    if(_startTime.hour < 9 || _startTime.hour>21 || _endTime.hour < 9 || _endTime.hour>21)
-                                     //  return ('Time is not within working hours (9:00 - 21:00)');
+                                 if(_startTime.hour < 9 || _startTime.hour>21 || _endTime.hour < 9 || _endTime.hour>21)
+                                   return ('Time is not within working hours (9:00 - 21:00)');
                                     },
                                     enabled: false,
                                     textAlign: TextAlign.left,

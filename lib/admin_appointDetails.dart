@@ -105,7 +105,8 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                                   textAlign: TextAlign.left,
                                 ),
                               ),
-                             Expanded(child: Container(
+                             Expanded(
+                               child: Container(
                                margin: const EdgeInsets.fromLTRB(10, 40, 20, 5),
                                child: Text(
                                  snapshot.data!.docs[0]['service'].toString(),

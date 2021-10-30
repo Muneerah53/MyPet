@@ -97,18 +97,23 @@ appointment? a;
                           textAlign: TextAlign.right,
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(10, 40, 20, 30),
-                        child: Text(
-                          a!.desc!,
-                          style: TextStyle(
-                              color: Color(0XFF52648B),
-                              fontSize: 18,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
+
+                      Expanded(
+                        child:  Container(
+                          margin: const EdgeInsets.fromLTRB(10, 40, 20, 30),
+                          child: Text(
+                            a!.desc!,
+                            maxLines: 5,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: Color(0XFF52648B),
+                                fontSize: 18,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),),
+
                     ],
                   ),
                 ),

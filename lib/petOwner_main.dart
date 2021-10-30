@@ -89,23 +89,11 @@ class _PetPageState extends State<ownerPage> {
                         width: 140.0,
                         height: 120.0,
                         fit: BoxFit.contain,
-                        image: new AssetImage('images/image_2.png'))
-                    ,TextButton(
-                      child: Text('Send Notifaction'),
-                      onPressed: (){
-                        NotificationService.showNotifaction(
-                          title: 'Appointment Confirmed',
-                          body: 'Your appointment has been succesfully confirnmed.',
-                      );
+                        image: new AssetImage('images/image_2.png')),
 
-                        NotificationService.showScheduledNotifaction(
-                          title: 'Reminder',
-                          body: 'Your appointment has been succesfully confirnmed.',
-                          t: DateTime.now().add(Duration(hours: 1, minutes: 10))
-                        );
-                        },
+                   ]
 
-                    )
+                    ),
 
                   ],
 
@@ -123,7 +111,7 @@ class _PetPageState extends State<ownerPage> {
                         ),
 
                       ),],),*/
-                   ],),
+
 
 
                         Row(

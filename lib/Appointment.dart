@@ -79,7 +79,7 @@ class _AppointPageState extends State<appointmentPage> {
                 SizedBox(height: 40),
                 Container(
                   width: 344,
-                  height: 153,
+                  height: 120,
                   child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -103,7 +103,7 @@ class _AppointPageState extends State<appointmentPage> {
                 SizedBox(height: 40),
                 Container(
                   width: 344,
-                  height: 153,
+                  height: 120,
                   child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -129,7 +129,7 @@ class _AppointPageState extends State<appointmentPage> {
                 SizedBox(height: 40),
                 Container(
                   width: 344,
-                  height: 153,
+                  height: 120,
                   child: ElevatedButton(
                       onPressed: () {
 

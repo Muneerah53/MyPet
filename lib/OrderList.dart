@@ -74,7 +74,7 @@ appointment? a;
           ),
           Container(
             margin: const EdgeInsets.fromLTRB(25, 10, 25, 70),
-            height: 350,
+            height: 500,
             width: double.infinity,
             decoration: new BoxDecoration(
               color: Color(0xffF4F4F4),
@@ -237,53 +237,54 @@ appointment? a;
                     ],
                   ),
                 ),
+                Container(
+                    margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    width: 193,
+                    height: 73,
+                    child: FlatButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => Paymentscreen(appoint: a)),
+                        );
+                      }, minWidth: 200,
+                      height: 60,
+                      padding: const EdgeInsets.all(20),
+                      color: greenColor,
+                      textColor: primaryColor,
+                      child: const Text('Pay', style:
+                      TextStyle( fontSize: 18),),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+
+
+                    )),
+
+                Container(
+                    margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    width: 193,
+                    height: 73,
+                    child: FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      minWidth: 200,
+                      height: 60,
+                      padding: const EdgeInsets.all(20),
+                      color: redColor,
+                      textColor: primaryColor,
+                      child: const Text('Cancel',style: TextStyle( fontSize: 18),
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+
+
+                    )),
               ],
             ),
           ),
-          Container(
-                margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                width: 193,
-                height: 73,
-                child: FlatButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => Paymentscreen(appoint: a)),
-                  );
-                }, minWidth: 200,
-                    height: 60,
-                    padding: const EdgeInsets.all(20),
-                    color: greenColor,
-                    textColor: primaryColor,
-                    child: const Text('Confirm', style:
-                        TextStyle( fontSize: 18),),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
 
-
-                )),
-
-                  Container(
-                      margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      width: 193,
-                      height: 73,
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        minWidth: 200,
-                        height: 60,
-                        padding: const EdgeInsets.all(20),
-                        color: redColor,
-                        textColor: primaryColor,
-                        child: const Text('Cancel',style: TextStyle( fontSize: 18),
-                        ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-
-
-                      )),
 
 
                 ]))));

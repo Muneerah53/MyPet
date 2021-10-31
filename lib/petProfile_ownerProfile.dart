@@ -63,26 +63,27 @@ class pet extends StatelessWidget {
             onPressed: () {
               //BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
               //navigationBar.onTap!(3);
-           Navigator.push(context,MaterialPageRoute(builder: (_) =>Profile()));
-
+              Navigator.of(context).pop();
             },
 
             child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
             style: backButton ),// <-- Button color// <-- Splash color
 
       ),
+
+
       body: Stack(
 
 
         children: <Widget>[
-
           Container(
-            //  padding: EdgeInsets.only(bottom: 380,),
+         //  padding: EdgeInsets.only(bottom: 380,),
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('pets').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
                   return ListView.builder(
+                    primary: false,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>
                     //card pets method
@@ -90,12 +91,12 @@ class pet extends StatelessWidget {
                   );
                 }
             ),
-          ),
-
+            ),
 
 
           Container(
-            padding: EdgeInsets.only(top: 200, left: 20, right: 20),
+            padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 200, right: 25),
+            height: 1000,
 
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('pets')
@@ -103,6 +104,9 @@ class pet extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
                   return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>
                     //card pets method
@@ -110,11 +114,11 @@ class pet extends StatelessWidget {
                   );
                 }
             ),
+
           ),
 
-        ], ),);
+            ], ),);
   }
-
 
   Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
 
@@ -124,10 +128,9 @@ class pet extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0)),
         child: Container(
 
-          padding: EdgeInsets.only(left: 20, top: 20),
-
+          padding: EdgeInsets.only(left: 20),
           width: 250,
-          height: 380,
+          height: 350,
 
           //i dont know why this cammand does not work
           decoration: BoxDecoration(
@@ -154,7 +157,7 @@ class pet extends StatelessWidget {
                   ),),
 
                 Container(
-                  margin: EdgeInsets.only(left: 15,right: 15,bottom: 60),
+                  margin: EdgeInsets.only(left: 15,right: 15,bottom: 40),
                 ),
 
 

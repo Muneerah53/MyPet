@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login.dart';
-
-import 'Payment.dart';
 import 'models/global.dart';
 import 'petProfile_ownerProfile.dart';
 import 'editOwnerProfile.dart';

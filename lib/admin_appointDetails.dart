@@ -45,17 +45,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
         body: SingleChildScrollView(
             child: Center(
                 child: Column(children: [
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                    child: Text(
-                      'Appointment Details',
-                      style: TextStyle(
-                          color: Color(0XFFFF6B81),
-                          fontSize: 34,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
+
 
                   Container(
                     margin: const EdgeInsets.fromLTRB(25, 10, 25, 10),
@@ -92,9 +82,31 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                       children: [
                         Container(
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                margin: const EdgeInsets.fromLTRB(20, 40, 10, 5),
+                                margin: const EdgeInsets.fromLTRB(20, 30, 20, 10),
+
+                                child: Text('Appointment Details',
+                                  style: TextStyle(
+                                      color: Color(0XFFFF6B81),
+                                      fontSize: 20,
+
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
+
+                        Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
                                   'Service:',
                                   style: TextStyle(
@@ -126,9 +138,11 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                           child: Row(
                             children: [
                               Container(
-                                margin: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+                                margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
                                   'Employee: ',
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -155,9 +169,9 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                           child: Row(
                             children: [
                               Container(
-                                margin: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+                                margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
-                                  'Pet Owner Name: ',
+                                  'Pet Owner: ',
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -169,6 +183,8 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                                 margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
                                   details[2].toString(),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -183,7 +199,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                           child: Row(
                             children: [
                               Container(
-                                margin: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+                                margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
                                   'Date:',
                                   style: TextStyle(
@@ -211,7 +227,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                           child: Row(
                             children: [
                               Container(
-                                margin: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+                                margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
                                   'Time:',
                                   style: TextStyle(
@@ -224,7 +240,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
-                                  details[4].toString()+"-"+ details[5].toString(),
+                                  details[4].toString()+"-"+ details[6].toString(),
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -269,7 +285,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                         mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                                margin: const EdgeInsets.fromLTRB(20, 50, 20, 10),
 
                                   child: Text('Pet Information:',
                                   style: TextStyle(

@@ -183,6 +183,7 @@ String _selectedEmp='';
     bool newDr = _selectedEmp == '';
     String btnTxt = newDr ? 'Add' : 'Update';
     return  showDialog(
+        useRootNavigator: false,
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
@@ -250,8 +251,8 @@ crossAxisAlignment: CrossAxisAlignment.center,
 
                           validator: (value) => value!.isEmpty
                               ? 'Enter ID'
-                              : value.length > 3
-                              ? 'ID must be 3 digits or less'
+                              : value.length != 3
+                              ? 'ID must be 3 digits'
                               : null,
 
                           onChanged: (String value) {
@@ -285,7 +286,7 @@ crossAxisAlignment: CrossAxisAlignment.center,
 
                           validator: (value) => value!.isEmpty
                               ? 'Enter Name'
-                              : value.length < 3
+                              : value.length  <3
                               ? 'Name must be 3 letters or more'
                               : (nameRegExp.hasMatch(value)
                               ? 'Enter a Valid Name'
@@ -420,10 +421,13 @@ crossAxisAlignment: CrossAxisAlignment.center,
                         ElevatedButton(
                           child: Text("$btnTxt",
                               style:
-                              TextStyle(fontSize: 18)),
+                              TextStyle(
+                                  color: primaryColor,
+                                  fontSize: 18)),
                             style: ButtonStyle(
+                              elevation:   MaterialStateProperty.all(0),
                               backgroundColor:
-                              MaterialStateProperty.all(Color(0XFF2F3542)),
+                              MaterialStateProperty.all(greenColor),
                               shape: MaterialStateProperty.all(RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20.0))),
                             ),
@@ -435,16 +439,13 @@ crossAxisAlignment: CrossAxisAlignment.center,
                               else speciality=selectedType.toString();
 
                               if(newDr) {
-                                if(saveDr(_name,speciality,selectedWork)==true)
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text("New Employee is added successfully"),
-                                    backgroundColor:Colors.green,),);
-                                else
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text("Employee with the same id already exists."),
-                                    backgroundColor:Colors.green,),);
+                                if(saveDr(_name,speciality,selectedWork)==true);
+                                //  _showSnack("New Employee is added successfully", false);
+
+
                               }
-                              else await updateDr(_name, speciality);
+                              else if ((updateDr(_name, speciality))==true)
+   _showSnack("Employee is updated successfully", false);
 
                               Navigator.of(context).pop();
                             }
@@ -461,17 +462,21 @@ crossAxisAlignment: CrossAxisAlignment.center,
                               ElevatedButton(
                                 child: Text("Delete",
                                     style:
-                                    TextStyle(fontSize: 18)),
+                                    TextStyle(                                color: primaryColor, fontSize: 18)
+
+                                ),
                                 style: ButtonStyle(
+                                  elevation:   MaterialStateProperty.all(0),
                                   backgroundColor:
-                                  MaterialStateProperty.all(Colors.red),
+                                  MaterialStateProperty.all(redColor),
                                   shape: MaterialStateProperty.all(
                                       RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
                                               20.0))),
                                 ),
                                 onPressed: () async {
-                                   deleteDr();
+                                  if (deleteDr()==false);
+
 
                                   Navigator.of(context).pop();
                                 },
@@ -506,6 +511,7 @@ firestoreInstance
     });
 cal.updateName(_id,_name);
 reset();
+_showSnack("Employee is updated successfully", false);
   }
 
 
@@ -519,7 +525,9 @@ reset();
     List<QueryDocumentSnapshot> docs = snapshot.docs;
 
 
-  if(docs.isNotEmpty)   return Future<bool>.value(false);
+  if(docs.isNotEmpty)   {
+    _showSnack("Employee with the same id already exists.", true);
+  return Future<bool>.value(false);}
 
   await firestoreInstance.collection(
       "Employee").add(
@@ -530,12 +538,13 @@ reset();
         "specialty": type
       });
     reset();
+    _showSnack("New Employee is added successfully", false);
     return Future<bool>.value(true);
 
 
   }
 
-  Future<void> deleteDr() async {
+  Future<bool> deleteDr() async {
     print(_selectedEmp);
     firestoreInstance.collection("Employee").doc(_selectedEmp).delete();
 
@@ -548,13 +557,8 @@ reset();
     for (var doc in docs) {
       if (doc.data() != null) {
         if(doc['status']=='Booked'){
-await firestoreInstance.collection('Work Shift').where('workshiftID''', isEqualTo: doc.id).get().then((value) {
-            for (var d in value.docs)
-              d.reference.delete();
-          }
-              );
-
-
+          _showSnack("Employee has booked appointments and cannot be deleted.", true);
+          return Future<bool>.value(false);
         }
 
         doc.reference.delete();
@@ -570,12 +574,20 @@ await firestoreInstance.collection('Work Shift').where('workshiftID''', isEqualT
     cal.events.notifyListeners(CalendarDataSourceAction.reset,cal.events.appointments!);
 
     reset();
-
+ _showSnack("Employee is deleted successfully", false);
+    return Future<bool>.value(true);
   }
 
   void reset() {
     _name=_selectedEmp=_id='';
     selectedWork=selectedType=null;
+  }
+
+  void _showSnack(String msg, bool error) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+      backgroundColor: error ? Colors.red : Colors.green,),);
+    reset();
   }
 
 

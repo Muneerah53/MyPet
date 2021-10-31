@@ -510,8 +510,8 @@ class appointmentFormState extends State<appointmentForm> {
                                     null
                                         : "There must be $selectedTime difference between end and start time";
 
-                                 if(_startTime.hour < 9 || _startTime.hour>21 || _endTime.hour < 9 || _endTime.hour>21)
-                                   return ('Time is not within working hours (9:00 - 21:00)');
+                                if(_startTime.hour < 9 || _startTime.hour>21 || _endTime.hour < 9 || _endTime.hour>21)
+                                  return ('Time is not within working hours (9:00 - 21:00)');
                                     },
                                     enabled: false,
                                     textAlign: TextAlign.left,
@@ -584,6 +584,54 @@ class appointmentFormState extends State<appointmentForm> {
 
                 Row(
                   children: <Widget>[
+
+                    if(_selectedAppointment != null)
+                      Align(
+                          alignment: Alignment.bottomRight,
+                          heightFactor: 1.5,
+                          child:
+
+                          FloatingActionButton(
+                            backgroundColor: const Color(0xFF9C4350),
+                            foregroundColor: Colors.white,
+                            mini: true,
+
+                            onPressed: () async {
+                              firestoreInstance.collection("Work Shift").doc(
+                                  _selectedAppointment!.id).snapshots().listen((
+                                  docSnapshot) {
+                                if (docSnapshot.exists) {
+                                  Map<String, dynamic>? data = docSnapshot.data();
+
+                                  if (data?['status'] == 'Available') {
+                                    firestoreInstance.collection("Work Shift")
+                                        .doc(_selectedAppointment!.id)
+                                        .delete();
+                                    events.appointments!.removeAt(
+                                        events.appointments!
+                                            .indexOf(_selectedAppointment));
+                                    events.notifyListeners(
+                                        CalendarDataSourceAction.remove,
+                                        <Appointment>[]
+                                          ..add(_selectedAppointment!));
+                                    _selectedAppointment = null;
+                                    Navigator.pop(context);
+                                  }
+                                  else {
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content: Text(
+                                          "Appointment is already booked and cannot be deleted."),
+                                      backgroundColor: Theme.of(context).errorColor,
+                                    ));
+                                  }
+                                }
+                              });
+                            },
+                            child: Icon(Icons.delete),
+                          )
+                      ),
+
+
                     Align(
                         alignment: Alignment.bottomRight,
                         heightFactor: 1.5,
@@ -755,51 +803,7 @@ class appointmentFormState extends State<appointmentForm> {
                           child: Icon(Icons.check),
                         )
                     ),
-                if(_selectedAppointment != null)
-                  Align(
-                      alignment: Alignment.bottomRight,
-                      heightFactor: 1.5,
-                      child:
 
-                      FloatingActionButton(
-                        backgroundColor: const Color(0xFF9C4350),
-                        foregroundColor: Colors.white,
-                        mini: true,
-
-                        onPressed: () async {
-                          firestoreInstance.collection("Work Shift").doc(
-                              _selectedAppointment!.id).snapshots().listen((
-                              docSnapshot) {
-                            if (docSnapshot.exists) {
-                              Map<String, dynamic>? data = docSnapshot.data();
-
-                              if (data?['status'] == 'Available') {
-                                firestoreInstance.collection("Work Shift")
-                                    .doc(_selectedAppointment!.id)
-                                    .delete();
-                                events.appointments!.removeAt(
-                                    events.appointments!
-                                        .indexOf(_selectedAppointment));
-                                events.notifyListeners(
-                                    CalendarDataSourceAction.remove,
-                                    <Appointment>[]
-                                      ..add(_selectedAppointment!));
-                                _selectedAppointment = null;
-                                Navigator.pop(context);
-                              }
-                              else {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text(
-                                      "Appointment is already booked and cannot be deleted."),
-                                  backgroundColor: Theme.of(context).errorColor,
-                                ));
-                              }
-                            }
-                          });
-                        },
-                        child: Icon(Icons.delete),
-                      )
-                  )
      ] )
               ],
 

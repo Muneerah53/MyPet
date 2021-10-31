@@ -78,13 +78,13 @@ class pet extends StatelessWidget {
 
         children: <Widget>[
           Container(
-            //  padding: EdgeInsets.only(bottom: 380,),
+           // padding: EdgeInsets.only(bottom: 380,),
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('pets').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
                   return ListView.builder(
-                    primary: false,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>
                     //card pets method
@@ -96,7 +96,7 @@ class pet extends StatelessWidget {
 
 
           Container(
-            padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 200, right: 25),
+            padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 180, right: 35),
             height: 1000,
 
             child: StreamBuilder<QuerySnapshot>(
@@ -105,9 +105,7 @@ class pet extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
                   return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>
                     //card pets method
@@ -129,8 +127,7 @@ class pet extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0)),
         child: Container(
 
-          padding: EdgeInsets.only(left: 20, top: 20),
-
+          padding: EdgeInsets.only(left: 20),
           width: 250,
           height: 380,
 
@@ -151,15 +148,15 @@ class pet extends StatelessWidget {
 
                   child: ListTile(
                     title: Text(
-                        "name:  " + document['name'] + "\nspecies:  " +
-                            document['species'] + "\ngender:  " +
-                            document['gender'] + "\nbirth date:  " +
+                        "\nName:  " + document['name'] + "\nSpecies:  " +
+                            document['species'] + "\nGender:  " +
+                            document['gender'] + "\nBirth date:  " +
                             document['birthDate'] , style: petCardTitleStyle),
 
                   ),),
 
                 Container(
-                  margin: EdgeInsets.only(left: 15,right: 15,bottom: 60),
+                  margin: EdgeInsets.only(left: 15,right: 15,bottom: 40),
                 ),
 
 
@@ -179,6 +176,7 @@ class pet extends StatelessWidget {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (_) => editPet(document)))
                         .catchError((error) => print('Delete failed: $error'));
+
                   }
                   ,
 
@@ -231,7 +229,7 @@ class pet extends StatelessWidget {
         backgroundImage: new AssetImage(img),
       ),),
         Container(
-          padding: EdgeInsets.only(bottom: 350),
+          padding: EdgeInsets.only(bottom: 600),
 
             child: Text(
               'Pet Information', style: TextStyle(
@@ -265,17 +263,37 @@ class pet extends StatelessWidget {
           actions: <Widget>[
             FlatButton(
               child: Text("YES"),
-              onPressed: () {
-                document.reference.delete().then((_){
+              onPressed: () async {
+        FirebaseFirestore firestoreInstance= FirebaseFirestore.instance;
 
-                Navigator.pop(context, true);
-        }   );
+        QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
+            .collection('appointment')
+            .where('petID', isEqualTo: document.id)
+            .get();
 
-               // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
-                //Put your code here which you want to execute on Yes button click.
+        if(snapshot.docs.length==0){
+        document.reference.delete().then((_) {
+        Navigator.pop(context, true);
+        });}
+        else{   Navigator.pop(context, false); }
 
-              },
-            ),
+        /*
+        for (var doc in docs) {
+        if (doc.data() != null) {
+        if(doc['status']=='Booked'){
+        await firestoreInstance.collection('Work Shift').where('workshiftID''', isEqualTo: doc.id).get().then((value) {
+        for (var d in value.docs)
+        d.reference.delete();
+        }
+        );
+*/
+
+
+                      // Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets())) .catchError((error) => print('Delete failed: $error'));;
+                      //Put your code here which you want to execute on Yes button click.
+
+
+                    }),
 
 
             FlatButton(

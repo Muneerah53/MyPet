@@ -63,7 +63,7 @@ appointment? a;
             margin: const EdgeInsets.fromLTRB(20, 20, 0, 30),
             alignment: Alignment.topLeft,
             child: Text(
-              'Appointments',
+              'Appointment Details:',
               style: TextStyle(
                   color: Color(0XFF52648B),
                   fontSize: 24,
@@ -110,7 +110,7 @@ appointment? a;
                                 fontSize: 18,
                                 fontStyle: FontStyle.italic,
                                 fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.right,
+                            textAlign: TextAlign.left,
                           ),
                         ),),
 

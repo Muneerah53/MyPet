@@ -76,29 +76,28 @@ class pet extends StatelessWidget {
       ),
       body: Stack(
 
+        children: <Widget>[
+          Container(
+            //  padding: EdgeInsets.only(bottom: 380,),
+            child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('pets').snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const Text('loading');
+                  return ListView.builder(
+                    primary: false,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) =>
+                    //card pets method
+                    _buildPicCard(context, (snapshot.data!).docs[index]),
+                  );
+                }
+            ),
+          ),
 
-children: <Widget>[
 
           Container(
-        //  padding: EdgeInsets.only(bottom: 380,),
-          child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('pets').snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return const Text('loading');
-                return ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) =>
-                  //card pets method
-                  _buildPicCard(context, (snapshot.data!).docs[index]),
-                );
-              }
-          ),
-        ),
-
-
-
-    Container(
-        padding: EdgeInsets.only(top: 200, left: 20, right: 20),
+            padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 200, right: 25),
+            height: 1000,
 
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('pets')
@@ -106,6 +105,9 @@ children: <Widget>[
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
                   return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>
                     //card pets method
@@ -113,11 +115,11 @@ children: <Widget>[
                   );
                 }
             ),
+
           ),
 
-           ], ),);
+        ], ),);
   }
-
 
   Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
 

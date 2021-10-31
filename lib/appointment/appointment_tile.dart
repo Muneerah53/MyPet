@@ -95,31 +95,35 @@ class _AppointmentTileState extends State<AppointmentTile> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(4.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        updateAppoitment();
-                      },
-                      child: Text('Update'),
-                      style: ElevatedButton.styleFrom(
-                          shape: StadiumBorder(),
-                          primary:Color(0xff313540),
-                          textStyle: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold)),
-                    ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          updateAppoitment();
+                        },
+                        child: Text('Update'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xFFE7F2EC),//change background color of button
+                          onPrimary: Colors.black,//change text color of button
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          elevation: 15.0,
+                        ),)
                   ),
                   Padding(
                     padding: const EdgeInsets.all(4.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        delAppoitment();
-                      },
-                      child: Text('Cancel'),
-                      style: ElevatedButton.styleFrom(
-                          shape: StadiumBorder(),
-                          primary: Color(0xff313540),
-                          textStyle: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold)),
-                    ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          delAppoitment();
+                        },
+                        child: Text('Cancel'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xFFF3BFBD),//change background color of button
+                          onPrimary: Colors.black,//change text color of button
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          elevation: 15.0,
+                        ),)
                   )
                 ],
               )

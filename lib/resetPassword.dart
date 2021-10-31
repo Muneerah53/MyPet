@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:MyPet/petOwner_screen.dart';
 import 'package:flutter/material.dart';
 import 'admin_screen.dart';
@@ -9,6 +11,7 @@ import 'admin_main.dart';
 import 'petOwner_main.dart';
 import 'login.dart';
 import 'models/global.dart';
+
 void main() {
   runApp(Reset());
 }
@@ -31,8 +34,7 @@ class Reset extends StatelessWidget {
 class _ResetPageState extends State<ResetPage> {
   final _formKey = new GlobalKey<FormState>();
   String _email = '';
-  final auth = FirebaseAuth.instance ;
-
+  final auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +43,14 @@ class _ResetPageState extends State<ResetPage> {
       backgroundColor: Color(0xFFF4E3E3),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation:0,
+        elevation: 0,
         leading: ElevatedButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => login()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => login()));
             },
-
             child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-            style: backButton ),// <-- Button color// <-- Splash color
-
+            style: backButton), // <-- Button color// <-- Splash color
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -92,9 +93,7 @@ class _ResetPageState extends State<ResetPage> {
         validator: (value) {
           if (value!.isEmpty) {
             return 'Email must not be empty';
-          }
-          else
-          if (EmailValidator.validate(value.replaceAll(" ", "")))
+          } else if (EmailValidator.validate(value.replaceAll(" ", "")))
             return null;
           else
             return "Please enter a valid email";
@@ -103,18 +102,17 @@ class _ResetPageState extends State<ResetPage> {
       ),
     ];
   }
+
   List<Widget> buildSubmitButtons() {
     return [
-
       SizedBox(height: 80),
       Container(
         height: 60,
         width: 200,
         decoration: BoxDecoration(
             color: Color(0xff313540), borderRadius: BorderRadius.circular(16)),
-        child:
-        TextButton(
-          onPressed: validateAndSubmit ,
+        child: TextButton(
+          onPressed: validateAndSubmit,
           child: Text(
             'Reset password',
             style: TextStyle(color: Colors.white, fontSize: 20),
@@ -133,6 +131,7 @@ class _ResetPageState extends State<ResetPage> {
       // ),
     ];
   }
+
   bool validateAndSave() {
     final form = _formKey.currentState;
     if (form!.validate()) {
@@ -141,18 +140,19 @@ class _ResetPageState extends State<ResetPage> {
     }
     return false;
   }
+
   void validateAndSubmit() async {
     if (validateAndSave()) {
-      try {
-        auth.sendPasswordResetEmail(email :_email);
-
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("We sent instructions to your email to change your password ,please check your email"),
-          backgroundColor:Colors.green,),);
-      //  Navigator.push(context, MaterialPageRoute(builder: (_) => login()));
-
-
-      } on FirebaseAuthException catch (e) {
+      auth.sendPasswordResetEmail(email: _email).then((authResult) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                "We sent instructions to your email to change your password ,please check your email"),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }).catchError((e, stackTrace) {
+        log("on error: ${e.code}");
         String msgError = "";
         if (e.code == 'user-not-found') {
           msgError = "No user found for that email ";
@@ -165,10 +165,7 @@ class _ResetPageState extends State<ResetPage> {
           content: Text(msgError),
           backgroundColor: Theme.of(context).errorColor,
         ));
-
-
-      }
-
+      });
     }
   }
 }

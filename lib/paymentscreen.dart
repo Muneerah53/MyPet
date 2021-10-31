@@ -53,11 +53,6 @@ String _loadHTML(){
                   body: 'Your appointment has been confirmed.');
 
 
-              NotificationService.showScheduledNotifaction(
-                  title: 'Reminder',
-                  t: a!.getStart()
-              );
-
               Navigator.push(context, MaterialPageRoute(builder: (context)=> Payment()));
             }
             if(url.contains('/cancel')) {

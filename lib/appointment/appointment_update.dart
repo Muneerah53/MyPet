@@ -245,18 +245,17 @@ class _AppointmentUpdateState extends State<AppointmentUpdate> {
                             onPressed: () async {
                               await saveData();
                             },
-                            child: Text('Edit My Appointment',
-                                style: TextStyle(
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
+                            child: const Text('Edit',
+                              style: TextStyle( color:Colors.black,
+                                  fontSize: 18),
+                            ),
                             style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all(Colors.blue[100]),
+                              MaterialStateProperty.all(Color(0xFFE7F2EC)),
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                       borderRadius:
-                                          BorderRadius.circular(20.0))),
+                                      BorderRadius.circular(12))),
                             )),
                       ),
                     ),
@@ -269,18 +268,17 @@ class _AppointmentUpdateState extends State<AppointmentUpdate> {
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: Text('Cancel',
-                                style: TextStyle(
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
+                            child: const Text('Cancel',
+                              style: TextStyle( color:Colors.black,
+                                  fontSize: 18),
+                            ),
                             style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all(Colors.red[100]),
+                              MaterialStateProperty.all(Color(0xFFF3BFBD)),
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                       borderRadius:
-                                          BorderRadius.circular(20.0))),
+                                      BorderRadius.circular(12))),
                             )),
                       ),
                     ),

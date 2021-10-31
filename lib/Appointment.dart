@@ -34,7 +34,7 @@ class _AppointPageState extends State<appointmentPage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-        backgroundColor: Colors.red[50],
+        backgroundColor: const Color(0xFFF4E3E3),
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,

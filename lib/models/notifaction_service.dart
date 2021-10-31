@@ -17,6 +17,7 @@ class NotificationService {
 
   static Future showNotifaction({int id=0, String? title, String? body}) async
   {
+
     _notifactions.show(
         id,
         title,
@@ -29,10 +30,10 @@ class NotificationService {
   }
 
 
-  static Future showScheduledNotifaction({int id=0, String? title, String? body, DateTime? t}) async
+  static Future showScheduledNotifaction({int? id, String? title, String? body, DateTime? t}) async
   {
     _notifactions.zonedSchedule(
-        id,
+        id!,
         title,
         'Your Appointment is in 1 hour.',
         tz.TZDateTime.from(t!.subtract(const Duration(minutes: 60)),tz.local),
@@ -40,6 +41,12 @@ class NotificationService {
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
 
+
+  }
+
+  static Future cancel(int id) async
+  {
+    _notifactions.cancel(id);
 
   }
 
@@ -57,6 +64,9 @@ class NotificationService {
 
 
   }
+
+
+
 
 
 }

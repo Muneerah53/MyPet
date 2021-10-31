@@ -40,7 +40,7 @@ class fbHelper {
     NotificationService.showScheduledNotifaction(
         id: doc.id.hashCode,
         title: 'Reminder',
-        t: a!.getStart()
+        t: a.getStart()
     );
 
 

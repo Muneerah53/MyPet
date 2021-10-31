@@ -234,6 +234,7 @@ class AdminAppointmentsState extends State<AdminAppointments> {
     fb.appointments()
         .get().then((QuerySnapshot data) async {
       for (var doc in data.docs) {
+        bool e = false;
         String workshiftID =  doc['workshiftID'];
         String petOwnerID = doc['petOwnerID'];
         String appointmentID = doc['appointmentID'];
@@ -244,19 +245,23 @@ class AdminAppointmentsState extends State<AdminAppointments> {
             .collection("pet owners")
             .where('ownerID', isEqualTo: petOwnerID)
             .get().then((QuerySnapshot pwdata) {
-          var docPetOwner =  pwdata.docs.single;
-          if(docPetOwner.exists) {
-            name = docPetOwner['fname'].toString() + " " + docPetOwner['lname'].toString();
-          }
+        try{  var docPetOwner =  pwdata.docs.single;
+        if(docPetOwner.exists) {
+          name = docPetOwner['fname'].toString() + " " + docPetOwner['lname'].toString();
+        }
+        }
+          catch(StateError){
+            e=true;
+          print(petOwnerID+'not found');
+        }
+
         });
 
         await FirebaseFirestore.instance.collection("Work Shift").where('appointmentID', isEqualTo: workshiftID)
             .get().then((QuerySnapshot wdata) async {
           String id;
           var docWork;
-          try { docWork =  wdata.docs.single; }
-          catch(StateError){print('Not Found: '+workshiftID );}
-          if(docWork.exists) {
+          try { docWork =  wdata.docs.single;    if(docWork.exists) {
             empId = docWork['empID'].toString();
             type = docWork['type'].toString();
             ;
@@ -290,28 +295,38 @@ class AdminAppointmentsState extends State<AdminAppointments> {
             await FirebaseFirestore.instance.collection("Employee").where(
                 'empID', isEqualTo: empId)
                 .get().then((QuerySnapshot edoc) {
-              var docemp = edoc.docs.single;
-              docName = docemp['empName'].toString();
+             try{ var docemp = edoc.docs.single;
+              docName = docemp['empName'].toString();}
+             catch(StateError){
+             }
+
             });
-          }
+          } }
+          catch(StateError){e=true;
+          print('Not Found: '+workshiftID );}
 
 
 
-          Appointment a = Appointment(
-            id: appointmentID,
-            location: empId,
-            startTime:_startDateTime,
-            endTime:_endDateTime,
-            subject: 'Customer: $name, Employee: $docName ',
-            notes: empId+","+docName+","+name+","
-                +DateFormat('dd/MM/yyyy').format(_startDateTime)+","+DateFormat.Hm().format(_startDateTime)
-                +","+DateFormat('dd/MM/yyyy').format(_endDateTime)+","+DateFormat.Hm().format(_endDateTime),
-            color: type=='Check-Up' ? Colors.lightBlue : Colors.pinkAccent[100] as Color,
-          );
+if(!e) {
+  Appointment a = Appointment(
+    id: appointmentID,
+    location: empId,
+    startTime:_startDateTime,
+    endTime:_endDateTime,
+    subject: 'Customer: $name, Employee: $docName ',
+    notes: empId+","+docName+","+name+","
+        +DateFormat('dd/MM/yyyy').format(_startDateTime)+","+DateFormat.Hm().format(_startDateTime)
+        +","+DateFormat('dd/MM/yyyy').format(_endDateTime)+","+DateFormat.Hm().format(_endDateTime),
+    color: type=='Check-Up' ? Colors.lightBlue : Colors.pinkAccent[100] as Color,
+  );
 
-          _appointments.add(a);
-          _allappointments.add(a);
-        });}
+  _appointments.add(a);
+  _allappointments.add(a);
+}
+
+        });
+
+      }
 
       print(_allappointments.length);
 

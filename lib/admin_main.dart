@@ -90,7 +90,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                           builder: (BuildContext context) => appointCalendar()),
                     ); */
                   },
-                  child: Text('Manage Schedule',
+                  child: Text('View Schedule',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,
@@ -122,7 +122,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                           builder: (BuildContext context) => docList()),
                     ); */
                   },
-                  child: Text('Manage Employees',
+                  child: Text('View Employees',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,

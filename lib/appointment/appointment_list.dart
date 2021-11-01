@@ -1,15 +1,11 @@
-// import 'dart:developer';
 import 'package:MyPet/models/global.dart';
 import 'package:intl/intl.dart';
 import 'package:MyPet/appointment/appointment_model.dart';
 import 'package:MyPet/appointment/appointment_tile.dart';
 import 'package:MyPet/appointment/loading.dart';
-import 'package:MyPet/petOwner_main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../Appointment.dart';
 
 class AppointmentList extends StatefulWidget {
   String title;
@@ -24,6 +20,7 @@ class AppointmentList extends StatefulWidget {
 class _AppointmentListState extends State<AppointmentList> {
   List<AppointmentModel> _appList = [];
   bool isLoading = true;
+  bool hasAppointment = true;
   @override
   void initState() {
     super.initState();
@@ -33,7 +30,11 @@ class _AppointmentListState extends State<AppointmentList> {
   initData() async {
     setState(() {
       _appList = [];
+      isLoading = true;
     });
+
+    final waitList = <Future<void>>[];
+
     // log("init data from parent");
     //String usrUID = "FwwC3ijCi6ULQpiK8stDe9yv5Yp2";
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -49,10 +50,14 @@ class _AppointmentListState extends State<AppointmentList> {
     await appointmentDB
         .where("petOwnerID", isEqualTo: '$usrUID')
         .get()
-        .then((value) {
-      value.docs.forEach((element) async {
+        .then((value) async {
+      if (value.docs.isEmpty) {
+        setState(() {
+          hasAppointment = false;
+        });
+      }
+      for (var element in value.docs) {
         Map<String, dynamic>? map = element.data() as Map<String, dynamic>?;
-        //log("appointment: ${map}");
 
         String? appointmentID = map!['appointmentID'];
         String? petID = map['petID'];
@@ -60,6 +65,7 @@ class _AppointmentListState extends State<AppointmentList> {
         String? workshiftID = map['workshiftID'];
         //geting the pet information
         var petsData = await petsDB.doc(petID).get();
+
         Map<String, dynamic>? petMap = petsData.data() as Map<String, dynamic>?;
         String? petName = petMap!['name'];
         String? petSpecies = petMap['species'];
@@ -67,15 +73,15 @@ class _AppointmentListState extends State<AppointmentList> {
         var workShiftData = await WorkShiftDB.doc(workshiftID).get();
         Map<String, dynamic>? workShiftMap =
         workShiftData.data() as Map<String, dynamic>?;
-        //log("workShiftMap: $workShiftMap");
         String? date = workShiftMap!['date'];
         String? startTime = workShiftMap['startTime'];
         String? endTime = workShiftMap['endTime'];
         String? status = workShiftMap['status'];
         String? type = workShiftMap['type'];
-        //we can test for the status here
+
         var oppDate = DateFormat('dd/MM/yyyy').parse(date.toString());
         var toDay = DateTime.now();
+
         bool test;
         if (widget.type == 0) {
           test = oppDate.difference(toDay).inDays == 0
@@ -100,17 +106,9 @@ class _AppointmentListState extends State<AppointmentList> {
           appList.add(appointmentModel);
           setState(() {
             _appList.add(appointmentModel);
-            // log("---setState--- ${_appList.length}");
           });
         }
-      });
-
-      /*setState(() {
-        isLoading = false;
-        _appList = [];
-        _appList.addAll(appList);
-        log("---setState--- ${_appList.length}");
-      });*/
+      }
     }).then((value) {
       setState(() {
         isLoading = false;
@@ -124,15 +122,13 @@ class _AppointmentListState extends State<AppointmentList> {
         backgroundColor: Color(0xFFF4E3E3),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          elevation:0,
+          elevation: 0,
           leading: ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-
               child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-              style: backButton ),// <-- Button color// <-- Splash color
-
+              style: backButton), // <-- Button color// <-- Splash color
         ),
         body: isLoading
             ? Loading()
@@ -175,14 +171,16 @@ class _AppointmentListState extends State<AppointmentList> {
               style: TextStyle(
                   color: Color(0xffe57285),
                   fontSize: 30,
-                  fontWeight: FontWeight.bold
-              ),
+                  fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 20.0,
             ),
             Expanded(
-              child: _appList.isEmpty ? Center( child: Text("no appointment has been booked yet "),)
+              child: !isLoading && _appList.isEmpty
+                  ? Center(
+                child: Text("no appointment has been booked yet "),
+              )
                   : ListView.builder(
                   itemCount: _appList.length,
                   itemBuilder: (context, index) {

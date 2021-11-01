@@ -95,22 +95,30 @@ class _AppointmentTileState extends State<AppointmentTile> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(4.0),
+                    child: SizedBox(
+                        height:36, //height of button
+                        width:106,
                       child: ElevatedButton(
                         onPressed: () {
                           updateAppoitment();
                         },
-                        child: Text('Update'),
+                        child: Text('Reschedule'),
                         style: ElevatedButton.styleFrom(
                           primary: Color(0xFFE7F2EC),//change background color of button
                           onPrimary: Colors.black,//change text color of button
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
+                            borderRadius: BorderRadius.circular(10),
+
                           ),
-                          elevation: 15.0,
-                        ),)
+                          elevation: 0.0,
+                          shadowColor: Colors.transparent,
+                        ),)),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(6.0),
+                    child: SizedBox(
+                        height:36, //height of button
+                        width:106, //width of button
                       child: ElevatedButton(
                         onPressed: () {
                           delAppoitment();
@@ -120,10 +128,13 @@ class _AppointmentTileState extends State<AppointmentTile> {
                           primary: Color(0xFFF3BFBD),//change background color of button
                           onPrimary: Colors.black,//change text color of button
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          elevation: 15.0,
+                          elevation: 0.0,
+                          shadowColor: Colors.transparent,
                         ),)
+
+                  ),
                   )
                 ],
               )

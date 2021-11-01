@@ -95,6 +95,7 @@ class _addPet extends State<addPet> {
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold))),
                             SizedBox(height: 10),
+
                             Container(
                                 child: TextFormField(
                                   validator: (Value) {

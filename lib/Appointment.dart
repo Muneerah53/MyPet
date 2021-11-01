@@ -70,7 +70,7 @@ class _AppointPageState extends State<appointmentPage> {
                   child: Text(
                     'Appointment',
                     style: TextStyle(
-                        color: Color(0XFFFF6B81),
+                        color:Color(0xffe57285),
                         fontSize: 34,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.bold),

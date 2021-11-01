@@ -49,7 +49,7 @@ class MyPets extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.red[50],
+      backgroundColor: Color(0xFFF4E3E3),
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation:0,
@@ -79,9 +79,10 @@ class MyPets extends StatelessWidget {
           ),
 
     GestureDetector(
+
     onTap:() {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => addPet(fb.getuser())))
-        .catchError((error) => print('Delete failed: $error'));
+    Navigator.push(context,MaterialPageRoute(builder: (_) =>addPet(fb.getuser()))) .catchError((error) => print('Delete failed: $error'));
+
     },
     child:Container(//add
             padding: EdgeInsets.all(10),

@@ -12,6 +12,6 @@ class navKeys {
   static final globalKeyAdmin = GlobalKey();
 }
 Color primaryColor = const Color(0xff313540);
-Color greenColor = const Color.fromRGBO(191, 222, 206, 0.4);
+Color greenColor = const Color.fromRGBO(152, 197, 173, 0.4);
 Color redColor = const Color.fromRGBO(249, 89, 88,0.4);
 

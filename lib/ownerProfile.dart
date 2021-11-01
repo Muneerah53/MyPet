@@ -136,7 +136,7 @@ class Profile extends StatelessWidget {
 
           //pest cards
           Container(
-            padding: EdgeInsets.only(left:  MediaQuery.of(context).size.width * 0.15,),
+            padding: EdgeInsets.only(left:  MediaQuery.of(context).size.width * 0.1,),
             height: 220,
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance

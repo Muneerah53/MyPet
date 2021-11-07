@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:MyPet/add_dr.dart';
 import 'package:MyPet/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:MyPet/admin_newServices.dart';
 import 'admin_viewappts.dart';
 
 class AdminHomePage extends StatefulWidget {
@@ -160,6 +160,36 @@ class _adminHomePageState extends State<AdminHomePage> {
                   style: ButtonStyle(
                     backgroundColor:
                     MaterialStateProperty.all(Color(0XFF2F3542)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
+                  )),
+
+
+
+
+
+
+            ),
+            SizedBox(height: 30),
+            Container(
+              width: 344,
+              height: 120,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const services()),
+                    );
+                  },
+                  child: Text('Add Service ',
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold)),
+                  style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all(Color(0XFFFF6B81)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),

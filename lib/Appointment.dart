@@ -132,7 +132,13 @@ class _AppointPageState extends State<appointmentPage> {
                   height: 120,
                   child: ElevatedButton(
                       onPressed: () {
-
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  AppointmentList(
+                                      title: 'Previous Appointment', type: 1)),
+                        );
                       },
                       child: Text('Previous Appointment',
                           style: TextStyle(

@@ -179,7 +179,7 @@ class _AppointmentListState extends State<AppointmentList> {
             Expanded(
               child: !isLoading && _appList.isEmpty
                   ? Center(
-                child: Text("no appointment has been booked yet "),
+                child: Text("You have no upcoming appointments"),
               )
                   : ListView.builder(
                   itemCount: _appList.length,

@@ -247,7 +247,15 @@ class editProfile extends StatelessWidget {
                         .of(context)
                         .errorColor,
                   ));
-                }
+                } else if (!(mobileController.text.startsWith('05'))) {
+                    phoneError++;
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("Invalid phone number format (ex.05########)"),
+                      backgroundColor: Theme
+                          .of(context)
+                          .errorColor,
+                    ));
+                  }
                 else {
                   owner.reference.update({
                     'mobile': mobileController.text

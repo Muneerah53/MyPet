@@ -20,7 +20,7 @@ class appointment{
 
       DateTime _date = DateFormat('EEE, MMM dd yyyy').parse(date!);
 
-      DateTime _startTimeFormat = DateFormat("hh:mm").parse(
+      DateTime _startTimeFormat = DateFormat("HH:mm").parse(
           start);
       TimeOfDay _start = TimeOfDay.fromDateTime(_startTimeFormat);
 

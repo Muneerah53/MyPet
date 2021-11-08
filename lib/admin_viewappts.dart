@@ -76,7 +76,7 @@ class AdminAppointmentsState extends State<AdminAppointments> {
                     showNavigationArrow: true,
                     monthViewSettings: const MonthViewSettings(
                         showAgenda: true,
-                        agendaViewHeight: 500,
+                        agendaViewHeight: 400,
                         numberOfWeeksInView: 1
                     ),
                     dataSource: _dataSource,

@@ -1,4 +1,5 @@
 import 'package:MyPet/models/global.dart';
+import 'package:MyPet/service_model.dart';
 import 'package:intl/intl.dart';
 import 'package:MyPet/appointment/appointment_model.dart';
 import 'package:MyPet/service_tile.dart';
@@ -7,18 +8,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AppointmentList extends StatefulWidget {
+class ServiceList extends StatefulWidget {
   String title;
   int type;
-  AppointmentList({required this.title, required this.type, Key? key})
+  ServiceList({required this.title, required this.type, Key? key})
       : super(key: key);
 
   @override
-  _AppointmentListState createState() => _AppointmentListState();
+  _ServiceListState createState() => _ServiceListState();
 }
 
-class _AppointmentListState extends State<AppointmentList> {
-  List<AppointmentModel> serviceList = [];
+class _ServiceListState extends State<ServiceList> {
+  List<ServiceModel> _serviceList = [];
   bool isLoading = true;
   bool hasServices = true;
   @override
@@ -29,7 +30,7 @@ class _AppointmentListState extends State<AppointmentList> {
 
   initData() async {
     setState(() {
-      serviceList = [];
+      _serviceList = [];
       isLoading = true;
     });
 
@@ -38,7 +39,7 @@ class _AppointmentListState extends State<AppointmentList> {
 
     CollectionReference services =
     FirebaseFirestore.instance.collection('service');
-    List<AppointmentModel> servicesList = [];
+    List<ServiceModel> serviceList = [];
 
     await services.get()
         .then((value) async {
@@ -55,6 +56,16 @@ class _AppointmentListState extends State<AppointmentList> {
         String? serviceName = map['serviceName'];
         String? servicePrice = map['servicePrice'];
 
+        ServiceModel serviceModel = new ServiceModel(
+            serviceID: '$serviceID',
+            serviceName: '$serviceName',
+            servicePrice: '$servicePrice',
+        );
+
+        serviceList.add(serviceModel);
+        setState(() {
+          _serviceList.add(serviceModel);
+        });
 
       }
     }).then((value) {
@@ -63,6 +74,10 @@ class _AppointmentListState extends State<AppointmentList> {
       });
     });
   }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -98,16 +113,16 @@ class _AppointmentListState extends State<AppointmentList> {
               height: 20.0,
             ),
             Expanded(
-              child: !isLoading && serviceList.isEmpty
+              child: !isLoading && _serviceList.isEmpty
                   ? Center(
                 child: Text("You have no services"),
               )
                   : ListView.builder(
-                  itemCount: serviceList.length,
+                  itemCount: _serviceList.length,
                   itemBuilder: (context, index) {
                     return Container(
                       child:
-                      ServiceTile(serviceList[index], initData),
+                      ServiceTile(_serviceList[index], initData),
                     );
                   }),
             ),

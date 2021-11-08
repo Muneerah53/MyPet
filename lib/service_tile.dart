@@ -1,6 +1,7 @@
 // import 'dart:developer';
 import 'package:MyPet/service_model.dart';
 import 'package:MyPet/service_model.dart';
+import 'package:MyPet/service_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class _ServiceTile extends State<ServiceTile> {
     await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) => serviceUpdate(widget.serviceModel)))
+            builder: (_) => ServiceUpdate(widget.serviceModel)))
         .then((value) => widget.initData());
 
     /*Navigator.push(
@@ -63,21 +64,13 @@ class _ServiceTile extends State<ServiceTile> {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Pet : ${widget.serviceModel.pet}'),
+                    Text('Service name : ${widget.serviceModel.serviceName}'),
                     Text(
-                        'Service : ${widget.serviceModel.service.split(':')[0]}'),
+                        'Service price: ${widget.serviceModel.servicePrice}'),
                   ],
                 ),
               ),
-              ListTile(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Date : ${widget.serviceModel.date} '),
-                    Text('Time : ${widget.serviceModel.time}')
-                  ],
-                ),
-              ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -90,7 +83,7 @@ class _ServiceTile extends State<ServiceTile> {
                           onPressed: () {
                             updateAppoitment();
                           },
-                          child: Text('Reschedule'),
+                          child: Text('Edit'),
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFFE7F2EC),//change background color of button
                             onPrimary: Colors.black,//change text color of button

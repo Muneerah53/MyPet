@@ -28,17 +28,15 @@ class _ServiceTile extends State<ServiceTile> {
           builder: (context) => AppointmentUpdate(widget.appointmentModel)),
     );*/
   }
-  delAppoitment() async {
+  deleteService() async {
     await FirebaseFirestore.instance
-        .collection("appointment")
-        .doc(widget.serviceModel.appointmentUID)
+        .collection("service")
+        .doc(widget.serviceModel.serviceID)
         .delete();
-
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Appointment has been deleted."),
+          content: Text("Service has been deleted."),
           backgroundColor: Colors.green,
         ));
-        // log("init data from child");
         widget.initData();
       }
 
@@ -111,7 +109,7 @@ class _ServiceTile extends State<ServiceTile> {
                         width:106, //width of button
                         child: ElevatedButton(
                           onPressed: () {
-                            delAppoitment();
+                            deleteService();
                           },
                           child: Text('Cancel'),
                           style: ElevatedButton.styleFrom(

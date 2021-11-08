@@ -32,7 +32,7 @@ app.get('/pay', (req, res) => {
             "payment_method": "paypal"
         },
         "redirect_urls": {
-            "return_url": "http://172.20.10.3:8000/success",
+            "return_url": "http://172.20.10.11:8000/success",
             "cancel_url": "http://cancel.url"
         },
         "transactions": [{
@@ -98,7 +98,7 @@ app.get('/success', (req, res) => {
 });
 
 
-app.listen(8000,'172.20.10.3' ,(req, res) => {
+app.listen(8000,'172.20.10.11' ,(req, res) => {
 
     console.log('server start');
 });

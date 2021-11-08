@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ServiceTile extends StatefulWidget {
-  final serviceModel serviceModel;
+  final ServiceModel serviceModel;
   Function initData;
   ServiceTile(this.serviceModel, this.initData);
 

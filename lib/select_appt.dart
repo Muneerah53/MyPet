@@ -248,7 +248,7 @@ class selectState extends State<select> {
                               DateFormat('dd/MM/yyyy').format(selectedDate))
                       .where('type', isEqualTo: title)
                       .where('status', isEqualTo: "Available")
-                     // .orderBy('startTime')
+
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const Text('loading');
@@ -261,15 +261,41 @@ class selectState extends State<select> {
                                   fontSize: 20,
                                   color: Colors.grey),
                               textAlign: TextAlign.center));
+
+                    int i = 0, j = 0;
+                    String txt = '';
                     return ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
+                var s =  (snapshot.data!).docs[index]
+                          ['startTime'].toString().split(":")[0];
+                var t = DateTime.now().hour.toString();
+
+                              if(s.compareTo(t)<=0){
+                                if(index==(snapshot.data!.docs.length-1) && i==0)
+                          return Text('No Available Times',
+                          style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.grey),
+                          textAlign: TextAlign.center);
+
+                                else
+                                  return Text('');
+                              }
+
+
                           String? stime = ((snapshot.data!).docs[index]
                                   ['startTime'] +
                               ' - ' +
                               (snapshot.data!).docs[index]['endTime']);
+
+
+
+
+                i++;
 
                           return OutlinedButton(
                               style: OutlinedButton.styleFrom(

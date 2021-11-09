@@ -5,6 +5,8 @@ import 'package:MyPet/service_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'models/global.dart';
+
 class ServiceTile extends StatefulWidget {
   final ServiceModel serviceModel;
   Function initData;
@@ -23,24 +25,19 @@ class _ServiceTile extends State<ServiceTile> {
             builder: (_) => ServiceUpdate(widget.serviceModel)))
         .then((value) => widget.initData());
 
-    /*Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => AppointmentUpdate(widget.appointmentModel)),
-    );*/
   }
+
   deleteService() async {
     await FirebaseFirestore.instance
         .collection("service")
         .doc(widget.serviceModel.serviceID)
         .delete();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Service has been deleted."),
-          backgroundColor: Colors.green,
-        ));
-        widget.initData();
-      }
-
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Service has been deleted."),
+      backgroundColor: Colors.green,
+    ));
+    widget.initData();
+  }
 
   @override
   void initState() {
@@ -64,9 +61,9 @@ class _ServiceTile extends State<ServiceTile> {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Service name : ${widget.serviceModel.serviceName}'),
-                    Text(
-                        'Service price: ${widget.serviceModel.servicePrice}'),
+                    Text('${widget.serviceModel.serviceName}',style: petCardSubTitleStyle,),
+                    Text('${widget.serviceModel.servicePrice}\$',style: petCardSubTitleStyle,),
+
                   ],
                 ),
               ),
@@ -94,6 +91,26 @@ class _ServiceTile extends State<ServiceTile> {
                             elevation: 0.0,
                             shadowColor: Colors.transparent,
                           ),)),
+                  ),  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: SizedBox(
+                        height:36, //height of button
+                        width:90,
+                        child: ElevatedButton(
+                          onPressed: () {
+
+                          },
+                          child: Text(''),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,//change background color of button
+                            onPrimary: Colors.black,//change text color of button
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+
+                            ),
+                            elevation: 0.0,
+                            shadowColor: Colors.transparent,
+                          ),)),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(6.0),
@@ -104,7 +121,7 @@ class _ServiceTile extends State<ServiceTile> {
                           onPressed: () {
                             deleteService();
                           },
-                          child: Text('Cancel'),
+                          child: Text('Delete'),
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFFF3BFBD),//change background color of button
                             onPrimary: Colors.black,//change text color of button

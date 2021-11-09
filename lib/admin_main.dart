@@ -1,4 +1,5 @@
 import 'package:MyPet/models/global.dart';
+import 'package:MyPet/view_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:MyPet/admin_calender.dart';
@@ -153,6 +154,38 @@ class _adminHomePageState extends State<AdminHomePage> {
                     );
                   },
                   child: Text('View Appointments',
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold)),
+                  style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
+                  )),
+
+
+
+
+
+
+            ),
+            SizedBox(height: 30),
+            Container(
+              width: 344,
+              height: 120,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                             ServiceList(
+                                  title: 'Services', type: 0)),
+                    );
+                  },
+                  child: Text('Services',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,

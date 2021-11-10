@@ -223,7 +223,7 @@ _price = widget.model.servicePrice;
 
 
   saveData() async {
-
+if(!_formKey.currentState!.validate()) return;
       await FirebaseFirestore.instance
           .collection('service')
           .doc(_id)

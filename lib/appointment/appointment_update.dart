@@ -169,11 +169,32 @@ class _AppointmentUpdateState extends State<AppointmentUpdate> {
                                             fontSize: 20,
                                             color: Colors.grey),
                                         textAlign: TextAlign.center));
+
+                              int i = 0;
                               return ListView.builder(
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
                                   itemCount: snapshot.data!.docs.length,
                                   itemBuilder: (context, index) {
+
+                                    var s =  (snapshot.data!).docs[index]
+                                    ['startTime'].toString().split(":")[0];
+                                    var t = DateTime.now().hour.toString();
+
+                                    if(s.compareTo(t)<=0){
+                                      if(index==(snapshot.data!.docs.length-1) && i==0)
+                                        return Text('No Available Times',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                                color: Colors.grey),
+                                            textAlign: TextAlign.center);
+
+                                      else
+                                        return Text('');
+                                    }
+
+
                                     String? stime = ((snapshot.data!)
                                             .docs[index]['startTime'] +
                                         ' - ' +

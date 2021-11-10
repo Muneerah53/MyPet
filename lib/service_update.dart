@@ -4,6 +4,7 @@ import 'package:MyPet/models/global.dart';
 import 'package:MyPet/service_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class ServiceUpdate extends StatefulWidget {
@@ -16,11 +17,20 @@ class ServiceUpdate extends StatefulWidget {
 
 class _ServiceUpdateState extends State<ServiceUpdate> {
   final _formKey = GlobalKey<FormState>();
-  DateTime selectedDate = DateTime.now();
-  TextEditingController _date = new TextEditingController();
-  int? selectedTimeIndex;
-  String? selectedTime;
-  String? selectedShiftID;
+
+  String? _name,_id, _price;
+  static final RegExp nameRegExp = RegExp('[a-zA-Z]');
+
+
+  @override
+  void initState() {
+    super.initState();
+    _id = widget.model.serviceID;
+_name = widget.model.serviceName;
+_price = widget.model.servicePrice;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,11 +48,11 @@ class _ServiceUpdateState extends State<ServiceUpdate> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(8.0),
-            margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            padding: EdgeInsets.all(15.0),
+            //margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(40)),
-              color: Colors.white,
+             // color: Colors.white,
             ),
             child: Form(
               key: _formKey,
@@ -51,6 +61,16 @@ class _ServiceUpdateState extends State<ServiceUpdate> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(44, 5, 44, 45),
+                        child: const Text('Update Service',
+                            style: TextStyle(
+                                color: Color(0xffe57285),
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold))),
+
+
                     Container(
                       padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
                       child: Text(
@@ -64,19 +84,47 @@ class _ServiceUpdateState extends State<ServiceUpdate> {
                     ),
                     Container(
                       padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
-                      child: Text(
-                        '${widget.model.serviceName}',
-                        style: TextStyle(
-                            color: Colors.black38,
-                            fontSize: 18,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.bold),
+                        child:TextFormField(
+                          controller: TextEditingController(text: _name),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+                          ),
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintStyle: TextStyle(color:Colors.grey),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                )
+                            ),
+                          ),
+
+
+                          onChanged: (value) {
+                            _name = value;
+                          },
+
+                            validator: (Value) {
+                              if (Value!.isEmpty) {
+                                return "Please enter service's name";
+                              } else if (nameRegExp.allMatches(Value).length !=
+                                  Value.length) {
+                                return "Please enter valid service name";
+                              }
+                            }
+
+
+
+
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
                       child: Text(
-                        'Service Price:',
+                        'Service Price in SAR:',
                         style: TextStyle(
                             color: const Color(0xFF552648B),
                             fontSize: 18,
@@ -86,14 +134,37 @@ class _ServiceUpdateState extends State<ServiceUpdate> {
                     ),
                     Container(
                       padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
-                      child: Text(
-                        '${widget.model.servicePrice}',
+                      child:TextFormField(
+                        keyboardType: TextInputType.number,
+                        inputFormatters:[FilteringTextInputFormatter.digitsOnly],
+                        controller: TextEditingController(text: _price),
                         style: TextStyle(
-                            color: Colors.black38,
-                            fontSize: 18,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
+                        ),
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(color:Colors.grey),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              )
+                          ),
+                        ),
+
+
+                        onChanged: (value) {
+                          _price = value;
+                        },
+
+                        validator: (value) => value!.isEmpty ? 'Enter Price in SAR': null,
+
+
+
                       ),
+
                     ),
 
                     Center(
@@ -152,33 +223,15 @@ class _ServiceUpdateState extends State<ServiceUpdate> {
 
 
   saveData() async {
-    if (selectedShiftID == null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("please enter all required information"),
-        backgroundColor: Colors.red,
-      ));
-    } else {
-//remove old appointment
+
       await FirebaseFirestore.instance
-          .collection('Work Shift')
-          .doc(widget.model.serviceID)
-          .update({"status": "Available"});
+          .collection('service')
+          .doc(_id)
+          .update({"serviceName":_name, "servicePrice": _price});
 //set new ppointment
-      await FirebaseFirestore.instance
-          .collection('Work Shift')
-          .doc(selectedShiftID)
-          .update({
-        "status": "Booked",
-        // "appointmentID": "${widget.model.appointmentUID}"
-      });
-
-      await FirebaseFirestore.instance
-          .collection('appointment')
-          .doc(widget.model.serviceID)
-          .update({"workshiftID": "$selectedShiftID"});
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("appointment has been updated successfully"),
+        content: Text("Service has been updated successfully"),
         backgroundColor: Colors.green,
       ));
       await Future.delayed(
@@ -188,4 +241,4 @@ class _ServiceUpdateState extends State<ServiceUpdate> {
           ).pop());
     }
   }
-}
+

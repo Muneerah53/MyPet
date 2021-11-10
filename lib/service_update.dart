@@ -19,7 +19,7 @@ class _ServiceUpdateState extends State<ServiceUpdate> {
   final _formKey = GlobalKey<FormState>();
 
   String? _name,_id, _price;
-  static final RegExp nameRegExp = RegExp('[a-zA-Z]');
+  static final RegExp nameRegExp = RegExp('^[a-zA-Z ]+\$');
 
 
   @override
@@ -110,8 +110,7 @@ _price = widget.model.servicePrice;
                             validator: (Value) {
                               if (Value!.isEmpty) {
                                 return "Please enter service's name";
-                              } else if (nameRegExp.allMatches(Value).length !=
-                                  Value.length) {
+                              } else if (!nameRegExp.hasMatch(Value)){
                                 return "Please enter valid service name";
                               }
                             }

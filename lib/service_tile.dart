@@ -62,7 +62,7 @@ class _ServiceTile extends State<ServiceTile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('${widget.serviceModel.serviceName}',style: petCardSubTitleStyle,),
-                    Text('${widget.serviceModel.servicePrice}\$',style: petCardSubTitleStyle,),
+                    Text('${widget.serviceModel.servicePrice} SAR',style: petCardSubTitleStyle,),
 
                   ],
                 ),

@@ -212,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
         String uid = authResult.user!.uid;
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('uid', uid);
-        if (_email.contains("@admin.com")) {
+        if (_email.toLowerCase().contains("@admin.com")) {
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (_) => managerPage()));
         } else {

@@ -123,7 +123,7 @@ _price = widget.model.servicePrice;
                     Container(
                       padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
                       child: Text(
-                        'Service Price in SAR:',
+                        'Service Price in SR:',
                         style: TextStyle(
                             color: const Color(0xFF552648B),
                             fontSize: 18,
@@ -158,7 +158,7 @@ _price = widget.model.servicePrice;
                           _price = value;
                         },
 
-                        validator: (value) => value!.isEmpty ? 'Enter Price in SAR': null,
+                        validator: (value) => value!.isEmpty ? 'Enter Price in SR': null,
 
 
 
@@ -234,7 +234,7 @@ if(!_formKey.currentState!.validate()) return;
         backgroundColor: Colors.green,
       ));
       await Future.delayed(
-          Duration(seconds: 2),
+          Duration(seconds: 0),
               () => Navigator.of(
             context,
           ).pop());

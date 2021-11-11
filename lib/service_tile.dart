@@ -18,7 +18,7 @@ class ServiceTile extends StatefulWidget {
 
 class _ServiceTile extends State<ServiceTile> {
   bool isLoading = true;
-  updateAppoitment() async {
+  updateService() async {
     await Navigator.push(
         context,
         MaterialPageRoute(
@@ -62,7 +62,7 @@ class _ServiceTile extends State<ServiceTile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('${widget.serviceModel.serviceName}',style: petCardSubTitleStyle,),
-                    Text('${widget.serviceModel.servicePrice} SAR',style: petCardSubTitleStyle,),
+                    Text('${widget.serviceModel.servicePrice} SR',style: petCardSubTitleStyle,),
 
                   ],
                 ),
@@ -78,7 +78,7 @@ class _ServiceTile extends State<ServiceTile> {
                         width:106,
                         child: ElevatedButton(
                           onPressed: () {
-                            updateAppoitment();
+                            updateService();
                           },
                           child: Text('Edit'),
                           style: ElevatedButton.styleFrom(

@@ -20,6 +20,7 @@ class Grooming extends StatefulWidget {
 
 class _GroomingState extends State<Grooming> {
   Map<String, bool > SList = {};
+  Map<String, String > PList = {};
 
   //
   // var selectedCurrency;
@@ -133,12 +134,14 @@ SizedBox(height: 30),
                             String key = (snapshot.data!)
                                 .docs[index]['serviceID'];
                             SList[key] = SList[key] ?? false;
+PList[key]= (snapshot.data!)
+    .docs[index]['servicePrice'];
 
                             return CheckboxListTile(
 
                                 title: Text((snapshot.data!)
                                     .docs[index]['serviceName']+"                "+(snapshot.data!)
-                                    .docs[index]['servicePrice'] ,
+                                    .docs[index]['servicePrice']+" SAR" ,
                                     style: TextStyle(
                                     color: const Color(0xFF552648B),
                                     fontSize: 20,
@@ -245,12 +248,19 @@ SizedBox(height: 30),
   }
   double TotalPrice(Map<String, bool> sList) {
     double to =0.0;
-    // sList.forEach((key, value) {
-    //
-    //   }
-    //
-    // );
-    return 0.0;
+    sList.forEach((key, value) {
+if(value==true){
+  String v = key;
+  PList.forEach((key, value) {
+    if(v == key){
+       to += double.parse(value);
+    }
+  });
+}
+      }
+
+    );
+    return to;
   }
   List<String> getService() {
     List<String> services = <String>[];

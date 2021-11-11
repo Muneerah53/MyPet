@@ -304,6 +304,17 @@ class selectState extends State<select> {
               heightFactor: 1.5,
               child: ElevatedButton(
                   onPressed: () {
+                    a.petId = pid;
+                    a.desc = reason;
+                    a.date =  DateFormat('EEE, MMM dd yyyy').format(selected1Date);
+                    a.time =  DateFormat('EEE, MMM dd yyyy').format(selected2Date);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => OrderList(
+                              appoint: a)),
+                    );
 
                   },
                   child: Padding(

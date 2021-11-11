@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+import 'models/global.dart';
 
 
 
@@ -30,6 +33,18 @@ class _servicesState extends State<services> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation:0,
+          leading: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+
+              child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+              style: backButton ),// <-- Button color// <-- Splash color
+
+        ),
 
       backgroundColor: const Color(0xFFF4E3E3),
 body: SingleChildScrollView(
@@ -39,7 +54,7 @@ body: SingleChildScrollView(
       child: Column(
        mainAxisAlignment: MainAxisAlignment.center,
        children: [
-SizedBox(height: 100),
+SizedBox(height: 30),
          Container(
            child: Text(
              'Add Service',
@@ -89,7 +104,7 @@ SizedBox(height: 100),
                return 'Enter the Service Price';
              } else if (!isNumeric(value)) {
                return 'price must be numeric';
-             } else if (value.length != 2) {
+             } else if (value.length > 2) {
                return 'price must be at most 2 digits';
              }
            },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'boardingAppointment.dart';
 import 'select_appt.dart';
 import 'models/global.dart';
 
@@ -168,6 +169,32 @@ class _AppoinMainState extends State<AppoinMain> {
             SizedBox(
               height: 20.0,
             ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 60, 0, 40),
+              width: 344,
+              height: 120,
+              child: ElevatedButton(
+                onPressed: () {
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => boardingapp()),
+                  );
+                },
+                child: Text('Boarding',
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold)),
+                style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all(Color(0XFFFF6B81)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)))),
+              ),
+            ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

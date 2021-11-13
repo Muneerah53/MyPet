@@ -12,20 +12,20 @@ User? user = FirebaseAuth.instance.currentUser;
 String owner =
     FirebaseFirestore.instance.collection('pet owners').doc(user?.uid).id;
 
-class select extends StatefulWidget {
+class boardingapp extends StatefulWidget {
 
 
   // final String date;
-  const select({
+  const boardingapp({
     Key? key,
   //this.date
   }) : super(key: key);
 
   @override
-  selectState createState() => selectState();
+  boardingState createState() => boardingState();
 }
 
-class selectState extends State<select> {
+class boardingState extends State<boardingapp> {
   appointment a = appointment();
   String reason = '';
   int t = 0;
@@ -276,7 +276,7 @@ class selectState extends State<select> {
                         fontStyle: FontStyle.italic,
                         color: Colors.black38),
                     decoration: InputDecoration(
-                      hintText: ('Enter your reason of visit...'),
+                      hintText: ('Enter notes...'),
                       contentPadding: new EdgeInsets.symmetric(
                           vertical: 25.0, horizontal: 10.0),
                       focusedBorder: OutlineInputBorder(
@@ -304,10 +304,13 @@ class selectState extends State<select> {
               heightFactor: 1.5,
               child: ElevatedButton(
                   onPressed: () {
+                    a.type= 'Boarding';
+                    a.total = 75.0*selected2Date.difference(selected1Date).inDays;
                     a.petId = pid;
+                    a.petName=pets;
                     a.desc = reason;
-                    a.date =  DateFormat('EEE, MMM dd yyyy').format(selected1Date);
                     a.time =  DateFormat('EEE, MMM dd yyyy').format(selected2Date);
+                    a.date =  DateFormat('EEE, MMM dd yyyy').format(selected1Date)+'-'+a.time.toString();
 
                     Navigator.push(
                       context,

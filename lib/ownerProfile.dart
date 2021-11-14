@@ -51,23 +51,36 @@ class Profile extends StatelessWidget {
         },
       ),
     ],),
-      body:SingleChildScrollView(
-
-        child:  Column(
-          children: [ Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 5),
-                width: 120,
-                height: 110,
-                child: CircleAvatar(
-                  radius: 80,
-                  backgroundImage: new AssetImage("images/owner.png"),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 5),
+                  width: 120,
+                  height: 110,
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('pet owners')
+                          .where('ownerID', isEqualTo: getuser())
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const Text('loading');
+                        return
+                          //card pets method
+                          CircleAvatar(
+                            radius: 80,
+                            backgroundImage: new AssetImage(
+                                (snapshot.data!).docs[0]['gender'] == "female"
+                                    ? "images/owner.png"
+                                    : "images/maleProfile.jpg"),
+                          );
+                      }),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
 
             Container(
               margin: EdgeInsets.only(top: 5,bottom: 10),
@@ -241,12 +254,12 @@ class Profile extends StatelessWidget {
         img = "images/dog.png";
       else if (document['species'] == "Cat")
         img = "images/cat.png";
-      else if (document['species'] == "Bird")
-        img = "images/Bird.png";
-      else if (document['species'] == "Rabbit")
-        img = "images/Rabbit.png";
-      else
-        img = "images/Hamster.png";
+    //  else if (document['species'] == "Bird")
+       // img = "images/Bird.png";
+      //else if (document['species'] == "Rabbit")
+        //img = "images/Rabbit.png";
+     // else
+      //  img = "images/Hamster.png";
 
       return Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),

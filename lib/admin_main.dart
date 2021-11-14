@@ -9,6 +9,7 @@ import 'package:MyPet/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'admin_viewappts.dart';
+import 'viewBoardingAdmin.dart';
 
 class AdminHomePage extends StatefulWidget {
 
@@ -41,10 +42,10 @@ class _adminHomePageState extends State<AdminHomePage> {
               color: Color(0xFF2F3542),
             ),
             onPressed: () async {
-    await FirebaseAuth.instance.signOut().catchError((error){
-    print(error.toString());
-    });
-    Navigator.of(context,rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => new  LoginPage()));
+              await FirebaseAuth.instance.signOut().catchError((error){
+                print(error.toString());
+              });
+              Navigator.of(context,rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => new  LoginPage()));
             },
           ),
         ],
@@ -52,159 +53,184 @@ class _adminHomePageState extends State<AdminHomePage> {
       body: Center(
         child: SingleChildScrollView(
             child:Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
-              child: Text(
-                'Manager',
-                style: TextStyle(
-                    color: Color(0XFFFF6B81),
-                    fontSize: 34,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-
-            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image(
-                    width: 120,
-                    height: 110,
-                    fit: BoxFit.fill,
-                    image: new AssetImage('images/logo.jpeg'))
-              ],
-            ),
-            SizedBox(height: 30),
-            Container(
-              width: 344,
-              height: 120,
-              child: ElevatedButton(
-                  onPressed: () {
-                    BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                    navigationBar.onTap!(1);
-                 /*   Navigator.push(
+
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+                  child: Text(
+                    'Manager',
+                    style: TextStyle(
+                        color: Color(0XFFFF6B81),
+                        fontSize: 34,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(
+                        width: 120,
+                        height: 110,
+                        fit: BoxFit.fill,
+                        image: new AssetImage('images/logo.jpeg'))
+                  ],
+                ),
+                SizedBox(height: 30),
+                Container(
+                  width: 344,
+                  height: 120,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                        navigationBar.onTap!(1);
+                        /*   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => appointCalendar()),
                     ); */
-                  },
-                  child: Text('View Schedule',
-                      style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold)),
-                  style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0))),
-                  )),
+                      },
+                      child: Text('View Schedule',
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold)),
+                      style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all(Color(0XFF2F3542)),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0))),
+                      )),
 
 
 
 
 
 
-            ),
-            SizedBox(height: 30),
-            Container(
-              width: 344,
-              height: 120,
-              child: ElevatedButton(
-                  onPressed: () {
-                    BottomNavigationBar navigationBar =   _globalKey.currentWidget as BottomNavigationBar;
-                    navigationBar.onTap!(2);
-                  /*  Navigator.push(
+                ),
+                SizedBox(height: 30),
+                Container(
+                  width: 344,
+                  height: 120,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        BottomNavigationBar navigationBar =   _globalKey.currentWidget as BottomNavigationBar;
+                        navigationBar.onTap!(2);
+                        /*  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => docList()),
                     ); */
-                  },
-                  child: Text('View Employees',
-                      style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold)),
-                  style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all(Color(0XFFFF6B81)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0))),
-                  )),
+                      },
+                      child: Text('View Employees',
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold)),
+                      style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all(Color(0XFFFF6B81)),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0))),
+                      )),
 
 
 
 
 
 
-            ),
-            SizedBox(height: 30),
-            Container(
-              width: 344,
-              height: 120,
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => new AdminAppointments()),
-                    );
-                  },
-                  child: Text('View Appointments',
-                      style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold)),
-                  style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0))),
-                  )),
+                ),
+                SizedBox(height: 30),
+                Container(
+                  width: 344,
+                  height: 120,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => new AdminAppointments()),
+                        );
+                      },
+                      child: Text('View Appointments',
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold)),
+                      style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all(Color(0XFF2F3542)),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0))),
+                      )),
 
 
 
 
 
 
-            ),
-            SizedBox(height: 30),
-            Container(
-              width: 344,
-              height: 120,
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                             ServiceList(
-                                  title: 'Services', type: 0)),
-                    );
-                  },
-                  child: Text('Services',
-                      style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold)),
-                  style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0))),
-                  )),
+                ),
+                SizedBox(height: 30),
+                Container(
+                  width: 344,
+                  height: 120,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  ServiceList(
+                                      title: 'Services', type: 0)),
+                        );
+                      },
+                      child: Text('Services',
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold)),
+                      style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all(Color(0XFF2F3542)),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0))),
+                      )),
 
 
 
 
 
 
-            ),
-          ],
-        )),
+                ),
+                SizedBox(height: 30),
+                Container(
+                  width: 344,
+                  height: 120,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  AdminBoardingAppointments()),
+                        );
+                      },
+                      child: Text('Boarding Appointment',
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold)),
+                      style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all(Color(0XFF2F3542)),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0))),
+                      )),
+                ),
+              ],
+            )),
       ),
     );
   }

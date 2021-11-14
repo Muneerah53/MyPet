@@ -39,7 +39,7 @@ class _addPet extends State<addPet> {
   String currentValuesp = 'Cat';
   String val = '';
   String currentValuegn = 'Male';
-  List<String> specieses = ['Cat', 'Dog','Bird','Hamster','Rabbit'];
+  List<String> specieses = ['Cat', 'Dog','Bird','Hamster','Rabbit','Snake','Turtle'];
   List<String> genders = ['Male', 'Female'];
 
   //this is use to check the status of the form

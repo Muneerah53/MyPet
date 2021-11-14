@@ -91,6 +91,8 @@ flutter:
      - images/Bird.png
      - images/Hamster.png
      - images/Rabbit.png
+     - images/Snake.png
+     - images/Turtle.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -102,7 +102,7 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
 
   String currentValuespHint = pet['species'].toString();
   String currentValuegnHint = pet['gender'].toString();
-  List<String> specieses = ['Cat', 'Dog','Bird','Hamster','Rabbit'];
+  List<String> specieses = ['Cat', 'Dog','Bird','Hamster','Rabbit','Snake','Turtle'];
   List<String> genders = ['Male', 'Female'];
   return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -391,8 +391,13 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
       img = "images/Bird.png";
     else if (document['species'] == "Rabbit")
       img = "images/Rabbit.png";
+    else if (document['species'] == "Snake")
+      img = "images/Snake.png";
+    else if (document['species'] == "Turtle")
+      img = "images/Turtle.png";
     else
       img = "images/Hamster.png";
+
       return Column(
 
           children: <Widget>[

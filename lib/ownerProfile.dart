@@ -245,8 +245,13 @@ class Profile extends StatelessWidget {
         img = "images/Bird.png";
       else if (document['species'] == "Rabbit")
         img = "images/Rabbit.png";
+      else if (document['species'] == "Snake")
+        img = "images/Snake.png";
+      else if (document['species'] == "Turtle")
+        img = "images/Turtle.png";
       else
         img = "images/Hamster.png";
+
 
       return Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),

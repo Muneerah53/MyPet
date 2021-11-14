@@ -4,8 +4,8 @@ TextStyle petCardSubTitleStyle = new TextStyle(fontFamily: 'Gotham', fontSize: 2
 ButtonStyle buttons = ElevatedButton.styleFrom( primary: Colors.pinkAccent,
 //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
     textStyle: TextStyle(fontSize: 18,));
-TextStyle statusCatStyle = new TextStyle(fontFamily: 'Gotham', fontSize: 20, color: Colors.lightBlue);
-TextStyle statusDogStyle = new TextStyle(fontFamily: 'Gotham',  fontSize: 20, color: Colors.green);
+TextStyle PetStyle = new TextStyle(fontFamily: 'Gotham', fontSize: 20, color: Color(0xffe57285));
+
 ButtonStyle backButton =  ElevatedButton.styleFrom(shape: CircleBorder(), padding: EdgeInsets.all(20), primary: Colors.transparent, shadowColor: Colors.transparent,);
 class navKeys {
   static final globalKey = GlobalKey();

@@ -211,7 +211,7 @@ class editProfile extends StatelessWidget {
     ));
     }
     else {
-                  owner.reference.update({'fname': fnameController.text});
+                  owner.reference.update({'fname': fnameController.text[0].toUpperCase()+fnameController.text.substring(1)});
                   change++;
                 }}
 
@@ -225,7 +225,7 @@ class editProfile extends StatelessWidget {
                           .errorColor,
                     ));
                   }else{
-                  document.reference.update({'lname': lnameController.text});
+                  document.reference.update({'lname': lnameController.text[0].toUpperCase()+lnameController.text.substring(1)});
                   change++;
                 }}
                 if (!mobileController.text.isEmpty) {

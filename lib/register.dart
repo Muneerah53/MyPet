@@ -376,8 +376,8 @@ class Home extends State<homereg> {
                                   .collection('pet owners')
                                   .doc(userCredential.user!.uid)
                                   .set({
-                                'fname': _firstName,
-                                'lname': _lastName,
+                                'fname': _firstName[0].toUpperCase()+_firstName.substring(1),
+                                'lname': _lastName[0].toUpperCase()+_lastName.substring(1),
                                 'gender': currentValuegn,
                                 'email': _email,
                                 'mobile': _phoneNumber,

@@ -101,7 +101,10 @@ class _addPet extends State<addPet> {
                                   validator: (Value) {
                                     if (Value!.isEmpty) {
                                       return "Please enter your pet's name";
-                                    } else if (nameRegExp.allMatches(Value).length !=
+                                    }  else if ( Value.length>14) {
+                                      return "Pet name must be less than 14 character";
+                                    }
+                                    else if (nameRegExp.allMatches(Value).length !=
                                         Value.length) {
                                       return "Please enter valid pet name";
                                     }
@@ -239,7 +242,7 @@ class _addPet extends State<addPet> {
                                   if (_formKey.currentState!.validate()) {
                                     DocumentReference doc = await pets.add({
                                       'petId': '',
-                                      'name': petName,
+                                      'name': petName[0].toUpperCase()+petName.substring(1),
                                       'birthDate': dateController.text,
                                       'gender': currentValuegn,
                                       'species': currentValuesp,

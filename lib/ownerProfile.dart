@@ -82,8 +82,8 @@ class Profile extends StatelessWidget {
 
             ),
  Container(
-            padding: EdgeInsets.only(left:20,right: 20),
-            height:270,
+            padding: EdgeInsets.only(top:10,left:10,right: 10,bottom: 30),
+            height:260,
             child: StreamBuilder<QuerySnapshot>(
  stream: FirebaseFirestore.instance.collection('pet owners').where('ownerID', isEqualTo: getuser()).snapshots(),
           builder: (context, snapshot) {
@@ -176,14 +176,14 @@ class Profile extends StatelessWidget {
     if (document['ownerID'].toString() == getuser()){
      // ownerID = document['ownerID'].toString();
       return Card(
+      //  elevation:0,
+        //color: Color(0xFFF4E3E3),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(
 
           padding: EdgeInsets.only(left: 10, top: 5),
 
-          width: 290,
-          height: 220,
-
+          width: 300,
 
           child:
           Column(
@@ -195,11 +195,10 @@ class Profile extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(top: 10),
                   child: ListTile(
-                    title: Text(
-                        "First name:  " + document['fname'] + "\nLast name:  " +
-                            document['lname'] + "\nMobile:  " +
-                            document['mobile'] + "\nEmail:  " + document['email'],
-                        style: petCardTitleStyle),
+                    title: Text(document['fname'] +" " +
+                            document['lname'] + "\n" +
+                            document['mobile'] + "\n" + document['email'],
+                        style: petCardTitleStyle,textAlign: TextAlign.center),
 
                   ),),
 

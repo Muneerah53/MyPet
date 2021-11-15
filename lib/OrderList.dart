@@ -225,7 +225,7 @@ appointment? a;
                       Container(
                         margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: Text(
-                          totalss(a!.type)! + '\$',
+                          totalss(a!.type)! + '  USD',
                           style: TextStyle(
                               color: Color(0XFF52648B),
                               fontSize: 18,

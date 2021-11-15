@@ -1,5 +1,6 @@
 import 'package:MyPet/models/global.dart';
 import 'package:MyPet/view_service.dart';
+import 'package:MyPet/PetType_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:MyPet/admin_calender.dart';
@@ -173,6 +174,7 @@ class _adminHomePageState extends State<AdminHomePage> {
             ),
             SizedBox(height: 30),
             Container(
+              margin: EdgeInsets.only(bottom: 10),
               width: 344,
               height: 120,
               child: ElevatedButton(
@@ -186,6 +188,41 @@ class _adminHomePageState extends State<AdminHomePage> {
                     );
                   },
                   child: Text('Services',
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold)),
+                  style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all(Color(0XFFFF6B81)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
+                  )),
+
+
+
+
+
+
+            ),
+
+
+            SizedBox(height: 20),
+            Container(
+              margin: EdgeInsets.only(bottom: 30),
+              width: 344,
+              height: 120,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              PetTypeList(
+                                  title: 'Pet Types', type: 0)),
+                    );
+                  },
+                  child: Text('Pet Types',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,

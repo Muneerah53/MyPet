@@ -169,7 +169,7 @@ class _AppoinMainState extends State<AppoinMain> {
 
             SizedBox(width: 50),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
               width: 344,
               height: 120,
               child: ElevatedButton(

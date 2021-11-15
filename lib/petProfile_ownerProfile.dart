@@ -79,7 +79,7 @@ class pet extends StatelessWidget {
           Container(
          //  padding: EdgeInsets.only(bottom: 380,),
             child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('pets').snapshots(),
+                stream: FirebaseFirestore.instance.collection('pets').where("petId",isEqualTo: petID ).snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
                   return ListView.builder(
@@ -99,8 +99,8 @@ class pet extends StatelessWidget {
             height: 1000,
 
             child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('pets')
-                    .snapshots(),
+                stream: FirebaseFirestore.instance.collection('pets').where("petId",isEqualTo: petID ).snapshots(),
+
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
                   return ListView.builder(
@@ -120,7 +120,6 @@ class pet extends StatelessWidget {
 
   Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
 
-    if (document['petId'] == petID)
       return Card(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0)),
@@ -128,7 +127,7 @@ class pet extends StatelessWidget {
 
           padding: EdgeInsets.only(left: 20),
           width: 250,
-          height: 350,
+          height: 380,
 
           //i dont know why this cammand does not work
           decoration: BoxDecoration(
@@ -204,18 +203,27 @@ class pet extends StatelessWidget {
 
 
               ]),),);
-    else
-      return Card();
+
   }
 
   Widget _buildPicCard(BuildContext context, DocumentSnapshot document) {
     String img = "";
-    if (document['petId'] == petID) {
       if (document['species'] == "Dog")
         img = "images/dog.png";
-      else
+      else if (document['species'] == "Cat")
         img = "images/cat.png";
-      return Column(
+      else if (document['species'] == "Bird")
+        img = "images/Bird.png";
+      else if (document['species'] == "Rabbit")
+        img = "images/Rabbit.png";
+      else if (document['species'] == "Snake")
+        img = "images/Snake.png";
+      else if (document['species'] == "Turtle")
+        img = "images/Turtle.png";
+      else
+        img = "images/Hamster.png";
+
+    return Column(
 
           children: <Widget>[
 
@@ -240,14 +248,10 @@ class pet extends StatelessWidget {
             ),
           ]
       );
-    } else
-      return Card();
+
   }
 
-  Map statusStyles = {
-    'Cat': statusCatStyle,
-    'Dog': statusDogStyle
-  };
+
 
   showAlert(BuildContext context,String message,DocumentSnapshot document) {
     showDialog(

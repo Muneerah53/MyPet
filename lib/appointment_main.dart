@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'boardingAppointment.dart';
 import 'select_appt.dart';
 import 'models/global.dart';
 
@@ -104,18 +105,18 @@ class _AppoinMainState extends State<AppoinMain> {
               ],
             )),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 50, 0, 40),
+              margin: const EdgeInsets.fromLTRB(0, 50, 0, 60),
               child: Text(
                 'Appointment',
                 style: TextStyle(
-                    color: Color(0XFFFF6B81),
+                    color: Color(0xffe57285),
                     fontSize: 34,
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.bold),
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 60, 0, 40),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
               width: 344,
               height: 120,
               child: ElevatedButton(
@@ -134,13 +135,14 @@ class _AppoinMainState extends State<AppoinMain> {
                         fontWeight: FontWeight.bold)),
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Color(0XFFFF6B81)),
+                        MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0)))),
               ),
             ),
             SizedBox(width: 50),
             Container(
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
               width: 344,
               height: 120,
               child: ElevatedButton(
@@ -159,15 +161,39 @@ class _AppoinMainState extends State<AppoinMain> {
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Color(0XFF2F3542)),
+                        MaterialStateProperty.all(Color(0XFFFF6B81)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
             ),
 
-            SizedBox(
-              height: 20.0,
+            SizedBox(width: 50),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+              width: 344,
+              height: 120,
+              child: ElevatedButton(
+                onPressed: () {
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => boardingapp()),
+                  );
+                },
+                child: Text('Boarding',
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold)),
+                style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)))),
+              ),
             ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

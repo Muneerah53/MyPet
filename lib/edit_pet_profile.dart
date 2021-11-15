@@ -102,7 +102,7 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
 
   String currentValuespHint = pet['species'].toString();
   String currentValuegnHint = pet['gender'].toString();
-  List<String> specieses = ['Cat', 'Dog'];
+  List<String> specieses = ['Cat', 'Dog','Bird','Hamster','Rabbit','Snake','Turtle'];
   List<String> genders = ['Male', 'Female'];
   return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -155,7 +155,9 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
 
                         margin: EdgeInsets.only(left: 15, right: 15),
-                        child: TextFormField(controller: nameController,
+                        child: TextFormField(
+
+                          controller: nameController,
                           decoration: InputDecoration(
                               fillColor: Color(0xffe57285),
                               hintStyle: TextStyle(fontSize: 17),
@@ -306,7 +308,16 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
   int  speciesError = 0;
 
   if (!nameController.text.isEmpty) {
-  if (!validCharacters.hasMatch(nameController.text)) {
+    if (nameController.text.length>14) {
+      nameError++;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Pet name must be less than 14 character"),
+        backgroundColor: Theme
+            .of(context)
+            .errorColor,
+      ));
+    }
+  else if (!validCharacters.hasMatch(nameController.text)) {
   nameError++;
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
   content: Text("name must contain only characters"),
@@ -316,7 +327,7 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
   ));
   }
   else {
-  document.reference.update({'name': nameController.text});
+  document.reference.update({'name': nameController.text[0].toUpperCase()+nameController.text.substring(1)});
   change++;
   }}
 
@@ -383,10 +394,21 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
 
   Widget _buildPicCard(BuildContext context, DocumentSnapshot document) {
     String img = "";
-      if (document['species'] == "Dog")
-        img = "images/dog.png";
-      else
-        img = "images/cat.png";
+    if (document['species'] == "Dog")
+      img = "images/dog.png";
+    else if (document['species'] == "Cat")
+      img = "images/cat.png";
+    else if (document['species'] == "Bird")
+      img = "images/Bird.png";
+    else if (document['species'] == "Rabbit")
+      img = "images/Rabbit.png";
+    else if (document['species'] == "Snake")
+      img = "images/Snake.png";
+    else if (document['species'] == "Turtle")
+      img = "images/Turtle.png";
+    else
+      img = "images/Hamster.png";
+
       return Column(
 
           children: <Widget>[

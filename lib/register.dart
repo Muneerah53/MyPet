@@ -59,6 +59,8 @@ class Home extends State<homereg> {
   String _lastName = "";
   String _phoneNumber = "";
   String _confirmpassword = "";
+  String currentValuegn = 'Male';
+  List<String> genders = ['Male', 'Female'];
   final _auth = FirebaseAuth.instance;
   bool validatePassword(String value) {
     //Pattern pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$';
@@ -180,6 +182,34 @@ class Home extends State<homereg> {
                           ),
                         ),
                         //inputFile(label: "Enter your last name"),
+                        SizedBox(height: 10),
+                        Container(
+                            height: 58.0,
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(25))),
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            child: DropdownButtonHideUnderline(
+                                child: ButtonTheme(
+                                  alignedDropdown: true,
+                                  child: DropdownButton<String>(
+                                      isExpanded: true,
+                                      value: currentValuegn,
+                                      items: genders
+                                          .map<DropdownMenuItem<String>>((val) {
+                                        return DropdownMenuItem<String>(
+                                          value: val,
+                                          child: Text('$val'),
+                                        );
+                                      }).toList(),
+                                      onChanged: (val) {
+                                        setState(() {
+                                          currentValuegn = val!;
+                                        });
+                                      },
+                                      style: const TextStyle(color: Colors.black)),
+                                ))),
                         SizedBox(height: 10),
                         TextFormField(
                           onChanged: (value) {
@@ -346,8 +376,9 @@ class Home extends State<homereg> {
                                   .collection('pet owners')
                                   .doc(userCredential.user!.uid)
                                   .set({
-                                'fname': _firstName,
-                                'lname': _lastName,
+                                'fname': _firstName[0].toUpperCase()+_firstName.substring(1),
+                                'lname': _lastName[0].toUpperCase()+_lastName.substring(1),
+                                'gender': currentValuegn,
                                 'email': _email,
                                 'mobile': _phoneNumber,
                                 'ownerID': userCredential.user!.uid,

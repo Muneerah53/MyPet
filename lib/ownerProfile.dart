@@ -82,8 +82,8 @@ class Profile extends StatelessWidget {
 
             ),
  Container(
-            padding: EdgeInsets.only(left:20,right: 20),
-            height:270,
+            padding: EdgeInsets.only(top:10,left:10,right: 10,bottom: 30),
+            height:260,
             child: StreamBuilder<QuerySnapshot>(
  stream: FirebaseFirestore.instance.collection('pet owners').where('ownerID', isEqualTo: getuser()).snapshots(),
           builder: (context, snapshot) {
@@ -137,6 +137,8 @@ class Profile extends StatelessWidget {
           //pest cards
           Container(
             height: 220,
+
+            padding: EdgeInsets.only(left: 15, bottom: 5),
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection("pets")
@@ -174,20 +176,15 @@ class Profile extends StatelessWidget {
     if (document['ownerID'].toString() == getuser()){
      // ownerID = document['ownerID'].toString();
       return Card(
+      //  elevation:0,
+        //color: Color(0xFFF4E3E3),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         child: Container(
 
           padding: EdgeInsets.only(left: 10, top: 5),
 
-          width: 290,
-          height: 220,
+          width: 300,
 
-          //i dont know why this cammand does not work
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(40)),
-
-            color: Colors.white,
-          ),
           child:
           Column(
               children: <Widget>[
@@ -198,11 +195,10 @@ class Profile extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(top: 10),
                   child: ListTile(
-                    title: Text(
-                        "First name:  " + document['fname'] + "\nLast name:  " +
-                            document['lname'] + "\nMobile:  " +
-                            document['mobile'] + "\nEmail:  " + document['email'],
-                        style: petCardTitleStyle),
+                    title: Text(document['fname'] +" " +
+                            document['lname'] + "\n" +
+                            document['mobile'] + "\n" + document['email'],
+                        style: petCardTitleStyle,textAlign: TextAlign.center),
 
                   ),),
 
@@ -240,10 +236,21 @@ class Profile extends StatelessWidget {
 
     if (document['ownerId'].toString()==getuser()){
       myPets--;
-      if (document['species']=="Dog")
-        img="images/dog.png";
+      if (document['species'] == "Dog")
+        img = "images/dog.png";
+      else if (document['species'] == "Cat")
+        img = "images/cat.png";
+      else if (document['species'] == "Bird")
+        img = "images/Bird.png";
+      else if (document['species'] == "Rabbit")
+        img = "images/Rabbit.png";
+      else if (document['species'] == "Snake")
+        img = "images/Snake.png";
+      else if (document['species'] == "Turtle")
+        img = "images/Turtle.png";
       else
-        img="images/cat.png";
+        img = "images/Hamster.png";
+
 
       return Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -254,11 +261,6 @@ class Profile extends StatelessWidget {
             margin: EdgeInsets.only(left: 20,right:20),
             width: 160,
 
-            //i dont know why this cammand does not work
-            decoration: BoxDecoration(
-              color: Colors.white,
-
-            ),
             child:
             Column(
               children: <Widget>[
@@ -266,25 +268,21 @@ class Profile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(top: 10),
+                      margin: EdgeInsets.only(top: 5),
                       width: 100,
                       height: 100,
                       child: CircleAvatar(
                           radius: 80,
                           backgroundImage:new AssetImage(img)),
-
-
                     ),
 
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 5),
                   child:Center(
                   child: ListTile(
-                      title: Text(document['name'],style: statusStyles[document['species']],   textAlign: TextAlign.center,),
+                      title: Text(document['name'],style: PetStyle,   textAlign: TextAlign.center,),
                       onTap: (){
-
                         Navigator.push(context,MaterialPageRoute(builder:(context) {
                           return pet(document['petId']);
 
@@ -294,10 +292,7 @@ class Profile extends StatelessWidget {
     }
     else return Card();
   }
-  Map statusStyles = {
-    'Cat' : statusCatStyle,
-    'Dog' : statusDogStyle
-  };
+
   String getuser(){
     User? user = FirebaseAuth.instance.currentUser;
     return user!.uid.toString();

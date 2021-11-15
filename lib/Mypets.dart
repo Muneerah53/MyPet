@@ -124,7 +124,7 @@ class MyPets extends StatelessWidget {
           //pest cards
           Container(
 
-            padding: EdgeInsets.only(left:25,right:25,top: 10),
+            padding: EdgeInsets.only(left:25,right:25,top: 10,bottom: 50),
             height: 530,
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -173,10 +173,21 @@ class MyPets extends StatelessWidget {
     String img ="";
     if (document['ownerId'].toString() == fb.getuser()){
       pets++;
-      if (document['species']=="Dog")
-        img="images/dog.png";
+      if (document['species'] == "Dog")
+        img = "images/dog.png";
+      else if (document['species'] == "Cat")
+        img = "images/cat.png";
+      else if (document['species'] == "Bird")
+        img = "images/Bird.png";
+      else if (document['species'] == "Rabbit")
+        img = "images/Rabbit.png";
+      else if (document['species'] == "Snake")
+        img = "images/Snake.png";
+      else if (document['species'] == "Turtle")
+        img = "images/Turtle.png";
       else
-        img="images/cat.png";
+        img = "images/Hamster.png";
+
 
 
       return GestureDetector(
@@ -213,7 +224,7 @@ class MyPets extends StatelessWidget {
               Container(
 
                 child:ListTile(
-                    title: Text(document['name'],style: statusStyles[document['species']],
+                    title: Text(document['name'],style: PetStyle,
                         textAlign: TextAlign.center),
               ),
               ),],
@@ -222,10 +233,7 @@ class MyPets extends StatelessWidget {
 
     }else
       return Card();}
-  Map statusStyles = {
-    'Cat' : statusCatStyle,
-    'Dog' : statusDogStyle
-  };
+
 }
 
 String msg(){

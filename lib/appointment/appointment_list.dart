@@ -7,6 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'previouseTileAppt.dart';
+
 class AppointmentList extends StatefulWidget {
   String title;
   int type;
@@ -42,8 +44,10 @@ class _AppointmentListState extends State<AppointmentList> {
 
     CollectionReference appointmentDB =
     FirebaseFirestore.instance.collection('appointment');
+
     CollectionReference WorkShiftDB =
     FirebaseFirestore.instance.collection('Work Shift');
+
     CollectionReference petsDB = FirebaseFirestore.instance.collection('pets');
     List<AppointmentModel> appList = [];
 
@@ -67,6 +71,7 @@ class _AppointmentListState extends State<AppointmentList> {
         var petsData = await petsDB.doc(petID).get();
 
         Map<String, dynamic>? petMap = petsData.data() as Map<String, dynamic>?;
+
         String? petName = petMap!['name'];
         String? petSpecies = petMap['species'];
         //geting pet date and time
@@ -78,11 +83,10 @@ class _AppointmentListState extends State<AppointmentList> {
         String? endTime = workShiftMap['endTime'];
         String? status = workShiftMap['status'];
         String? type = workShiftMap['type'];
-
+        bool test;
         var oppDate = DateFormat('dd/MM/yyyy').parse(date.toString());
         var toDay = DateTime.now();
-
-        bool test;
+        /*
         if (widget.type == 0) {
           test = oppDate.difference(toDay).inDays == 0
               ? true
@@ -91,6 +95,19 @@ class _AppointmentListState extends State<AppointmentList> {
           test = oppDate.difference(toDay).inDays == 0
               ? false
               : oppDate.difference(toDay).isNegative;
+        }*/
+        var deff = oppDate.difference(toDay).inMinutes;
+        // if(deff >= 0){
+        //   test= true ;
+        // }
+        // else{
+        //   test= false ;
+        // }
+
+        if (widget.type == 0) {
+          test = deff >= 0 ? true : false;
+        } else {
+          test = deff < 0 ? true : false;
         }
         if (test) {
           AppointmentModel appointmentModel = new AppointmentModel(
@@ -133,38 +150,10 @@ class _AppointmentListState extends State<AppointmentList> {
         body: isLoading
             ? Loading()
             : Column(
-          children: [
-            SizedBox(
+            children: [
+             SizedBox(
               height: 40.0,
             ),
-
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     RawMaterialButton(
-            //       onPressed: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (BuildContext context) =>
-            //                   appointmentPage()),
-            //         );
-            //       },
-            //       elevation: 0.0,
-            //       fillColor: Colors.blue[100],
-            //       child: Padding(
-            //         padding: const EdgeInsets.all(2.0),
-            //         child: Icon(
-            //           Icons.arrow_back_ios,
-            //           size: 42.0,
-            //           color: Colors.white,
-            //         ),
-            //       ),
-            //       padding: EdgeInsets.all(2.0),
-            //       shape: CircleBorder(),
-            //     ),
-            //   ],
-            // ),
 
             Text(
               widget.title,
@@ -179,15 +168,25 @@ class _AppointmentListState extends State<AppointmentList> {
             Expanded(
               child: !isLoading && _appList.isEmpty
                   ? Center(
-                child: Text("no appointment has been booked yet "),
+                child: Text("You have no upcoming appointments"),
               )
                   : ListView.builder(
                   itemCount: _appList.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      child:
-                      AppointmentTile(_appList[index], initData),
+                      if (widget.type == 0) {
+                      return Container(
+                         child:
+                        AppointmentTile(_appList[index], initData),
+          );
+
+        }
+                 else{
+                   return Container(
+                     child:
+                     previousTileAppt(_appList[index], initData),
                     );
+                 }
+
                   }),
             ),
           ],

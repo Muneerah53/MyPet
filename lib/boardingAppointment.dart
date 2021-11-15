@@ -40,7 +40,8 @@ class boardingState extends State<boardingapp> {
   String emp = '';
   // String? petName;
   //String? stime;
-  var selectedCurrency;
+
+  bool isSelected=true;
   @override
   void initState() {
     super.initState();
@@ -69,6 +70,7 @@ class boardingState extends State<boardingapp> {
             text: DateFormat('EEE, MMM dd yyyy').format(selected1Date)
         );
       });
+      isSelected=false;
     }
   }
 
@@ -79,13 +81,20 @@ class boardingState extends State<boardingapp> {
         initialDate: selected2Date,
         firstDate: DateTime.now(),
         lastDate: DateTime(2100)); //from db
-    if (picked != null && picked != selected2Date) {
+    if (picked != null && picked != selected2Date && !(picked.isBefore(selected1Date))) {
       setState(() {
         selected2Date = picked;
         _date2.value = TextEditingValue(
             text: DateFormat('EEE, MMM dd yyyy').format(selected2Date)
         );
       });
+    }
+    else if(picked != null && picked.isBefore(selected1Date)){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            "pick-up date must not be befor drop-off date "),
+        backgroundColor: Theme.of(context).errorColor,
+      ));
     }
   }
 
@@ -117,8 +126,6 @@ class boardingState extends State<boardingapp> {
                       fontSize: 34,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.bold))),
-
-
           Container(
             padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
             child: Text(
@@ -156,6 +163,7 @@ class boardingState extends State<boardingapp> {
                               style: BorderStyle.none,
                             )),
                       ),
+
                     ),
                   ))),
 
@@ -175,8 +183,17 @@ class boardingState extends State<boardingapp> {
               padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
               child: GestureDetector(
                   onTap: () {
-                    show2ndDialog();
+                    if (isSelected)
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("You Must Select Drop-Off Date First"),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    else
+                      show2ndDialog();
                   },
+
                   child: AbsorbPointer(
                     child: TextField(
                       controller: _date2,
@@ -304,21 +321,39 @@ class boardingState extends State<boardingapp> {
               heightFactor: 1.5,
               child: ElevatedButton(
                   onPressed: () {
-                    a.type= 'Boarding';
-                    a.total = 75.0*selected2Date.difference(selected1Date).inDays;
-                    a.petId = pid;
-                    a.petName=pets;
-                    a.desc = reason;
-                    a.time =  DateFormat('EEE, MMM dd yyyy').format(selected2Date);
-                    a.date =  DateFormat('EEE, MMM dd yyyy').format(selected1Date)+'-'+a.time.toString();
+                    if ((_date1 == null) ||
+                        (_date2 == null) ||
+                        (petIndex == null) ||
+                        (reason.isEmpty)
+                    ) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            "Please fill out all fields."),
+                        backgroundColor: Theme.of(context).errorColor,
+                      ));
+                    }
+                    else {
+                      a.type = 'Boarding';
+                      a.total = 75.0 * selected2Date
+                          .difference(selected1Date)
+                          .inDays;
+                      a.petId = pid;
+                      a.petName = pets;
+                      a.desc = reason;
+                      a.time =
+                          DateFormat('EEE, MMM dd yyyy').format(selected2Date);
+                      a.date =
+                          DateFormat('EEE, MMM dd yyyy').format(selected1Date) +
+                              '-' + a.time.toString();
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => OrderList(
-                              appoint: a)),
-                    );
-
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                OrderList(
+                                    appoint: a)),
+                      );
+                    }
                   },
                   child: Padding(
                       padding: EdgeInsets.only(

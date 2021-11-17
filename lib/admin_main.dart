@@ -11,6 +11,7 @@ import 'package:MyPet/admin_newServices.dart';
 import 'package:MyPet/admin_viewSchedule.dart';
 
 import 'PetType_tile.dart';
+import 'PetType_view.dart';
 import 'admin_viewappts.dart';
 
 class AdminHomePage extends StatefulWidget {

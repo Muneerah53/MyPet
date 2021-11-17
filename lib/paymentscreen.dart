@@ -47,11 +47,16 @@ String _loadHTML(){
           onPageFinished:(url){
             if(url.contains('/success')){
               print(url);
-              fb.saveData(a!);
-              NotificationService.showNotifaction(
-                  title: 'Success!',
-                  body: 'Your appointment has been confirmed.');
+              if(a!.type.toString()=='Boarding')
+                fb.saveBoarding(a!);
 
+
+
+             else
+                fb.saveData(a!);
+                NotificationService.showNotifaction(
+                    title: 'Success!',
+                    body: 'Your appointment has been confirmed.');
 
               Navigator.push(context, MaterialPageRoute(builder: (context)=> Payment()));
             }

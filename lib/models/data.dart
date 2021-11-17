@@ -93,6 +93,33 @@ class fbHelper {
            doc.delete();
            }
 
+  Future<void> saveBoarding(appointment a) async {
+
+    DocumentReference doc =
+        await FirebaseFirestore.instance.collection('boarding').add({
+      'notes': a.desc!,
+      'petID': a.petId,
+      'petOwnerID': getuser(),
+      'totalPrice': a.total,
+      'startDate': a.date,
+      'endDate': a.time
+    });
+
+    await FirebaseFirestore.instance
+        .collection("boarding")
+        .doc(doc.id)
+        .update({"boardingID": doc.id});
+
+    NotificationService.showScheduledBoardingNotifaction(
+        id: doc.id.hashCode,
+        title: 'Reminder',
+        t1: a.getBoardingTime(a.date!),
+        t2: a.getBoardingTime(a.time!)
+    );
+
+
+  }
+
 
 
 }

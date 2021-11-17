@@ -197,7 +197,7 @@ appointment? a;
                       Container(
                         margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
                         child: Text(
-                          a!.date.toString(),
+                          a!.date.toString()+a!.time.toString(),
                           style: TextStyle(
                               color: Color(0XFF52648B),
                               fontSize: 18,

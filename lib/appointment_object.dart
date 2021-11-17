@@ -34,6 +34,26 @@ class appointment{
       return _startDateTime;
    }
 
+   DateTime getBoardingTime(String d){
+
+
+      DateTime _date = DateFormat('EEE, MMM dd yyyy').parse(d!);
+
+
+      DateTime _startDateTime = DateTime(
+          _date.year,
+          _date.month,
+          _date.day,
+         12,
+          0,
+          0);
+      return _startDateTime;
+   }
+
+
+
+
+
 String? info(){
    return "$id,$type,$date,$petName,$petId,$time,$total,$appointID,$desc";
 

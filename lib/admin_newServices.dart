@@ -2,10 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 import 'models/global.dart';
-
-
 
 class services extends StatefulWidget {
   const services({Key? key}) : super(key: key);
@@ -33,6 +30,7 @@ class _servicesState extends State<services> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation:0,
@@ -48,25 +46,46 @@ class _servicesState extends State<services> {
 
       backgroundColor: const Color(0xFFF4E3E3),
 body: SingleChildScrollView(
-        child: Builder(
-        builder: (context) => Form(
-      key: _V,
+
+    child: Container(
+
+    padding: EdgeInsets.all(15.0),
+    //margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+    decoration: BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(40)),
+    // color: Colors.white,
+    ),
+        child:  Form(
+            key: _V,
+    child: Padding(
+    padding: const EdgeInsets.all(8.0),
       child: Column(
-       mainAxisAlignment: MainAxisAlignment.center,
-       children: [
-SizedBox(height: 30),
+        crossAxisAlignment: CrossAxisAlignment.start,
+
+        children: [
+          Container(
+              padding: const EdgeInsets.fromLTRB(74, 5, 44, 45),
+              child: const Text('Add Service',
+                  style: TextStyle(
+                      color: Color(0xffe57285),
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold))),
+
+         SizedBox(height: 15),
          Container(
+           padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
            child: Text(
-             'Add Service',
+             'Service Name:',
              style: TextStyle(
-                 color: Color(0XFFFF6B81),
-                 fontSize: 34,
-                 fontStyle: FontStyle.normal,
+                 color: const Color(0xFF552648B),
+                 fontSize: 18,
+                 fontStyle: FontStyle.italic,
                  fontWeight: FontWeight.bold),
            ),
          ),
-         SizedBox(height: 80),
-         TextFormField(
+          Container(
+            padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
+         child: TextFormField(
            onChanged: (value) {
 
              setState(() {
@@ -85,17 +104,30 @@ SizedBox(height: 30),
            decoration: InputDecoration(
              filled: true,
              fillColor: Colors.white,
-             hintText: "Enter the service name",
              border: OutlineInputBorder(
-                 borderRadius: BorderRadius.circular(30.0),
+                 borderRadius: BorderRadius.circular(20.0),
                  borderSide: BorderSide(
                    width: 0,
                    style: BorderStyle.none,
                  )),
            ),
+         )),
+         Container(
+
+           padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
+           child: Text(
+             'Service Price in SAR:',
+             style: TextStyle(
+                 color: const Color(0xFF552648B),
+                 fontSize: 18,
+                 fontStyle: FontStyle.italic,
+                 fontWeight: FontWeight.bold),
+           ),
          ),
-         SizedBox(height: 30),
-         TextFormField(
+         Container(
+             padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
+             child: TextFormField(
+
            onChanged: (value) {
              _priceService = value;
            },
@@ -111,52 +143,86 @@ SizedBox(height: 30),
            decoration: InputDecoration(
              filled: true,
              fillColor: Colors.white,
-             hintText: "Enter the Service Price",
              border: OutlineInputBorder(
-                 borderRadius: BorderRadius.circular(25.0),
+                 borderRadius: BorderRadius.circular(20.0),
                  borderSide: BorderSide(
                    width: 0,
                    style: BorderStyle.none,
                  )),
            ),
-         ),
-         SizedBox(height: 130),
+         )),
+         SizedBox(height: 30),
 
-         Container(
-height: 70,
-             width: 180,
+//          Container(
+// height: 70,
+//              width: 180,
+//
+//              child :
+//              RaisedButton(
+//                  color: Color(0xff313540),
+//                  shape:RoundedRectangleBorder(
+//                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+//                  ),
+//                  onPressed: () async {
+//                    if (_V.currentState!.validate()) {
+//                      DocumentReference doc = await ser.add({
+//                        "serviceID":'',
+//                        "serviceName": _serviceName ,
+//                        "servicePrice": _priceService
+//                      });
+//                      String _id = doc.id;
+//                      await ser.doc(_id).update({"serviceID": _id});
+//
+//                      ScaffoldMessenger.of(context).showSnackBar(
+//     const SnackBar(content: Text('Service added successfully'),backgroundColor:Colors.green)
+//     );
+//                  }
+//                    },
+//                  child: Text("Add Service", style: new TextStyle(
+//                    fontSize: 18.0,color: Colors.white,)
+//                  )
+//              )
+//
+//          ),
 
-             child :
-             RaisedButton(
-                 color: Color(0xff313540),
-                 shape:RoundedRectangleBorder(
-                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                 ),
-                 onPressed: () async {
-                   if (_V.currentState!.validate()) {
-                     DocumentReference doc = await ser.add({
-                       "serviceID":'',
-                       "serviceName": _serviceName ,
-                       "servicePrice": _priceService
-                     });
-                     String _id = doc.id;
-                     await ser.doc(_id).update({"serviceID": _id});
+       Center(
+         child: Container(
+           margin: const EdgeInsets.fromLTRB(0, 30, 0, 5),
+           width: 193,
+           height: 73,
+           child: ElevatedButton(
+               onPressed: () async {
+                 if (_V.currentState!.validate()) {
+                   DocumentReference doc = await ser.add({
+                     "serviceID":'',
+                     "serviceName": _serviceName ,
+                     "servicePrice": _priceService
+                   });
+                   String _id = doc.id;
+                   await ser.doc(_id).update({"serviceID": _id});
 
-                     ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(content: Text('Service added successfully'),backgroundColor:Colors.green)
-    );
+                   ScaffoldMessenger.of(context).showSnackBar(
+                       const SnackBar(content: Text('Service added successfully'),backgroundColor:Colors.green)
+                   );
                  }
-                   },
-                 child: Text("Add Service", style: new TextStyle(
-                   fontSize: 18.0,color: Colors.white,)
-                 )
-             )
-
-         ),
+               },
+               child: const Text('Add ',
+                 style: TextStyle( color:Colors.black,
+                     fontSize: 18),
+               ),
+               style: ButtonStyle(
+                 backgroundColor:
+                 MaterialStateProperty.all(Color(0xFFE7F2EC)),
+                 shape: MaterialStateProperty.all(
+                     RoundedRectangleBorder(
+                         borderRadius:
+                         BorderRadius.circular(12))),
+               )),
+         )),
        ],
       ),
 
     ))
-));
+)));
   }
 }

@@ -1,6 +1,5 @@
 import 'package:MyPet/models/global.dart';
 import 'package:MyPet/view_service.dart';
-import 'package:MyPet/PetType_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:MyPet/admin_calender.dart';
@@ -8,6 +7,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:MyPet/add_dr.dart';
 import 'package:MyPet/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:MyPet/admin_newServices.dart';
+import 'package:MyPet/admin_viewSchedule.dart';
 
 import 'PetType_tile.dart';
 import 'admin_viewappts.dart';
@@ -79,6 +80,38 @@ class _adminHomePageState extends State<AdminHomePage> {
                     image: new AssetImage('images/logo.jpeg'))
               ],
             ),
+            // SizedBox(height: 30),
+            // Container(
+            //   width: 344,
+            //   height: 120,
+            //   child: ElevatedButton(
+            //       onPressed: () {
+            //         BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+            //         navigationBar.onTap!(1);
+            //      /*   Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: (BuildContext context) => appointCalendar()),
+            //         ); */
+            //       },
+            //       child: Text('View Schedule',
+            //           style: TextStyle(
+            //               fontStyle: FontStyle.italic,
+            //               fontSize: 25,
+            //               fontWeight: FontWeight.bold)),
+            //       style: ButtonStyle(
+            //         backgroundColor:
+            //         MaterialStateProperty.all(Color(0XFF2F3542)),
+            //         shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(20.0))),
+            //       )),
+            //
+            //
+            //
+            //
+            //
+            //
+            // ),
             SizedBox(height: 30),
             Container(
               width: 344,
@@ -175,7 +208,6 @@ class _adminHomePageState extends State<AdminHomePage> {
             ),
             SizedBox(height: 30),
             Container(
-              margin: EdgeInsets.only(bottom: 10),
               width: 344,
               height: 120,
               child: ElevatedButton(
@@ -242,7 +274,34 @@ class _adminHomePageState extends State<AdminHomePage> {
 
 
             ),
-          ],
+          SizedBox(height: 50),
+//           Container(
+//             width: 344,
+//             height: 120,
+//             child: ElevatedButton(
+//                 onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                         builder: (context) => new services()),
+//                   );
+//                 },
+//                 child: Text('Add Service',
+//                     style: TextStyle(
+//                         fontStyle: FontStyle.italic,
+//                         fontSize: 25,
+//                         fontWeight: FontWeight.bold)),
+//                 style: ButtonStyle(
+//                   backgroundColor:
+//                   MaterialStateProperty.all(Color(0XFFFF6B81)),
+//                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(20.0))),
+//                 )),
+//
+//
+// )
+
+            ],
         )),
       ),
     );

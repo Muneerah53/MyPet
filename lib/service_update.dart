@@ -123,7 +123,7 @@ _price = widget.model.servicePrice;
                     Container(
                       padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
                       child: Text(
-                        'Service Price in SR:',
+                        'Service Price in SAR:',
                         style: TextStyle(
                             color: const Color(0xFF552648B),
                             fontSize: 18,

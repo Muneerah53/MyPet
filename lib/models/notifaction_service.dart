@@ -68,5 +68,32 @@ class NotificationService {
 
 
 
+  static Future showScheduledBoardingNotifaction({int? id, String? title, String? body, DateTime? t1, DateTime? t2}) async
+  {
+    _notifactions.zonedSchedule(
+        id!,
+        title,
+        'Your Pet Boarding appointment is tomorrow',
+        tz.TZDateTime.from(t1!.subtract(const Duration(days: 1)),tz.local),
+        await notificationDetails(),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
+
+
+    _notifactions.zonedSchedule(
+        id!,
+        title,
+        'Pick up Your pet Tomorrow',
+        tz.TZDateTime.from(t2!.subtract(const Duration(days: 1)),tz.local),
+        await notificationDetails(),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
+
+
+
+  }
+
+
+
 
 }

@@ -343,8 +343,7 @@ class boardingState extends State<boardingapp> {
                       a.time =
                           DateFormat('EEE, MMM dd yyyy').format(selected2Date);
                       a.date =
-                          DateFormat('EEE, MMM dd yyyy').format(selected1Date) +
-                              '-' + a.time.toString();
+                          DateFormat('EEE, MMM dd yyyy').format(selected1Date);
 
                       Navigator.push(
                         context,

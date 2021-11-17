@@ -1,4 +1,3 @@
-// import 'dart:developer';
 import 'package:MyPet/PetType_model.dart';
 import 'package:MyPet/PetType_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,7 +26,7 @@ class _PetTypeTile extends State<PetTypeTile> {
   }
 
   deleteService() async {
-    await FirebaseFirestore.instance
+  await FirebaseFirestore.instance
         .collection("PetTypes")
         .doc(widget.petType.petTypeID)
         .delete();
@@ -51,7 +50,7 @@ class _PetTypeTile extends State<PetTypeTile> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
+        margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -88,7 +87,9 @@ class _PetTypeTile extends State<PetTypeTile> {
                             elevation: 0.0,
                             shadowColor: Colors.transparent,
                           ),)),
-                  ),  Padding(
+                  ),
+
+                  Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: SizedBox(
                         height:36, //height of button

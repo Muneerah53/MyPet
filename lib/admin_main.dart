@@ -9,6 +9,7 @@ import 'package:MyPet/add_dr.dart';
 import 'package:MyPet/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'PetType_tile.dart';
 import 'admin_viewappts.dart';
 
 class AdminHomePage extends StatefulWidget {
@@ -214,14 +215,15 @@ class _adminHomePageState extends State<AdminHomePage> {
               height: 120,
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              PetTypeList(
-                                  title: 'Pet Types', type: 0)),
-                    );
-                  },
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+    builder: (BuildContext context) =>
+    PetTypeList(
+    title: 'Pet Types', type: 0)),
+    );
+    },
+
                   child: Text('Pet Types',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,

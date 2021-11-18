@@ -124,7 +124,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                           builder: (BuildContext context) => viewSChPage()),
                     );
                   },
-                  child: Text('Manage Schedule',
+                  child: Text('View Schedule',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,
@@ -218,7 +218,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                                   title: 'Services', type: 0)),
                     );
                   },
-                  child: Text('Services',
+                  child: Text('View Services',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,

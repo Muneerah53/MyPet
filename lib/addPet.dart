@@ -1,11 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:MyPet/MyPets.dart';
 import 'models/global.dart';
 import 'models/global.dart';
 
+
 GlobalKey _globalKey = navKeys.globalKey;
+var selectedType = 'Dog';
+FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
 
 // Future AddPetAsync(petName, gender, disease, specie) async {
 //
@@ -26,9 +30,6 @@ class _addPet extends State<addPet> {
   final String ownerID;
   _addPet(this.ownerID);
 
-  // String currentSpecie = 'Cat';
-  // String currentGender = 'Male';
-  // String currentDisease = 'No Disease';
   String petName = '';
   String petBirthDate = '';
   //late DateTime _dateTime;
@@ -41,6 +42,7 @@ class _addPet extends State<addPet> {
   String currentValuegn = 'Male';
   List<String> specieses = ['Cat', 'Dog','Bird','Hamster','Rabbit','Snake','Turtle'];
   List<String> genders = ['Male', 'Female'];
+
 
   //this is use to check the status of the form
   final _formKey = GlobalKey<FormState>();
@@ -57,7 +59,7 @@ class _addPet extends State<addPet> {
   }
 
   CollectionReference pets = FirebaseFirestore.instance.collection('pets');
-//  final FirebaseAuth auth = FirebaseAuth.instance;
+
 
   @override
   Widget build(BuildContext context) {
@@ -166,45 +168,116 @@ class _addPet extends State<addPet> {
                                 },
                               ),
                             ),
+                            SizedBox(height: 20),
+
+                Visibility(
+                    visible: true,
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: firestoreInstance.collection("PetTypes")
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData)
+                            const Text("Loading...");
+                          if (snapshot.data == null)
+                            return Padding(
+                                padding: EdgeInsets.all(20),
+                                child: const Text(
+                                    'You haven\'t added Any Types!',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                        color: Colors.grey),
+                                    textAlign: TextAlign.center));
+                          else {
+                            List<DropdownMenuItem<dynamic>> drNames = [];
+                            Map<String,String> types = {};
+                            drNames.clear();
+                            for (int i = 0; i <
+                                snapshot.data!.docs.length; i++) {
+                              DocumentSnapshot snap = snapshot.data!.docs[i];
+                              types[snap['petTypeID']] =  snap['petTypeName'];
+                              drNames.add(
+                                DropdownMenuItem(
+                                  child: Text(
+                                      " "+ snap['petTypeName'],
+                                    style: TextStyle(color: Colors.black87),
+                                  ),
+                                  value: snap['petTypeName'],
+                                ),
+                              );
+                            }
+                            return Container(
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Colors.white),
+                              child: DropdownButtonFormField<dynamic>(
+                                decoration: InputDecoration(
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.white))),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 18,
+                                  color: Colors.grey,
+                                ),
+                                elevation: 8,
+                                items: drNames,
+                                onChanged: (drValue) {
+
+                                  setState(() {
+                                    currentValuesp = drValue;
+                                  });
+                                },
+                                value: null,
+                                validator: (value) =>
+                                value == null
+                                    ? 'Please Choose '
+                                    : null,
+                                isExpanded: true,
+                                hint:  Text(
+                                  " Type",
+                                style: TextStyle(color: Colors.grey,  fontWeight: FontWeight.normal,
+                                  fontSize: 18,),
+                                ),
+                              ),
+                            );
+                          }
+                        }),
+                    replacement: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Colors.white),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<dynamic>(
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 18,
+                            color: Colors.grey,
+                          ),
+                          elevation: 8,
+                          items: const <DropdownMenuItem<dynamic>>[],
+                          onChanged: null,
+                          value: val,
+                          isExpanded: true,
+                          hint: new Text(
+                            "Type",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                    )),
 
                             SizedBox(height: 20),
+
                             Container(
                                 height: 58.0,
                                 decoration: const BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
-                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                child: DropdownButtonHideUnderline(
-                                    child: ButtonTheme(
-                                      alignedDropdown: true,
-                                      child: DropdownButton<String>(
-                                          isExpanded: true,
-                                          value: currentValuesp,
-                                          items: specieses
-                                              .map<DropdownMenuItem<String>>((val) {
-                                            return DropdownMenuItem<String>(
-                                              value: val,
-                                              child: Text('$val'),
-                                            );
-                                          }).toList(),
-                                          onChanged: (val) {
-                                            setState(() {
-                                              currentValuesp = val!;
-                                            });
-                                          },
-                                          style: const TextStyle(color: Colors.black)),
-                                    ))),
-
-                            SizedBox(height: 20),
-
-                            Container(
-                                height: 58.0,
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                                 child: DropdownButtonHideUnderline(
                                     child: ButtonTheme(
                                       alignedDropdown: true,
@@ -215,7 +288,7 @@ class _addPet extends State<addPet> {
                                               .map<DropdownMenuItem<String>>((val) {
                                             return DropdownMenuItem<String>(
                                               value: val,
-                                              child: Text('$val'),
+                                              child: Text('$val'  ,style: TextStyle(color: Colors.black87),),
                                             );
                                           }).toList(),
                                           onChanged: (val) {
@@ -223,7 +296,8 @@ class _addPet extends State<addPet> {
                                               currentValuegn = val!;
                                             });
                                           },
-                                          style: const TextStyle(color: Colors.black)),
+                                          style: const TextStyle(color: Colors.grey,  fontWeight: FontWeight.normal,
+                                            fontSize: 18,),),
                                     ))),
 
                             SizedBox(height: 85),
@@ -307,4 +381,5 @@ class _addPet extends State<addPet> {
 
 
   }
+
 }

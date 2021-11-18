@@ -27,7 +27,7 @@ a= widget.appoint;
 price = a!.total;//here var is call and set to
   }
 String _loadHTML(){
-  return 'http://172.20.10.3:8000/price?id=$price';
+  return 'http://172.20.10.4:8000/price?id=$price';
 }
 
   @override

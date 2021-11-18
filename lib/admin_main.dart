@@ -1,3 +1,5 @@
+import 'package:MyPet/PetType_model.dart';
+import 'package:MyPet/admin_screen.dart';
 import 'package:MyPet/models/global.dart';
 import 'package:MyPet/view_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +11,10 @@ import 'package:MyPet/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:MyPet/admin_newServices.dart';
 import 'package:MyPet/admin_viewSchedule.dart';
+
+import 'ManagePetType.dart';
+import 'PetType_tile.dart';
+import 'PetType_view.dart';
 import 'admin_viewappts.dart';
 
 class AdminHomePage extends StatefulWidget {
@@ -55,18 +61,7 @@ class _adminHomePageState extends State<AdminHomePage> {
             child:Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 60),
-              child: Text(
-                'Manager',
-                style: TextStyle(
-                    color: Color(0XFFFF6B81),
-                    fontSize: 34,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
+            SizedBox(height: 50),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -78,53 +73,20 @@ class _adminHomePageState extends State<AdminHomePage> {
                     image: new AssetImage('images/logo.jpeg'))
               ],
             ),
-            // SizedBox(height: 30),
-            // Container(
-            //   width: 344,
-            //   height: 120,
-            //   child: ElevatedButton(
-            //       onPressed: () {
-            //         BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-            //         navigationBar.onTap!(1);
-            //      /*   Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (BuildContext context) => appointCalendar()),
-            //         ); */
-            //       },
-            //       child: Text('View Schedule',
-            //           style: TextStyle(
-            //               fontStyle: FontStyle.italic,
-            //               fontSize: 25,
-            //               fontWeight: FontWeight.bold)),
-            //       style: ButtonStyle(
-            //         backgroundColor:
-            //         MaterialStateProperty.all(Color(0XFF2F3542)),
-            //         shape: MaterialStateProperty.all(RoundedRectangleBorder(
-            //             borderRadius: BorderRadius.circular(20.0))),
-            //       )),
-            //
-            //
-            //
-            //
-            //
-            //
-            // ),
-            SizedBox(height: 30),
+
+            SizedBox(height: 50),
             Container(
               width: 344,
               height: 120,
               child: ElevatedButton(
                   onPressed: () {
-                    // BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                    // navigationBar.onTap!(1);
-                     Navigator.push(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => viewSChPage()),
+                          builder: (BuildContext context) => new AdminAppointments()),
                     );
                   },
-                  child: Text('View Schedule',
+                  child: Text('View Appointments',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,
@@ -149,14 +111,16 @@ class _adminHomePageState extends State<AdminHomePage> {
               child: ElevatedButton(
                   onPressed: () {
                     BottomNavigationBar navigationBar =   _globalKey.currentWidget as BottomNavigationBar;
-                    navigationBar.onTap!(2);
-                  /*  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => docList()),
-                    ); */
+                    navigationBar.onTap!(3);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (BuildContext context) =>
+                    //          ServiceList(
+                    //               title: 'Services', type: 0)),
+                    // );
                   },
-                  child: Text('View Employees',
+                  child: Text('Manage Services',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,
@@ -174,38 +138,11 @@ class _adminHomePageState extends State<AdminHomePage> {
 
 
             ),
-            // SizedBox(height: 30),
-            // Container(
-            //   width: 344,
-            //   height: 120,
-            //   child: ElevatedButton(
-            //       onPressed: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (BuildContext context) => new AdminAppointments()),
-            //         );
-            //       },
-            //       child: Text('View Appointments',
-            //           style: TextStyle(
-            //               fontStyle: FontStyle.italic,
-            //               fontSize: 25,
-            //               fontWeight: FontWeight.bold)),
-            //       style: ButtonStyle(
-            //         backgroundColor:
-            //         MaterialStateProperty.all(Color(0XFF2F3542)),
-            //         shape: MaterialStateProperty.all(RoundedRectangleBorder(
-            //             borderRadius: BorderRadius.circular(20.0))),
-            //       )),
-            //
-            //
-            //
-            //
-            //
-            //
-            // ),
-            SizedBox(height: 30),
+
+
+            SizedBox(height: 20),
             Container(
+              margin: EdgeInsets.only(bottom: 30),
               width: 344,
               height: 120,
               child: ElevatedButton(
@@ -213,12 +150,10 @@ class _adminHomePageState extends State<AdminHomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                             ServiceList(
-                                  title: 'Services', type: 0)),
-                    );
-                  },
-                  child: Text('View Services',
+                          builder: (BuildContext context) => new ManagePetType()),);
+    },
+
+                  child: Text('Manage Pet Types',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,

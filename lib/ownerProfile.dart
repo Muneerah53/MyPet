@@ -54,20 +54,37 @@ class Profile extends StatelessWidget {
       body:SingleChildScrollView(
 
         child:  Column(
-          children: [ Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 5),
-                width: 120,
-                height: 110,
-                child: CircleAvatar(
-                  radius: 80,
-                  backgroundImage: new AssetImage("images/owner.png"),
+          children: [
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 5),
+                  width: 120,
+                  height: 110,
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('pet owners')
+                          .where('ownerID', isEqualTo: getuser())
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const Text('loading');
+                        return
+                          //card pets method
+                          CircleAvatar(
+                            radius: 80,
+                            backgroundImage: new AssetImage(
+                                (snapshot.data!).docs[0]['gender'] == "female"
+                                    ? "images/owner.png"
+                                    : "images/maleProfile.jpg"),
+                          );
+                      }),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+
+
 
             Container(
               margin: EdgeInsets.only(top: 5,bottom: 10),

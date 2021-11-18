@@ -41,7 +41,8 @@ class boardingState extends State<boardingapp> {
   // String? petName;
   //String? stime;
 
-  bool isSelected=true;
+  int isSelected1=0;
+  int isSelected2=0;
   @override
   void initState() {
     super.initState();
@@ -70,7 +71,7 @@ class boardingState extends State<boardingapp> {
             text: DateFormat('EEE, MMM dd yyyy').format(selected1Date)
         );
       });
-      isSelected=false;
+      isSelected1=1;
     }
   }
 
@@ -81,18 +82,19 @@ class boardingState extends State<boardingapp> {
         initialDate: selected2Date,
         firstDate: DateTime.now(),
         lastDate: DateTime(2100)); //from db
-    if (picked != null && picked != selected2Date && !(picked.isBefore(selected1Date))) {
+    if (picked != null && picked != selected2Date && !(picked.isBefore(selected1Date)) && (picked.isAfter(selected1Date))) {
       setState(() {
         selected2Date = picked;
         _date2.value = TextEditingValue(
             text: DateFormat('EEE, MMM dd yyyy').format(selected2Date)
         );
       });
+      isSelected2=1;
     }
-    else if(picked != null && picked.isBefore(selected1Date)){
+    else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
-            "pick-up date must not be befor drop-off date "),
+            "pick-up date must be after drop-off date "),
         backgroundColor: Theme.of(context).errorColor,
       ));
     }
@@ -119,15 +121,16 @@ class boardingState extends State<boardingapp> {
         body: ListView(children: <Widget>[
           Container(
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Text(title,
+              child: Text('Boarding',
                   textAlign: TextAlign.center,
+
                   style: TextStyle(
                       color: Color(0XFFFF6B81),
                       fontSize: 34,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.bold))),
           Container(
-            padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
+            padding: const EdgeInsets.fromLTRB(30, 30, 0, 0),
             child: Text(
               'Select Drop-Off Date:',
               style: TextStyle(
@@ -183,7 +186,7 @@ class boardingState extends State<boardingapp> {
               padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
               child: GestureDetector(
                   onTap: () {
-                    if (isSelected)
+                    if (isSelected1==0)
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text("You Must Select Drop-Off Date First"),
@@ -321,8 +324,8 @@ class boardingState extends State<boardingapp> {
               heightFactor: 1.5,
               child: ElevatedButton(
                   onPressed: () {
-                    if ((_date1 == null) ||
-                        (_date2 == null) ||
+                    if ((isSelected1==0) ||
+                        (isSelected2==0) ||
                         (petIndex == null) ||
                         (reason.isEmpty)
                     ) {

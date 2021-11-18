@@ -18,10 +18,7 @@ class addPetType extends StatefulWidget {
 
 class _addPetType extends State<addPetType> {
 
-  //this is use to check the status of the form
   final _formKey = GlobalKey<FormState>();
-
-  //regx for pet name validation
   static final RegExp nameRegExp = RegExp('[a-zA-Z]');
 
   @override
@@ -48,27 +45,8 @@ class _addPetType extends State<addPetType> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            SizedBox(width:20),
-                            Text("Add new pet type", style: TextStyle( fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,)),
-                            Align(
-                                alignment: Alignment.topRight,
-                                child: IconButton(
-                                    iconSize:34,
-                                    alignment: Alignment.topRight,
-                                    // padding: const EdgeInsets.fromLTRB(9, 0, 9, 0),
-                                    icon: const Icon(
-                                      Icons.close,
-                                      color: Colors.grey,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    }
-                                ) )
-                          ]),
+                      SizedBox(height: 200),
+
 
                       Padding(
                         padding: EdgeInsets.fromLTRB(8,20,8,8),
@@ -136,7 +114,6 @@ class _addPetType extends State<addPetType> {
                                     ),
                                     onPressed: () async {
                                       addPetType(Name);
-                                      Navigator.of(context).pop();
 
 
                                     }
@@ -301,6 +278,9 @@ class _addPetType extends State<addPetType> {
       String _id = doc.id;
       await PetTypes.doc(_id).update({"petTypeID": _id});
 
+
       _showSnack("Pet type is added successfully", false);
+      Navigator.of(context).pop();
+
     }}
 }

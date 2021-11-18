@@ -37,7 +37,7 @@ class appointment{
    DateTime getBoardingTime(String d){
 
 
-      DateTime _date = DateFormat('EEE, MMM dd yyyy').parse(d!);
+      DateTime _date = DateFormat('EEE, MMM dd yyyy').parse(d);
 
 
       DateTime _startDateTime = DateTime(

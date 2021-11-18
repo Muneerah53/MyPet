@@ -81,7 +81,7 @@ class NotificationService {
 
 
     _notifactions.zonedSchedule(
-        id!,
+        id,
         title,
         'Pick up Your pet Tomorrow',
         tz.TZDateTime.from(t2!.subtract(const Duration(days: 1)),tz.local),

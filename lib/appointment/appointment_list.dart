@@ -86,16 +86,7 @@ class _AppointmentListState extends State<AppointmentList> {
         bool test;
         var oppDate = DateFormat('dd/MM/yyyy').parse(date.toString());
         var toDay = DateTime.now();
-        /*
-        if (widget.type == 0) {
-          test = oppDate.difference(toDay).inDays == 0
-              ? true
-              : !oppDate.difference(toDay).isNegative;
-        } else {
-          test = oppDate.difference(toDay).inDays == 0
-              ? false
-              : oppDate.difference(toDay).isNegative;
-        }*/
+
         var deff = oppDate.difference(toDay).inMinutes;
         // if(deff >= 0){
         //   test= true ;

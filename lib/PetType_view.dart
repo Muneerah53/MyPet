@@ -1,15 +1,12 @@
 import 'package:MyPet/models/global.dart';
 import 'package:MyPet/PetType_model.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
-import 'package:MyPet/appointment/appointment_model.dart';
 import 'package:MyPet/PetType_tile.dart';
 import 'package:MyPet/appointment/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 String Name ='';
 final _dformKey = GlobalKey<FormState>();
-GlobalKey _globalKey = navKeys.globalKeyAdmin;
 
 CollectionReference PetTypes =
 FirebaseFirestore.instance.collection('PetTypes');
@@ -40,8 +37,6 @@ class _PetTypeList extends State<PetTypeList> {
       _petTypeList = [];
       isLoading = true;
     });
-
-    final waitList = <Future<void>>[];
 
 
     List<PetType> serviceList = [];
@@ -80,8 +75,6 @@ class _PetTypeList extends State<PetTypeList> {
 
 
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,10 +108,16 @@ class _PetTypeList extends State<PetTypeList> {
             SizedBox(
               height: 20.0,
             ),
-            ElevatedButton(
+
+
+          //add button
+
+
+          /*  ElevatedButton(
               onPressed: () {
                dialog();
               },
+
               child:Padding(
                   padding: EdgeInsets.only(left: 40,right:40,top: 35,bottom: 35),
 
@@ -133,7 +132,8 @@ class _PetTypeList extends State<PetTypeList> {
 
 
               ),
-            ),
+            ),*/
+
             Expanded(
               child: !isLoading && _petTypeList.isEmpty
                   ? Center(
@@ -143,7 +143,8 @@ class _PetTypeList extends State<PetTypeList> {
                   itemCount: _petTypeList.length,
                   itemBuilder: (context, index) {
                     return Container(
-                      child: PetTypeTile(_petTypeList[index], initData),);  }
+                      child: PetTypeTile(_petTypeList[index], initData),);
+                  }
                     ),
             ),
           ],
@@ -258,7 +259,7 @@ class _PetTypeList extends State<PetTypeList> {
                                       ),
                                       onPressed: () async {
                                      addPetType(Name);
-                                     Navigator.of(context).pop();
+
 
                                         //     BottomNavigationBar navigationBar = _globalKey.currentWidget as BottomNavigationBar;
                                   //   navigationBar.onTap!(0);
@@ -299,7 +300,7 @@ addPetType(String name, ) async {
       });
       String _id = doc.id;
       await PetTypes.doc(_id).update({"petTypeID": _id});
-
       _showSnack("Pet type is updated successfully", false);
+      Navigator.of(context).pop();
     }}
 }

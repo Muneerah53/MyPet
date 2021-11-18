@@ -4,8 +4,7 @@ import 'package:MyPet/models/global.dart';
 import 'package:MyPet/PetType_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+
 
 class PetTypeUpdate extends StatefulWidget {
   final PetType model;
@@ -113,9 +112,6 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
                               return "Please enter valid pet type";
                             }
                           }
-
-
-
 
                       ),
                     ),

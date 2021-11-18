@@ -168,6 +168,7 @@ class _addPet extends State<addPet> {
                                 },
                               ),
                             ),
+                            SizedBox(height: 20),
 
                 Visibility(
                     visible: true,
@@ -198,17 +199,17 @@ class _addPet extends State<addPet> {
                               drNames.add(
                                 DropdownMenuItem(
                                   child: Text(
-                                    snap['petTypeID'] + ': ' + snap['petTypeName'],
-                                    style: TextStyle(color: Colors.blueGrey),
+                                      " "+ snap['petTypeName'],
+                                    style: TextStyle(color: Colors.black87),
                                   ),
-                                  value: snap['petTypeID'],
+                                  value: snap['petTypeName'],
                                 ),
                               );
                             }
                             return Container(
-                              padding: EdgeInsets.all(10),
+                              padding: EdgeInsets.all(5),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderRadius: BorderRadius.circular(10.0),
                                   color: Colors.white),
                               child: DropdownButtonFormField<dynamic>(
                                 decoration: InputDecoration(
@@ -216,27 +217,28 @@ class _addPet extends State<addPet> {
                                         borderSide: BorderSide(
                                             color: Colors.white))),
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.normal,
                                   fontSize: 18,
-                                  color: Colors.blueGrey,
+                                  color: Colors.grey,
                                 ),
                                 elevation: 8,
                                 items: drNames,
                                 onChanged: (drValue) {
 
                                   setState(() {
-                                    selectedType = drValue;
+                                    currentValuesp = drValue;
                                   });
                                 },
-                                value: selectedType,
+                                value: null,
                                 validator: (value) =>
                                 value == null
                                     ? 'Please Choose '
                                     : null,
                                 isExpanded: true,
-                                hint: new Text(
-                                  "Choose",
-                                  style: TextStyle(color: Colors.blueGrey),
+                                hint:  Text(
+                                  " Type",
+                                style: TextStyle(color: Colors.grey,  fontWeight: FontWeight.normal,
+                                  fontSize: 18,),
                                 ),
                               ),
                             );
@@ -250,7 +252,7 @@ class _addPet extends State<addPet> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<dynamic>(
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                             fontSize: 18,
                             color: Colors.grey,
                           ),
@@ -275,7 +277,7 @@ class _addPet extends State<addPet> {
                                     color: Colors.white,
                                     borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
-                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                                 child: DropdownButtonHideUnderline(
                                     child: ButtonTheme(
                                       alignedDropdown: true,
@@ -286,7 +288,7 @@ class _addPet extends State<addPet> {
                                               .map<DropdownMenuItem<String>>((val) {
                                             return DropdownMenuItem<String>(
                                               value: val,
-                                              child: Text('$val'),
+                                              child: Text('$val'  ,style: TextStyle(color: Colors.black87),),
                                             );
                                           }).toList(),
                                           onChanged: (val) {
@@ -294,37 +296,8 @@ class _addPet extends State<addPet> {
                                               currentValuegn = val!;
                                             });
                                           },
-                                          style: const TextStyle(color: Colors.black)),
-                                    ))),
-
-                            SizedBox(height: 20),
-
-                            Container(
-                                height: 58.0,
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                child: DropdownButtonHideUnderline(
-                                    child: ButtonTheme(
-                                      alignedDropdown: true,
-                                      child: DropdownButton<String>(
-                                          isExpanded: true,
-                                          value: currentValuegn,
-                                          items: genders
-                                              .map<DropdownMenuItem<String>>((val) {
-                                            return DropdownMenuItem<String>(
-                                              value: val,
-                                              child: Text('$val'),
-                                            );
-                                          }).toList(),
-                                          onChanged: (val) {
-                                            setState(() {
-                                              currentValuegn = val!;
-                                            });
-                                          },
-                                          style: const TextStyle(color: Colors.black)),
+                                          style: const TextStyle(color: Colors.grey,  fontWeight: FontWeight.normal,
+                                            fontSize: 18,),),
                                     ))),
 
                             SizedBox(height: 85),

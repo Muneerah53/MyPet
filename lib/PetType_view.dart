@@ -1,8 +1,7 @@
 import 'package:MyPet/models/global.dart';
 import 'package:MyPet/PetType_model.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
-import 'package:MyPet/appointment/appointment_model.dart';
+
 import 'package:MyPet/PetType_tile.dart';
 import 'package:MyPet/appointment/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

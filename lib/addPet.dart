@@ -168,7 +168,7 @@ class _addPet extends State<addPet> {
                                 },
                               ),
                             ),
-
+                            SizedBox(height: 20),
                 Visibility(
                     visible: true,
                     child: StreamBuilder<QuerySnapshot>(
@@ -197,18 +197,16 @@ class _addPet extends State<addPet> {
                               types[snap['petTypeID']] =  snap['petTypeName'];
                               drNames.add(
                                 DropdownMenuItem(
-                                  child: Text(
-                                    snap['petTypeID'] + ': ' + snap['petTypeName'],
+                                  child: Text( snap['petTypeName'],
                                     style: TextStyle(color: Colors.blueGrey),
                                   ),
-                                  value: snap['petTypeID'],
+                                  value: snap['petTypeName'],
                                 ),
                               );
                             }
                             return Container(
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.0),
                                   color: Colors.white),
                               child: DropdownButtonFormField<dynamic>(
                                 decoration: InputDecoration(
@@ -217,15 +215,12 @@ class _addPet extends State<addPet> {
                                             color: Colors.white))),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  color: Colors.blueGrey,
-                                ),
+                                  fontSize: 18, color: Colors.blueGrey, ),
                                 elevation: 8,
                                 items: drNames,
                                 onChanged: (drValue) {
-
                                   setState(() {
-                                    selectedType = drValue;
+                                    currentValuesp = drValue;
                                   });
                                 },
                                 value: null,
@@ -242,6 +237,7 @@ class _addPet extends State<addPet> {
                             );
                           }
                         }),
+
                     replacement: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -266,36 +262,6 @@ class _addPet extends State<addPet> {
                         ),
                       ),
                     )),
-
-                            SizedBox(height: 20),
-
-                            Container(
-                                height: 58.0,
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                child: DropdownButtonHideUnderline(
-                                    child: ButtonTheme(
-                                      alignedDropdown: true,
-                                      child: DropdownButton<String>(
-                                          isExpanded: true,
-                                          value: currentValuegn,
-                                          items: genders
-                                              .map<DropdownMenuItem<String>>((val) {
-                                            return DropdownMenuItem<String>(
-                                              value: val,
-                                              child: Text('$val'),
-                                            );
-                                          }).toList(),
-                                          onChanged: (val) {
-                                            setState(() {
-                                              currentValuegn = val!;
-                                            });
-                                          },
-                                          style: const TextStyle(color: Colors.black)),
-                                    ))),
 
                             SizedBox(height: 20),
 

@@ -1,11 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:MyPet/MyPets.dart';
 import 'models/global.dart';
 import 'models/global.dart';
 
+
 GlobalKey _globalKey = navKeys.globalKey;
+var selectedType = 'Dog';
+FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
 
 // Future AddPetAsync(petName, gender, disease, specie) async {
 //
@@ -26,9 +30,6 @@ class _addPet extends State<addPet> {
   final String ownerID;
   _addPet(this.ownerID);
 
-  // String currentSpecie = 'Cat';
-  // String currentGender = 'Male';
-  // String currentDisease = 'No Disease';
   String petName = '';
   String petBirthDate = '';
   //late DateTime _dateTime;
@@ -41,6 +42,7 @@ class _addPet extends State<addPet> {
   String currentValuegn = 'Male';
   List<String> specieses = ['Cat', 'Dog','Bird','Hamster','Rabbit','Snake','Turtle'];
   List<String> genders = ['Male', 'Female'];
+
 
   //this is use to check the status of the form
   final _formKey = GlobalKey<FormState>();
@@ -57,7 +59,7 @@ class _addPet extends State<addPet> {
   }
 
   CollectionReference pets = FirebaseFirestore.instance.collection('pets');
-//  final FirebaseAuth auth = FirebaseAuth.instance;
+
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +169,106 @@ class _addPet extends State<addPet> {
                               ),
                             ),
 
+                Visibility(
+                    visible: true,
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: firestoreInstance.collection("PetTypes")
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData)
+                            const Text("Loading...");
+                          if (snapshot.data == null)
+                            return Padding(
+                                padding: EdgeInsets.all(20),
+                                child: const Text(
+                                    'You haven\'t added Any Types!',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                        color: Colors.grey),
+                                    textAlign: TextAlign.center));
+                          else {
+                            List<DropdownMenuItem<dynamic>> drNames = [];
+                            Map<String,String> types = {};
+                            drNames.clear();
+                            for (int i = 0; i <
+                                snapshot.data!.docs.length; i++) {
+                              DocumentSnapshot snap = snapshot.data!.docs[i];
+                              types[snap['petTypeID']] =  snap['petTypeName'];
+                              drNames.add(
+                                DropdownMenuItem(
+                                  child: Text(
+                                    snap['petTypeID'] + ': ' + snap['petTypeName'],
+                                    style: TextStyle(color: Colors.blueGrey),
+                                  ),
+                                  value: snap['petTypeID'],
+                                ),
+                              );
+                            }
+                            return Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  color: Colors.white),
+                              child: DropdownButtonFormField<dynamic>(
+                                decoration: InputDecoration(
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.white))),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.blueGrey,
+                                ),
+                                elevation: 8,
+                                items: drNames,
+                                onChanged: (drValue) {
+
+                                  setState(() {
+                                    selectedType = drValue;
+                                  });
+                                },
+                                value: selectedType,
+                                validator: (value) =>
+                                value == null
+                                    ? 'Please Choose '
+                                    : null,
+                                isExpanded: true,
+                                hint: new Text(
+                                  "Choose",
+                                  style: TextStyle(color: Colors.blueGrey),
+                                ),
+                              ),
+                            );
+                          }
+                        }),
+                    replacement: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Colors.white),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<dynamic>(
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.grey,
+                          ),
+                          elevation: 8,
+                          items: const <DropdownMenuItem<dynamic>>[],
+                          onChanged: null,
+                          value: val,
+                          isExpanded: true,
+                          hint: new Text(
+                            "Type",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                    )),
+
                             SizedBox(height: 20),
+
                             Container(
                                 height: 58.0,
                                 decoration: const BoxDecoration(
@@ -180,8 +281,8 @@ class _addPet extends State<addPet> {
                                       alignedDropdown: true,
                                       child: DropdownButton<String>(
                                           isExpanded: true,
-                                          value: currentValuesp,
-                                          items: specieses
+                                          value: currentValuegn,
+                                          items: genders
                                               .map<DropdownMenuItem<String>>((val) {
                                             return DropdownMenuItem<String>(
                                               value: val,
@@ -190,7 +291,7 @@ class _addPet extends State<addPet> {
                                           }).toList(),
                                           onChanged: (val) {
                                             setState(() {
-                                              currentValuesp = val!;
+                                              currentValuegn = val!;
                                             });
                                           },
                                           style: const TextStyle(color: Colors.black)),
@@ -307,4 +408,5 @@ class _addPet extends State<addPet> {
 
 
   }
+
 }

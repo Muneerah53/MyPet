@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 String Name ='';
 final _dformKey = GlobalKey<FormState>();
+GlobalKey _globalKey = navKeys.globalKeyAdmin;
 
 CollectionReference PetTypes =
 FirebaseFirestore.instance.collection('PetTypes');
@@ -257,7 +258,11 @@ class _PetTypeList extends State<PetTypeList> {
                                       ),
                                       onPressed: () async {
                                      addPetType(Name);
-                                          Navigator.of(context).pop();
+                                     Navigator.of(context).pop();
+
+                                        //     BottomNavigationBar navigationBar = _globalKey.currentWidget as BottomNavigationBar;
+                                  //   navigationBar.onTap!(0);
+
 
 
                                         }
@@ -294,7 +299,6 @@ addPetType(String name, ) async {
       });
       String _id = doc.id;
       await PetTypes.doc(_id).update({"petTypeID": _id});
-
 
       _showSnack("Pet type is updated successfully", false);
     }}

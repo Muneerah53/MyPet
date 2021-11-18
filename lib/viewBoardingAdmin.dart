@@ -188,7 +188,6 @@ class _AdminBoardingAppointmentsState extends State<AdminBoardingAppointments> {
               appointID: a.id.toString(), details: a.notes)),
     );
   }
-
   DataSource getCalendarDataSource() {
     print("getCalendarDataSource");
     // required: Date, DocName, PetOwner Name, Type
@@ -206,10 +205,13 @@ class _AdminBoardingAppointmentsState extends State<AdminBoardingAppointments> {
         String petOwnerID = doc['petOwnerID'];
         String boardingID = doc['boardingID'];
         print("${doc['startDate'].toString()}");
+
         DateTime startDate =
         DateFormat("EEE, MMM dd yyyy").parse("${doc['startDate']}");
+
         DateTime endDate =
         DateFormat("EEE, MMM dd yyyy").parse("${doc['endDate']}");
+
         late String name, type, empId;
 
         await FirebaseFirestore.instance
@@ -228,7 +230,6 @@ class _AdminBoardingAppointmentsState extends State<AdminBoardingAppointments> {
             e = true;
             print(petOwnerID + 'not found');
           }
-
           if (!e) {
             Appointment a = Appointment(
                 id: boardingID,
@@ -238,13 +239,11 @@ class _AdminBoardingAppointmentsState extends State<AdminBoardingAppointments> {
                 subject: 'Customer: $name',
                 notes: "$startDate , $endDate",
                 color: Colors.lightBlue);
-
-            _appointments.add(a);
-            _allappointments.add(a);
+                _appointments.add(a);
+                _allappointments.add(a);
           }
         });
       }
-
       _dataSource.notifyListeners(CalendarDataSourceAction.add, _appointments);
       setState(() {
         _progressController = false;

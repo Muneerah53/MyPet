@@ -228,7 +228,7 @@ class _addPet extends State<addPet> {
                                     selectedType = drValue;
                                   });
                                 },
-                                value: selectedType,
+                                value: null,
                                 validator: (value) =>
                                 value == null
                                     ? 'Please Choose '

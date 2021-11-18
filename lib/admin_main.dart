@@ -124,7 +124,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                           builder: (BuildContext context) => viewSChPage()),
                     );
                   },
-                  child: Text('Manage Schedule',
+                  child: Text('View Schedule',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,
@@ -210,15 +210,17 @@ class _adminHomePageState extends State<AdminHomePage> {
               height: 120,
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                             ServiceList(
-                                  title: 'Services', type: 0)),
-                    );
+                    BottomNavigationBar navigationBar =   _globalKey.currentWidget as BottomNavigationBar;
+                    navigationBar.onTap!(3);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (BuildContext context) =>
+                    //          ServiceList(
+                    //               title: 'Services', type: 0)),
+                    // );
                   },
-                  child: Text('Services',
+                  child: Text('View Services',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,

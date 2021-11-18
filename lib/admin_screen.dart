@@ -1,4 +1,5 @@
 import 'package:MyPet/petOwner_main.dart';
+import 'package:MyPet/view_service.dart';
 import 'package:flutter/material.dart';
 import 'Appointment.dart';
 import 'Mypets.dart';
@@ -23,6 +24,8 @@ class _managerPageState extends State<managerPage> {
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+
   ];
 
 
@@ -31,7 +34,6 @@ class _managerPageState extends State<managerPage> {
       _selectedIndex = i;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,13 @@ class _managerPageState extends State<managerPage> {
               activeIcon: Icon(Icons.perm_contact_calendar
               ),
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.article
+              ),
+              label:"Service",
+              activeIcon: Icon(Icons.article_outlined
+              ),
+            ),
           ],
           onTap: (index) {
             setState(() {
@@ -90,6 +99,8 @@ class _managerPageState extends State<managerPage> {
             _buildOffstageNavigator(0),
             _buildOffstageNavigator(1),
             _buildOffstageNavigator(2),
+           _buildOffstageNavigator(3),
+
           ],
         ),
       ),
@@ -101,10 +112,10 @@ class _managerPageState extends State<managerPage> {
     return {
       '/': (context) {
         return [
-          AdminHomePage(
-          ),
+          AdminHomePage(),
           appointCalendar(),
           docList(),
+          ServiceList(),
         ].elementAt(index);
       },
     };

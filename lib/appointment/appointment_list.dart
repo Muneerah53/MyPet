@@ -1,3 +1,4 @@
+
 import 'package:MyPet/models/global.dart';
 import 'package:intl/intl.dart';
 import 'package:MyPet/appointment/appointment_model.dart';
@@ -6,7 +7,6 @@ import 'package:MyPet/appointment/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'previouseTileAppt.dart';
 
 class AppointmentList extends StatefulWidget {
@@ -23,6 +23,7 @@ class _AppointmentListState extends State<AppointmentList> {
   List<AppointmentModel> _appList = [];
   bool isLoading = true;
   bool hasAppointment = true;
+
   @override
   void initState() {
     super.initState();
@@ -86,8 +87,19 @@ class _AppointmentListState extends State<AppointmentList> {
         bool test;
         var oppDate = DateFormat('dd/MM/yyyy').parse(date.toString());
         var toDay = DateTime.now();
-
-        var deff = oppDate.difference(toDay).inMinutes;
+        /*
+        if (widget.type == 0) {
+          test = oppDate.difference(toDay).inDays == 0
+              ? true
+              : !oppDate.difference(toDay).isNegative;
+        } else {
+          test = oppDate.difference(toDay).inDays == 0
+              ? false
+              : oppDate.difference(toDay).isNegative;
+        }*/
+        var deff = oppDate
+            .difference(toDay)
+            .inMinutes;
         // if(deff >= 0){
         //   test= true ;
         // }
@@ -126,61 +138,112 @@ class _AppointmentListState extends State<AppointmentList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color(0xFFF4E3E3),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-              style: backButton), // <-- Button color// <-- Splash color
-        ),
-        body: isLoading
-            ? Loading()
-            : Column(
+    if (widget.type == 0) {
+      return Scaffold(
+          backgroundColor: Color(0xFFF4E3E3),
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+                style: backButton), // <-- Button color// <-- Splash color
+          ),
+          body: isLoading
+              ? Loading()
+              : Column(
             children: [
-             SizedBox(
-              height: 40.0,
-            ),
+              SizedBox(
+                height: 40.0,
+              ),
 
-            Text(
-              widget.title,
-              style: TextStyle(
-                  color: Color(0xffe57285),
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Expanded(
-              child: !isLoading && _appList.isEmpty
-                  ? Center(
-                child: Text("You have no upcoming appointments"),
-              )
-                  : ListView.builder(
-                  itemCount: _appList.length,
-                  itemBuilder: (context, index) {
-                      if (widget.type == 0) {
+              Text(
+                widget.title,
+                style: TextStyle(
+                    color: Color(0xffe57285),
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+
+              Expanded(
+                child: !isLoading && _appList.isEmpty
+                    ? Center(
+                    child: Text("You have no upcoming appointments",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.grey),
+                    )
+                )
+                    : ListView.builder(
+                    itemCount: _appList.length,
+                    itemBuilder: (context, index) {
                       return Container(
-                         child:
+                        child:
                         AppointmentTile(_appList[index], initData),
-          );
+                      );
+                    }),
+              ),
+            ],
+          ));
+    }
+    else {
+      return Scaffold(
+          backgroundColor: Color(0xFFF4E3E3),
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+                style: backButton), // <-- Button color// <-- Splash color
+          ),
+          body: isLoading
+              ? Loading()
+              : Column(
+            children: [
+              SizedBox(
+                height: 40.0,
+              ),
 
-        }
-                 else{
-                   return Container(
-                     child:
-                     previousTileAppt(_appList[index], initData),
-                    );
-                 }
+              Text(
+                widget.title,
+                style: TextStyle(
+                    color: Color(0xffe57285),
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
 
-                  }),
-            ),
-          ],
-        ));
+              Expanded(
+                child: !isLoading && _appList.isEmpty
+                    ? Center(
+                    child: Text("You have no previous appointments",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.grey),
+                    )
+                )
+                    : ListView.builder(
+                    itemCount: _appList.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        child:
+                        previousTileAppt(_appList[index], initData),);
+                    }),
+              ),
+            ],
+          ));
+    }
   }
 }

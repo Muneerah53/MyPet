@@ -8,17 +8,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'admin_newServices.dart';
+
 class ServiceList extends StatefulWidget {
-  String title;
-  int type;
-  ServiceList({required this.title, required this.type, Key? key})
-      : super(key: key);
+
+  ServiceList();
 
   @override
   _ServiceListState createState() => _ServiceListState();
 }
 
 class _ServiceListState extends State<ServiceList> {
+  GlobalKey _globalKey = navKeys.globalKeyAdmin;
+
   List<ServiceModel> _serviceList = [];
   bool isLoading = true;
   bool hasServices = true;
@@ -88,7 +90,8 @@ class _ServiceListState extends State<ServiceList> {
           elevation: 0,
           leading: ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                BottomNavigationBar navigationBar = _globalKey.currentWidget as BottomNavigationBar;
+                navigationBar.onTap!(0);
               },
               child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
               style: backButton), // <-- Button color// <-- Splash color
@@ -97,20 +100,41 @@ class _ServiceListState extends State<ServiceList> {
             ? Loading()
             : Column(
           children: [
-            SizedBox(
-              height: 40.0,
-            ),
+
 
 
             Text(
-              widget.title,
+              "Service",
               style: TextStyle(
                   color: Color(0xffe57285),
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold),
+                  fontSize: 35),
             ),
             SizedBox(
               height: 20.0,
+            ),
+            Container(
+              width: 304,
+              height: 40,
+margin: const EdgeInsets.only(bottom: 15.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => new services()),
+                    );
+                  },
+                  child: Text('+ Add Service',
+                      style: TextStyle(fontSize: 18)),
+                style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all(Color(0XFFFF6B81)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)))
+
+
+                ),),
+
             ),
             Expanded(
               child: !isLoading && _serviceList.isEmpty

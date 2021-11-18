@@ -1,10 +1,8 @@
 // import 'dart:developer';
 import 'package:MyPet/service_model.dart';
-import 'package:MyPet/service_model.dart';
 import 'package:MyPet/service_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'admin_newServices.dart';
 import 'models/global.dart';
 
@@ -18,6 +16,9 @@ class ServiceTile extends StatefulWidget {
 }
 
 class _ServiceTile extends State<ServiceTile> {
+
+
+
   bool isLoading = true;
   updateService() async {
     await Navigator.push(
@@ -47,7 +48,9 @@ class _ServiceTile extends State<ServiceTile> {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
+
       padding: const EdgeInsets.all(8.0),
       child: Card(
         shape: RoundedRectangleBorder(
@@ -145,3 +148,35 @@ class _ServiceTile extends State<ServiceTile> {
     );
   }
 }
+// class addService extends StatelessWidget {
+//   const addService({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: 344,
+//             height: 120,
+//             child: ElevatedButton(
+//                 onPressed: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                         builder: (context) => new services()),
+//                   );
+//                 },
+//                 child: Text('Add Service',
+//                     style: TextStyle(
+//                         fontStyle: FontStyle.italic,
+//                         fontSize: 25,
+//                         fontWeight: FontWeight.bold)),
+//                 style: ButtonStyle(
+//                   backgroundColor:
+//                   MaterialStateProperty.all(Color(0XFFFF6B81)),
+//                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(20.0))),
+//                 )),
+//
+//     );
+//   }
+// }
+

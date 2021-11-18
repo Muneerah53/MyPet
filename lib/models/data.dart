@@ -110,13 +110,24 @@ class fbHelper {
         .doc(doc.id)
         .update({"boardingID": doc.id});
 
+
+    //  drop off
     NotificationService.showScheduledBoardingNotifaction(
-        id: doc.id.hashCode,
+        id: doc.id.hashCode+1,
         title: 'Reminder',
-        t1: a.getBoardingTime(a.date!),
-        t2: a.getBoardingTime(a.time!)
+      body: 'Your Pet Boarding Appointment is in 1 day',
+        t: a.getBoardingTime(a.date!),
+        //t2: a.getBoardingTime(a.time!)
     );
 
+// pick up
+    NotificationService.showScheduledBoardingNotifaction(
+      id: doc.id.hashCode+2,
+      title: 'Reminder',
+      body: 'Your Pet Boarding Appointment is in 1 day',
+      t: a.getBoardingTime(a.time!),
+      //t2: a.getBoardingTime(a.time!)
+    );
 
   }
 

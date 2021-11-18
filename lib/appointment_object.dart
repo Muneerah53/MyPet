@@ -44,9 +44,10 @@ class appointment{
           _date.year,
           _date.month,
           _date.day,
-         12,
-          0,
-          0);
+          DateTime.now().hour,
+         DateTime.now().add(Duration(seconds: 45)).minute,
+          DateTime.now().add(Duration(seconds: 45)).second,
+          );
       return _startDateTime;
    }
 

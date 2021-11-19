@@ -75,7 +75,7 @@ class Profile extends StatelessWidget {
                           CircleAvatar(
                             radius: 80,
                             backgroundImage: new AssetImage(
-                                (snapshot.data!).docs[0]['gender'] == "female"
+                                (snapshot.data!).docs[0]['gender'] == "Female"
                                     ? "images/owner.png"
                                     : "images/maleProfile.jpg"),
                           );

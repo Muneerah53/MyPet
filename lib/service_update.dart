@@ -63,12 +63,12 @@ _price = widget.model.servicePrice;
                   children: [
 
                     Container(
-                        padding: const EdgeInsets.fromLTRB(60, 5, 44, 45),
+                        padding: const EdgeInsets.fromLTRB(75, 5, 44, 45),
                         child: const Text('Update Service',
                             style: TextStyle(
                                 color: Color(0xffe57285),
-                                fontSize: 35,
-                                //fontWeight: FontWeight.bold
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold
                               ))),
 
 

@@ -107,7 +107,8 @@ class _ServiceListState extends State<ServiceList> {
               "Service",
               style: TextStyle(
                   color: Color(0xffe57285),
-                  fontSize: 35),
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 20.0,

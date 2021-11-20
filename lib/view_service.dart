@@ -112,30 +112,31 @@ class _ServiceListState extends State<ServiceList> {
             SizedBox(
               height: 20.0,
             ),
-            Container(
-              width: 304,
-              height: 40,
-              margin: const EdgeInsets.only(bottom: 15.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => new services(initData)),
-                  );
-                },
-                child: Text('+ Add Service',
-                    style: TextStyle(fontSize: 18)),
-                style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all(Color(0XFFFF6B81)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)))
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => new services(initData)),
+                );
+              },
+
+              child:Padding(
+                  padding: EdgeInsets.only(left: 50,right:50,top: 35,bottom: 35),
+
+                  child:
+                  Text("+ Add New Service", style:
+                  TextStyle(fontSize: 25))),
+              style: ButtonStyle(
+                  backgroundColor:
+                  MaterialStateProperty.all(Color(0XFFFF6B81)),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)))
 
 
-                ),),
-
+              ),
             ),
+
             Expanded(
               child: !isLoading && _serviceList.isEmpty
                   ? Center(

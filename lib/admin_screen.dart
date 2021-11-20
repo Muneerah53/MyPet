@@ -80,13 +80,13 @@ class _managerPageState extends State<managerPage> {
               activeIcon: Icon(Icons.perm_contact_calendar
               ),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.article
-              ),
-              label:"Service",
-              activeIcon: Icon(Icons.article_outlined
-              ),
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.article
+            //   ),
+            //   label:"Service",
+            //   activeIcon: Icon(Icons.article_outlined
+            //   ),
+            // ),
           ],
           onTap: (index) {
             setState(() {
@@ -99,7 +99,7 @@ class _managerPageState extends State<managerPage> {
             _buildOffstageNavigator(0),
             _buildOffstageNavigator(1),
             _buildOffstageNavigator(2),
-           _buildOffstageNavigator(3),
+          // _buildOffstageNavigator(3),
 
           ],
         ),
@@ -115,7 +115,7 @@ class _managerPageState extends State<managerPage> {
           AdminHomePage(),
           appointCalendar(),
           docList(),
-          ServiceList(),
+         // ServiceList(),
         ].elementAt(index);
       },
     };

@@ -153,7 +153,7 @@ class OrderListState extends State<OrderList> {
                             child: Row(
                               children: [
                                 Container(
-                                  margin: const EdgeInsets.fromLTRB(20, 30, 20, 30),
+                                  margin: const EdgeInsets.fromLTRB(20, 0, 0, 30),
                                   child: Text(
                                     'Time: ',
                                     style: TextStyle(
@@ -165,7 +165,7 @@ class OrderListState extends State<OrderList> {
                                   ),
                                 ),
                                 Container(
-                                  margin: const EdgeInsets.fromLTRB(0, 30, 20, 30),
+                                  margin: const EdgeInsets.fromLTRB(5, 0, 20, 30),
                                   child: Text(
                                     a!.time.toString(),
                                     style: TextStyle(
@@ -173,7 +173,7 @@ class OrderListState extends State<OrderList> {
                                         fontSize: 18,
                                         fontStyle: FontStyle.italic,
                                         fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.right,
+                                  //  textAlign: TextAlign.right,
                                   ),
                                 ),
                               ],
@@ -185,7 +185,7 @@ class OrderListState extends State<OrderList> {
                             child: Row(
                               children: [
                                 Container(
-                                  margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+                                  margin: const EdgeInsets.fromLTRB(20, 0, 0, 30),
                                   child: Text(
                                     'Date: ',
                                     style: TextStyle(
@@ -198,7 +198,7 @@ class OrderListState extends State<OrderList> {
                                 ),
                                 Expanded(
                                   child:Container(
-                                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+                                    margin: const EdgeInsets.fromLTRB(5, 0, 20, 30),
                                     child: Text(
                                       a!.date.toString(),
                                       style: TextStyle(
@@ -206,7 +206,7 @@ class OrderListState extends State<OrderList> {
                                           fontSize: 18,
                                           fontStyle: FontStyle.italic,
                                           fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.right,
+                                     // textAlign: TextAlign.right,
                                     ),
                                   ),
                                 ),

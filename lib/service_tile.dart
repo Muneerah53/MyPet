@@ -1,4 +1,3 @@
-// import 'dart:developer';
 import 'package:MyPet/service_model.dart';
 import 'package:MyPet/service_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -179,4 +178,3 @@ class _ServiceTile extends State<ServiceTile> {
 //     );
 //   }
 // }
-

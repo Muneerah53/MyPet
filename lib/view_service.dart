@@ -59,9 +59,9 @@ class _ServiceListState extends State<ServiceList> {
         String? servicePrice = map['servicePrice'];
 
         ServiceModel serviceModel = new ServiceModel(
-            serviceID: '$serviceID',
-            serviceName: '$serviceName',
-            servicePrice: '$servicePrice',
+          serviceID: '$serviceID',
+          serviceName: '$serviceName',
+          servicePrice: '$servicePrice',
         );
 
         serviceList.add(serviceModel);
@@ -90,8 +90,8 @@ class _ServiceListState extends State<ServiceList> {
           elevation: 0,
           leading: ElevatedButton(
               onPressed: () {
-                BottomNavigationBar navigationBar = _globalKey.currentWidget as BottomNavigationBar;
-                navigationBar.onTap!(0);
+                Navigator.of(context).pop();
+
               },
               child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
               style: backButton), // <-- Button color// <-- Splash color
@@ -115,17 +115,17 @@ class _ServiceListState extends State<ServiceList> {
             Container(
               width: 304,
               height: 40,
-margin: const EdgeInsets.only(bottom: 15.0),
+              margin: const EdgeInsets.only(bottom: 15.0),
               child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => new services()),
-                    );
-                  },
-                  child: Text('+ Add Service',
-                      style: TextStyle(fontSize: 18)),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => new services(initData)),
+                  );
+                },
+                child: Text('+ Add Service',
+                    style: TextStyle(fontSize: 18)),
                 style: ButtonStyle(
                     backgroundColor:
                     MaterialStateProperty.all(Color(0XFFFF6B81)),

@@ -142,8 +142,7 @@ class selectState extends State<select> {
                           children: <Widget>[
                             Container(
                               padding:
-                                  const EdgeInsets.fromLTRB(30, 5, 137, 10),
-
+                                  const EdgeInsets.fromLTRB(20, 5, 120, 10),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),

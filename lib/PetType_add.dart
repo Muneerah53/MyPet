@@ -53,9 +53,6 @@ class _addPetType extends State<addPetType> {
                           keyboardType: TextInputType.text,
                           inputFormatters:[FilteringTextInputFormatter.singleLineFormatter],
 
-                          controller: TextEditingController(          ),
-
-
                           style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
                           ),
@@ -73,16 +70,18 @@ class _addPetType extends State<addPetType> {
                                 )
                             ),
                           ),
-
-                          validator: (value) => value!.isEmpty
-                              ? 'Enter Name'
-                              : value.length < 3
-                              ? 'Name must more than 3 digits'
-                              : null,
-
                           onChanged: (String value) {
                             Name = value;
                           },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                      return "Please enter Pet type name";
+                      }
+                          else if(!RegExp('[a-zA-Z _]+\$').hasMatch(value)){
+            return "Pet type name must contain only letters";
+            }},
+
+
 
                         ),
 
@@ -113,21 +112,22 @@ class _addPetType extends State<addPetType> {
                                     ),
                                     onPressed: () async {
     if (_dformKey.currentState!.validate()) {
-    DocumentReference doc = await PetTypes.add({
-    'petTypeID': '',
-    'petTypeName': Name,
+      DocumentReference doc = await PetTypes.add({
+        'petTypeID': '',
+        'petTypeName': Name,
 
-    });
-    String _id = doc.id;
-    await PetTypes.doc(_id).update({"petTypeID": _id});
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Pet type is added successfully'),backgroundColor:Colors.green)
-    );
+      });
+      String _id = doc.id;
+      await PetTypes.doc(_id).update({"petTypeID": _id});
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Pet type is added successfully'),
+              backgroundColor: Colors.green)
+      );
 
+
+      widget.initData();
+      Navigator.of(context).pop();
     }
-                                      widget.initData();
-                                      Navigator.of(context).pop();
-
 
 
                                     }

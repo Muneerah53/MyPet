@@ -121,7 +121,7 @@ SizedBox(height: 30),
                       if (snapshot.data!.docs.isEmpty)
                         return Padding(
                             padding: EdgeInsets.all(20),
-                            child: const Text('No Added services',
+                            child: const Text('Sorry, there are no services available',
                                 style: TextStyle(
                                     color: const Color(0xFF552648B),
                                     fontSize: 20,

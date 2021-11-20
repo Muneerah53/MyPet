@@ -98,7 +98,7 @@ class _servicesState extends State<services> {
                                   if (value!.isEmpty) {
                                     return 'Please enter Service name';
                                   }
-                                  else if(!RegExp('[a-zA-Z _]+').hasMatch(_serviceName)){
+                                  else if(!RegExp('[a-zA-Z _]+\$').hasMatch(_serviceName)){
                                     return 'Service name must contain only letters';
                                   }
                                 },

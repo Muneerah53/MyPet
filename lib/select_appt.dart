@@ -263,6 +263,7 @@ class selectState extends State<select> {
 
                     int i = 0, j = 0;
                     String txt = '';
+
                     return ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
@@ -284,11 +285,8 @@ class selectState extends State<select> {
                           fontSize: 20,
                           color: Colors.grey),
                           textAlign: TextAlign.center);
-
                                 else
-                                  return Text('');
-                              }
-
+                                  return Text('');}
 
                           String? stime = ((snapshot.data!).docs[index]
                                   ['startTime'] +

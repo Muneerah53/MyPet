@@ -210,20 +210,22 @@ class pet extends StatelessWidget {
 
   Widget _buildPicCard(BuildContext context, DocumentSnapshot document) {
     String img = "";
-      if (document['species'] == "Dog")
-        img = "images/dog.png";
-      else if (document['species'] == "Cat")
-        img = "images/cat.png";
-      else if (document['species'] == "Bird")
-        img = "images/Bird.png";
-      else if (document['species'] == "Rabbit")
-        img = "images/Rabbit.png";
-      else if (document['species'] == "Snake")
-        img = "images/Snake.png";
-      else if (document['species'] == "Turtle")
-        img = "images/Turtle.png";
-      else
-        img = "images/Hamster.png";
+    if (document['species'] == "Dog")
+      img = "images/dog.png";
+    else if (document['species'] == "Cat")
+      img = "images/cat.png";
+    else if (document['species'] == "Bird")
+      img = "images/Bird.png";
+    else if (document['species'] == "Rabbit")
+      img = "images/Rabbit.png";
+    else if (document['species'] == "Snake")
+      img = "images/Snake.png";
+    else if (document['species'] == "Turtle")
+      img = "images/Turtle.png";
+    else if (document['species'] == "Hamster")
+      img = "images/Hamster.png";
+    else
+      img = "images/New.png";
 
     return Column(
 

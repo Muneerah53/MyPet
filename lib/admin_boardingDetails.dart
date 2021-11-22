@@ -78,7 +78,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                 child: Row(
                                   children: [
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
+                                      margin: const EdgeInsets.fromLTRB(10, 10, 0, 5),
                                       child: Text(
                                         'Pet Owner:',
                                         style: TextStyle(
@@ -89,7 +89,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
+                                      margin: const EdgeInsets.fromLTRB(5, 10, 20, 5),
                                       child: Text(
                                         details[0].toString(),
                                         style: TextStyle(
@@ -106,7 +106,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                 child: Row(
                                   children: [
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
+                                      margin: const EdgeInsets.fromLTRB(10, 10, 0, 5),
                                       child: Text(
                                         'Drop off Date:',
                                         style: TextStyle(
@@ -117,7 +117,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
+                                      margin: const EdgeInsets.fromLTRB(5, 10, 20, 5),
                                       child: Text(
                                         details[1].toString(),
                                         style: TextStyle(
@@ -134,7 +134,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                 child: Row(
                                   children: [
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
+                                      margin: const EdgeInsets.fromLTRB(10, 10, 0, 5),
                                       child: Text(
                                         'Pick-up Date:',
                                         style: TextStyle(
@@ -145,7 +145,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
+                                      margin: const EdgeInsets.fromLTRB(5, 10, 20, 5),
                                       child: Text(
                                         details[2].toString(),
                                         style: TextStyle(
@@ -162,7 +162,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                 child: Row(
                                   children: [
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
+                                      margin: const EdgeInsets.fromLTRB(10, 10, 0, 5),
                                       child: Text(
                                         'Total:',
                                         style: TextStyle(
@@ -173,9 +173,9 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
+                                      margin: const EdgeInsets.fromLTRB(5, 10, 20, 5),
                                       child: Text(
-                                        details[4].toString() + " SR",
+                                        details[4].toString() + "SR",
                                         style: TextStyle(
                                             color: Color(0XFF52648B),
                                             fontSize: 18,
@@ -231,7 +231,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                             children: [
                                               Container(
                                                 margin: const EdgeInsets.fromLTRB(
-                                                    10, 10, 20, 5),
+                                                    10, 10, 0, 5),
                                                 child: Text(
                                                   'Name: ',
                                                   style: TextStyle(
@@ -243,7 +243,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                               ),
                                               Container(
                                                 margin: const EdgeInsets.fromLTRB(
-                                                    10, 10, 20, 5),
+                                                    5, 10, 20, 5),
                                                 child: Text(
                                                   s.data!.docs[0]['name'].toString(),
                                                   style: TextStyle(
@@ -261,7 +261,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                             children: [
                                               Container(
                                                 margin: const EdgeInsets.fromLTRB(
-                                                    10, 10, 20, 5),
+                                                    10, 10, 0, 5),
                                                 child: Text(
                                                   'Date Of Birth: ',
                                                   style: TextStyle(
@@ -273,7 +273,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                               ),
                                               Container(
                                                 margin: const EdgeInsets.fromLTRB(
-                                                    10, 10, 20, 5),
+                                                    5, 10, 20, 5),
                                                 child: Text(
                                                   s.data!.docs[0]['birthDate'].toString(),
                                                   style: TextStyle(
@@ -291,7 +291,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                             children: [
                                               Container(
                                                 margin: const EdgeInsets.fromLTRB(
-                                                    10, 10, 20, 5),
+                                                    10, 10, 0, 5),
                                                 child: Text(
                                                   'Gender: ',
                                                   style: TextStyle(
@@ -303,7 +303,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                               ),
                                               Container(
                                                 margin: const EdgeInsets.fromLTRB(
-                                                    10, 10, 20, 5),
+                                                    5, 10, 20, 5),
                                                 child: Text(
                                                   s.data!.docs[0]['gender'].toString(),
                                                   style: TextStyle(
@@ -321,7 +321,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                             children: [
                                               Container(
                                                 margin: const EdgeInsets.fromLTRB(
-                                                    10, 10, 20, 5),
+                                                    10, 10, 0, 5),
                                                 child: Text(
                                                   'Species: ',
                                                   style: TextStyle(
@@ -333,7 +333,7 @@ class BoardingDetailsState extends State<BoardingDetails> {
                                               ),
                                               Container(
                                                 margin: const EdgeInsets.fromLTRB(
-                                                    10, 10, 20, 5),
+                                                    5, 10, 20, 5),
                                                 child: Text(
                                                   s.data!.docs[0]['species'].toString(),
                                                   style: TextStyle(

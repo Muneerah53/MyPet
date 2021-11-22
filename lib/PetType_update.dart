@@ -62,7 +62,7 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
 
                     Container(
                         padding: const EdgeInsets.fromLTRB(44, 5, 44, 45),
-                        child: const Text('Update Service',
+                        child: const Text('Update Pet type',
                             style: TextStyle(
                                 color: Color(0xffe57285),
                                 fontSize: 30,

@@ -94,7 +94,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFFFF6B81)),
+                    MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
@@ -112,14 +112,14 @@ class _adminHomePageState extends State<AdminHomePage> {
                               AdminBoardingAppointments()),
                     );
                   },
-                  child: Text('View Boarding ',
+                  child: Text('Boarding Appointment',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                    MaterialStateProperty.all(Color(0XFFFF6B81)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
@@ -131,14 +131,10 @@ class _adminHomePageState extends State<AdminHomePage> {
               height: 120,
               child: ElevatedButton(
                   onPressed: () {
-                    // BottomNavigationBar navigationBar =   _globalKey.currentWidget as BottomNavigationBar;
-                    // navigationBar.onTap!(3);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                             ServiceList()),
-                    );
+                          builder: (BuildContext context) => new ServiceList()),);
                   },
                   child: Text('Manage Services',
                       style: TextStyle(
@@ -147,7 +143,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFFFF6B81)),
+                    MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
@@ -170,7 +166,10 @@ class _adminHomePageState extends State<AdminHomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => new ManagePetType()),);
+                          builder: (BuildContext context) =>
+                              PetTypeList(
+                                  title: 'Pet Types', type: 0)),
+                    );
     },
 
                   child: Text('Manage Pet Types',
@@ -180,7 +179,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                    MaterialStateProperty.all(Color(0XFFFF6B81)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
@@ -192,28 +191,6 @@ class _adminHomePageState extends State<AdminHomePage> {
 
             ),
           SizedBox(height: 50),
-//           Container(
-//             width: 344,
-//             height: 120,
-//             child: ElevatedButton(
-//                 onPressed: () {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                         builder: (context) => new services()),
-//                   );
-//                 },
-//                 child: Text('Add Service',
-//                     style: TextStyle(
-//                         fontStyle: FontStyle.italic,
-//                         fontSize: 25,
-//                         fontWeight: FontWeight.bold)),
-//                 style: ButtonStyle(
-//                   backgroundColor:
-//                   MaterialStateProperty.all(Color(0XFFFF6B81)),
-//                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(20.0))),
-//                 )),
 //
 //
 // )

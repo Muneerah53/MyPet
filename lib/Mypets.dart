@@ -185,8 +185,10 @@ class MyPets extends StatelessWidget {
         img = "images/Snake.png";
       else if (document['species'] == "Turtle")
         img = "images/Turtle.png";
-      else
+      else if (document['species'] == "Hamster")
         img = "images/Hamster.png";
+      else
+        img = "images/New.png";
 
 
 

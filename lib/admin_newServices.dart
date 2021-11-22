@@ -65,7 +65,7 @@ class _servicesState extends State<services> {
 
                         children: [
                           Container(
-                              padding: const EdgeInsets.fromLTRB(74, 5, 44, 45),
+                              padding: const EdgeInsets.fromLTRB(95, 5, 44, 45),
                               child: const Text('Add Service',
                                   style: TextStyle(
                                       color: Color(0xffe57285),
@@ -98,7 +98,7 @@ class _servicesState extends State<services> {
                                   if (value!.isEmpty) {
                                     return 'Please enter Service name';
                                   }
-                                  else if(!RegExp('[a-zA-Z _]+').hasMatch(_serviceName)){
+                                  else if(!RegExp('[a-zA-Z _]+\$').hasMatch(_serviceName)){
                                     return 'Service name must contain only letters';
                                   }
                                 },

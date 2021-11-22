@@ -74,11 +74,7 @@ class _ManagePetType extends State<ManagePetType> {
                   height: 120,
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                            builder: (BuildContext context) => new addPetType()),);
-                      },
+                      Navigator.pop(context);},
                       child: Text('Add Pet Types',
                           style: TextStyle(
                               fontStyle: FontStyle.italic,

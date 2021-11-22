@@ -31,7 +31,7 @@ class _PetTypeTile extends State<PetTypeTile> {
         .doc(widget.petType.petTypeID)
         .delete();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Service has been deleted."),
+      content: Text("Pet type has been deleted."),
       backgroundColor: Colors.green,
     ));
     widget.initData();

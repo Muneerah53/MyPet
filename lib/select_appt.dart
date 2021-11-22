@@ -142,8 +142,7 @@ class selectState extends State<select> {
                           children: <Widget>[
                             Container(
                               padding:
-                                  const EdgeInsets.fromLTRB(30, 5, 137, 10),
-
+                                  const EdgeInsets.fromLTRB(20, 5, 120, 10),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
@@ -264,6 +263,7 @@ class selectState extends State<select> {
 
                     int i = 0, j = 0;
                     String txt = '';
+
                     return ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
@@ -285,11 +285,8 @@ class selectState extends State<select> {
                           fontSize: 20,
                           color: Colors.grey),
                           textAlign: TextAlign.center);
-
                                 else
-                                  return Text('');
-                              }
-
+                                  return Text('');}
 
                           String? stime = ((snapshot.data!).docs[index]
                                   ['startTime'] +
@@ -540,6 +537,22 @@ class selectState extends State<select> {
     String? petID = document['petId'];
     String img =
         document['species'] == "Dog" ? "images/dog.png" : "images/cat.png";
+    if (document['species'] == "Dog")
+      img = "images/dog.png";
+    else if (document['species'] == "Cat")
+      img = "images/cat.png";
+    else if (document['species'] == "Bird")
+      img = "images/Bird.png";
+    else if (document['species'] == "Rabbit")
+      img = "images/Rabbit.png";
+    else if (document['species'] == "Snake")
+      img = "images/Snake.png";
+    else if (document['species'] == "Turtle")
+      img = "images/Turtle.png";
+    else if (document['species'] == "Hamster")
+      img = "images/Hamster.png";
+    else
+      img = "images/New.png";
     return OutlinedButton(
         style: OutlinedButton.styleFrom(
             padding: EdgeInsets.all(0),

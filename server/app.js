@@ -4,7 +4,7 @@ var app = express();
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({
-    extended:false
+    extended: false
 }));
 app.use(bodyParser.json())
 var amount = 0;
@@ -17,10 +17,10 @@ paypal.configure({
 app.get('/price', function(request, response) {
     console.log(request.body)
     amount = request.query.id; // $_GET["id"]
-    console.log('id:'+amount);
-     response.redirect('/pay');
+    console.log('id:' + amount);
+    response.redirect('/pay');
 
-  });
+});
 
 
 
@@ -32,7 +32,7 @@ app.get('/pay', (req, res) => {
             "payment_method": "paypal"
         },
         "redirect_urls": {
-            "return_url": "http://172.20.10.4:8000/success",
+            "return_url": "http://192.168.100.5:8000/success",
             "cancel_url": "http://cancel.url"
         },
         "transactions": [{
@@ -54,7 +54,7 @@ app.get('/pay', (req, res) => {
     };
 
 
-    paypal.payment.create(create_payment_json, function (error, payment) {
+    paypal.payment.create(create_payment_json, function(error, payment) {
         if (error) {
             throw error;
         } else {
@@ -98,7 +98,7 @@ app.get('/success', (req, res) => {
 });
 
 
-app.listen(8000,'172.20.10.4' ,(req, res) => {
+app.listen(8000, '192.168.100.5', (req, res) => {
 
     console.log('server start');
 });

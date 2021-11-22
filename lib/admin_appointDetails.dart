@@ -49,7 +49,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
 
                   Container(
                     margin: const EdgeInsets.fromLTRB(25, 10, 25, 10),
-                    height:  550,
+                    height:  570,
                     width: double.infinity,
                     decoration: new BoxDecoration(
                       color: Color(0xffF4F4F4),
@@ -140,7 +140,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
-                                  'Employee: ',
+                                  'Employee:',
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -171,7 +171,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
-                                  'Pet Owner: ',
+                                  'Pet Owner:',
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -257,7 +257,7 @@ class AppointmentDetailsState extends State<AppointmentDetails> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(10, 10, 20, 5),
                                 child: Text(
-                                  'Total: ',
+                                  'Total:',
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,

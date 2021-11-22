@@ -93,7 +93,7 @@ class _PetTypeTile extends State<PetTypeTile> {
                     padding: const EdgeInsets.all(4.0),
                     child: SizedBox(
                         height:36, //height of button
-                        width:90,
+                        width:63,
                         child: ElevatedButton(
                           onPressed: () {
 

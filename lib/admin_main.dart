@@ -94,7 +94,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                    MaterialStateProperty.all(Color(0XFFFF6B81)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
@@ -112,7 +112,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                               AdminBoardingAppointments()),
                     );
                   },
-                  child: Text('Boarding Appointment',
+                  child: Text('View Boarding ',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,
@@ -131,15 +131,14 @@ class _adminHomePageState extends State<AdminHomePage> {
               height: 120,
               child: ElevatedButton(
                   onPressed: () {
-                    BottomNavigationBar navigationBar =   _globalKey.currentWidget as BottomNavigationBar;
-                    navigationBar.onTap!(3);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (BuildContext context) =>
-                    //          ServiceList(
-                    //               title: 'Services', type: 0)),
-                    // );
+                    // BottomNavigationBar navigationBar =   _globalKey.currentWidget as BottomNavigationBar;
+                    // navigationBar.onTap!(3);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                             ServiceList()),
+                    );
                   },
                   child: Text('Manage Services',
                       style: TextStyle(

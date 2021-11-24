@@ -40,16 +40,16 @@ class _AdminBoardingAppointmentsState extends State<AdminBoardingAppointments> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-            style: backButton), // <-- Button color// <-- Splash color
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      //   leading: ElevatedButton(
+      //       onPressed: () {
+      //         Navigator.of(context).pop();
+      //       },
+      //       child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+      //       style: backButton), // <-- Button color// <-- Splash color
+      // ),
       backgroundColor: Color(0xFFF4E3E3),
       body: _progressController
           ? Center(child: CircularProgressIndicator())

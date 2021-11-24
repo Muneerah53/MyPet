@@ -38,109 +38,109 @@ class _addPetType extends State<addPetType> {
 
         ),
         body: SingleChildScrollView(
-            child:  Form(
-              key: _dformKey,
-              child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      SizedBox(height: 200),
+          child:  Form(
+            key: _dformKey,
+            child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    SizedBox(height: 200),
 
 
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(8,20,8,8),
-                        child:  TextFormField(
-                          keyboardType: TextInputType.text,
-                          inputFormatters:[FilteringTextInputFormatter.singleLineFormatter],
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(8,20,8,8),
+                      child:  TextFormField(
+                        keyboardType: TextInputType.text,
+                        inputFormatters:[FilteringTextInputFormatter.singleLineFormatter],
 
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
-                          ),
-                          decoration: InputDecoration(
-
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: "Name ",
-                            hintStyle: TextStyle(color:Colors.grey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                )
-                            ),
-                          ),
-                          onChanged: (String value) {
-                            Name = value;
-                          },
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                      return "Please enter Pet type name";
-                      }
-                          else if(!nameRegExp.hasMatch(value)){
-            return "Pet type name must contain only letters";
-            }},
-
-
-
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18, color: Colors.blueGrey,
                         ),
+                        decoration: InputDecoration(
+
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: "Name ",
+                          hintStyle: TextStyle(color:Colors.grey),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              )
+                          ),
+                        ),
+                        onChanged: (String value) {
+                          Name = value;
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please enter Pet type name";
+                          }
+                          else if(!nameRegExp.hasMatch(value)){
+                            return "Pet type name must contain only letters";
+                          }},
+
+
 
                       ),
 
+                    ),
 
 
 
-                      Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget> [
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child:
-                                ElevatedButton(
-                                    child: Text("Add",
-                                        style:
-                                        TextStyle(
-                                            color: primaryColor,
-                                            fontSize: 18)),
-                                    style: ButtonStyle(
-                                      elevation:   MaterialStateProperty.all(0),
-                                      backgroundColor:
-                                      MaterialStateProperty.all(greenColor),
-                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20.0))),
-                                    ),
-                                    onPressed: () async {
-    if (_dformKey.currentState!.validate()) {
-      DocumentReference doc = await PetTypes.add({
-        'petTypeID': '',
-        'petTypeName': Name,
 
-      });
-      String _id = doc.id;
-      await PetTypes.doc(_id).update({"petTypeID": _id});
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Pet type is added successfully'),
-              backgroundColor: Colors.green)
-      );
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget> [
+                          Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child:
+                              ElevatedButton(
+                                  child: Text("Add",
+                                      style:
+                                      TextStyle(
+                                          color: primaryColor,
+                                          fontSize: 18)),
+                                  style: ButtonStyle(
+                                    elevation:   MaterialStateProperty.all(0),
+                                    backgroundColor:
+                                    MaterialStateProperty.all(greenColor),
+                                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20.0))),
+                                  ),
+                                  onPressed: () async {
+                                    if (_dformKey.currentState!.validate()) {
+                                      DocumentReference doc = await PetTypes.add({
+                                        'petTypeID': '',
+                                        'petTypeName': Name,
 
-
-      widget.initData();
-      Navigator.of(context).pop();
-    }
+                                      });
+                                      String _id = doc.id;
+                                      await PetTypes.doc(_id).update({"petTypeID": _id});
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(content: Text('Pet type is added successfully'),
+                                              backgroundColor: Colors.green)
+                                      );
 
 
+                                      widget.initData();
+                                      Navigator.of(context).pop();
                                     }
-                                )),
 
 
-                          ]
-                      )
+                                  }
+                              )),
 
-                    ],
-                  )
-              ),
+
+                        ]
+                    )
+
+                  ],
+                )
             ),
+          ),
         )
     );
 

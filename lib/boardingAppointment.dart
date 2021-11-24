@@ -49,8 +49,8 @@ class boardingState extends State<boardingapp> {
 
   }
 
-  DateTime selected1Date = DateTime.now();
-  DateTime selected2Date = DateTime.now().add(Duration(days: 1));
+  DateTime selected1Date = DateTime.now().add(Duration(days: 1));
+  DateTime selected2Date = DateTime.now().add(Duration(days: 2));
 
 
 
@@ -64,22 +64,45 @@ class boardingState extends State<boardingapp> {
         initialDate: selected1Date,
         firstDate: DateTime.now(),
         lastDate: DateTime(2100)); //from db
-    if (picked != null && picked != selected1Date) {
+    if (picked != null && picked != selected1Date && (_date2.text.isEmpty || (picked.isBefore(selected1Date)) && !(picked.isAfter(selected1Date)))) {
+
+
+
       setState(() {
         selected1Date = picked;
         _date1.value = TextEditingValue(
             text: DateFormat('EEE, MMM dd yyyy').format(selected1Date)
         );
+        if(_date2.text.isEmpty){
+          setState(() {
+            selected2Date = picked.add(Duration(days: 1));
+            _date2.value = TextEditingValue(
+                text: DateFormat('EEE, MMM dd yyyy').format(selected2Date)
+            );
+          });
+
+        }
+
       });
       isSelected1=1;
     }
+
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            "drop-off date must be before pick-up date "),
+        backgroundColor: Theme.of(context).errorColor,
+      ));
+    }
+
+
   }
 
 
   show2ndDialog() async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: selected2Date,
+        initialDate: selected1Date.add(Duration(days: 1)),
         firstDate: DateTime.now(),
         lastDate: DateTime(2100)); //from db
     if (picked != null && picked != selected2Date && !(picked.isBefore(selected1Date)) && (picked.isAfter(selected1Date))) {

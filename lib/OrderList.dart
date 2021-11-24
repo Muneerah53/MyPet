@@ -51,7 +51,7 @@ class OrderListState extends State<OrderList> {
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                     child: Text(
-                      'Order List',
+                      'Appointment Details',
                       style: TextStyle(
                           color: Color(0XFFFF6B81),
                           fontSize: 34,
@@ -59,7 +59,7 @@ class OrderListState extends State<OrderList> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Container(
+                /*  Container(
                     margin: const EdgeInsets.fromLTRB(20, 20, 0, 30),
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -71,7 +71,7 @@ class OrderListState extends State<OrderList> {
                           fontWeight: FontWeight.bold),
                       textAlign: TextAlign.right,
                     ),
-                  ),
+                  ), */
                   Container(
                     margin: const EdgeInsets.fromLTRB(25, 10, 25, 70),
                     height: 500,

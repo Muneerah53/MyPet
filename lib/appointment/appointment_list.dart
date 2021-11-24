@@ -1,4 +1,3 @@
-
 import 'package:MyPet/models/global.dart';
 import 'package:intl/intl.dart';
 import 'package:MyPet/appointment/appointment_model.dart';
@@ -7,6 +6,8 @@ import 'package:MyPet/appointment/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'appointment_boardingModel.dart';
 import 'previouseTileAppt.dart';
 
 class AppointmentList extends StatefulWidget {
@@ -21,9 +22,9 @@ class AppointmentList extends StatefulWidget {
 
 class _AppointmentListState extends State<AppointmentList> {
   List<AppointmentModel> _appList = [];
+  List<BoardingModel> _bordingList = [];
   bool isLoading = true;
   bool hasAppointment = true;
-
   @override
   void initState() {
     super.initState();
@@ -38,8 +39,6 @@ class _AppointmentListState extends State<AppointmentList> {
 
     final waitList = <Future<void>>[];
 
-    // log("init data from parent");
-    //String usrUID = "FwwC3ijCi6ULQpiK8stDe9yv5Yp2";
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? usrUID = await prefs.getString('uid');
 
@@ -51,7 +50,7 @@ class _AppointmentListState extends State<AppointmentList> {
 
     CollectionReference petsDB = FirebaseFirestore.instance.collection('pets');
     List<AppointmentModel> appList = [];
-
+    List<BoardingModel> boardingList = [];
     await appointmentDB
         .where("petOwnerID", isEqualTo: '$usrUID')
         .get()
@@ -87,25 +86,8 @@ class _AppointmentListState extends State<AppointmentList> {
         bool test;
         var oppDate = DateFormat('dd/MM/yyyy').parse(date.toString());
         var toDay = DateTime.now();
-        /*
-        if (widget.type == 0) {
-          test = oppDate.difference(toDay).inDays == 0
-              ? true
-              : !oppDate.difference(toDay).isNegative;
-        } else {
-          test = oppDate.difference(toDay).inDays == 0
-              ? false
-              : oppDate.difference(toDay).isNegative;
-        }*/
-        var deff = oppDate
-            .difference(toDay)
-            .inMinutes;
-        // if(deff >= 0){
-        //   test= true ;
-        // }
-        // else{
-        //   test= false ;
-        // }
+
+        var deff = oppDate.difference(toDay).inMinutes;
 
         if (widget.type == 0) {
           test = deff >= 0 ? true : false;
@@ -134,116 +116,127 @@ class _AppointmentListState extends State<AppointmentList> {
         isLoading = false;
       });
     });
+    //
+    CollectionReference boardingDB =
+    FirebaseFirestore.instance.collection('boarding');
+
+    await boardingDB
+        .where("petOwnerID", isEqualTo: '$usrUID')
+        .get()
+        .then((value) async {
+      if (value.docs.isEmpty) {
+        setState(() {
+          hasAppointment = false;
+        });
+      }
+      for (var element in value.docs) {
+        Map<String, dynamic>? map = element.data() as Map<String, dynamic>?;
+
+        String? boardingID = map!['boardingID'];
+        String? petID = map['petID'];
+        String? service = "Boarding";
+        String? startDate = map['startDate'];
+        String? endDate = map['endDate'];
+
+        //geting the pet information
+        var petsData = await petsDB.doc(petID).get();
+        Map<String, dynamic>? petMap = petsData.data() as Map<String, dynamic>?;
+
+        String? petName = petMap!['name'];
+        String? petSpecies = petMap['species'];
+
+        bool test;
+        var oppDate = DateFormat('dd/MM/yyyy').parse(startDate.toString());
+        var toDay = DateTime.now();
+
+        var deff = oppDate.difference(toDay).inMinutes;
+
+        if (widget.type == 0) {
+          test = deff >= 0 ? true : false;
+        } else {
+          test = deff < 0 ? true : false;
+        }
+        if (test) {
+          BoardingModel boardingModel = new BoardingModel(
+            boardingUID: '$boardingID',
+            pet: '$petName',
+            service: '$service',
+            species: '$petSpecies',
+            startDate: '$startDate',
+            endDate: '$endDate',
+          );
+
+          boardingList.add(boardingModel);
+          setState(() {
+            _bordingList.add(boardingModel);
+          });
+        }
+      }
+    }).then((value) {
+      setState(() {
+        isLoading = false;
+      });
+    });
+
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.type == 0) {
-      return Scaffold(
-          backgroundColor: Color(0xFFF4E3E3),
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-                style: backButton), // <-- Button color// <-- Splash color
-          ),
-          body: isLoading
-              ? Loading()
-              : Column(
-            children: [
-              SizedBox(
-                height: 40.0,
-              ),
+    return Scaffold(
+        backgroundColor: Color(0xFFF4E3E3),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+              style: backButton), // <-- Button color// <-- Splash color
+        ),
+        body: isLoading
+            ? Loading()
+            : Column(
+          children: [
+            SizedBox(
+              height: 40.0,
+            ),
 
-              Text(
-                widget.title,
-                style: TextStyle(
-                    color: Color(0xffe57285),
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-
-              Expanded(
-                child: !isLoading && _appList.isEmpty
-                    ? Center(
-                    child: Text("You have no upcoming appointments",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.grey),
-                    )
-                )
-                    : ListView.builder(
-                    itemCount: _appList.length,
-                    itemBuilder: (context, index) {
+            Text(
+              widget.title,
+              style: TextStyle(
+                  color: Color(0xffe57285),
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Expanded(
+              child: !isLoading && _appList.isEmpty && _bordingList.isEmpty
+                  ? Center(
+                child: Text("You have no upcoming appointments"),
+              )
+                  : ListView.builder(
+                  itemCount: _appList.length,
+                  itemBuilder: (context, index) {
+                    if (widget.type == 0) {
                       return Container(
                         child:
                         AppointmentTile(_appList[index], initData),
                       );
-                    }),
-              ),
-            ],
-          ));
-    }
-    else {
-      return Scaffold(
-          backgroundColor: Color(0xFFF4E3E3),
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-                style: backButton), // <-- Button color// <-- Splash color
-          ),
-          body: isLoading
-              ? Loading()
-              : Column(
-            children: [
-              SizedBox(
-                height: 40.0,
-              ),
 
-              Text(
-                widget.title,
-                style: TextStyle(
-                    color: Color(0xffe57285),
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-
-              Expanded(
-                child: !isLoading && _appList.isEmpty
-                    ? Center(
-                    child: Text("You have no previous appointments",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.grey),
-                    )
-                )
-                    : ListView.builder(
-                    itemCount: _appList.length,
-                    itemBuilder: (context, index) {
+                    }
+                    else{
                       return Container(
                         child:
-                        previousTileAppt(_appList[index], initData),);
-                    }),
-              ),
-            ],
-          ));
-    }
+                        previousTileAppt(_appList[index], initData),
+                      );
+                    }
+
+                  }),
+            ),
+          ],
+        ));
   }
 }

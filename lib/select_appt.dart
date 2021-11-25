@@ -38,6 +38,7 @@ class selectState extends State<select> {
   int? petIndex;
   String title = ' ';
   String emp = '';
+  String img="";
   // String? petName;
   //String? stime;
   var selectedCurrency;
@@ -46,6 +47,13 @@ class selectState extends State<select> {
     super.initState();
     t = widget.type;
     title = (t == 0) ? "Check-Up" : "Grooming";
+
+    if (title=="Check-Up"){
+       img ='images/PBCheckUp.png';
+    }
+    else
+       img ='images/PBGrooming.png';
+
     emp = (t == 0) ? "Doctor" : "Groomer"; //here var is call and set to
   }
 
@@ -86,6 +94,7 @@ class selectState extends State<select> {
         // ),
 
         body: ListView(children: <Widget>[
+
           Container(
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Text(title,
@@ -95,6 +104,18 @@ class selectState extends State<select> {
                       fontSize: 34,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.bold))),
+          SizedBox(height: 20),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                  height: 35,
+                  fit: BoxFit.fill,
+                  image: new AssetImage(img))
+            ],
+          ),
+
           Container(
             padding: const EdgeInsets.fromLTRB(30, 30, 0, 0),
             child: Text(

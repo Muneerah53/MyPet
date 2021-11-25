@@ -110,7 +110,7 @@ class selectState extends State<select> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image(
-                  height: 35,
+                  height: 40,
                   fit: BoxFit.fill,
                   image: new AssetImage(img))
             ],

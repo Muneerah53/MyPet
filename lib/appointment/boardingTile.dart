@@ -22,6 +22,32 @@ class boardingTile extends StatefulWidget {
 class _boardigTileState extends State<boardingTile> {
   bool isLoading = true;
 
+  updateAppoitment() async {
+   /* await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => AppointmentUpdate(widget.appointmentModel)))
+        .then((value) => widget.initData());*/
+
+    /*Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AppointmentUpdate(widget.appointmentModel)),
+    );*/
+  }
+
+  deleteAppoitment() async {
+    await FirebaseFirestore.instance
+        .collection("boarding")
+        .doc(widget.boardingModel.boardingUID)
+        .delete();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Appointment has been deleted."),
+      backgroundColor: Colors.green,
+    ));
+    widget.initData();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -59,7 +85,54 @@ class _boardigTileState extends State<boardingTile> {
                   ],
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: SizedBox(
+                        height:36, //height of button
+                        width:106,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            updateAppoitment();
+                          },
+                          child: Text('Reschedule'),
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xFFE7F2EC),//change background color of button
+                            onPrimary: Colors.black,//change text color of button
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
 
+                            ),
+                            elevation: 0.0,
+                            shadowColor: Colors.transparent,
+                          ),)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: SizedBox(
+                        height:36, //height of button
+                        width:106, //width of button
+                        child: ElevatedButton(
+                          onPressed: () {
+                            deleteAppoitment();
+                          },
+                          child: Text('Cancel'),
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xFFF3BFBD),//change background color of button
+                            onPrimary: Colors.black,//change text color of button
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 0.0,
+                            shadowColor: Colors.transparent,
+                          ),)
+
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),

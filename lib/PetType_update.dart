@@ -62,7 +62,7 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
 
                     Container(
                         padding: const EdgeInsets.fromLTRB(44, 5, 44, 45),
-                        child: const Text('Update Pet type',
+                        child: const Text('Update Pet Type',
                             style: TextStyle(
                                 color: Color(0xffe57285),
                                 fontSize: 30,
@@ -105,12 +105,14 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
                             _name = value;
                           },
 
-                          validator: (Value) {
-                            if (Value!.isEmpty) {
-                              return "Please enter pet type";
-                            } else if (!nameRegExp.hasMatch(Value)){
-                              return "Please enter valid pet type";
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return "Please enter Pet type name";
                             }
+                            else if(value.length>25){
+                              return 'Pet type must be less then 25 characters';
+                            }
+
                           }
 
                       ),
@@ -127,7 +129,7 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
                             onPressed: () async {
                               await saveData();
                             },
-                            child: const Text('Edit',
+                            child: const Text('Save',
                               style: TextStyle( color:Colors.black,
                                   fontSize: 18),
                             ),

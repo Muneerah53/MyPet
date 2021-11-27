@@ -25,10 +25,17 @@ class OrderListState extends State<OrderList> {
 
   appointment? a;
   String? aa;
+  String img="";
+
 
   void initState() {
     super.initState();
     a = widget.appoint;//here var is call and set to
+    if (a!.type == "Check-Up"){
+      img ='images/PBCheckUpStepTwo.png';
+    }
+    else
+      img ='images/PBGroomingStepThree.png';
   }
 
   @override
@@ -59,6 +66,18 @@ class OrderListState extends State<OrderList> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
+                  SizedBox(height: 10),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image(
+                          height: 40,
+                          fit: BoxFit.fill,
+                          image: new AssetImage(img))
+                    ],
+                  ),
+                  SizedBox(height: 10),
                 /*  Container(
                     margin: const EdgeInsets.fromLTRB(20, 20, 0, 30),
                     alignment: Alignment.topLeft,

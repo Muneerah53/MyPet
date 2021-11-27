@@ -97,6 +97,17 @@ appointment? a;
                     fontWeight: FontWeight.bold),
               ),
             ),
+            SizedBox(height: 20),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                    height: 40,
+                    fit: BoxFit.fill,
+                    image: new AssetImage("images/PBGroomingStepTwo.png"))
+              ],
+            ),
 
             Container(
               margin: const EdgeInsets.fromLTRB(20, 40, 0, 0),

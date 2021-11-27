@@ -44,6 +44,14 @@ class _addPetType extends State<addPetType> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+                      Container(
+                          padding: const EdgeInsets.fromLTRB(44, 5, 44, 45),
+                          child: const Text('Add New Pet Type',
+                              style: TextStyle(
+                                  color: Color(0xffe57285),
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold))),
+
                       SizedBox(height: 200),
 
 
@@ -74,12 +82,14 @@ class _addPetType extends State<addPetType> {
                             Name = value;
                           },
                           validator: (value) {
-                            if (value!.isEmpty) {
+                            if (value!.trim().isEmpty) {
                       return "Please enter Pet type name";
                       }
-                          else if(!nameRegExp.hasMatch(value)){
-            return "Pet type name must contain only letters";
-            }},
+                            else if(value.length>25){
+                              return 'Pet type must be less then 25 characters';
+                            }
+
+                          },
 
 
 

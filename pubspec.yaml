@@ -94,6 +94,14 @@ flutter:
      - images/Snake.png
      - images/Turtle.png
      - images/maleProfile.jpg
+     - images/PBGrooming.png
+     - images/PBCheckUp.png
+     - images/PBCheckUpStepTwo.png
+     - images/PBCheckUpStepThree.png
+     - images/PBGroomingStepThree.png
+     - images/PBCheckUpStepTwo.png
+     - images/PBGroomingStepTwo.png
+     - images/PBGroomingStepFour.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

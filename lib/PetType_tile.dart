@@ -25,17 +25,7 @@ class _PetTypeTile extends State<PetTypeTile> {
 
   }
 
-  deleteService() async {
-  await FirebaseFirestore.instance
-        .collection("PetTypes")
-        .doc(widget.petType.petTypeID)
-        .delete();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Pet type has been deleted."),
-      backgroundColor: Colors.green,
-    ));
-    widget.initData();
-  }
+
 
   @override
   void initState() {
@@ -117,7 +107,7 @@ class _PetTypeTile extends State<PetTypeTile> {
                         width:106, //width of button
                         child: ElevatedButton(
                           onPressed: () {
-                            deleteService();
+                            showAlert(context,"Delete  pet pet type");
                           },
                           child: Text('Delete'),
                           style: ElevatedButton.styleFrom(
@@ -138,6 +128,59 @@ class _PetTypeTile extends State<PetTypeTile> {
           ),
         ),
       ),
+    );
+  }
+  showAlert(BuildContext context,String message) {
+    showDialog(
+
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          content: Text(message),
+          actions: <Widget>[
+            FlatButton(
+                child: Text("YES"),
+                onPressed: () async {
+
+                  await FirebaseFirestore.instance
+                      .collection("PetTypes")
+                      .doc(widget.petType.petTypeID)
+                      .delete();
+
+
+                      Navigator.pop(context, true);
+
+                  widget.initData();
+                }),
+
+
+            FlatButton(
+              child: Text("CANCEL"),
+              onPressed: () {
+
+                //Put your code here which you want to execute on Cancel button click.
+                Navigator.pop(context, false);
+
+              },
+            ),
+          ],
+        );
+      },
+    ).then((exit) {
+      if (exit == null) return;
+
+      if (exit) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Pet type deleted successfully"),
+          backgroundColor:Colors.green,),);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Pet type has not been deleted "),
+          backgroundColor:Colors.orange,),);
+      }
+    },
     );
   }
 }

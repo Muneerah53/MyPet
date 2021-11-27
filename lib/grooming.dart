@@ -215,7 +215,14 @@ PList[key]= (snapshot.data!)
                     if (check(SList)) {
                       showAlertDialog(
                           context, "You Must Select at Least One Service");
-                    } else {
+                    }
+
+
+                    else if(getService().length >= 10)
+                      showAlertDialog(
+                          context, "You Can Select at Most 10 Services");
+
+                      else {
                       t = 1;
                       a!.total = TotalPrice(SList);
                       a!.desc = a!.type!+":"+ getService().toString();

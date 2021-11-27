@@ -65,6 +65,8 @@ class AdminAppointmentsState extends State<AdminAppointments> {
           child: Row(
             children: <Widget>[
               SfCalendar(
+                minDate: DateTime(DateTime.now().year),
+                maxDate: DateTime(DateTime.now().year+1, 12, 31),
                 onTap: onCalendarTapped,
                 backgroundColor: Color(0xFFF4E3E3),
                 view: CalendarView.month,

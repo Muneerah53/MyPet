@@ -66,7 +66,7 @@ class _servicesState extends State<services> {
                         children: [
                           Container(
                               padding: const EdgeInsets.fromLTRB(95, 5, 44, 45),
-                              child: const Text('Add Service',
+                              child: const Text('Add New Service',
                                   style: TextStyle(
                                       color: Color(0xffe57285),
                                       fontSize: 30,
@@ -95,11 +95,14 @@ class _servicesState extends State<services> {
                                   // _firstName = value;
                                 },
                                 validator: (value) {
-                                  if (value!.isEmpty) {
+                                  if (value!.trim().isEmpty) {
                                     return 'Please enter Service name';
                                   }
                                   else if(!RegExp('[a-zA-Z _]+\$').hasMatch(_serviceName)){
                                     return 'Service name must contain only letters';
+                                  }
+                                  else if(value.length>15){
+                                    return 'Service name must be less then 15 characters';
                                   }
                                 },
                                 decoration: InputDecoration(
@@ -137,8 +140,8 @@ class _servicesState extends State<services> {
                                     return 'Enter the Service Price';
                                   } else if (!isNumeric(value)) {
                                     return 'price must be numeric';
-                                  } else if (value.length > 2) {
-                                    return 'price must be at most 2 digits';
+                                  } else if (int.parse(value)==0||value.length> 3) {
+                                    return 'price must be at between 0 and 1000 ';
                                   }
                                 },
                                 decoration: InputDecoration(

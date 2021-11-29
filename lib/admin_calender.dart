@@ -87,6 +87,8 @@ class appointCalendarState extends State<appointCalendar> {
                   child:SfCalendar(
 
         backgroundColor: Color(0xFFF4E3E3),
+    minDate: DateTime(DateTime.now().year),
+    maxDate: DateTime(DateTime.now().year+1, 12, 31),
     view: _calendarView,
     showNavigationArrow: true,
     monthViewSettings: const MonthViewSettings(

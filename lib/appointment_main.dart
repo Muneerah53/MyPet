@@ -105,7 +105,7 @@ class _AppoinMainState extends State<AppoinMain> {
               ],
             )),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 50, 0, 60),
+              margin: const EdgeInsets.fromLTRB(0, 50, 0, 40),
               child: Text(
                 'Appointment',
                 style: TextStyle(
@@ -116,7 +116,7 @@ class _AppoinMainState extends State<AppoinMain> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
               width: 344,
               height: 120,
               child: ElevatedButton(
@@ -142,7 +142,7 @@ class _AppoinMainState extends State<AppoinMain> {
             ),
             SizedBox(width: 50),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
               width: 344,
               height: 120,
               child: ElevatedButton(
@@ -169,7 +169,7 @@ class _AppoinMainState extends State<AppoinMain> {
 
             SizedBox(width: 50),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
               width: 344,
               height: 120,
               child: ElevatedButton(

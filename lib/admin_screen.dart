@@ -6,6 +6,7 @@ import 'Mypets.dart';
 import 'add_dr.dart';
 import 'admin_calender.dart';
 import 'admin_main.dart';
+import 'employee/employee_list.dart';
 import 'login.dart';
 import 'ownerProfile.dart';
 import 'package:MyPet/models/global.dart';
@@ -114,7 +115,7 @@ class _managerPageState extends State<managerPage> {
         return [
           AdminHomePage(),
           appointCalendar(),
-          docList(),
+          EmployeeList(),
          // ServiceList(),
         ].elementAt(index);
       },

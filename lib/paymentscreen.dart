@@ -18,12 +18,20 @@ class Paymentscreen extends StatefulWidget{
   _Paymentscreen createState()=>_Paymentscreen();
 }
 class _Paymentscreen extends State<Paymentscreen>{
+  String img ="";
 appointment? a;
 double? price;
 fbHelper fb = fbHelper();
   void initState() {
     super.initState();
 a= widget.appoint;
+    if (a!.type == "Check-Up"){
+      img ='images/PBCheckUpStepthree.png';
+    }
+    else
+      img ='images/PBGroomingStepFour.png';
+
+
 price = a!.total;//here var is call and set to
   }
 String _loadHTML(){
@@ -33,7 +41,64 @@ String _loadHTML(){
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: WebView(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
+            style: ElevatedButton.styleFrom(
+              shape: CircleBorder(),
+              padding: EdgeInsets.all(20),
+              primary: Colors.transparent,
+              shadowColor: Colors.transparent,
+            ),
+          ), // <-- Button color// <-- Splash color
+        ),
+        backgroundColor: const Color(0xFFF4E3E3),
+
+        body: SingleChildScrollView(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+          Container(
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+          child: Text(
+            'Payment',
+            style: TextStyle(
+                color: Color(0XFFFF6B81),
+                fontSize: 34,
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        SizedBox(height: 20),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(
+                height: 40,
+                fit: BoxFit.fill,
+                image: new AssetImage(img))
+          ],
+        ),
+                SizedBox(height: 20),
+
+                Container(
+                    constraints: BoxConstraints(
+                      maxHeight: 550,
+                      maxWidth: 350,
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Color(0xffffffff)),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        child:
+        WebView(
           onPageStarted:(url) {
             if (url.contains('/success')) {
               print(url);
@@ -68,7 +133,7 @@ String _loadHTML(){
           javascriptMode: JavascriptMode.unrestricted,
           initialUrl: _loadHTML(),
         )
-    );
+                    ))] ),  ));
   }
   }
 

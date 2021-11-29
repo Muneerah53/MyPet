@@ -16,7 +16,7 @@ import 'ManagePetType.dart';
 import 'PetType_tile.dart';
 import 'PetType_view.dart';
 import 'admin_viewappts.dart';
-import 'viewBoardingAdmin.dart';
+
 
 class AdminHomePage extends StatefulWidget {
 
@@ -99,31 +99,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
             ),
-            SizedBox(height: 30),
-            Container(
-              width: 344,
-              height: 120,
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              AdminBoardingAppointments()),
-                    );
-                  },
-                  child: Text('Boarding Appointment',
-                      style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold)),
-                  style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all(Color(0XFFFF6B81)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0))),
-                  )),
-            ),
+
 
             SizedBox(height: 30),
             Container(
@@ -143,7 +119,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                    MaterialStateProperty.all(Color(0XFFFF6B81)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
@@ -179,7 +155,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFFFF6B81)),
+                    MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),

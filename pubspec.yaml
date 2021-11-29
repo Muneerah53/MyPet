@@ -102,6 +102,10 @@ flutter:
      - images/PBCheckUpStepTwo.png
      - images/PBGroomingStepTwo.png
      - images/PBGroomingStepFour.png
+     - images/png/pet-grooming.png
+     - images/png/pet-house (1).png
+     - images/png/stethoscope.png
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -128,11 +128,19 @@ class _AppoinMainState extends State<AppoinMain> {
                         builder: (BuildContext context) => select(type: t)),
                   );
                 },
-                child: Text('Check UP',
+                child:
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(width: 20),
+                Container(
+                child:   Image.asset("images/png/stethoscope.png", scale:6)),
+                     SizedBox(width: 40),
+                      Text('Check-Up',
                     style: TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: 25,
-                        fontWeight: FontWeight.bold)),
+                        fontWeight: FontWeight.bold))]),
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Color(0XFF2F3542)),
@@ -154,14 +162,20 @@ class _AppoinMainState extends State<AppoinMain> {
                           builder: (BuildContext context) => select(type: t)),
                     );
                   },
-                  child: Text('Grooming',
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(width: 20),
+                        Container(
+                  child:   Image.asset("images/png/pet-grooming.png", scale: 6)),
+                        SizedBox(width: 40),  Text('Grooming',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,
-                          fontWeight: FontWeight.bold)),
+                          fontWeight: FontWeight.bold))]),
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Color(0XFFFF6B81)),
+                        MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
@@ -181,11 +195,21 @@ class _AppoinMainState extends State<AppoinMain> {
                         builder: (BuildContext context) => boardingapp()),
                   );
                 },
-                child: Text('Boarding',
+                child:
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(width: 20),
+                      Container(
+                      child:   Image.asset("images/png/pet-house (1).png", scale:6)),
+                      SizedBox(width: 40), Text('Boarding',
                     style: TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: 25,
-                        fontWeight: FontWeight.bold)),
+                        fontWeight: FontWeight.bold,
+
+                    )
+                )]),
                 style: ButtonStyle(
                     backgroundColor:
                     MaterialStateProperty.all(Color(0XFF2F3542)),

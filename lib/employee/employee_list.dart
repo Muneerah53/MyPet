@@ -22,7 +22,7 @@ class EmployeeList extends StatefulWidget {
 }
 
 class EmployeeListState extends State<EmployeeList> {
-
+  GlobalKey _globalKey = navKeys.globalKeyAdmin;
 
   List<EmployeeModel> _empList = [];
   bool isLoading = true;
@@ -47,12 +47,13 @@ class EmployeeListState extends State<EmployeeList> {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            leading: ElevatedButton(
+            leading:ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  BottomNavigationBar navigationBar = _globalKey.currentWidget as BottomNavigationBar;
+                  navigationBar.onTap!(0);
                 },
                 child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
-                style: backButton), // <-- Button color// <-- Splash color
+                style: backButton ), // <-- Button color// <-- Splash color
           ),
           body: Padding(
             padding: const EdgeInsets.all(20),

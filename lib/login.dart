@@ -50,21 +50,36 @@ class _LoginPageState extends State<LoginPage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            // Container(
+            //     margin: EdgeInsets.fromLTRB(50, 50, 50, 30),
+            //     width: 130,
+            //     height: 160,
+            //     decoration: BoxDecoration(
+            //         shape: BoxShape.circle,
+            //         image: DecorationImage(
+            //             image: AssetImage('images/logo.jpeg')))),
+            SizedBox(
+              height: 140,
+            ),
             Container(
-                margin: EdgeInsets.fromLTRB(50, 50, 50, 30),
-                width: 130,
-                height: 160,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: AssetImage('images/logo.jpeg')))),
+              child: Text(
+                "Login",
+                style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red[300]),
+              ),
+            ), SizedBox(
+              height: 60,
+            ),
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 26),
                 child: new Form(
                     key: _formKey,
                     child: new Column(
                       children: buildInputs() + buildSubmitButtons(),
-                    )))
+                    ))),
+
           ],
         ),
       ),

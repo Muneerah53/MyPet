@@ -24,7 +24,7 @@ class appointmentPage extends StatefulWidget {
 }
 
 class _AppointPageState extends State<appointmentPage> {
-  GlobalKey _globalKey = navKeys.globalKey;
+  //GlobalKey _globalKey = navKeys.globalKey;
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -41,8 +41,11 @@ class _AppointPageState extends State<appointmentPage> {
           elevation: 0,
           leading: ElevatedButton(
               onPressed: () {
-                BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
-                navigationBar.onTap!(0);
+                // BottomNavigationBar navigationBar =  _globalKey.currentWidget as BottomNavigationBar;
+                // navigationBar.onTap!(0);
+
+                  Navigator.of(context).pop();
+
 
               },
               child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
@@ -155,6 +158,7 @@ class _AppointPageState extends State<appointmentPage> {
               ],
             ),
           ),
-        ));
+        )
+    );
   }
 }

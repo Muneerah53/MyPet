@@ -18,7 +18,7 @@ class _mainPageState extends State<mainPage> {
   List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>(),
+    //GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>()
   ];
 
@@ -67,13 +67,13 @@ class _mainPageState extends State<mainPage> {
               activeIcon: Icon(Icons.pets
               ),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today_outlined
-              ),
-              label:"Appointments",
-              activeIcon: Icon(Icons.calendar_today
-              ),
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.calendar_today_outlined
+            //   ),
+            //   label:"Appointments",
+            //   activeIcon: Icon(Icons.calendar_today
+            //   ),
+            // ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outlined
               ),
@@ -92,8 +92,8 @@ class _mainPageState extends State<mainPage> {
           children: [
             _buildOffstageNavigator(0),
             _buildOffstageNavigator(1),
+           // _buildOffstageNavigator(2),
             _buildOffstageNavigator(2),
-            _buildOffstageNavigator(3),
           ],
         ),
       ),
@@ -108,7 +108,7 @@ class _mainPageState extends State<mainPage> {
         return [
           new ownerPage(),
           new Mypets(),
-          new appointmentPage(),
+         // new appointmentPage(),
           new Profile()
         ].elementAt(index);
       },

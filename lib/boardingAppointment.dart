@@ -79,6 +79,7 @@ class boardingState extends State<boardingapp> {
             _date2.value = TextEditingValue(
                 text: DateFormat('EEE, MMM dd yyyy').format(selected2Date)
             );
+            isSelected2=1;
           });
 
         }

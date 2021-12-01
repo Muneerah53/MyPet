@@ -152,6 +152,17 @@ class boardingState extends State<boardingapp> {
                       fontSize: 34,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.bold))),
+          SizedBox(height: 20),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                  height: 40,
+                  fit: BoxFit.fill,
+                  image: new AssetImage('images/PBCheckUp.png'))
+            ],
+          ),
           Container(
             padding: const EdgeInsets.fromLTRB(30, 30, 0, 0),
             child: Text(

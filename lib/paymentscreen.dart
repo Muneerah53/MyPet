@@ -25,12 +25,12 @@ fbHelper fb = fbHelper();
   void initState() {
     super.initState();
 a= widget.appoint;
-    if (a!.type == "Check-Up"){
-      img ='images/PBCheckUpStepthree.png';
-    }
-    else
+    if (a!.type == "Grooming"){
       img ='images/PBGroomingStepFour.png';
 
+    }
+    else
+      img ='images/PBCheckUpStepThree.png';
 
 price = a!.total;//here var is call and set to
   }

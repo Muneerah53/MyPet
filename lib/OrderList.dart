@@ -31,11 +31,12 @@ class OrderListState extends State<OrderList> {
   void initState() {
     super.initState();
     a = widget.appoint;//here var is call and set to
-    if (a!.type == "Check-Up"){
-      img ='images/PBCheckUpStepTwo.png';
+    if (a!.type == "Grooming"){
+      img ='images/PBGroomingStepThree.png';
+
     }
     else
-      img ='images/PBGroomingStepThree.png';
+      img ='images/PBCheckUpStepTwo.png';
   }
 
   @override

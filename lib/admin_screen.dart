@@ -90,6 +90,10 @@ class _managerPageState extends State<managerPage> {
             // ),
           ],
           onTap: (index) {
+            int  i = _selectedIndex;
+            if(i==index){
+              _navigatorKeys[index].currentState!.popUntil((route) => route.isFirst);
+            }
             setState(() {
               _selectedIndex = index;
             });

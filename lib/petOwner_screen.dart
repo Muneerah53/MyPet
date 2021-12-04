@@ -83,9 +83,15 @@ class _mainPageState extends State<mainPage> {
             ),
           ],
           onTap: (index) {
+             int  i = _selectedIndex;
+             if(i==index){
+               _navigatorKeys[index].currentState!.popUntil((route) => route.isFirst);
+             }
            setState(() {
              _selectedIndex = index;
            }  );
+
+
           },
         ),
         body: Stack(
@@ -116,6 +122,9 @@ class _mainPageState extends State<mainPage> {
   }
 
   Widget _buildOffstageNavigator(int index) {
+
+
+
     Map<String, WidgetBuilder> routeBuilders = _routeBuilders(context, index);
   return Offstage(
       offstage: _selectedIndex != index,

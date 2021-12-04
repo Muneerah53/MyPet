@@ -139,7 +139,7 @@ class EmployeeTileState extends State<EmployeeTile> {
                         width:106, //width of button
                         child: ElevatedButton(
                           onPressed: () {
-                            showAlert(context,"Delete Employee?");
+                            showAlert(context,"Are you sure you want to delete this employee?");
                           },
                           child: Text('Delete'),
                           style: ElevatedButton.styleFrom(

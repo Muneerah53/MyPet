@@ -59,9 +59,6 @@ class EmployeeListState extends State<EmployeeList> {
             padding: const EdgeInsets.all(20),
             child: ListView(
               children: <Widget>[
-                SizedBox(
-                  height: 40.0,
-                ),
 
 
              Center(
@@ -85,7 +82,7 @@ class EmployeeListState extends State<EmployeeList> {
                     );
                   },
                   child:Padding(
-                      padding: EdgeInsets.only(left: 50,right:50,top: 35,bottom: 35),
+                      padding: EdgeInsets.only(left: 40,right:40,top: 35,bottom: 35),
 
                       child:
                       Text("+ Add New Employee", style:

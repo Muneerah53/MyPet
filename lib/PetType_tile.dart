@@ -107,7 +107,7 @@ class _PetTypeTile extends State<PetTypeTile> {
                         width:106, //width of button
                         child: ElevatedButton(
                           onPressed: () {
-                            showAlert(context,"Delete  pet pet type");
+                            showAlert(context,"Are you sure you want to delete this pet type?");
                           },
                           child: Text('Delete'),
                           style: ElevatedButton.styleFrom(

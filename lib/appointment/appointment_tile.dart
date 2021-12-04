@@ -121,7 +121,7 @@ class _AppointmentTileState extends State<AppointmentTile> {
                         width:106, //width of button
                       child: ElevatedButton(
                         onPressed: () {
-                          delAppoitment();
+                          showAlert(context,"Are you sure you want to cancel this appointment?");
                         },
                         child: Text('Cancel'),
                         style: ElevatedButton.styleFrom(
@@ -144,4 +144,68 @@ class _AppointmentTileState extends State<AppointmentTile> {
       ),
     );
   }
+  showAlert(BuildContext context,String message) {
+    showDialog(
+
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          content: Text(message),
+          actions: <Widget>[
+            FlatButton(
+                child: Text("YES"),
+                onPressed: () async {
+        await FirebaseFirestore.instance
+            .collection("appointment")
+            .doc(widget.appointmentModel.appointmentUID)
+            .delete()
+            .then((value) async {
+        // log("delete");
+        NotificationService.cancel(widget.appointmentModel.appointmentUID.hashCode);
+        await FirebaseFirestore.instance
+            .collection('Work Shift')
+            .doc(widget.appointmentModel.workshiftID)
+            .update({"status": "Available"}).then((value) {
+        // log("update");
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Appointment has been deleted."),
+        backgroundColor: Colors.green,
+        ));
+        // log("init data from child");
+        Navigator.pop(context, true);
+
+        widget.initData();
+        });
+        });
+        } ),
+
+        FlatButton(
+        child: Text("CANCEL"),
+        onPressed: () {
+
+        //Put your code here which you want to execute on Cancel button click.
+        Navigator.pop(context, false);
+
+        },
+        )]);
+
+      },
+    ).then((exit) {
+      if (exit == null) return;
+
+      if (exit) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Appointment canceled successfully"),
+          backgroundColor:Colors.green,),);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Appointment has not been canceled "),
+          backgroundColor:Colors.orange,),);
+      }
+    },
+    );
+  }
+
 }

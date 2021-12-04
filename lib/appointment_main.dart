@@ -134,7 +134,7 @@ class _AppoinMainState extends State<AppoinMain> {
                     children: <Widget>[
                       SizedBox(width: 20),
                 Container(
-                child:   Image.asset("images/png/stethoscope.png", scale:6)),
+                child:   Image.asset("images/png/stethoscope.png", scale:8)),
                      SizedBox(width: 40),
                       Text('Check-Up',
                     style: TextStyle(
@@ -167,7 +167,7 @@ class _AppoinMainState extends State<AppoinMain> {
                       children: <Widget>[
                         SizedBox(width: 20),
                         Container(
-                  child:   Image.asset("images/png/pet-grooming.png", scale: 6)),
+                  child:   Image.asset("images/png/pet-grooming.png", scale: 8)),
                         SizedBox(width: 40),  Text('Grooming',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
@@ -201,7 +201,7 @@ class _AppoinMainState extends State<AppoinMain> {
                     children: <Widget>[
                       SizedBox(width: 20),
                       Container(
-                      child:   Image.asset("images/png/pet-house (1).png", scale:6)),
+                      child:   Image.asset("images/png/pet-house (1).png", scale:8)),
                       SizedBox(width: 40), Text('Boarding',
                     style: TextStyle(
                         fontStyle: FontStyle.italic,
@@ -210,6 +210,7 @@ class _AppoinMainState extends State<AppoinMain> {
 
                     )
                 )]),
+
                 style: ButtonStyle(
                     backgroundColor:
                     MaterialStateProperty.all(Color(0XFF2F3542)),

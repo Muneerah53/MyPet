@@ -22,7 +22,7 @@ class appointmentFormState extends State<appointmentForm> {
   var _types = ['Check-Up', 'Grooming'];
   String selectedType = 'Check-Up';
   String selectedWork = "Doctor";
-  Duration d = Duration(minutes: 30);
+  Duration d =   _selectedAppointment == null ? Duration(minutes: 30) : _endDate.difference(_startDate);
   FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
   String title = _selectedAppointment == null ? "Add" : "Edit";
   var selectedDoctor;
@@ -117,6 +117,7 @@ class appointmentFormState extends State<appointmentForm> {
                                       else {
 
                                         selectedWork = "Groomer";
+                                        selectedTime = _times[1];
                                         d = Duration(minutes: 60);
                                         setState(() {
                                           _endDate = _startDate.add(d);
@@ -439,6 +440,7 @@ class appointmentFormState extends State<appointmentForm> {
                                     setState(() {
                                       final Duration difference =
                                       _endDate.difference(_startDate);
+
                                       _startDate = DateTime(
                                           date.year,
                                           date.month,

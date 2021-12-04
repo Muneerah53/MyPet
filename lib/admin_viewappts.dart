@@ -92,7 +92,7 @@ class AdminAppointmentsState extends State<AdminAppointments> {
 
   void _updateAppointments(String empID, bool add) {
     List<Appointment> app = _allappointments.where((element) {
-      return element.location == empID;
+      return element.recurrenceId == empID;
     }).toList();
     print('$empID and $add');
     print(app.length);
@@ -278,6 +278,7 @@ class AdminAppointmentsState extends State<AdminAppointments> {
           if (!e) {
             Appointment a = Appointment(
               id: appointmentID,
+              recurrenceId: empId,
               location: "appointment",
               startTime: _startDateTime,
               endTime: _endDateTime,
@@ -306,12 +307,8 @@ class AdminAppointmentsState extends State<AdminAppointments> {
         });
       }
 
-      print(_allappointments.length);
 
-      _dataSource.notifyListeners(CalendarDataSourceAction.add, _appointments);
-      setState(() {
-        _progressController = false;
-      });
+
     });
 
     //getting Boarding

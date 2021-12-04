@@ -129,6 +129,7 @@ class selectState extends State<select> {
           ),
           Container(
             padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+
             child: Form(
               child: Column(
                 children: [
@@ -149,6 +150,7 @@ class selectState extends State<select> {
                             DocumentSnapshot snap = (snapshot.data!).docs[i];
                             currencyItems.add(
                               DropdownMenuItem(
+
                                   child: Text(
                                     snap.get("empName"),
                                     style: TextStyle(color: Colors.black38),
@@ -173,6 +175,7 @@ class selectState extends State<select> {
                                   icon: Icon(Icons.keyboard_arrow_down),
                                   items: currencyItems,
                                   hint: new Text("Select $emp ...            "),
+
                                   onChanged: (currencyValue) {
                                     setState(() {
                                       selectedCurrency = currencyValue;
@@ -202,6 +205,7 @@ class selectState extends State<select> {
             padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
             child: Text(
               'Select Day:',
+
               style: TextStyle(
                   color: const Color(0xFF552648B),
                   fontSize: 18,

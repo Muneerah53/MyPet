@@ -209,7 +209,14 @@ class editProfile extends StatelessWidget {
                       content: Text("first name must contain only characters"),
                       backgroundColor: Theme.of(context).errorColor,
                     ));
-                  } else {
+                  }  else if (fnameController.text.length>25) {
+                    fnameError++;
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("first name must be less then 25"),
+                      backgroundColor: Theme.of(context).errorColor,
+                    ));
+                  }
+                  else {
                     owner.reference.update({
                       'fname': fnameController.text[0].toUpperCase() +
                           fnameController.text.substring(1)
@@ -225,7 +232,14 @@ class editProfile extends StatelessWidget {
                       content: Text("last name must contain only characters"),
                       backgroundColor: Theme.of(context).errorColor,
                     ));
-                  } else {
+                  }    else if (lnameController.text.length>25) {
+                    lnameError++;
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("last name must be less then 25"),
+                      backgroundColor: Theme.of(context).errorColor,
+                    ));
+                  }
+                  else {
                     document.reference.update({
                       'lname': lnameController.text[0].toUpperCase() +
                           lnameController.text.substring(1)
@@ -233,6 +247,7 @@ class editProfile extends StatelessWidget {
                     change++;
                   }
                 }
+
                 if (!mobileController.text.isEmpty) {
                   if (mobileController.text.length != 10) {
                     phoneError++;

@@ -112,7 +112,7 @@ class _ServiceTile extends State<ServiceTile> {
                         width:106, //width of button
                         child: ElevatedButton(
                           onPressed: () {
-                            showAlert(context,"Delete Service?");
+                            showAlert(context,"Are you sure you want to delete this service?");
                           },
                           child: Text('Delete'),
                           style: ElevatedButton.styleFrom(

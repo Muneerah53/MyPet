@@ -101,14 +101,14 @@ class _LoginPageState extends State<LoginPage> {
                   style: BorderStyle.none,
                 ))),
         validator: (value) {
-          if (value!.isEmpty) {
+          if (value!.trim().isEmpty) {
             return 'Email must not be empty';
-          } else if (EmailValidator.validate(value))
+          } else if (EmailValidator.validate(value.trim()))
             return null;
           else
             return "Please enter a valid email";
         },
-        onSaved: (Value) => _email = Value!,
+        onSaved: (Value) => _email = Value!.trim(),
       ),
       SizedBox(height: 30),
       Padding(
@@ -127,13 +127,13 @@ class _LoginPageState extends State<LoginPage> {
                     style: BorderStyle.none,
                   ))),
           validator: (Value) {
-            if (Value == null || Value.isEmpty) {
+            if (Value == null || Value.trim().isEmpty) {
               return 'Password must not be empty';
-            }else if (validatePassword(Value))
+            }else if (validatePassword(Value.trim()))
               return 'Must be at least 8 characters and should contain a small letter,a capital letter,and a special character';
             return null;
           },
-          onSaved: (Value) => _password = Value!,
+          onSaved: (Value) => _password = Value!.trim(),
         ),
       )
     ];

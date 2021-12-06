@@ -112,6 +112,9 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
                             else if(value.length>25){
                               return 'Pet type must be less then 25 characters';
                             }
+    else if(!nameRegExp.hasMatch(value)){
+    return "Pet type name must contain only letters";
+    }
 
                           }
 

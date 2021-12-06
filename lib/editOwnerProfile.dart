@@ -236,7 +236,6 @@ class editProfile extends StatelessWidget {
                     lnameError++;
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("last name must be less then 25"),
-                      backgroundColor: Theme.of(context).errorColor,
                     ));
                   }
                   else {

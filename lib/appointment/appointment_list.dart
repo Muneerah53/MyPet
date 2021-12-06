@@ -1,3 +1,4 @@
+import 'package:MyPet/appointment/boardingTile.dart';
 import 'package:MyPet/models/global.dart';
 import 'package:intl/intl.dart';
 import 'package:MyPet/appointment/appointment_model.dart';
@@ -37,7 +38,6 @@ class _AppointmentListState extends State<AppointmentList> {
       isLoading = true;
     });
 
-    final waitList = <Future<void>>[];
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? usrUID = await prefs.getString('uid');
@@ -116,7 +116,7 @@ class _AppointmentListState extends State<AppointmentList> {
         isLoading = false;
       });
     });
-    //
+
     CollectionReference boardingDB =
     FirebaseFirestore.instance.collection('boarding');
 
@@ -137,7 +137,8 @@ class _AppointmentListState extends State<AppointmentList> {
         String? service = "Boarding";
         String? startDate = map['startDate'];
         String? endDate = map['endDate'];
-
+        // DateTime startDateg =
+        // DateFormat("EEE, MMM dd yyyy") as DateTime;
         //geting the pet information
         var petsData = await petsDB.doc(petID).get();
         Map<String, dynamic>? petMap = petsData.data() as Map<String, dynamic>?;
@@ -145,17 +146,18 @@ class _AppointmentListState extends State<AppointmentList> {
         String? petName = petMap!['name'];
         String? petSpecies = petMap['species'];
 
-        bool test;
-        var oppDate = DateFormat('dd/MM/yyyy').parse(startDate.toString());
-        var toDay = DateTime.now();
-
-        var deff = oppDate.difference(toDay).inMinutes;
-
-        if (widget.type == 0) {
-          test = deff >= 0 ? true : false;
-        } else {
-          test = deff < 0 ? true : false;
-        }
+        bool test= true;
+        // var s =  {startDateg.month}-{startDateg.year}-{startDateg.day};
+        // var oppDate = DateFormat('dd/MM/yyyy').parse(s.toString());
+        // var toDay = DateTime.now();
+        //
+        // var deff = oppDate.difference(toDay).inDays;
+        //
+        // if (widget.type == 0) {
+        //   test = deff >= 0 ? true : false;
+        // } else {
+        //   test = deff < 0 ? true : false;
+        // }
         if (test) {
           BoardingModel boardingModel = new BoardingModel(
             boardingUID: '$boardingID',
@@ -169,6 +171,9 @@ class _AppointmentListState extends State<AppointmentList> {
           boardingList.add(boardingModel);
           setState(() {
             _bordingList.add(boardingModel);
+            print("nnnnnnnnnn");
+            print(_bordingList);
+            print("tttttttttt");
           });
         }
       }
@@ -179,7 +184,6 @@ class _AppointmentListState extends State<AppointmentList> {
     });
 
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -215,25 +219,29 @@ class _AppointmentListState extends State<AppointmentList> {
             Expanded(
               child: !isLoading && _appList.isEmpty && _bordingList.isEmpty
                   ? Center(
-                child: Text("You have no upcoming appointments"),
+                  child: Text("You have no upcoming appointments",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.grey),)
               )
                   : ListView.builder(
-                  itemCount: _appList.length,
+                  itemCount: _bordingList.length,
                   itemBuilder: (context, index) {
+
                     if (widget.type == 0) {
                       return Container(
                         child:
-                        AppointmentTile(_appList[index], initData),
+                        boardingTile(_bordingList[index], initData),
                       );
-
                     }
+
                     else{
                       return Container(
                         child:
                         previousTileAppt(_appList[index], initData),
                       );
                     }
-
                   }),
             ),
           ],

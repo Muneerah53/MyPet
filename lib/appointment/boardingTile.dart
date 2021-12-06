@@ -3,10 +3,13 @@ import 'package:MyPet/appointment/appointment_boardingModel.dart';
 import 'package:MyPet/appointment/appointment_model.dart';
 import 'package:MyPet/models/notifaction_service.dart';
 
+
 import 'appointment_boardingModel.dart';
 import 'appointment_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'appointment_update.dart';
+import 'boarding_update.dart';
 
 
 class boardingTile extends StatefulWidget {
@@ -23,11 +26,11 @@ class _boardigTileState extends State<boardingTile> {
   bool isLoading = true;
 
   updateAppoitment() async {
-   /* await Navigator.push(
+    await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) => AppointmentUpdate(widget.appointmentModel)))
-        .then((value) => widget.initData());*/
+            builder: (_) => Boarding_Update(widget.boardingModel)))
+        .then((value) => widget.initData());
 
     /*Navigator.push(
       context,

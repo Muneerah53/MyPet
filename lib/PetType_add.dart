@@ -1,8 +1,11 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'models/global.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:MyPet/storage/storage.dart';
 String Name ='';
 final _dformKey = GlobalKey<FormState>();
 
@@ -19,7 +22,8 @@ class addPetType extends StatefulWidget {
 
 class _addPetType extends State<addPetType> {
   static final RegExp nameRegExp = RegExp('^[a-zA-Z ]+\$');
-
+  final _picker = ImagePicker();
+  final Storage storage = Storage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +58,24 @@ class _addPetType extends State<addPetType> {
 
                       SizedBox(height: 200),
 
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(8,20,8,8),
+                        child:  ElevatedButton(
+
+                          onPressed: () async {
+                            final icon = await _picker.pickImage(source: ImageSource.gallery);
+
+                            if(icon == null){ print('No'); return;}
+
+                            final path = icon.path;
+                            final name = icon.name;
+
+storage.uploadImg(path, name);
+
+                          },
+                        child: Text('Add Pic'),)
+
+                      ),
 
                       Padding(
                         padding: EdgeInsets.fromLTRB(8,20,8,8),

@@ -82,6 +82,7 @@ flutter:
   assets:
      - images/logo.jpeg
      - images/logo.png
+     - images/logo4.png
      - images/dog2.png
      - images/image_1.png
      - images/image_2.png

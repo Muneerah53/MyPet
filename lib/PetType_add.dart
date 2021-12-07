@@ -1,11 +1,13 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'models/global.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:MyPet/storage/storage.dart';
+import 'dart:io';
 String Name ='';
 final _dformKey = GlobalKey<FormState>();
 
@@ -23,7 +25,12 @@ class addPetType extends StatefulWidget {
 class _addPetType extends State<addPetType> {
   static final RegExp nameRegExp = RegExp('^[a-zA-Z ]+\$');
   final _picker = ImagePicker();
-  final Storage storage = Storage();
+  final Storage _storage = Storage();
+  late File _img;
+
+  String? imgName, imgPath;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,26 +63,41 @@ class _addPetType extends State<addPetType> {
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold))),
 
-                      SizedBox(height: 200),
-
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(8,20,8,8),
-                        child:  ElevatedButton(
-
-                          onPressed: () async {
+                     // SizedBox(height: 200),
+                      GestureDetector(
+                          onTap: () async {
                             final icon = await _picker.pickImage(source: ImageSource.gallery);
 
                             if(icon == null){ print('No'); return;}
 
-                            final path = icon.path;
-                            final name = icon.name;
+                            imgPath = icon.path;
+                            imgName = icon.name;
 
-storage.uploadImg(path, name);
-
+                            setState(() {
+                              if(imgPath!=null)
+                              _img = File(imgPath!);
+                            });
                           },
-                        child: Text('Add Pic'),)
+                          child:  CircleAvatar(
+                        radius: 58,
+                        backgroundImage:  imgPath == null || imgName ==null ?
+                        AssetImage("images/logo4.png")
+                            :
+                        Image.file(_img).image,
+                        child: Stack(
+                            children: [
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: CircleAvatar(
+                                  radius: 18,
+                                  backgroundColor: Color(0xffe57285).withOpacity(0.7),
+                                  child: Icon(CupertinoIcons.add, color: Colors.white),
+                                ),
+                              ),
+                            ]
+                        ),
+                      ) ),
 
-                      ),
 
                       Padding(
                         padding: EdgeInsets.fromLTRB(8,20,8,8),
@@ -147,9 +169,26 @@ storage.uploadImg(path, name);
                                     ),
                                     onPressed: () async {
     if (_dformKey.currentState!.validate()) {
+
+
+      if(imgName==null || imgPath==null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('You need to add a pet icon'),
+                backgroundColor: Colors.orange)
+        );
+        return;
+      }
+
+      final ext = imgName!.lastIndexOf('.');
+      String _imgname  = imgName!.replaceRange(0, ext, Name);
+
+      _storage.uploadImg(imgPath!, _imgname);
+
+
       DocumentReference doc = await PetTypes.add({
         'petTypeID': '',
         'petTypeName': Name,
+       // 'petTypeIcon': _imgname
 
       });
       String _id = doc.id;
@@ -181,5 +220,7 @@ storage.uploadImg(path, name);
 
 
   }
+
+
 
 }

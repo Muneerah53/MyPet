@@ -433,7 +433,17 @@ class boardingState extends State<boardingapp> {
     else if (document['species'] == "Hamster")
       img = "images/Hamster.png";
     else
-      img = "images/New.png";
+      img = "images/logo4.png";
+
+
+    String? url;
+    Map<String, dynamic> dataMap = document.data() as Map<String, dynamic>;
+
+    if(dataMap.containsKey('img'))
+      url = document['img']['imgURL'];
+    else
+      url = null;
+
     return OutlinedButton(
         style: OutlinedButton.styleFrom(
             padding: EdgeInsets.all(0),
@@ -462,7 +472,7 @@ class boardingState extends State<boardingapp> {
                         backgroundColor: Colors.white,
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundImage: AssetImage(img),
+                          backgroundImage: url == null ? new AssetImage(img) : Image.network(url).image,
                         ),
                       ),
                     )

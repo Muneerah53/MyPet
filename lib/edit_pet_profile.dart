@@ -1,11 +1,14 @@
 
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'models/global.dart';
-import 'ownerProfile.dart';
+import 'package:MyPet/storage/storage.dart';
+import 'dart:io';
 final  validCharacters = RegExp(r'^[a-zA-Z]');
 
 class editPet extends StatefulWidget {
@@ -32,7 +35,12 @@ class _editPet extends State<editPet> {
   var currentValuegn;
 
 
+  //image
+  final _picker = ImagePicker();
+  final Storage _storage = Storage();
+  late File _img;
 
+  String? imgName, imgPath;
   var backColor = const Color(0xfff3e3e3);
 
 
@@ -345,7 +353,20 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
   document.reference.update({'gender': genderController.text});
   change++;
   }
-
+  if(!(imgPath==null || imgPath==null)) {
+    await _storage.uploadImg(
+        imgPath!, imgName!);
+    String url = await _storage.downloadURL(
+        imgName!);
+    await document.reference.update(
+        {
+          'img': {
+            'imgName': imgName!,
+            'imgURL': url
+          }
+        });
+    change++;
+  }
 
   if (change > 0) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -406,8 +427,18 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
       img = "images/Snake.png";
     else if (document['species'] == "Turtle")
       img = "images/Turtle.png";
-    else
+    else if (document['species'] == "Hamster")
       img = "images/Hamster.png";
+    else
+      img = "images/dog.png";
+
+    String? url;
+    Map<String, dynamic> dataMap = document.data() as Map<String, dynamic>;
+
+    if(dataMap.containsKey('img'))
+      url = document['img']['imgURL'];
+    else
+      url = null;
 
       return Column(
 
@@ -417,11 +448,42 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
               margin: EdgeInsets.only(top: 5),
               width: 120,
               height: 110,
-              child:    CircleAvatar(
-                backgroundImage: new AssetImage(img),
+              child:                                GestureDetector(
+    onTap: () async {
+    final icon = await _picker.pickImage(source: ImageSource.gallery);
+
+    if(icon == null){ print('No'); return;}
+
+
+
+    setState(() {
+      imgPath = icon.path;
+      imgName = icon.name;
+
+    if(imgPath!=null)
+    _img = File(imgPath!);
+    });
+    },
+                child: CircleAvatar(
+                backgroundImage:   imgPath == null || imgName ==null ? url == null ?
+                new AssetImage(img)  : Image.network(url).image
+                    :  Image.file(_img).image,
+
+                child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: CircleAvatar(
+                          radius: 18,
+                          backgroundColor: Color(0xffe57285).withOpacity(0.8),
+                          child: Icon(CupertinoIcons.add, color: Colors.white),
+                        ),
+                      ),
+                    ]
+                ),
               ),),
 
-
+            )
           ]
       );
     }

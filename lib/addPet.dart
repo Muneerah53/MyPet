@@ -369,16 +369,19 @@ class _addPet extends State<addPet> {
                                     String _id = doc.id;
                                     await pets.doc(_id).update({"petId": _id});
 
-                                   await  _storage.uploadImg(imgPath!, imgName!);
-                                    String url = await _storage.downloadURL(imgName!);
-                                    await pets.doc(_id).update(
-                                        {
-                                          'img' : {
-                                          'imgName': imgName!,
-                                          'imgURL': url
-                                        }
-                                        });
-
+                                    if(!(imgPath==null || imgPath==null)) {
+                                      await _storage.uploadImg(
+                                          imgPath!, imgName!);
+                                      String url = await _storage.downloadURL(
+                                          imgName!);
+                                      await pets.doc(_id).update(
+                                          {
+                                            'img': {
+                                              'imgName': imgName!,
+                                              'imgURL': url
+                                            }
+                                          });
+                                    }
                                     // String ownerId= await FirebaseFirestore.instance.collection('pet owners').doc().id ;
                                     // await pets.doc(_id).update({"ownerId":ownerId});
 

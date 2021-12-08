@@ -1,4 +1,4 @@
-// import 'dart:developer';
+
 import 'package:MyPet/appointment/appointment_model.dart';
 import 'package:MyPet/models/notifaction_service.dart';
 import 'appointment_update.dart';
@@ -8,8 +8,9 @@ import 'package:intl/intl.dart';
 
 class AppointmentTile extends StatefulWidget {
   final AppointmentModel appointmentModel;
+  int type ;
   Function initData;
-  AppointmentTile(this.appointmentModel, this.initData);
+  AppointmentTile(this.appointmentModel, this.type,this.initData);
 
   @override
   _AppointmentTileState createState() => _AppointmentTileState();
@@ -90,14 +91,15 @@ class _AppointmentTileState extends State<AppointmentTile> {
                   ],
                 ),
               ),
-              Row(
+              widget.type == 0
+                  ? Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: SizedBox(
                         height:36, //height of button
-                        width:106,
+                        width:113,
                       child: ElevatedButton(
                         onPressed: () {
                           updateAppoitment();
@@ -138,6 +140,7 @@ class _AppointmentTileState extends State<AppointmentTile> {
                   )
                 ],
               )
+                  : Container()
             ],
           ),
         ),

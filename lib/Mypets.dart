@@ -134,14 +134,16 @@ class MyPets extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
                   if (snapshot.data!.docs.isEmpty)
-                    return Padding(
-                        padding: EdgeInsets.all(20),
-                        child: const Text('You haven\'t added Any Pets!',
+                    return    Container(
+                        padding: EdgeInsets.only(left:25,right:25,top: 10),
+                        height: 100,
+                        child: Text(msg(),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                                 color: Colors.grey),
-                            textAlign: TextAlign.center));
+                            textAlign: TextAlign.center)
+                    );
                   return ListView.builder(scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>
@@ -153,16 +155,7 @@ class MyPets extends StatelessWidget {
                 }
             ),
           ),
-            Container(
-            padding: EdgeInsets.only(left:25,right:25,top: 10),
-    height: 530,
-    child: Text(msg(),
-    style: TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 20,
-    color: Colors.grey),
-    textAlign: TextAlign.center)
-    ),
+
         ],
       ),
     ),);

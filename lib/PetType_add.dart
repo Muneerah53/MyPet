@@ -5,8 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'models/global.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:MyPet/storage/storage.dart';
+
 import 'dart:io';
 String Name ='';
 final _dformKey = GlobalKey<FormState>();
@@ -24,11 +23,7 @@ class addPetType extends StatefulWidget {
 
 class _addPetType extends State<addPetType> {
   static final RegExp nameRegExp = RegExp('^[a-zA-Z ]+\$');
-  final _picker = ImagePicker();
-  final Storage _storage = Storage();
-  late File _img;
 
-  String? imgName, imgPath;
 
 
   @override
@@ -64,41 +59,6 @@ class _addPetType extends State<addPetType> {
                                   fontWeight: FontWeight.bold))),
 
                      // SizedBox(height: 200),
-                      GestureDetector(
-                          onTap: () async {
-                            final icon = await _picker.pickImage(source: ImageSource.gallery);
-
-                            if(icon == null){ print('No'); return;}
-
-                            imgPath = icon.path;
-                            imgName = icon.name;
-
-                            setState(() {
-                              if(imgPath!=null)
-                              _img = File(imgPath!);
-                            });
-                          },
-                          child:  CircleAvatar(
-                        radius: 58,
-                        backgroundImage:  imgPath == null || imgName ==null ?
-                        AssetImage("images/logo4.png")
-                            :
-                        Image.file(_img).image,
-                        child: Stack(
-                            children: [
-                              Align(
-                                alignment: Alignment.bottomRight,
-                                child: CircleAvatar(
-                                  radius: 18,
-                                  backgroundColor: Color(0xffe57285).withOpacity(0.7),
-                                  child: Icon(CupertinoIcons.add, color: Colors.white),
-                                ),
-                              ),
-                            ]
-                        ),
-                      ) ),
-
-
                       Padding(
                         padding: EdgeInsets.fromLTRB(8,20,8,8),
                         child:  TextFormField(
@@ -171,25 +131,10 @@ class _addPetType extends State<addPetType> {
     if (_dformKey.currentState!.validate()) {
 
 
-      if(imgName==null || imgPath==null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('You need to add a pet icon'),
-                backgroundColor: Colors.orange)
-        );
-        return;
-      }
-
-      final ext = imgName!.lastIndexOf('.');
-      String _imgname  = imgName!.replaceRange(0, ext, Name);
-
-      _storage.uploadImg(imgPath!, _imgname);
-
 
       DocumentReference doc = await PetTypes.add({
         'petTypeID': '',
         'petTypeName': Name,
-       // 'petTypeIcon': _imgname
-
       });
       String _id = doc.id;
       await PetTypes.doc(_id).update({"petTypeID": _id});

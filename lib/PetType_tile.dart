@@ -49,7 +49,6 @@ class _PetTypeTile extends State<PetTypeTile> {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(backgroundColor: Colors.blue,),
                     Text('${widget.petType.petTypeName}',style: petCardSubTitleStyle,),
                   ],
                 ),

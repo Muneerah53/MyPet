@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:MyPet/MyPets.dart';
+import 'package:image_picker/image_picker.dart';
 import 'models/global.dart';
-import 'models/global.dart';
+import 'package:MyPet/storage/storage.dart';
+import 'dart:io';
 
 
 GlobalKey _globalKey = navKeys.globalKey;
@@ -42,6 +44,15 @@ class _addPet extends State<addPet> {
   String currentValuegn = 'Male';
   List<String> specieses = ['Cat', 'Dog','Bird','Hamster','Rabbit','Snake','Turtle'];
   List<String> genders = ['Male', 'Female'];
+
+  //image
+  final _picker = ImagePicker();
+  final Storage _storage = Storage();
+  late File _img;
+
+  String? imgName, imgPath;
+
+
 
 
   //this is use to check the status of the form
@@ -97,7 +108,40 @@ class _addPet extends State<addPet> {
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold))),
                             SizedBox(height: 10),
+                            GestureDetector(
+                                onTap: () async {
+                                  final icon = await _picker.pickImage(source: ImageSource.gallery);
 
+                                  if(icon == null){ print('No'); return;}
+
+                                  imgPath = icon.path;
+                                  imgName = icon.name;
+
+                                  setState(() {
+                                    if(imgPath!=null)
+                                      _img = File(imgPath!);
+                                  });
+                                },
+                                child:  CircleAvatar(
+                                  radius: 58,
+                                  backgroundImage:  imgPath == null || imgName ==null ?
+                                  AssetImage("images/logo4.png")
+                                      :
+                                  Image.file(_img).image,
+                                  child: Stack(
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: CircleAvatar(
+                                            radius: 18,
+                                            backgroundColor: Color(0xffe57285).withOpacity(0.7),
+                                            child: Icon(CupertinoIcons.add, color: Colors.white),
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                                ) ),
+                            SizedBox(height: 28),
                             Container(
                                 child: TextFormField(
                                   validator: (Value) {
@@ -324,6 +368,16 @@ class _addPet extends State<addPet> {
                                     });
                                     String _id = doc.id;
                                     await pets.doc(_id).update({"petId": _id});
+
+                                   await  _storage.uploadImg(imgPath!, imgName!);
+                                    String url = await _storage.downloadURL(imgName!);
+                                    await pets.doc(_id).update(
+                                        {
+                                          'img' : {
+                                          'imgName': imgName!,
+                                          'imgURL': url
+                                        }
+                                        });
 
                                     // String ownerId= await FirebaseFirestore.instance.collection('pet owners').doc().id ;
                                     // await pets.doc(_id).update({"ownerId":ownerId});

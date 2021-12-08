@@ -145,9 +145,11 @@ class MyPets extends StatelessWidget {
                   return ListView.builder(scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>
+
                     //card pets method
                     _buildPetsCard(context, (snapshot.data!).docs[index]),
                   );
+
                 }
             ),
           ),
@@ -170,10 +172,10 @@ class MyPets extends StatelessWidget {
   Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ) {
 
     //profile pic based on pet's species
-    String img ="";
+     // String img ="";
     if (document['ownerId'].toString() == fb.getuser()){
       pets++;
-      if (document['species'] == "Dog")
+      /*    if (document['species'] == "Dog")
         img = "images/dog.png";
       else if (document['species'] == "Cat")
         img = "images/cat.png";
@@ -188,7 +190,16 @@ class MyPets extends StatelessWidget {
       else if (document['species'] == "Hamster")
         img = "images/Hamster.png";
       else
-        img = "images/New.png";
+        img = "images/New.png"; */
+
+      String? url;
+      Map<String, dynamic> dataMap = document.data() as Map<String, dynamic>;
+
+      if(dataMap.containsKey('img'))
+      url = document['img']['imgURL'];
+      else
+        url = null;
+
 
 
 
@@ -217,7 +228,7 @@ class MyPets extends StatelessWidget {
                     padding: EdgeInsets.only(top: 20),
                     child: CircleAvatar(
                         radius: 50,
-                        backgroundImage:new AssetImage(img)),
+                        backgroundImage: url == null ? new AssetImage('images/logo4.png') : Image.network(url).image),
 
                   ),
 

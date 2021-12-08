@@ -268,8 +268,15 @@ class Profile extends StatelessWidget {
       else if (document['species'] == "Hamster")
         img = "images/Hamster.png";
       else
-        img = "images/New.png";
+        img = "images/logo4.png";
 
+      String? url;
+      Map<String, dynamic> dataMap = document.data() as Map<String, dynamic>;
+
+      if(dataMap.containsKey('img'))
+        url = document['img']['imgURL'];
+      else
+        url = null;
 
       return Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -292,7 +299,7 @@ class Profile extends StatelessWidget {
                       height: 100,
                       child: CircleAvatar(
                           radius: 80,
-                          backgroundImage:new AssetImage(img)),
+                          backgroundImage: url == null ? new AssetImage(img) : Image.network(url).image),
                     ),
 
                   ],

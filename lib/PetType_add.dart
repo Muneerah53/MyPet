@@ -1,17 +1,15 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'models/global.dart';
-
-import 'dart:io';
 String Name ='';
 final _dformKey = GlobalKey<FormState>();
 
 CollectionReference PetTypes =
 FirebaseFirestore.instance.collection('PetTypes');
+enum SingingCharacter { companion, exotic }
+SingingCharacter? _character = SingingCharacter.companion;
 
 
 class addPetType extends StatefulWidget {
@@ -23,8 +21,6 @@ class addPetType extends StatefulWidget {
 
 class _addPetType extends State<addPetType> {
   static final RegExp nameRegExp = RegExp('^[a-zA-Z ]+\$');
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +54,15 @@ class _addPetType extends State<addPetType> {
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold))),
 
-                     // SizedBox(height: 200),
+                      SizedBox(height: 100),
+
+                      Container(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 230, 0),
+                          child:  Text('Pet Type name:',
+                              style: TextStyle(
+                                  color: Color(0xffe57285),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,))),
                       Padding(
                         padding: EdgeInsets.fromLTRB(8,20,8,8),
                         child:  TextFormField(
@@ -97,15 +101,45 @@ class _addPetType extends State<addPetType> {
                             }
 
                           },
-
-
-
                         ),
 
                       ),
 
+                      SizedBox(height: 50),
 
+                      Container(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 280, 0),
+                          child:  Text('Pet Type:',
+                              style: TextStyle(
+                                color: Color(0xffe57285),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,))),
+                      ListTile(
+                        title: const Text('Companion animal'),
+                        leading: Radio<SingingCharacter>(
+                          value: SingingCharacter.companion,
+                          groupValue: _character,
+                          onChanged: (SingingCharacter? value) {
+                            setState(() {
+                              _character = value;
+                            });
+                          },
+                        ),
+                      ),
+                ListTile(
+                  title: const Text('Exotic animal'),
+                  leading: Radio<SingingCharacter>(
+                    value: SingingCharacter.exotic,
+                    groupValue: _character,
+                    onChanged: (SingingCharacter? value) {
+                      setState(() {
+                        _character = value;
+                      });
+                    },
+                  ),
+                ),
 
+                      SizedBox(height: 50),
 
                       Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -129,12 +163,12 @@ class _addPetType extends State<addPetType> {
                                     ),
                                     onPressed: () async {
     if (_dformKey.currentState!.validate()) {
-
-
-
       DocumentReference doc = await PetTypes.add({
         'petTypeID': '',
         'petTypeName': Name,
+        'petType':_character.toString().split('.').last,
+
+
       });
       String _id = doc.id;
       await PetTypes.doc(_id).update({"petTypeID": _id});
@@ -165,7 +199,5 @@ class _addPetType extends State<addPetType> {
 
 
   }
-
-
 
 }

@@ -22,7 +22,7 @@ class empUpdateState extends State<empUpdate> {
   CollectionReference Employee =
   FirebaseFirestore.instance.collection('Employee');
   String? _name,_id,_job,_s;
-  var _types = ['Cats', 'Dogs','Both'];
+  var _types = ['Exotic', 'Companion','Both'];
   var selectedType;
   static final RegExp nameRegExp = RegExp('^[a-zA-Z ]+\$');
 
@@ -34,7 +34,7 @@ class empUpdateState extends State<empUpdate> {
     _name = widget.empModel.empName;
     _job = widget.empModel.job;
     _s = widget.empModel.speciality;
-    selectedType = _s!='Cats And Dogs' ? _s : 'Both';
+    selectedType = _s!='exotic and companion' ? _s : 'Both';
   }
 
 

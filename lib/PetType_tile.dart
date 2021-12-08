@@ -2,6 +2,8 @@ import 'package:MyPet/PetType_model.dart';
 import 'package:MyPet/PetType_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:MyPet/storage/storage.dart';
+
 
 import 'models/global.dart';
 
@@ -15,6 +17,8 @@ class PetTypeTile extends StatefulWidget {
 }
 
 class _PetTypeTile extends State<PetTypeTile> {
+  final Storage _storage = Storage();
+  late Future<String> _url;
   bool isLoading = true;
   updateService() async {
     await Navigator.push(
@@ -30,6 +34,7 @@ class _PetTypeTile extends State<PetTypeTile> {
   @override
   void initState() {
     super.initState();
+   _url =  _storage.downloadURL(widget.petType.petTypeName+'.jpg');
   }
 
   @override
@@ -47,9 +52,27 @@ class _PetTypeTile extends State<PetTypeTile> {
             children: [
               ListTile(
                 title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    CircleAvatar(backgroundColor: Colors.blue,),
+
+                    FutureBuilder(
+                      future: _url,
+                      builder: (context, AsyncSnapshot<String> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.done && snapshot.hasData)
+                          return CircleAvatar(
+                            radius: 35,
+                              foregroundImage: Image.network(snapshot.data!).image,);
+
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting)
+                          return  CircleAvatar( radius: 35,backgroundColor: Color(0xffe57285).withOpacity(0.8),
+                              child: CircularProgressIndicator(color: Colors.white,));
+
+                        return  CircleAvatar( radius: 35,foregroundImage:  AssetImage("images/logo4.png"));
+                      },
+                    ),
+                    SizedBox(width: 15,),
                     Text('${widget.petType.petTypeName}',style: petCardSubTitleStyle,),
                   ],
                 ),

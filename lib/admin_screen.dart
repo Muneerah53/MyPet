@@ -21,6 +21,11 @@ class managerPage extends StatefulWidget {
 class _managerPageState extends State<managerPage> {
   int _selectedIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+
+  }
   List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),

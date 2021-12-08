@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:MyPet/storage/storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' ;
 import 'models/global.dart';
 import 'models/data.dart';
 import 'petProfile.dart';
@@ -10,40 +11,26 @@ import 'addPet.dart';
 
 GlobalKey _globalKey = navKeys.globalKey;
 int pets=0;
-class Mypets extends StatelessWidget {
 
-  final Future<FirebaseApp> fbApp =  Firebase.initializeApp();
-  Mypets({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
+class Mypets extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-
-          primarySwatch: Colors.pink,
-        ),
-        home: FutureBuilder(
-          future: fbApp,
-          builder:(context,snapshot) {
-            if (snapshot.hasError){
-              print("An error has occured ${snapshot.error.toString()}");
-              return const Text("Something went wrong");}
-            else if (snapshot.hasData) {
-              return MyPets();
-            }
-            else{return const Center(child:CircularProgressIndicator());}
-          },
-        )
-
-
-    );
-  }
+  MypetState createState() => MypetState();
 }
-class MyPets extends StatelessWidget {
+
+class MypetState extends State<Mypets> with AutomaticKeepAliveClientMixin {
   fbHelper fb = fbHelper();
+  final Storage _storage = Storage();
+ late Future<ListResult> _iconList;
   var primaryColor = const Color(0xff313540);
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -134,14 +121,16 @@ class MyPets extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
                   if (snapshot.data!.docs.isEmpty)
-                    return Padding(
-                        padding: EdgeInsets.all(20),
-                        child: const Text('You haven\'t added Any Pets!',
+                    return Container(
+                        padding: EdgeInsets.only(left:25,right:25,top: 10),
+                        height: 150,
+                        child: Text(msg(),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                                 color: Colors.grey),
-                            textAlign: TextAlign.center));
+                            textAlign: TextAlign.center)
+                    );
                   return ListView.builder(scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>
@@ -151,23 +140,14 @@ class MyPets extends StatelessWidget {
                 }
             ),
           ),
-            Container(
-            padding: EdgeInsets.only(left:25,right:25,top: 10),
-    height: 530,
-    child: Text(msg(),
-    style: TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 20,
-    color: Colors.grey),
-    textAlign: TextAlign.center)
-    ),
+
         ],
       ),
     ),);
   }
 
 
-  Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ) {
+Widget _buildPetsCard(BuildContext context, DocumentSnapshot document )   {
 
     //profile pic based on pet's species
     String img ="";
@@ -190,7 +170,16 @@ class MyPets extends StatelessWidget {
       else
         img = "images/New.png";
 
+      String? url;
+       FirebaseFirestore.instance
+           .collection("PetTypes")
+           .where('petTypeName',isEqualTo: document['species'] )
+           .get().then((value) {
+         url = value.docs.first['petIconUrl'];
+           print(url);
+           });
 
+print('here');
 
       return GestureDetector(
           onTap: (){
@@ -215,9 +204,28 @@ class MyPets extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     padding: EdgeInsets.only(top: 20),
-                    child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage:new AssetImage(img)),
+                 /*   child: FutureBuilder(
+                      future: _iconList,
+                      builder: (context, AsyncSnapshot<ListResult> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.done && snapshot.hasData) {
+                     Reference r = snapshot.data!.items.firstWhere((element) => element.name==document['species']+'.png');
+                     String? url;
+                     r.getDownloadURL().then((value) => url = value);
+                          snapshot.data!.items.forEach((r) {print(r);});
+                          return CircleAvatar(
+                            radius: 50,
+                            foregroundImage: Image.network(url!).image,
+                          );
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting)
+                          return  CircleAvatar( radius: 50,backgroundColor: Color(0xffe57285).withOpacity(0.8),
+                              child: CircularProgressIndicator(color: Colors.white,));
+
+                        return  CircleAvatar( radius: 50,foregroundImage:  AssetImage("images/logo4.png"));
+                      },
+                    ) */
 
                   ),
 
@@ -235,6 +243,8 @@ class MyPets extends StatelessWidget {
 
     }else
       return Card();}
+
+
 
 }
 

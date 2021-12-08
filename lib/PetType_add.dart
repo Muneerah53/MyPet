@@ -184,11 +184,12 @@ class _addPetType extends State<addPetType> {
 
       _storage.uploadImg(imgPath!, _imgname);
 
+     String url = await _storage.downloadURL(_imgname);
 
       DocumentReference doc = await PetTypes.add({
         'petTypeID': '',
         'petTypeName': Name,
-       // 'petTypeIcon': _imgname
+       'petIconUrl': url
 
       });
       String _id = doc.id;

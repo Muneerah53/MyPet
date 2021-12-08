@@ -23,7 +23,7 @@ class addEmpState extends State<addEmp> {
   String _id ='';
   var _work = ['Doctor', 'Groomer'];
   var selectedWork;
-  var _types = ['Cats', 'Dogs','Both'];
+  var _types = ['Exotic', 'Companion','Both'];
 
   static final RegExp nameRegExp = RegExp('^[a-zA-Z ]+\$');
   static final RegExp idRegExp = RegExp(r'^[0-9]*$)');

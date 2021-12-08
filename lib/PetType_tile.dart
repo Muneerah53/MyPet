@@ -50,6 +50,8 @@ class _PetTypeTile extends State<PetTypeTile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('${widget.petType.petTypeName}',style: petCardSubTitleStyle,),
+                    Text('${widget.petType.Type} ',style: petCardSubTitleStyle,),
+
                   ],
                 ),
               ),

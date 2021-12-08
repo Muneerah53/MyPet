@@ -57,10 +57,13 @@ class _PetTypeList extends State<PetTypeList> {
 
         String? petTypeID = map!['petTypeID'];
         String? petTypeName = map['petTypeName'];
+        String? Type = map['petType'];
+
 
         PetType petModel = new PetType(
           petTypeID: '$petTypeID',
           petTypeName: '$petTypeName',
+          Type: '$Type',
         );
 
         serviceList.add(petModel);

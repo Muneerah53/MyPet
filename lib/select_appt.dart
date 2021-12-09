@@ -152,7 +152,7 @@ class selectState extends State<select> {
                               DropdownMenuItem(
 
                                   child: Text(
-                                    snap.get("empName"),
+                                    snap.get("empName")+" - " +snap.get("specialty"),
                                     style: TextStyle(color: Colors.black38),
                                   ),
                                   value: ("${snap.get("empID")}")),

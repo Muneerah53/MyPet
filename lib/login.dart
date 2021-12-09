@@ -129,9 +129,7 @@ class _LoginPageState extends State<LoginPage> {
           validator: (Value) {
             if (Value == null || Value.trim().isEmpty) {
               return 'Password must not be empty';
-            }else if (validatePassword(Value.trim()))
-              return 'Must be at least 8 characters and should contain a small letter,a capital letter,and a special character';
-            return null;
+            }  return null;
           },
           onSaved: (Value) => _password = Value!.trim(),
         ),

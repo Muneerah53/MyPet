@@ -139,19 +139,24 @@ class _inHouseState extends State<inHouse> {
               return new ListTile(
                // margin: EdgeInsets.only(left:10,right:20,bottom: 10),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all( Radius.circular(10),
-                  ),),
+                  borderRadius: BorderRadius.all( Radius.circular(10),),
+                ),
+
               title: Text( " \n"  + "       "+getPets()![i]+"\n"+ "       "+(snapshot.data!).docs[index]['service'] +'\n',style: TextStyle(
                   color: Color(0XFF52648B),
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,),
+
                   onTap: (){
                  // g(document);
                 Navigator.push(context,MaterialPageRoute(builder:(context) {
                   return pet(getPets()![i]);
 
-                } ));}
+                } ));},
+                leading: CircleAvatar(
+
+                ),
 
             );
           }

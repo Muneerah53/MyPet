@@ -243,7 +243,7 @@ class _addPet extends State<addPet> {
                               drNames.add(
                                 DropdownMenuItem(
                                   child: Text(
-                                      " "+ snap['petTypeName'],
+                                      " "+ snap['petTypeName'] + " - "+ snap['petType'],
                                     style: TextStyle(color: Colors.black87),
                                   ),
                                   value: snap['petTypeName'],

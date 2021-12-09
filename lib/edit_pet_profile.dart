@@ -10,6 +10,8 @@ import 'models/global.dart';
 import 'package:MyPet/storage/storage.dart';
 import 'dart:io';
 final  validCharacters = RegExp(r'^[a-zA-Z]');
+FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
+String val = '';
 
 class editPet extends StatefulWidget {
   final DocumentSnapshot pet;
@@ -226,35 +228,105 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
 
                         ),
                       ),
-                      Container(
-                          height: 58.0,
-                          decoration: const BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(10))),
-                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          child: DropdownButtonHideUnderline(
-                              child: ButtonTheme(
-                                alignedDropdown: true,
-                                child: DropdownButton<String>(
-                                    isExpanded: true,
-                                    hint: Text(currentValuespHint),
-                                    value: currentValuesp,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        currentValuesp= val!;
-                                        speciesController.text = currentValuesp;
-                                      });
-                                    },
-                                    items: specieses.map<DropdownMenuItem<String>>((val) {
-                                      return DropdownMenuItem<String>(
-                                        value: val,
-                                        child: Text('$val',style: TextStyle (color: Colors.black54)),
-                                      );
-                                    }).toList(),
+                      Visibility(
+                          visible: true,
+                          child: StreamBuilder<QuerySnapshot>(
+                              stream: firestoreInstance.collection("PetTypes")
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData)
+                                  const Text("Loading...");
+                                if (snapshot.data == null)
+                                  return Padding(
+                                      padding: EdgeInsets.all(20),
+                                      child: const Text(
+                                          'You haven\'t added Any Types!',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                              color: Colors.grey),
+                                          textAlign: TextAlign.center));
+                                else {
+                                  List<DropdownMenuItem<dynamic>> drNames = [];
+                                  Map<String,String> types = {};
+                                  drNames.clear();
+                                  for (int i = 0; i <
+                                      snapshot.data!.docs.length; i++) {
+                                    DocumentSnapshot snap = snapshot.data!.docs[i];
+                                    types[snap['petTypeID']] =  snap['petTypeName'];
+                                    drNames.add(
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          " "+ snap['petTypeName'] + " - "+ snap['petType'],
+                                          style: TextStyle(color: Colors.black87),
+                                        ),
+                                        value: snap['petTypeName'],
+                                      ),
+                                    );
+                                  }
+                                  return Container(
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        color: Colors.white),
+                                    child: DropdownButtonFormField<dynamic>(
+                                      decoration: InputDecoration(
+                                          enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.white))),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 18,
+                                        color: Colors.grey,
+                                      ),
+                                      elevation: 8,
+                                      items: drNames,
+                                      onChanged: (drValue) {
 
-                                    style: const TextStyle(color: Colors.black)),
-                              ))),
+                                        setState(() {
+                                          speciesController.text = drValue;
+                                        });
+                                      },
+                                      value: null,
+
+                                      isExpanded: true,
+                                      hint:  Text(
+                                        " Type",
+                                        style: TextStyle(color: Colors.grey,  fontWeight: FontWeight.normal,
+                                          fontSize: 18,),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }),
+                          replacement: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                color: Colors.white),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<dynamic>(
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 18,
+                                  color: Colors.grey,
+                                ),
+                                elevation: 8,
+                                items: const <DropdownMenuItem<dynamic>>[],
+                                onChanged: (val) {
+                                  setState(() {
+                                    currentValuesp = val!;
+                                    speciesController.text = currentValuesp;
+                                    print(currentValuesp);
+                                  });
+                                },
+                                value: currentValuesp,
+                                isExpanded: true,
+                                hint: Text(currentValuespHint),
+                                ),
+                              ),
+                            ),
+                          ),
 
                       Container(
                         margin: EdgeInsets.only(top: 10),

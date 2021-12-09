@@ -8,7 +8,7 @@ final _dformKey = GlobalKey<FormState>();
 
 CollectionReference PetTypes =
 FirebaseFirestore.instance.collection('PetTypes');
-enum SingingCharacter { companion, exotic }
+enum SingingCharacter { companion, exotic  }
 SingingCharacter? _character = SingingCharacter.companion;
 
 
@@ -165,7 +165,7 @@ class _addPetType extends State<addPetType> {
     if (_dformKey.currentState!.validate()) {
       DocumentReference doc = await PetTypes.add({
         'petTypeID': '',
-        'petTypeName': Name,
+        'petTypeName': Name[0].toUpperCase()+Name.substring(1),
         'petType':_character.toString().split('.').last,
 
 

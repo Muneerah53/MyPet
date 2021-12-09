@@ -11,6 +11,7 @@ class AppointmentTileBording extends StatefulWidget {
   AppointmentTileBording(this.appointmentModel, this.type, this.initData);
 
   @override
+
   _AppointmentTileBordingState createState() => _AppointmentTileBordingState();
 }
 
@@ -29,7 +30,6 @@ class _AppointmentTileBordingState extends State<AppointmentTileBording> {
           builder: (context) => AppointmentUpdate(widget.appointmentModel)),
     );*/
   }
-
   delAppoitment() async {
     await FirebaseFirestore.instance
         .collection("boarding")

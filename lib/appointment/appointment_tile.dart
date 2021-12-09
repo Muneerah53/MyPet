@@ -4,7 +4,6 @@ import 'package:MyPet/models/notifaction_service.dart';
 import 'appointment_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class AppointmentTile extends StatefulWidget {
   final AppointmentModel appointmentModel;
@@ -15,7 +14,6 @@ class AppointmentTile extends StatefulWidget {
   @override
   _AppointmentTileState createState() => _AppointmentTileState();
 }
-
 class _AppointmentTileState extends State<AppointmentTile> {
   bool isLoading = true;
   updateAppoitment() async {

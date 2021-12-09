@@ -105,7 +105,7 @@ class _AppoinMainState extends State<AppoinMain> {
               ],
             )),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 50, 0, 60),
+              margin: const EdgeInsets.fromLTRB(0, 50, 0, 40),
               child: Text(
                 'Appointment',
                 style: TextStyle(
@@ -116,7 +116,7 @@ class _AppoinMainState extends State<AppoinMain> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
               width: 344,
               height: 120,
               child: ElevatedButton(
@@ -128,11 +128,19 @@ class _AppoinMainState extends State<AppoinMain> {
                         builder: (BuildContext context) => select(type: t)),
                   );
                 },
-                child: Text('Check UP',
+                child:
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(width: 20),
+                Container(
+                child:   Image.asset("images/png/stethoscope.png", scale:8)),
+                     SizedBox(width: 40),
+                      Text('Check-Up',
                     style: TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: 25,
-                        fontWeight: FontWeight.bold)),
+                        fontWeight: FontWeight.bold))]),
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Color(0XFF2F3542)),
@@ -142,7 +150,7 @@ class _AppoinMainState extends State<AppoinMain> {
             ),
             SizedBox(width: 50),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
               width: 344,
               height: 120,
               child: ElevatedButton(
@@ -154,14 +162,20 @@ class _AppoinMainState extends State<AppoinMain> {
                           builder: (BuildContext context) => select(type: t)),
                     );
                   },
-                  child: Text('Grooming',
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(width: 20),
+                        Container(
+                  child:   Image.asset("images/png/pet-grooming.png", scale: 8)),
+                        SizedBox(width: 40),  Text('Grooming',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,
-                          fontWeight: FontWeight.bold)),
+                          fontWeight: FontWeight.bold))]),
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Color(0XFFFF6B81)),
+                        MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
@@ -169,7 +183,7 @@ class _AppoinMainState extends State<AppoinMain> {
 
             SizedBox(width: 50),
             Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
               width: 344,
               height: 120,
               child: ElevatedButton(
@@ -181,11 +195,22 @@ class _AppoinMainState extends State<AppoinMain> {
                         builder: (BuildContext context) => boardingapp()),
                   );
                 },
-                child: Text('Boarding',
+                child:
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(width: 20),
+                      Container(
+                      child:   Image.asset("images/png/pet-house (1).png", scale:8)),
+                      SizedBox(width: 40), Text('Boarding',
                     style: TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: 25,
-                        fontWeight: FontWeight.bold)),
+                        fontWeight: FontWeight.bold,
+
+                    )
+                )]),
+
                 style: ButtonStyle(
                     backgroundColor:
                     MaterialStateProperty.all(Color(0XFF2F3542)),

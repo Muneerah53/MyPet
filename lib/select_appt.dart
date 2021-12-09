@@ -38,6 +38,7 @@ class selectState extends State<select> {
   int? petIndex;
   String title = ' ';
   String emp = '';
+  String img="";
   // String? petName;
   //String? stime;
   var selectedCurrency;
@@ -46,6 +47,13 @@ class selectState extends State<select> {
     super.initState();
     t = widget.type;
     title = (t == 0) ? "Check-Up" : "Grooming";
+
+    if (title=="Check-Up"){
+       img ='images/PBCheckUp.png';
+    }
+    else
+       img ='images/PBGrooming.png';
+
     emp = (t == 0) ? "Doctor" : "Groomer"; //here var is call and set to
   }
 
@@ -86,6 +94,7 @@ class selectState extends State<select> {
         // ),
 
         body: ListView(children: <Widget>[
+
           Container(
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Text(title,
@@ -95,6 +104,18 @@ class selectState extends State<select> {
                       fontSize: 34,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.bold))),
+          SizedBox(height: 20),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                  height: 40,
+                  fit: BoxFit.fill,
+                  image: new AssetImage(img))
+            ],
+          ),
+
           Container(
             padding: const EdgeInsets.fromLTRB(30, 30, 0, 0),
             child: Text(
@@ -108,6 +129,7 @@ class selectState extends State<select> {
           ),
           Container(
             padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+
             child: Form(
               child: Column(
                 children: [
@@ -128,6 +150,7 @@ class selectState extends State<select> {
                             DocumentSnapshot snap = (snapshot.data!).docs[i];
                             currencyItems.add(
                               DropdownMenuItem(
+
                                   child: Text(
                                     snap.get("empName"),
                                     style: TextStyle(color: Colors.black38),
@@ -152,6 +175,7 @@ class selectState extends State<select> {
                                   icon: Icon(Icons.keyboard_arrow_down),
                                   items: currencyItems,
                                   hint: new Text("Select $emp ...            "),
+
                                   onChanged: (currencyValue) {
                                     setState(() {
                                       selectedCurrency = currencyValue;
@@ -181,6 +205,7 @@ class selectState extends State<select> {
             padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
             child: Text(
               'Select Day:',
+
               style: TextStyle(
                   color: const Color(0xFF552648B),
                   fontSize: 18,
@@ -552,7 +577,19 @@ class selectState extends State<select> {
     else if (document['species'] == "Hamster")
       img = "images/Hamster.png";
     else
-      img = "images/New.png";
+      img = "images/logo4.png";
+
+
+    String? url;
+    Map<String, dynamic> dataMap = document.data() as Map<String, dynamic>;
+
+    if(dataMap.containsKey('img'))
+      url = document['img']['imgURL'];
+    else
+      url = null;
+
+
+
     return OutlinedButton(
         style: OutlinedButton.styleFrom(
             padding: EdgeInsets.all(0),
@@ -581,7 +618,7 @@ class selectState extends State<select> {
                         backgroundColor: Colors.white,
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundImage: AssetImage(img),
+                            backgroundImage: url == null ? new AssetImage(img) : Image.network(url).image,
                         ),
                       ),
                     )

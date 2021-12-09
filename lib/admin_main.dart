@@ -1,8 +1,6 @@
 import 'package:MyPet/PetType_model.dart';
-import 'package:MyPet/admin_app_gro+bor.dart';
 import 'package:MyPet/admin_screen.dart';
 import 'package:MyPet/models/global.dart';
-import 'package:MyPet/petInHouse.dart';
 import 'package:MyPet/view_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +16,8 @@ import 'ManagePetType.dart';
 import 'PetType_tile.dart';
 import 'PetType_view.dart';
 import 'admin_viewappts.dart';
-import 'viewBoardingAdmin.dart';
+import 'inBoarding.dart';
+
 
 class AdminHomePage extends StatefulWidget {
 
@@ -64,7 +63,7 @@ class _adminHomePageState extends State<AdminHomePage> {
             child:Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
+            SizedBox(height: 50),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -80,19 +79,19 @@ class _adminHomePageState extends State<AdminHomePage> {
             SizedBox(height: 50),
             Container(
               width: 344,
-              height: 100,
+              height: 120,
               child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => new M_GB()),
+                          builder: (BuildContext context) => new AdminAppointments()),
                     );
                   },
                   child: Text('View Appointments',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
-                          fontSize: 20,
+                          fontSize: 25,
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
@@ -101,36 +100,12 @@ class _adminHomePageState extends State<AdminHomePage> {
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
             ),
-            //SizedBox(height: 30),
-            // Container(
-            //   width: 344,
-            //   height: 100,
-            //   child: ElevatedButton(
-            //       onPressed: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (BuildContext context) =>
-            //                   AdminBoardingAppointments()),
-            //         );
-            //       },
-            //       child: Text('Boarding Appointment',
-            //           style: TextStyle(
-            //               fontStyle: FontStyle.italic,
-            //               fontSize: 20,
-            //               fontWeight: FontWeight.bold)),
-            //       style: ButtonStyle(
-            //         backgroundColor:
-            //         MaterialStateProperty.all(Color(0XFFFF6B81)),
-            //         shape: MaterialStateProperty.all(RoundedRectangleBorder(
-            //             borderRadius: BorderRadius.circular(20.0))),
-            //       )),
-            // ),
+
 
             SizedBox(height: 30),
             Container(
               width: 344,
-              height: 100,
+              height: 120,
               child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -141,7 +116,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                   child: Text('Manage Services',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
-                          fontSize: 20,
+                          fontSize: 25,
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
@@ -162,7 +137,7 @@ class _adminHomePageState extends State<AdminHomePage> {
             Container(
               margin: EdgeInsets.only(bottom: 30),
               width: 344,
-              height: 100,
+              height: 120,
               child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -177,7 +152,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                   child: Text('Manage Pet Types',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
-                          fontSize: 20,
+                          fontSize: 25,
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
@@ -185,34 +160,50 @@ class _adminHomePageState extends State<AdminHomePage> {
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
+
+
+
+
+
+
             ),
+            SizedBox(height: 20),
             Container(
               margin: EdgeInsets.only(bottom: 30),
               width: 344,
-              height: 100,
+              height: 120,
               child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                             inHouse()),
+                          builder: (BuildContext context) => inHousePets()
+),
                     );
                   },
 
-                  child: Text('Pets In House',
+                  child: Text('view in-house',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
-                          fontSize: 20,
+                          fontSize: 25,
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFFFF6B81)),
+                    MaterialStateProperty.all(Color(0XFF2F3542)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
+
+
+
+
+
+
             ),
-            SizedBox(height: 50),
+          SizedBox(height: 50),
+//
+//
+// )
 
             ],
         )),

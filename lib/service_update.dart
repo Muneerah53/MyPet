@@ -108,11 +108,15 @@ _price = widget.model.servicePrice;
                             _name = value;
                           },
 
-                            validator: (Value) {
-                              if (Value!.isEmpty) {
-                                return "Please enter service's name";
-                              } else if (!nameRegExp.hasMatch(Value)){
-                                return "Please enter valid service name";
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return 'Please enter Service name';
+                              }
+                              else if(!RegExp('[a-zA-Z _]+\$').hasMatch(_name!)){
+                                return 'Service name must contain only letters';
+                              }
+                              else if(value.length>15){
+                                return 'Service name must be less then 15 characters';
                               }
                             }
 
@@ -159,8 +163,14 @@ _price = widget.model.servicePrice;
                           _price = value;
                         },
 
-                        validator: (value) => value!.isEmpty ? 'Enter Price in SR': null,
-
+                        validator: (value){
+                          if (value!.isEmpty) {
+                    return 'Enter the Service Price';
+                    } else if (!isNumeric(value)) {
+          return 'price must be numeric';
+          } else if (int.parse(value)==0||value.length> 3) {
+    return 'price must be at between 0 and 1000 ';
+    }}
 
 
                       ),
@@ -176,7 +186,7 @@ _price = widget.model.servicePrice;
                             onPressed: () async {
                               await saveData();
                             },
-                            child: const Text('Edit',
+                            child: const Text('Save',
                               style: TextStyle( color:Colors.black,
                                   fontSize: 18),
                             ),
@@ -240,5 +250,11 @@ if(!_formKey.currentState!.validate()) return;
             context,
           ).pop());
     }
-  }
+
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return double.tryParse(s) != null;
+  }}
 

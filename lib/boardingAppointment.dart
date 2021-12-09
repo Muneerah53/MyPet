@@ -79,6 +79,7 @@ class boardingState extends State<boardingapp> {
             _date2.value = TextEditingValue(
                 text: DateFormat('EEE, MMM dd yyyy').format(selected2Date)
             );
+            isSelected2=1;
           });
 
         }
@@ -152,6 +153,17 @@ class boardingState extends State<boardingapp> {
                       fontSize: 34,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.bold))),
+          SizedBox(height: 20),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                  height: 40,
+                  fit: BoxFit.fill,
+                  image: new AssetImage('images/PBCheckUp.png'))
+            ],
+          ),
           Container(
             padding: const EdgeInsets.fromLTRB(30, 30, 0, 0),
             child: Text(
@@ -421,7 +433,17 @@ class boardingState extends State<boardingapp> {
     else if (document['species'] == "Hamster")
       img = "images/Hamster.png";
     else
-      img = "images/New.png";
+      img = "images/logo4.png";
+
+
+    String? url;
+    Map<String, dynamic> dataMap = document.data() as Map<String, dynamic>;
+
+    if(dataMap.containsKey('img'))
+      url = document['img']['imgURL'];
+    else
+      url = null;
+
     return OutlinedButton(
         style: OutlinedButton.styleFrom(
             padding: EdgeInsets.all(0),
@@ -450,7 +472,7 @@ class boardingState extends State<boardingapp> {
                         backgroundColor: Colors.white,
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundImage: AssetImage(img),
+                          backgroundImage: url == null ? new AssetImage(img) : Image.network(url).image,
                         ),
                       ),
                     )

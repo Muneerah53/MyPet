@@ -34,6 +34,8 @@ dependencies:
   firebase_auth: ^3.1.1
   cloud_firestore: ^2.5.2
   firebase_database: ^7.2.2
+  firebase_storage: ^10.2.0
+  image_picker: ^0.8.4+4
   syncfusion_flutter_calendar: ^19.2.62
   shared_preferences: ^2.0.8
   flutter_local_notifications: ^9.0.1
@@ -80,6 +82,7 @@ flutter:
   assets:
      - images/logo.jpeg
      - images/logo.png
+     - images/logo4.png
      - images/dog2.png
      - images/image_1.png
      - images/image_2.png
@@ -94,6 +97,18 @@ flutter:
      - images/Snake.png
      - images/Turtle.png
      - images/maleProfile.jpg
+     - images/PBGrooming.png
+     - images/PBCheckUp.png
+     - images/PBCheckUpStepTwo.png
+     - images/PBCheckUpStepThree.png
+     - images/PBGroomingStepThree.png
+     - images/PBCheckUpStepTwo.png
+     - images/PBGroomingStepTwo.png
+     - images/PBGroomingStepFour.png
+     - images/png/pet-grooming.png
+     - images/png/pet-house (1).png
+     - images/png/stethoscope.png
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

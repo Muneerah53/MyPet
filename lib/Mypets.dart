@@ -134,33 +134,28 @@ class MyPets extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
                   if (snapshot.data!.docs.isEmpty)
-                    return Padding(
-                        padding: EdgeInsets.all(20),
-                        child: const Text('You haven\'t added Any Pets!',
+                    return    Container(
+                        padding: EdgeInsets.only(left:25,right:25,top: 10),
+                        height: 100,
+                        child: Text(msg(),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                                 color: Colors.grey),
-                            textAlign: TextAlign.center));
+                            textAlign: TextAlign.center)
+                    );
                   return ListView.builder(scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) =>
+
                     //card pets method
                     _buildPetsCard(context, (snapshot.data!).docs[index]),
                   );
+
                 }
             ),
           ),
-            Container(
-            padding: EdgeInsets.only(left:25,right:25,top: 10),
-    height: 530,
-    child: Text(msg(),
-    style: TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 20,
-    color: Colors.grey),
-    textAlign: TextAlign.center)
-    ),
+
         ],
       ),
     ),);
@@ -170,10 +165,10 @@ class MyPets extends StatelessWidget {
   Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ) {
 
     //profile pic based on pet's species
-    String img ="";
+      String img ="";
     if (document['ownerId'].toString() == fb.getuser()){
       pets++;
-      if (document['species'] == "Dog")
+        if (document['species'] == "Dog")
         img = "images/dog.png";
       else if (document['species'] == "Cat")
         img = "images/cat.png";
@@ -188,7 +183,16 @@ class MyPets extends StatelessWidget {
       else if (document['species'] == "Hamster")
         img = "images/Hamster.png";
       else
-        img = "images/New.png";
+        img = "images/logo4.png";
+
+      String? url;
+      Map<String, dynamic> dataMap = document.data() as Map<String, dynamic>;
+
+      if(dataMap.containsKey('img'))
+      url = document['img']['imgURL'];
+      else
+        url = null;
+
 
 
 
@@ -217,7 +221,7 @@ class MyPets extends StatelessWidget {
                     padding: EdgeInsets.only(top: 20),
                     child: CircleAvatar(
                         radius: 50,
-                        backgroundImage:new AssetImage(img)),
+                        backgroundImage: url == null ? new AssetImage(img) : Image.network(url).image),
 
                   ),
 

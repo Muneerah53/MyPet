@@ -22,6 +22,7 @@ class appointmentFormState extends State<appointmentForm> {
   var _types = ['Check-Up', 'Grooming'];
   String selectedType = 'Check-Up';
   String selectedWork = "Doctor";
+  Duration d =   _selectedAppointment == null ? Duration(minutes: 30) : _endDate.difference(_startDate);
   FirebaseFirestore firestoreInstance = FirebaseFirestore.instance;
   String title = _selectedAppointment == null ? "Add" : "Edit";
   var selectedDoctor;
@@ -116,6 +117,14 @@ class appointmentFormState extends State<appointmentForm> {
                                       else {
 
                                         selectedWork = "Groomer";
+                                        selectedTime = _times[1];
+                                        d = Duration(minutes: 60);
+                                        setState(() {
+                                          _endDate = _startDate.add(d);
+                                          _endTime = TimeOfDay(
+                                              hour: _endDate.hour,
+                                              minute: _endDate.minute);
+                                        });
                                       }
                                     });
                                   },
@@ -142,7 +151,7 @@ class appointmentFormState extends State<appointmentForm> {
                               child: Padding(
                                   padding: const EdgeInsets.fromLTRB(
                                       20, 20, 0, 0),
-                                  child: Text("Average Appointment Duration",
+                                  child: Text("Appointment Duration",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                           color: Color(0xFF52648B),
@@ -168,7 +177,7 @@ class appointmentFormState extends State<appointmentForm> {
                                       fontSize: 18,
                                       color: Colors.blueGrey),
                                   isExpanded: true,
-                                  value: selectedTime,
+                                  value: selectedType=='Grooming'? _times[1] : selectedTime,
                                   // icon: const Icon(Icons.arrow_circle_down),
                                   iconSize: 20,
                                   elevation: 8,
@@ -176,9 +185,51 @@ class appointmentFormState extends State<appointmentForm> {
                                   onChanged: (String? newValue) {
                                     setState(() {
                                       selectedTime = newValue!;
+                                      if(selectedTime=='1 Hour'){
+
+                                        d = Duration(minutes: 60);
+
+                                        setState(() {
+                                          _endDate = _startDate.add(d);
+                                          _endTime = TimeOfDay(
+                                              hour: _endDate.hour,
+                                              minute: _endDate.minute);
+                                        });
+
+                                      }
+                                      else{
+                                        d = Duration(minutes: 30);
+                                      setState(() {
+                                        _endDate = _startDate.add(d);
+                                        _endTime = TimeOfDay(
+                                            hour: _endDate.hour,
+                                            minute: _endDate.minute);
+                                      });
+                                      }
                                     });
                                   },
-                                  items: List.generate(
+                                  items:
+
+                                  selectedType=='Grooming'?
+
+                                  List.generate(
+                                    _times.length-1,
+                                        (index) =>
+                                        DropdownMenuItem(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              _times[1],
+                                              style: TextStyle(
+                                                  color: Colors.blueGrey),
+                                            ),
+
+                                          ),
+                                          value: _times[1],
+                                        ),
+                                  )
+
+                                  : List.generate(
                                     _times.length,
                                         (index) =>
                                         DropdownMenuItem(
@@ -389,6 +440,7 @@ class appointmentFormState extends State<appointmentForm> {
                                     setState(() {
                                       final Duration difference =
                                       _endDate.difference(_startDate);
+
                                       _startDate = DateTime(
                                           date.year,
                                           date.month,
@@ -480,7 +532,7 @@ class appointmentFormState extends State<appointmentForm> {
                                             0);
                                         final Duration difference =
                                         Duration(minutes: getTime());
-                                        _endDate = _startDate.add(difference);
+                                        _endDate = _startDate.add(d);
                                         _endTime = TimeOfDay(
                                             hour: _endDate.hour,
                                             minute: _endDate.minute);
@@ -500,7 +552,7 @@ class appointmentFormState extends State<appointmentForm> {
                           Expanded(
 
                               flex: 7,
-                              child: GestureDetector(
+                            //  child: GestureDetector(
                                   child: TextFormField(
                                     validator: (value) {
                                     _selectedAppointment == null ?
@@ -546,7 +598,7 @@ class appointmentFormState extends State<appointmentForm> {
                                     ),
 
                                   ),
-                                  onTap: () async {
+                                 /* onTap: () async {
                                     final TimeOfDay? time =
                                     await showTimePicker(
                                         context: context,
@@ -575,7 +627,9 @@ class appointmentFormState extends State<appointmentForm> {
                                         }
                                       });
                                     }
-                                  })),
+                                  } */
+
+                                  ),
                         ])),
 
 
@@ -583,62 +637,20 @@ class appointmentFormState extends State<appointmentForm> {
 
 
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
 
-                    if(_selectedAppointment != null)
-                      Align(
-                          alignment: Alignment.bottomRight,
-                          heightFactor: 1.5,
-                          child:
 
-                          FloatingActionButton(
-                            backgroundColor: const Color(0xFF9C4350),
-                            foregroundColor: Colors.white,
-                            mini: true,
-
-                            onPressed: () async {
-                              firestoreInstance.collection("Work Shift").doc(
-                                  _selectedAppointment!.id).snapshots().listen((
-                                  docSnapshot) {
-                                if (docSnapshot.exists) {
-                                  Map<String, dynamic>? data = docSnapshot.data();
-
-                                  if (data?['status'] == 'Available') {
-                                    firestoreInstance.collection("Work Shift")
-                                        .doc(_selectedAppointment!.id)
-                                        .delete();
-                                    events.appointments!.removeAt(
-                                        events.appointments!
-                                            .indexOf(_selectedAppointment));
-                                    events.notifyListeners(
-                                        CalendarDataSourceAction.remove,
-                                        <Appointment>[]
-                                          ..add(_selectedAppointment!));
-                                    _selectedAppointment = null;
-                                    Navigator.pop(context);
-                                  }
-                                  else {
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                      content: Text(
-                                          "Appointment is already booked and cannot be deleted."),
-                                      backgroundColor: Theme.of(context).errorColor,
-                                    ));
-                                  }
-                                }
-                              });
-                            },
-                            child: Icon(Icons.delete),
-                          )
-                      ),
 
 
                     Align(
-                        alignment: Alignment.bottomRight,
+                        alignment: Alignment.bottomCenter,
                         heightFactor: 1.5,
                         child:
-
+// add button
                         FloatingActionButton(
-                          backgroundColor: const Color(0xFF9C4350),
+                          elevation: 2,
+                          backgroundColor: Color(0xFFA3C6B3),
                           foregroundColor: Colors.white,
                           mini: true,
 
@@ -803,6 +815,54 @@ class appointmentFormState extends State<appointmentForm> {
                           child: Icon(Icons.check),
                         )
                     ),
+
+                    if(_selectedAppointment != null)
+                      Align(
+                          alignment: Alignment.bottomCenter,
+                          heightFactor: 1.5,
+                          child:
+
+                          // delete buttom
+                          FloatingActionButton(
+                            elevation: 0,
+                            backgroundColor:Color(0xFFE3827E),
+                            foregroundColor: Colors.white,
+                            mini: true,
+
+                            onPressed: () async {
+                              firestoreInstance.collection("Work Shift").doc(
+                                  _selectedAppointment!.id).snapshots().listen((
+                                  docSnapshot) {
+                                if (docSnapshot.exists) {
+                                  Map<String, dynamic>? data = docSnapshot.data();
+
+                                  if (data?['status'] == 'Available') {
+                                    firestoreInstance.collection("Work Shift")
+                                        .doc(_selectedAppointment!.id)
+                                        .delete();
+                                    events.appointments!.removeAt(
+                                        events.appointments!
+                                            .indexOf(_selectedAppointment));
+                                    events.notifyListeners(
+                                        CalendarDataSourceAction.remove,
+                                        <Appointment>[]
+                                          ..add(_selectedAppointment!));
+                                    _selectedAppointment = null;
+                                    Navigator.pop(context);
+                                  }
+                                  else {
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content: Text(
+                                          "Appointment is already booked and cannot be deleted."),
+                                      backgroundColor: Theme.of(context).errorColor,
+                                    ));
+                                  }
+                                }
+                              });
+                            },
+                            child: Icon(Icons.delete),
+                          )
+                      ),
 
      ] )
               ],

@@ -142,6 +142,9 @@ class Home extends State<homereg> {
                             }
                             else if(!RegExp('[a-zA-Z _]+').hasMatch(_firstName)){
                               return 'first name must contain only letters';
+                            }else if(value.length>25){
+                              return ' name must less than 25 character';
+
                             }
                           },
                           decoration: InputDecoration(
@@ -167,6 +170,9 @@ class Home extends State<homereg> {
                             }
                             else if(!RegExp('[a-zA-Z _]+').hasMatch(_lastName)){
                               return 'last name must contain only letters';
+                            }else if(value.length>25){
+                              return ' name must less than 25 character';
+
                             }
                           },
                           decoration: InputDecoration(

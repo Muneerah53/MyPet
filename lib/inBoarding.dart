@@ -1,35 +1,17 @@
-class Mypets extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'models/global.dart';
+import 'models/data.dart';
+import 'petProfile.dart';
+import 'addPet.dart';
 
-  final Future<FirebaseApp> fbApp =  Firebase.initializeApp();
-  Mypets({Key? key}) : super(key: key);
+GlobalKey _globalKey = navKeys.globalKeyAdmin;
+int pets=0;
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-
-          primarySwatch: Colors.pink,
-        ),
-        home: FutureBuilder(
-          future: fbApp,
-          builder:(context,snapshot) {
-            if (snapshot.hasError){
-              print("An error has occured ${snapshot.error.toString()}");
-              return const Text("Something went wrong");}
-            else if (snapshot.hasData) {
-              return MyPets();
-            }
-            else{return const Center(child:CircularProgressIndicator());}
-          },
-        )
-
-
-    );
-  }
-}
-class MyPets extends StatelessWidget {
+class inHousePets extends StatelessWidget {
   fbHelper fb = fbHelper();
   var primaryColor = const Color(0xff313540);
   @override
@@ -59,53 +41,11 @@ class MyPets extends StatelessWidget {
             Container(
               child: Center(
                 child: Text(
-                    'My Pets', style: TextStyle(
+                    'in- House Pets', style: TextStyle(
                     color: Color(0xffe57285),
                     fontSize: 30,
                     fontWeight: FontWeight.bold)),
               ),
-            ),
-
-            GestureDetector(
-
-                onTap:() {
-                  Navigator.push(context,MaterialPageRoute(builder: (_) =>addPet(fb.getuser()))) .catchError((error) => print('Delete failed: $error'));
-
-                },
-                child:Container(//add
-                  padding: EdgeInsets.all(10),
-                  margin: EdgeInsets.only(left: 25,right:25,top:10),
-                  width: 365,height: 200,
-
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: primaryColor,),
-                  child:
-                  Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(top: 20),
-                            child: CircleAvatar(
-                              radius: 50,
-                              backgroundImage:new AssetImage('images/Add.png'),
-
-                            ),
-
-                          ),
-
-                        ],
-                      ),
-
-                      Container(
-
-                        child:  ListTile(
-                          title: Text('Add new pet', style: TextStyle(
-                            fontSize: 25, color: Colors.white,
-                            fontStyle: FontStyle.italic,), textAlign: TextAlign.center),
-
-                        ),),],),
-                )
             ),
 
 
@@ -116,39 +56,54 @@ class MyPets extends StatelessWidget {
               height: 530,
               child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection("pets")
-                      .where('ownerId', isEqualTo: (fb.getuser()))
+                      .collection("boarding")
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) return const Text('loading');
                     if (snapshot.data!.docs.isEmpty)
-                      return Padding(
-                          padding: EdgeInsets.all(20),
-                          child: const Text('You haven\'t added Any Pets!',
+                      return    Container(
+                          padding: EdgeInsets.only(left:25,right:25,top: 10),
+                          height: 100,
+                          child: Text('No in House pets',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                   color: Colors.grey),
-                              textAlign: TextAlign.center));
+                              textAlign: TextAlign.center)
+                      );
+
+
                     return ListView.builder(scrollDirection: Axis.vertical,
                       itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) =>
-                      //card pets method
-                      _buildPetsCard(context, (snapshot.data!).docs[index]),
-                    );
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot doc = (snapshot.data!).docs[index];
+                        DateTime startDate = new DateFormat(
+                            "EEE, MMM dd yyyy").parse(doc['startDate']);
+                        DateTime endDate = new DateFormat("EEE, MMM dd yyyy")
+                            .parse(doc['endDate']);
+                        DateTime today = DateTime(DateTime
+                            .now()
+                            .year, DateTime
+                            .now()
+                            .month, DateTime
+                            .now()
+                            .day);
+                        print('Today: $today Start: $startDate End: $endDate');
+                        if ((today.isAfter(startDate) &&
+                            today.isBefore(endDate))||
+                            (today.isAtSameMomentAs(startDate) ||
+                                today.isAtSameMomentAs(endDate)))
+                          return Text('hi');
+
+                        return Text('');
+                        //card pets method
+                        //    _buildPetsCard(context, (snapshot.data!).docs[index]); },
+                      });
+
                   }
               ),
             ),
-            Container(
-                padding: EdgeInsets.only(left:25,right:25,top: 10),
-                height: 530,
-                child: Text(msg(),
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.grey),
-                    textAlign: TextAlign.center)
-            ),
+
           ],
         ),
       ),);
@@ -176,7 +131,16 @@ class MyPets extends StatelessWidget {
       else if (document['species'] == "Hamster")
         img = "images/Hamster.png";
       else
-        img = "images/New.png";
+        img = "images/logo4.png";
+
+      String? url;
+      Map<String, dynamic> dataMap = document.data() as Map<String, dynamic>;
+
+      if(dataMap.containsKey('img'))
+        url = document['img']['imgURL'];
+      else
+        url = null;
+
 
 
 
@@ -205,7 +169,7 @@ class MyPets extends StatelessWidget {
                         padding: EdgeInsets.only(top: 20),
                         child: CircleAvatar(
                             radius: 50,
-                            backgroundImage:new AssetImage(img)),
+                            backgroundImage: url == null ? new AssetImage(img) : Image.network(url).image),
 
                       ),
 

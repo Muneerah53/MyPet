@@ -28,17 +28,6 @@ class _ServiceTile extends State<ServiceTile> {
 
   }
 
-  deleteService() async {
-    await FirebaseFirestore.instance
-        .collection("service")
-        .doc(widget.serviceModel.serviceID)
-        .delete();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Service has been deleted."),
-      backgroundColor: Colors.green,
-    ));
-    widget.initData();
-  }
 
   @override
   void initState() {
@@ -123,7 +112,7 @@ class _ServiceTile extends State<ServiceTile> {
                         width:106, //width of button
                         child: ElevatedButton(
                           onPressed: () {
-                            deleteService();
+                            showAlert(context,"Are you sure you want to delete this service?");
                           },
                           child: Text('Delete'),
                           style: ElevatedButton.styleFrom(
@@ -146,35 +135,57 @@ class _ServiceTile extends State<ServiceTile> {
       ),
     );
   }
+  showAlert(BuildContext context,String message) {
+    showDialog(
+
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          content: Text(message),
+          actions: <Widget>[
+            FlatButton(
+                child: Text("YES"),
+                onPressed: () async {
+
+                  await FirebaseFirestore.instance
+                      .collection("service")
+                      .doc(widget.serviceModel.serviceID)
+                      .delete();
+
+
+                  Navigator.pop(context, true);
+
+                  widget.initData();
+                }),
+
+
+            FlatButton(
+              child: Text("CANCEL"),
+              onPressed: () {
+
+                //Put your code here which you want to execute on Cancel button click.
+                Navigator.pop(context, false);
+
+              },
+            ),
+          ],
+        );
+      },
+    ).then((exit) {
+      if (exit == null) return;
+
+      if (exit) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Service deleted successfully"),
+          backgroundColor:Colors.green,),);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Service has not been deleted "),
+          backgroundColor:Colors.orange,),);
+      }
+    },
+    );
+  }
 }
-// class addService extends StatelessWidget {
-//   const addService({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: 344,
-//             height: 120,
-//             child: ElevatedButton(
-//                 onPressed: () {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                         builder: (context) => new services()),
-//                   );
-//                 },
-//                 child: Text('Add Service',
-//                     style: TextStyle(
-//                         fontStyle: FontStyle.italic,
-//                         fontSize: 25,
-//                         fontWeight: FontWeight.bold)),
-//                 style: ButtonStyle(
-//                   backgroundColor:
-//                   MaterialStateProperty.all(Color(0XFFFF6B81)),
-//                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(20.0))),
-//                 )),
-//
-//     );
-//   }
-// }

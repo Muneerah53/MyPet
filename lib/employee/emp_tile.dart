@@ -1,30 +1,36 @@
-import 'package:MyPet/PetType_model.dart';
-import 'package:MyPet/PetType_update.dart';
+import 'package:MyPet/models/global.dart';
+import 'package:MyPet/service_model.dart';
+import 'package:MyPet/service_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:MyPet/admin_calender.dart' as cal;
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'emp_model.dart';
+import 'emp_update.dart';
 
-import 'models/global.dart';
 
-class PetTypeTile extends StatefulWidget {
-  late final PetType petType;
-  late Function initData;
-  PetTypeTile(this.petType, this.initData);
+class EmployeeTile extends StatefulWidget {
+  final EmployeeModel empModel;
+  Function initData;
+  EmployeeTile(this.empModel, this.initData);
 
   @override
-  _PetTypeTile createState() => _PetTypeTile();
+  EmployeeTileState createState() => EmployeeTileState();
 }
 
-class _PetTypeTile extends State<PetTypeTile> {
+class EmployeeTileState extends State<EmployeeTile> {
+
+
+
   bool isLoading = true;
-  updateService() async {
+ /* updateService() async {
     await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) => PetTypeUpdate(widget.petType)))
+            builder: (_) => ServiceUpdate(widget.serviceModel)))
         .then((value) => widget.initData());
 
-  }
-
+  } */
 
 
   @override
@@ -34,26 +40,48 @@ class _PetTypeTile extends State<PetTypeTile> {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0),
+       // margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               ListTile(
                 title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text('${widget.petType.petTypeName}',style: petCardSubTitleStyle,),
-                    Text('${widget.petType.Type} ',style: petCardSubTitleStyle,),
+                    Text('${widget.empModel.empID}',style: petCardSubTitleStyle,),
+                    SizedBox(width: 15,),
+                    Text('${widget.empModel.empName}',style: petCardSubTitleStyle,),
 
                   ],
                 ),
+                subtitle: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 30,),
+                      Text('${widget.empModel.job}',
+                      style:TextStyle(
+                          fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: widget.empModel.job=='Doctor' ? Colors.lightBlue
+                            : Colors.pinkAccent[100] as Color,
+
+                      )
+
+
+
+
+                  ),
+
+                ]),
+
               ),
 
               Row(
@@ -65,8 +93,12 @@ class _PetTypeTile extends State<PetTypeTile> {
                         height:36, //height of button
                         width:106,
                         child: ElevatedButton(
-                          onPressed: () {
-                            updateService();
+                          onPressed: () async {
+                            await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => empUpdate(widget.empModel)))
+                                .then((value) => widget.initData());
                           },
                           child: Text('Edit'),
                           style: ElevatedButton.styleFrom(
@@ -79,13 +111,11 @@ class _PetTypeTile extends State<PetTypeTile> {
                             elevation: 0.0,
                             shadowColor: Colors.transparent,
                           ),)),
-                  ),
-
-                  Padding(
+                  ),  Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: SizedBox(
                         height:36, //height of button
-                        width:63,
+                        width:90,
                         child: ElevatedButton(
                           onPressed: () {
 
@@ -109,7 +139,7 @@ class _PetTypeTile extends State<PetTypeTile> {
                         width:106, //width of button
                         child: ElevatedButton(
                           onPressed: () {
-                            showAlert(context,"Are you sure you want to delete this pet type?");
+                            showAlert(context,"Are you sure you want to delete this employee?");
                           },
                           child: Text('Delete'),
                           style: ElevatedButton.styleFrom(
@@ -146,13 +176,12 @@ class _PetTypeTile extends State<PetTypeTile> {
                 child: Text("YES"),
                 onPressed: () async {
 
-                  await FirebaseFirestore.instance
-                      .collection("PetTypes")
-                      .doc(widget.petType.petTypeID)
-                      .delete();
+                  if(await deleteEmp()==true)
+                  Navigator.pop(context, true);
+else
+                    Navigator.pop(context, false);
 
 
-                      Navigator.pop(context, true);
 
                   widget.initData();
                 }),
@@ -175,14 +204,51 @@ class _PetTypeTile extends State<PetTypeTile> {
 
       if (exit) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Pet type deleted successfully"),
+          content: Text("Employee deleted successfully"),
           backgroundColor:Colors.green,),);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Pet type has not been deleted "),
+          content: Text("Employee has not been deleted "),
           backgroundColor:Colors.orange,),);
       }
     },
     );
+  }
+
+  Future<bool> deleteEmp() async {
+
+
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+        .collection('Work Shift')
+        .where('empID', isEqualTo: widget.empModel.empID)
+        .get();
+
+    List<QueryDocumentSnapshot> docs = snapshot.docs;
+    for (var doc in docs) {
+      if (doc.data() != null) {
+        if(doc['status']=='Booked'){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Employee has booked appointments and cannot be deleted."),
+            backgroundColor:Colors.orange,),);
+          return Future<bool>.value(false);
+        }
+
+        doc.reference.delete();
+      }
+
+    }
+    await FirebaseFirestore.instance
+        .collection("Employee")
+        .doc(widget.empModel.refID)
+        .delete();
+
+    var appoints = cal.events.appointments!.where((element) {return element.docID== widget.empModel.empID;}).toList();
+    for (var i in appoints) {
+      cal.events.appointments!.remove(i);
+    }
+
+    cal.events.notifyListeners(CalendarDataSourceAction.reset,cal.events.appointments!);
+
+    return Future<bool>.value(true);
   }
 }

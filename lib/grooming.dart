@@ -97,6 +97,17 @@ appointment? a;
                     fontWeight: FontWeight.bold),
               ),
             ),
+            SizedBox(height: 20),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                    height: 40,
+                    fit: BoxFit.fill,
+                    image: new AssetImage("images/PBGroomingStepTwo.png"))
+              ],
+            ),
 
             Container(
               margin: const EdgeInsets.fromLTRB(20, 40, 0, 0),
@@ -215,7 +226,14 @@ PList[key]= (snapshot.data!)
                     if (check(SList)) {
                       showAlertDialog(
                           context, "You Must Select at Least One Service");
-                    } else {
+                    }
+
+
+                    else if(getService().length >= 10)
+                      showAlertDialog(
+                          context, "You Can Select at Most 10 Services");
+
+                      else {
                       t = 1;
                       a!.total = TotalPrice(SList);
                       a!.desc = a!.type!+":"+ getService().toString();

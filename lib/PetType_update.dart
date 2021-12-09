@@ -5,6 +5,8 @@ import 'package:MyPet/PetType_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+enum SingingCharacter { companion, exotic }
+SingingCharacter? _character = SingingCharacter.companion;
 
 class PetTypeUpdate extends StatefulWidget {
   final PetType model;
@@ -17,7 +19,7 @@ class PetTypeUpdate extends StatefulWidget {
 class _PetTypeUpdate extends State<PetTypeUpdate> {
   final _formKey = GlobalKey<FormState>();
 
-  String? _name,_id;
+  String? _name,_id,_Type;
   static final RegExp nameRegExp = RegExp('^[a-zA-Z ]+\$');
 
 
@@ -26,6 +28,12 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
     super.initState();
     _id = widget.model.petTypeID;
     _name = widget.model.petTypeName;
+    _Type = widget.model.Type;
+    if(_Type=='exotic')
+      _character = SingingCharacter.exotic;
+    else
+      _character = SingingCharacter.companion;
+
   }
 
 
@@ -62,7 +70,7 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
 
                     Container(
                         padding: const EdgeInsets.fromLTRB(44, 5, 44, 45),
-                        child: const Text('Update Pet type',
+                        child: const Text('Update Pet Type',
                             style: TextStyle(
                                 color: Color(0xffe57285),
                                 fontSize: 30,
@@ -70,16 +78,12 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
 
 
                     Container(
-                      padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
-                      child: Text(
-                        'Pet Type:',
-                        style: TextStyle(
-                            color: const Color(0xFF552648B),
-                            fontSize: 18,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child:  Text('Pet Type Name:',
+                            style: TextStyle(
+                              color: Color(0xffe57285),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,))),
                     Container(
                       padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
                       child:TextFormField(
@@ -105,17 +109,57 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
                             _name = value;
                           },
 
-                          validator: (Value) {
-                            if (Value!.isEmpty) {
-                              return "Please enter pet type";
-                            } else if (!nameRegExp.hasMatch(Value)){
-                              return "Please enter valid pet type";
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return "Please enter Pet type name";
                             }
+                            else if(value.length>25){
+                              return 'Pet type must be less then 25 characters';
+                            }
+    else if(!nameRegExp.hasMatch(value)){
+    return "Pet type name must contain only letters";
+    }
+
                           }
 
                       ),
                     ),
 
+                    SizedBox(height: 50),
+
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child:  Text('Pet Type:',
+                            style: TextStyle(
+                              color: Color(0xffe57285),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,))),
+                    ListTile(
+                      title: const Text('Companion animal'),
+                      leading: Radio<SingingCharacter>(
+                        value: SingingCharacter.companion,
+                        groupValue: _character,
+                        onChanged: (SingingCharacter? value) {
+                          setState(() {
+                            _character = value;
+                          });
+                        },
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text('Exotic animal'),
+                      leading: Radio<SingingCharacter>(
+                        value: SingingCharacter.exotic,
+                        groupValue: _character,
+                        onChanged: (SingingCharacter? value) {
+                          setState(() {
+                            _character = value;
+                          });
+                        },
+                      ),
+                    ),
+
+                    SizedBox(height: 50),
 
 
                     Center(
@@ -127,7 +171,7 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
                             onPressed: () async {
                               await saveData();
                             },
-                            child: const Text('Edit',
+                            child: const Text('Save',
                               style: TextStyle( color:Colors.black,
                                   fontSize: 18),
                             ),
@@ -178,7 +222,8 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
     await FirebaseFirestore.instance
         .collection('PetTypes')
         .doc(_id)
-        .update({"petTypeName":_name, });
+        .update({"petTypeName":_name,  'petType':_character.toString().split('.').last,
+    });
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("Pet type has been updated successfully"),

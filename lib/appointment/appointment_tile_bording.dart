@@ -84,6 +84,7 @@ class _AppointmentTileBordingState extends State<AppointmentTileBording> {
                   ],
                 ),
               ),
+
               widget.type == 0
                   ? Row(
                 mainAxisAlignment: MainAxisAlignment.end,

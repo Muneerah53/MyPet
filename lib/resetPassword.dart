@@ -63,6 +63,18 @@ class _ResetPageState extends State<ResetPage> {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         image: AssetImage('images/logo.jpeg')))),
+            Container(
+                margin: EdgeInsets.fromLTRB(30, 10, 20, 30),
+                width: 380,
+
+                child :
+                  Text('Please note that passwords must be at least 8 characters and should contain a small letter,a capital letter,and a special character.\nYou will receive an email that contains a link to change you password.',
+                      style: TextStyle(color: Colors.blueGrey, fontSize: 15)),
+
+
+
+            ),
+
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 26),
                 child: new Form(

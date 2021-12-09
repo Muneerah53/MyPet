@@ -3,6 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'models/global.dart';
+CollectionReference service =
+FirebaseFirestore.instance.collection('service');
+
+
 
 class services extends StatefulWidget {
   Function initData;
@@ -197,6 +201,21 @@ class _servicesState extends State<services> {
                                 child: ElevatedButton(
                                     onPressed: () async {
                                       if (_V.currentState!.validate()) {
+    QuerySnapshot<Object?> snapshot = await service
+        .where('serviceName', isEqualTo: _serviceName)
+        .get();
+
+    List<QueryDocumentSnapshot> docs = snapshot.docs;
+
+
+    if (docs.isNotEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+    content: Text('Service is already exists'),
+    backgroundColor: Colors.red)
+    );
+    }
+    else {
                                         DocumentReference doc = await ser.add({
                                           "serviceID":'',
                                           "serviceName": _serviceName ,
@@ -211,7 +230,7 @@ class _servicesState extends State<services> {
                                         widget.initData();
                                         Navigator.of(context).pop();
 
-                                      }
+                                      }}
                                     },
                                     child: const Text('Add ',
                                       style: TextStyle( color:Colors.black,

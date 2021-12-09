@@ -257,7 +257,7 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
                                     drNames.add(
                                       DropdownMenuItem(
                                         child: Text(
-                                          " "+ snap['petTypeName'] + " - "+ snap['petType'],
+                                          " "+ snap['petTypeName'],
                                           style: TextStyle(color: Colors.black87),
                                         ),
                                         value: snap['petTypeName'],
@@ -291,9 +291,7 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
 
                                       isExpanded: true,
                                       hint:  Text(
-                                        " Type",
-                                        style: TextStyle(color: Colors.grey,  fontWeight: FontWeight.normal,
-                                          fontSize: 18,),
+                                        currentValuespHint
                                       ),
                                     ),
                                   );

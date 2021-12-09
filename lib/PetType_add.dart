@@ -10,6 +10,9 @@ CollectionReference PetTypes =
 FirebaseFirestore.instance.collection('PetTypes');
 enum SingingCharacter { companion, exotic  }
 SingingCharacter? _character = SingingCharacter.companion;
+CollectionReference petType =
+FirebaseFirestore.instance.collection('PetTypes');
+
 
 
 class addPetType extends StatefulWidget {
@@ -100,6 +103,7 @@ class _addPetType extends State<addPetType> {
                               return "Pet type name must contain only letters";
                             }
 
+
                           },
                         ),
 
@@ -163,25 +167,43 @@ class _addPetType extends State<addPetType> {
                                     ),
                                     onPressed: () async {
     if (_dformKey.currentState!.validate()) {
-      DocumentReference doc = await PetTypes.add({
-        'petTypeID': '',
-        'petTypeName': Name[0].toUpperCase()+Name.substring(1),
-        'petType':_character.toString().split('.').last,
+      QuerySnapshot<Object?> snapshot = await petType
+          .where('petTypeName', isEqualTo: Name)
+          .get();
+
+      List<QueryDocumentSnapshot> docs = snapshot.docs;
 
 
-      });
-      String _id = doc.id;
-      await PetTypes.doc(_id).update({"petTypeID": _id});
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Pet type is added successfully'),
-              backgroundColor: Colors.green)
-      );
+      if (docs.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Pet type is already exists'),
+                backgroundColor: Colors.red)
+        );
+      }
+      else {
+        DocumentReference doc = await PetTypes.add({
+          'petTypeID': '',
+          'petTypeName': Name[0].toUpperCase() + Name.substring(1),
+          'petType': _character
+              .toString()
+              .split('.')
+              .last,
 
 
-      widget.initData();
-      Navigator.of(context).pop();
+        });
+        String _id = doc.id;
+        await PetTypes.doc(_id).update({"petTypeID": _id});
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Pet type is added successfully'),
+                backgroundColor: Colors.green)
+        );
+
+
+        widget.initData();
+        Navigator.of(context).pop();
+      }
     }
-
 
                                     }
                                 )),

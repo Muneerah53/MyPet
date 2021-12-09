@@ -2,6 +2,7 @@ import 'package:MyPet/PetType_model.dart';
 import 'package:MyPet/admin_app_gro+bor.dart';
 import 'package:MyPet/admin_screen.dart';
 import 'package:MyPet/models/global.dart';
+import 'package:MyPet/petInHouse.dart';
 import 'package:MyPet/view_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -184,17 +185,34 @@ class _adminHomePageState extends State<AdminHomePage> {
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 30),
+              width: 344,
+              height: 100,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                             inHouse()),
+                    );
+                  },
 
-
-
-
-
-
+                  child: Text('Pets In House',
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold)),
+                  style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all(Color(0XFFFF6B81)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
+                  )),
             ),
             SizedBox(height: 50),
-//
-//
-// )
 
             ],
         )),

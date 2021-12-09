@@ -16,6 +16,8 @@ class _inHouseState extends State<inHouse> {
   Map<String, String > PetAppList = {};
   Map<String, String > PetsList = {};
   List<String> pets = <String>[];
+  List<String> petsid = <String>[];
+
 
 
   //CollectionReference stream1 = FirebaseFirestore.instance.collection('appointment');
@@ -60,132 +62,14 @@ class _inHouseState extends State<inHouse> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-              Container(
-                  width: double.maxFinite,
-                  child: StreamBuilder<QuerySnapshot>(
-                            stream: FirebaseFirestore.instance
-                                .collection("pets")
-                                .snapshots(),
-
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData)
-                                return const Text('loading');
-                              if (snapshot.data!.docs.isEmpty)
-                                return Padding(
-                                    padding: EdgeInsets.all(0),
-                                    child: const Text(
-                                        'Sorry, there are no services available',
-                                        style: TextStyle(
-                                            color: const Color(0xFF552648B),
-                                            fontSize: 20,
-                                            fontStyle: FontStyle.italic,
-                                            fontWeight: FontWeight.bold))
-                                );
-                              return ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: snapshot.data!.docs.length,
-                                  itemBuilder: (context, index) {
-
-                                    String key = (snapshot.data!).docs[index]['petId'];
-                                    PetsList[key] = (snapshot.data!).docs[index]['name'];
-
-
-                                    return new Container(
-                                      height: 0,
-                                    );
-                                  });
-                            })
+          Container(
 
 
 
-              ),
 
-    Container(
-    width: double.maxFinite,
-    child: StreamBuilder<QuerySnapshot>(
-    stream: FirebaseFirestore.instance
-        .collection("appointment")
-        .snapshots(),
+          ),
+          ]))));
+}
 
-    builder: (context, snapshot) {
-      if (!snapshot.hasData)
-        return const Text('loading');
-      if (snapshot.data!.docs.isEmpty)
-        return Padding(
-            padding: EdgeInsets.all(20),
-            child: const Text(
-                'Sorry, there are no services available',
-                style: TextStyle(
-                    color: const Color(0xFF552648B),
-                    fontSize: 20,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold))
-        );
-
-      return ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          itemCount: snapshot.data!.docs.length,
-          itemBuilder: (context, index) {
-            String key = (snapshot.data!)
-                .docs[index]['petID'];
-            PetAppList[key] = (snapshot.data!).docs[index]['workshiftID'];
-            int i = getPets()!.length-1;
-            getPets();
-
-              return new ListTile(
-               // margin: EdgeInsets.only(left:10,right:20,bottom: 10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all( Radius.circular(10),),
-                ),
-
-              title: Text( " \n"  + "       "+getPets()![i]+"\n"+ "       "+(snapshot.data!).docs[index]['service'] +'\n',style: TextStyle(
-                  color: Color(0XFF52648B),
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,),
-
-                  onTap: (){
-                 // g(document);
-                Navigator.push(context,MaterialPageRoute(builder:(context) {
-                  return pet(getPets()![i]);
-
-                } ));},
-                leading: CircleAvatar(
-
-                ),
-
-            );
-          }
-      );
-
-    }))
-,
-
-          ],
-        ),
-      ),
-
-    ));
-  }
-  List<String> getPets() {
-
-    PetAppList.forEach((key, value) {
-      String id = key;
-   //String PN = value;
-  PetsList.forEach((key, value) {
-    if(id == key){
-pets.add(value);
-    }
-
-  });
-
-   });
-
- return pets;
-  }
 
 }

@@ -16,6 +16,7 @@ import 'ManagePetType.dart';
 import 'PetType_tile.dart';
 import 'PetType_view.dart';
 import 'admin_viewappts.dart';
+import 'inBoarding.dart';
 
 
 class AdminHomePage extends StatefulWidget {
@@ -149,6 +150,39 @@ class _adminHomePageState extends State<AdminHomePage> {
     },
 
                   child: Text('Manage Pet Types',
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold)),
+                  style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
+                  )),
+
+
+
+
+
+
+            ),
+            SizedBox(height: 20),
+            Container(
+              margin: EdgeInsets.only(bottom: 30),
+              width: 344,
+              height: 120,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => inHousePets()
+),
+                    );
+                  },
+
+                  child: Text('view in-house',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 25,

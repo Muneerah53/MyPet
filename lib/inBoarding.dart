@@ -93,11 +93,39 @@ class inHousePets extends StatelessWidget {
                             today.isBefore(endDate))||
                             (today.isAtSameMomentAs(startDate) ||
                                 today.isAtSameMomentAs(endDate)))
-                          return Text('hi');
+                          return// _buildPetsCard(context, doc['petID']);
+                        StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection("pets")
+                            .where('petId', isEqualTo: doc['petID'])
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const Text('loading');
+                        if (snapshot.data!.docs.isEmpty)
+                        return    Container(
+                        padding: EdgeInsets.only(left:25,right:25,top: 10),
+                        height: 100,
+                        child: Text('No found pets',
+                        style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.grey),
+                        textAlign: TextAlign.center)
+                        );
+                        try{
+                          _buildPetsCard(context, (snapshot.data!).docs[0]);
+                         print(snapshot.data!.docs.single['petId']);
+                        }
+
+                        catch(StateError){}
+                        return Text('');
+
+                        }
+                        );
 
                         return Text('');
                         //card pets method
-                        //    _buildPetsCard(context, (snapshot.data!).docs[index]); },
+                        //    },
                       });
 
                   }
@@ -112,9 +140,12 @@ class inHousePets extends StatelessWidget {
 
   Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ) {
 
+
+
+
     //profile pic based on pet's species
     String img ="";
-    if (document['ownerId'].toString() == fb.getuser()){
+
       pets++;
       if (document['species'] == "Dog")
         img = "images/dog.png";
@@ -185,8 +216,7 @@ class inHousePets extends StatelessWidget {
               ),
             ),));
 
-    }else
-      return Card();}
+}
 
 }
 

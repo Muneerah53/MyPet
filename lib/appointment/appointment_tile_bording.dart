@@ -4,6 +4,8 @@ import 'appointment_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'boarding_update.dart';
+
 class AppointmentTileBording extends StatefulWidget {
   final AppointmentModel appointmentModel;
   int type;
@@ -21,7 +23,7 @@ class _AppointmentTileBordingState extends State<AppointmentTileBording> {
     await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (_) => AppointmentUpdate(widget.appointmentModel)))
+            builder: (_) => Boarding_Update(widget.appointmentModel)))
         .then((value) => widget.initData());
 
     /*Navigator.push(

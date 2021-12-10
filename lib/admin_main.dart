@@ -63,7 +63,7 @@ class _adminHomePageState extends State<AdminHomePage> {
             child:Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 50),
+            SizedBox(height: 10),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -76,10 +76,10 @@ class _adminHomePageState extends State<AdminHomePage> {
               ],
             ),
 
-            SizedBox(height: 50),
+            SizedBox(height: 20),
             Container(
               width: 344,
-              height: 120,
+              height: 100,
               child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -91,7 +91,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                   child: Text('View Appointments',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
-                          fontSize: 25,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
@@ -102,10 +102,10 @@ class _adminHomePageState extends State<AdminHomePage> {
             ),
 
 
-            SizedBox(height: 30),
+            SizedBox(height: 20),
             Container(
               width: 344,
-              height: 120,
+              height: 100,
               child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -116,7 +116,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                   child: Text('Manage Services',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
-                          fontSize: 25,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
@@ -135,9 +135,9 @@ class _adminHomePageState extends State<AdminHomePage> {
 
             SizedBox(height: 20),
             Container(
-              margin: EdgeInsets.only(bottom: 30),
+              margin: EdgeInsets.only(bottom: 20),
               width: 344,
-              height: 120,
+              height: 100,
               child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -152,7 +152,7 @@ class _adminHomePageState extends State<AdminHomePage> {
                   child: Text('Manage Pet Types',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
-                          fontSize: 25,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
@@ -167,11 +167,10 @@ class _adminHomePageState extends State<AdminHomePage> {
 
 
             ),
-            SizedBox(height: 20),
             Container(
               margin: EdgeInsets.only(bottom: 30),
               width: 344,
-              height: 120,
+              height: 100,
               child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -182,14 +181,14 @@ class _adminHomePageState extends State<AdminHomePage> {
                     );
                   },
 
-                  child: Text('view in-house',
+                  child: Text('Pets In House',
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
-                          fontSize: 25,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold)),
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all(Color(0XFF2F3542)),
+                    MaterialStateProperty.all(Color(0XFFFF6B81)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0))),
                   )),

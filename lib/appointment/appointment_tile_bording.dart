@@ -98,7 +98,7 @@ class _AppointmentTileBordingState extends State<AppointmentTileBording> {
                         width: 113,
                         child: ElevatedButton(
                           onPressed: () {
-                           // updateAppoitment();
+                            updateAppoitment();
                           },
                           child: Text('Reschedule'),
                           style: ElevatedButton.styleFrom(

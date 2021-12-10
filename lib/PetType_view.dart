@@ -129,7 +129,7 @@ class _PetTypeList extends State<PetTypeList> {
               },
 
               child:Padding(
-                  padding: EdgeInsets.only(left: 50,right:50,top: 35,bottom: 35),
+                  padding: EdgeInsets.only(left: 30,right:30,top: 35,bottom: 35),
 
                   child:
                   Text("+ Add New Pet Type", style:

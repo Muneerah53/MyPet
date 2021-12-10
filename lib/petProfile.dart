@@ -7,7 +7,7 @@ import 'edit_pet_profile.dart';
 
 import 'models/global.dart';
 import 'package:MyPet/MyPets.dart';
-
+bool app = false;
 final  primaryColor = const Color(0xff313540);
 GlobalKey _globalKey = navKeys.globalKey;
 
@@ -289,7 +289,9 @@ class pet extends StatelessWidget {
         document.reference.delete().then((_) {
         Navigator.pop(context, true);
         });}
-        else{   Navigator.pop(context, false); }
+        else{
+          app=true;
+          Navigator.pop(context,false); }
 
                     }),
 
@@ -297,7 +299,7 @@ class pet extends StatelessWidget {
             FlatButton(
               child: Text("CANCEL"),
               onPressed: () {
-
+                app=false;
                 //Put your code here which you want to execute on Cancel button click.
                 Navigator.pop(context, false);
 
@@ -315,6 +317,11 @@ class pet extends StatelessWidget {
               content: Text("Pet deleted successfully"),
               backgroundColor:Colors.green,),);
           } else {
+            if (app == true){
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("Pet can not be deleted because it has booked appointments "),
+                backgroundColor:Colors.orange,),);
+            } else
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text("Pet has not been deleted "),
               backgroundColor:Colors.orange,),);

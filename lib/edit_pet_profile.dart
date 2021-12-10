@@ -423,7 +423,8 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
   document.reference.update({'gender': genderController.text});
   change++;
   }
-  if(!(imgPath==null || imgPath==null)) {
+  if((!(imgPath==null || imgPath==null))&( nameError==0 )& (genderError ==
+      0)&(dateError==0)&(speciesError==0)) {
     await _storage.uploadImg(
         imgPath!, imgName!);
     String url = await _storage.downloadURL(

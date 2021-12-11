@@ -196,7 +196,7 @@ class pet extends StatelessWidget {
                   ),),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  onPressed: () => showAlert(context,"Delete my pet",document),
+                  onPressed: () => showAlert(context,"Are you sure you want to delete this pet?",document),
 
 
                 ),

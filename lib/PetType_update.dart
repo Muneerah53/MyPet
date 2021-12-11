@@ -218,22 +218,46 @@ class _PetTypeUpdate extends State<PetTypeUpdate> {
 
 
   saveData() async {
-    if(!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) return;
+
+    String _fname = _name![0].toUpperCase() + _name!.substring(1).toLowerCase().trim();
+    QuerySnapshot<Object?> snapshot =
     await FirebaseFirestore.instance
         .collection('PetTypes')
-        .doc(_id)
-        .update({"petTypeName":_name,  'petType':_character.toString().split('.').last,
-    });
+        .where('petTypeName', isEqualTo: _fname)
+        .get();
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Pet type has been updated successfully"),
-      backgroundColor: Colors.green,
-    ));
-    await Future.delayed(
-        Duration(seconds: 0),
-            () => Navigator.of(
-          context,
-        ).pop());
+    List<QueryDocumentSnapshot> docs = snapshot.docs;
+
+
+    if (docs.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Pet type is already exists'),
+              backgroundColor: Colors.red)
+      );
+    }
+    else {
+      await FirebaseFirestore.instance
+          .collection('PetTypes')
+          .doc(_id)
+          .update({"petTypeName": _fname, 'petType': _character
+          .toString()
+          .split('.')
+          .last,
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Pet type has been updated successfully"),
+        backgroundColor: Colors.green,
+      ));
+      await Future.delayed(
+          Duration(seconds: 0),
+              () =>
+              Navigator.of(
+                context,
+              ).pop());
+    }
   }
 }
 

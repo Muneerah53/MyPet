@@ -501,7 +501,7 @@ Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
     else if (document['species'] == "Hamster")
       img = "images/Hamster.png";
     else
-      img = "images/dog.png";
+      img = "images/logo4.png";
 
     String? url;
     Map<String, dynamic> dataMap = document.data() as Map<String, dynamic>;

@@ -167,8 +167,11 @@ class _addPetType extends State<addPetType> {
                                     ),
                                     onPressed: () async {
     if (_dformKey.currentState!.validate()) {
+
+      String _name = Name[0].toUpperCase() + Name.substring(1).toLowerCase().trim();
+
       QuerySnapshot<Object?> snapshot = await petType
-          .where('petTypeName', isEqualTo: Name)
+          .where('petTypeName', isEqualTo: _name)
           .get();
 
       List<QueryDocumentSnapshot> docs = snapshot.docs;
@@ -184,7 +187,7 @@ class _addPetType extends State<addPetType> {
       else {
         DocumentReference doc = await PetTypes.add({
           'petTypeID': '',
-          'petTypeName': Name[0].toUpperCase() + Name.substring(1),
+          'petTypeName': _name,
           'petType': _character
               .toString()
               .split('.')

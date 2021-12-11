@@ -22,7 +22,7 @@ class empUpdateState extends State<empUpdate> {
   var _types = ['Exotic', 'Companion','Both'];
   var selectedType;
   static final RegExp nameRegExp = RegExp('^[a-zA-Z ]+\$');
-
+  final nameControl = TextEditingController();
 
   @override
   void initState() {
@@ -32,7 +32,10 @@ class empUpdateState extends State<empUpdate> {
     _job = widget.empModel.job;
     _s = widget.empModel.speciality;
     selectedType = _s!='Both' ? _s : 'Both';
+
+    nameControl.text = _name.toString();
   }
+
 
 
   @override
@@ -133,15 +136,13 @@ class empUpdateState extends State<empUpdate> {
                         Container(
                             padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
                             child: TextFormField(
-                              controller: TextEditingController(text: _name),
+                              controller: nameControl, //TextEditingController(text: _name),
                               style: TextStyle(
                                 fontSize: 18, color: Colors.blueGrey,
                               ),
                               onChanged: (value) {
 
-                                setState(() {
-                                  _name = value;
-                                });
+                               setState(() {_name = value;});
                                 // _firstName = value;
                               },
                               validator: (value) =>

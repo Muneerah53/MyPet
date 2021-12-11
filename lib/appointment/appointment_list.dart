@@ -179,11 +179,11 @@ class _AppointmentListState extends State<AppointmentList> {
           if (!e) {
             bool test;
             var toDay = DateTime.now();
-            var deff = endDate.difference(toDay).inMinutes;
+            var deff = startDate.difference(toDay).inMinutes;
             if (widget.type == 0) {
-              test = deff >= 0 ? true : false;
+              test = deff >= 1 ? true : false;
             } else {
-              test = deff < 0 ? true : false;
+              test = deff < 1 ? true : false;
             }
             if (test) {
               AppointmentModel dropOff = AppointmentModel(

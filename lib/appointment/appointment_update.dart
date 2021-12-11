@@ -21,6 +21,7 @@ class _AppointmentUpdateState extends State<AppointmentUpdate> {
   int? selectedTimeIndex;
   String? selectedTime;
   String? selectedShiftID;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,7 +99,7 @@ class _AppointmentUpdateState extends State<AppointmentUpdate> {
                     Container(
                       padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
                       child: Text(
-                        'Select Day:',
+                     'Select Day:',
                         style: TextStyle(
                             color: const Color(0xFF552648B),
                             fontSize: 18,
@@ -146,6 +147,7 @@ class _AppointmentUpdateState extends State<AppointmentUpdate> {
                       ),
                     ),
                     Container(
+
                         height: 120,
                         padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
                         child: StreamBuilder<QuerySnapshot>(
@@ -176,12 +178,15 @@ class _AppointmentUpdateState extends State<AppointmentUpdate> {
                                   scrollDirection: Axis.horizontal,
                                   itemCount: snapshot.data!.docs.length,
                                   itemBuilder: (context, index) {
-
                                     var s =  (snapshot.data!).docs[index]
                                     ['startTime'].toString().split(":")[0];
                                     var t = DateTime.now().hour.toString();
 
-                                    if(s.compareTo(t)<=0){
+                                    var date =  (snapshot.data!).docs[index]
+                                    ['date'].toString();
+                                    DateTime d =   DateFormat('dd/MM/yyyy').parse(date);
+                                    DateTime now = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day,0,0);
+                                    if(s.compareTo(t)<=0 && d.isAtSameMomentAs(now)){
                                       if(index==(snapshot.data!.docs.length-1) && i==0)
                                         return Text('No Available Times',
                                             style: TextStyle(
@@ -189,11 +194,8 @@ class _AppointmentUpdateState extends State<AppointmentUpdate> {
                                                 fontSize: 20,
                                                 color: Colors.grey),
                                             textAlign: TextAlign.center);
-
                                       else
-                                        return Text('');
-                                    }
-
+                                        return Text('');}
 
                                     String? stime = ((snapshot.data!)
                                             .docs[index]['startTime'] +

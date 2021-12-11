@@ -4,7 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'edit_pet_profile.dart';
 import 'models/global.dart';
 
-
+String  date1='';
+String date2='';
+String ownerName= '';
+String note= '';
 final  primaryColor = const Color(0xff313540);
 GlobalKey _globalKey = navKeys.globalKey;
 
@@ -35,7 +38,7 @@ class PetInfo extends StatelessWidget {
               print("An error has occured ${snapshot.error.toString()}");
               return const Text("Something went wrong");}
             else if (snapshot.hasData) {
-              return petinfo("");
+              return petinfo("","",'');
             }
             else{return const Center(child:CircularProgressIndicator());}
           },
@@ -46,13 +49,13 @@ class PetInfo extends StatelessWidget {
 }
 class petinfo extends StatelessWidget {
   final String petID;
-  petinfo(this.petID);
+  final String appointmentID;
+  final String owner;
+  petinfo(this.petID, this.appointmentID, this.owner);
 
 
   @override
   Widget build(BuildContext context) {
-    var primaryColor = const Color(0xff313540);
-    GlobalKey _globalKey = navKeys.globalKey;
     return Scaffold(
 
       resizeToAvoidBottomInset: true,
@@ -62,8 +65,8 @@ class petinfo extends StatelessWidget {
         elevation:0,
         leading: ElevatedButton(
             onPressed: () {
+
               Navigator.of(context).pop();
-              //  Navigator.push(context,MaterialPageRoute(builder: (_) =>MyPets()));
 
             },
 
@@ -93,7 +96,7 @@ class petinfo extends StatelessWidget {
 
 
           Container(
-            padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 180, right: 35),
+            padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 160, right: 35),
             height: 1000,
 
             child: StreamBuilder<QuerySnapshot>(
@@ -111,7 +114,44 @@ class petinfo extends StatelessWidget {
             ),
 
           ),
+          Container(
+            padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 350, right: 35),
+            height: 1000,
 
+            child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('boarding').where("boardingID",isEqualTo: appointmentID ).snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const Text('loading');
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) =>
+                    //card pets method
+                    _buildAppointemtCard(context, (snapshot.data!).docs[index]),
+                  );
+                }
+            ),
+
+          ),
+          Container(
+            padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 500, right: 35),
+            height: 1000,
+
+            child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('pet owners').where("ownerID",isEqualTo: owner ).snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const Text('loading');
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) =>
+                    //card pets method
+                    _buildOwnerCard(context, (snapshot.data!).docs[index]),
+                  );
+                }
+            ),
+
+          ),
         ], ),);
   }
 
@@ -125,7 +165,49 @@ class petinfo extends StatelessWidget {
 
         padding: EdgeInsets.only(left: 20),
         width: 250,
-        height: 220,
+height: 500,
+        //i dont know why this cammand does not work
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(40)),
+
+          color: Colors.white,
+        ),
+        child:
+        Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+              ),
+              Container(
+
+                child: ListTile(
+                  title: Text(
+                        "\n       Pet information\nName:  " + document['name'] + "\nSpecies:  " +
+                          document['species'] + "\nGender:  " +
+                          document['gender'] + "\nBirth date:  " +
+                          document['birthDate'], style: petCardTitleStyle),
+
+                ),),
+
+              Container(
+                margin: EdgeInsets.only(left: 15,right: 15),
+              ),
+
+            ]),),);
+
+  }
+  Widget _buildAppointemtCard(BuildContext context, DocumentSnapshot document) {
+
+
+    return Card(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0)),
+      child: Container(
+
+        padding: EdgeInsets.only(left: 20),
+        width: 250,
+
 
         //i dont know why this cammand does not work
         decoration: BoxDecoration(
@@ -144,10 +226,10 @@ class petinfo extends StatelessWidget {
 
                 child: ListTile(
                   title: Text(
-                      "\nName:  " + document['name'] + "\nSpecies:  " +
-                          document['species'] + "\nGender:  " +
-                          document['gender'] + "\nBirth date:  " +
-                          document['birthDate'] , style: petCardTitleStyle),
+                      "\n        Boarding information\nDrop off Date:  " + document['startDate'] + "\nPick up Date:  " +
+                          document['endDate'] + "\nTotal price:  " +
+                          document['totalPrice'].toString()+"SAR" + "\nNote:  " +
+                          document['notes'], style: petCardTitleStyle),
 
                 ),),
 
@@ -167,7 +249,57 @@ class petinfo extends StatelessWidget {
             ]),),);
 
   }
+  Widget _buildOwnerCard(BuildContext context, DocumentSnapshot document) {
 
+
+    return Card(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0)),
+      child: Container(
+
+        padding: EdgeInsets.only(left: 20),
+        width: 250,
+
+
+        //i dont know why this cammand does not work
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(40)),
+
+          color: Colors.white,
+        ),
+        child:
+        Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+              ),
+              Container(
+
+                child: ListTile(
+                  title: Text(
+                      "\n        Owner information\nName: "+document['fname'] +" " +
+                      document['lname'] + "\nMobile number: " +
+                      document['mobile'] + "\nEmail: " + document['email']+ "\n" , style: petCardTitleStyle),
+
+                ),),
+
+              Container(
+                margin: EdgeInsets.only(left: 15,right: 15),
+              ),
+              // Container(
+              //  // padding: EdgeInsets.only(bottom: 600),
+              //     child: ListTile(
+              //       title: Text(
+              //     'Boarding Info', style: petCardTitleStyle,
+              //     textAlign: TextAlign.left,
+              //   ),)
+              //
+              // ),
+
+            ]),),);
+
+  }
   Widget _buildPicCard(BuildContext context, DocumentSnapshot document) {
     String img = "";
     if (document['species'] == "Dog")
@@ -224,55 +356,13 @@ class petinfo extends StatelessWidget {
 
   }
 
+ Future<void> getInfo() async {
+   DocumentSnapshot appointmentInfo = await FirebaseFirestore.instance.collection("boarding").doc(appointmentID).get();
+date1=appointmentInfo['startDate'].toString();
+   date2=appointmentInfo['endDate'].toString();
+   DocumentSnapshot ownerInfo = await FirebaseFirestore.instance.collection("pet owners").doc(owner).get();
+   ownerName =ownerInfo['fname'].toString()+' '+ownerInfo['lname'].toString();
+   note= appointmentInfo['notes'].toString();
 
-  showAlert(BuildContext context,String message,DocumentSnapshot document) {
-    showDialog(
-
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          content: Text(message),
-          actions: <Widget>[
-            FlatButton(
-                child: Text("YES"),
-                onPressed: () async {
-                  FirebaseFirestore firestoreInstance= FirebaseFirestore.instance;
-
-                  QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreInstance
-                      .collection('appointment')
-                      .where('petID', isEqualTo: document.id)
-                      .get();
-
-                  if(snapshot.docs.length==0){
-                    document.reference.delete().then((_) {
-                      Navigator.pop(context, true);
-                    });}
-                  else{   Navigator.pop(context, false); }
-
-                }),
-
-
-
-          ],
-        );
-      },
-    ).then((exit) {
-      if (exit == null) return;
-
-      if (exit) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Pet deleted successfully"),
-          backgroundColor:Colors.green,),);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Pet has not been deleted "),
-          backgroundColor:Colors.orange,),);
-      }
-    },
-    );
-  }
-
+}
 }

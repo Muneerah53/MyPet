@@ -51,7 +51,7 @@ class inHousePets extends StatelessWidget {
             Container(
 
               padding: EdgeInsets.only(left:25,right:25,top: 10,bottom: 50),
-              height: 530,
+              height: 700,
               child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection("boarding")
@@ -108,7 +108,7 @@ class inHousePets extends StatelessWidget {
                                                   color: Colors.grey),
                                               textAlign: TextAlign.center)
                                       );return Container(
-                                      child: _buildPetsCard(context, (snapshot.data!).docs[0]));
+                                      child: _buildPetsCard(context, (snapshot.data!).docs[0],doc['boardingID'].toString(),doc['petOwnerID'].toString()));
                                       //print(snapshot.data!.docs.single['petId']);
                                   }
                               );
@@ -128,7 +128,7 @@ class inHousePets extends StatelessWidget {
   }
 
 
-  Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ) {
+  Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ,String appointmentID, String owner) {
 
 
 
@@ -168,7 +168,7 @@ class inHousePets extends StatelessWidget {
     return GestureDetector(
         onTap: (){
           Navigator.push(context,MaterialPageRoute(builder:(context) {
-            return petinfo(document['petId']);
+            return petinfo(document['petId'], appointmentID, owner);
 
           } ));},
         child: Card(

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'models/global.dart';
+import 'package:flutter/services.dart';
 CollectionReference service =
 FirebaseFirestore.instance.collection('service');
 
@@ -135,7 +136,8 @@ class _servicesState extends State<services> {
                           Container(
                               padding: const EdgeInsets.fromLTRB(30, 15, 0, 0),
                               child: TextFormField(
-
+                                keyboardType: TextInputType.number,
+                                inputFormatters:[FilteringTextInputFormatter.digitsOnly],
                                 onChanged: (value) {
                                   _priceService = value;
                                 },

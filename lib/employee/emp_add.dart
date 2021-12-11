@@ -340,7 +340,7 @@ class addEmpState extends State<addEmp> {
 
                                    else{   String speciality;
                                       if(selectedType.toString()=="Both")
-                                        speciality="Cats And Dogs";
+                                        speciality="Exotic and Companion";
                                       else speciality=selectedType.toString();
 
                                       Employee.add(

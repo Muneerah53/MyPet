@@ -31,7 +31,7 @@ class empUpdateState extends State<empUpdate> {
     _name = widget.empModel.empName;
     _job = widget.empModel.job;
     _s = widget.empModel.speciality;
-    selectedType = _s!='Both' ? _s : 'Both';
+    selectedType = _s!='Both' ? _s : 'Exotic and Companion';
 
     nameControl.text = _name.toString();
   }
@@ -343,7 +343,7 @@ class empUpdateState extends State<empUpdate> {
 
     String speciality;
     if(selectedType.toString()=="Both")
-      speciality="Both";
+      speciality="Exotic and Companion";
     else speciality=selectedType.toString();
 
     await Employee

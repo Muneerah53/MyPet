@@ -31,7 +31,7 @@ class empUpdateState extends State<empUpdate> {
     _name = widget.empModel.empName;
     _job = widget.empModel.job;
     _s = widget.empModel.speciality;
-    selectedType = _s!='Both' ? _s : 'Exotic and Companion';
+    selectedType = _s!='Exotic and Companion' ? _s : 'Both';
 
     nameControl.text = _name.toString();
   }

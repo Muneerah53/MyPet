@@ -76,96 +76,97 @@ class petinfo extends StatelessWidget {
       ),
       body: Stack(
 
-        children: <Widget>[
-          Container(
-            // padding: EdgeInsets.only(bottom: 380,),
-            child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('pets').where("petId",isEqualTo: petID ).snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text('loading');
-                  return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) =>
-                    //card pets method
-                    _buildPicCard(context, (snapshot.data!).docs[index]),
-                  );
-                }
-            ),
-          ),
-
-
-          Container(
-            padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 160, right: 35),
-            height: 1000,
-
-            child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('pets').where("petId",isEqualTo: petID ).snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text('loading');
-                  return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) =>
-                    //card pets method
-                    _buildPetCard(context, (snapshot.data!).docs[index]),
-                  );
-                }
+          children:[
+            Container(
+              // padding: EdgeInsets.only(bottom: 380,),
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('pets').where("petId",isEqualTo: petID ).snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return const Text('loading');
+                    return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) =>
+                      //card pets method
+                      _buildPicCard(context, (snapshot.data!).docs[index]),
+                    );
+                  }
+              ),
             ),
 
-          ),
-          Container(
-            padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 350, right: 35),
-            height: 1000,
+            Container(
 
-            child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('boarding').where("boardingID",isEqualTo: appointmentID ).snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text('loading');
-                  return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) =>
-                    //card pets method
-                    _buildAppointemtCard(context, (snapshot.data!).docs[index]),
-                  );
-                }
+              padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 160, right: 35),
+              height: 1000,
+
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('pets').where("petId",isEqualTo: petID ).snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return const Text('loading');
+                    return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) =>
+                      //card pets method
+                      _buildPetCard(context, (snapshot.data!).docs[index]),
+                    );
+                  }
+              ),
+
             ),
+            Container(
+              padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 350, right: 35),
+              height: 1000,
 
-          ),
-          Container(
-            padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 500, right: 35),
-            height: 1000,
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('pet owners').where("ownerID",isEqualTo: owner ).snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return const Text('loading');
+                    return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) =>
+                      //card pets method
+                      _buildOwnerCard(context, (snapshot.data!).docs[index]),
+                    );
+                  }
+              ),
 
-            child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('pet owners').where("ownerID",isEqualTo: owner ).snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text('loading');
-                  return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) =>
-                    //card pets method
-                    _buildOwnerCard(context, (snapshot.data!).docs[index]),
-                  );
-                }
             ),
+            Container(
+              padding: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.1,top: 520, right: 35),
+              height: 1000,
 
-          ),
-        ], ),);
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('boarding').where("boardingID",isEqualTo: appointmentID ).snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return const Text('loading');
+                    return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) =>
+                      //card pets method
+                      _buildAppointemtCard(context, (snapshot.data!).docs[index]),
+                    );
+                  }
+              ),
+
+            ),
+     ] ),
+    );
   }
 
   Widget _buildPetCard(BuildContext context, DocumentSnapshot document) {
 
 
     return Card(
+      elevation: 0.0,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0)),
       child: Container(
 
         padding: EdgeInsets.only(left: 20),
         width: 250,
-height: 500,
         //i dont know why this cammand does not work
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(40)),
@@ -183,10 +184,10 @@ height: 500,
 
                 child: ListTile(
                   title: Text(
-                        "\n       Pet information\nName:  " + document['name'] + "\nSpecies:  " +
+                      "          Pet information\nName:  " + document['name'] + "\nSpecies:  " +
                           document['species'] + "\nGender:  " +
                           document['gender'] + "\nBirth date:  " +
-                          document['birthDate'], style: petCardTitleStyle),
+                          document['birthDate']+ "\n", style: petCardTitleStyle),
 
                 ),),
 
@@ -201,13 +202,13 @@ height: 500,
 
 
     return Card(
+      elevation: 0.0,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0)),
       child: Container(
 
         padding: EdgeInsets.only(left: 20),
         width: 250,
-
 
         //i dont know why this cammand does not work
         decoration: BoxDecoration(
@@ -226,10 +227,10 @@ height: 500,
 
                 child: ListTile(
                   title: Text(
-                      "\n        Boarding information\nDrop off Date:  " + document['startDate'] + "\nPick up Date:  " +
+                      "         Boarding information\nDrop off Date:  " + document['startDate'] + "\nPick up Date:  " +
                           document['endDate'] + "\nTotal price:  " +
                           document['totalPrice'].toString()+"SAR" + "\nNote:  " +
-                          document['notes'], style: petCardTitleStyle),
+                          document['notes']+ "\n", style: petCardTitleStyle),
 
                 ),),
 
@@ -253,6 +254,7 @@ height: 500,
 
 
     return Card(
+      elevation: 0.0,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0)),
       child: Container(
@@ -278,9 +280,9 @@ height: 500,
 
                 child: ListTile(
                   title: Text(
-                      "\n        Owner information\nName: "+document['fname'] +" " +
-                      document['lname'] + "\nMobile number: " +
-                      document['mobile'] + "\nEmail: " + document['email']+ "\n" , style: petCardTitleStyle),
+                      "         Owner information\nName: "+document['fname'] +" " +
+                          document['lname'] + "\nMobile number: " +
+                          document['mobile'] + "\nEmail: " + document['email']+ "\n" , style: petCardTitleStyle),
 
                 ),),
 
@@ -356,13 +358,14 @@ height: 500,
 
   }
 
- Future<void> getInfo() async {
-   DocumentSnapshot appointmentInfo = await FirebaseFirestore.instance.collection("boarding").doc(appointmentID).get();
-date1=appointmentInfo['startDate'].toString();
-   date2=appointmentInfo['endDate'].toString();
-   DocumentSnapshot ownerInfo = await FirebaseFirestore.instance.collection("pet owners").doc(owner).get();
-   ownerName =ownerInfo['fname'].toString()+' '+ownerInfo['lname'].toString();
-   note= appointmentInfo['notes'].toString();
+  Future<void> getInfo() async {
+    DocumentSnapshot appointmentInfo = await FirebaseFirestore.instance.collection("boarding").doc(appointmentID).get();
+    date1=appointmentInfo['startDate'].toString();
+    date2=appointmentInfo['endDate'].toString();
+    DocumentSnapshot ownerInfo = await FirebaseFirestore.instance.collection("pet owners").doc(owner).get();
+    ownerName =ownerInfo['fname'].toString()+' '+ownerInfo['lname'].toString();
+    note= appointmentInfo['notes'].toString();
 
+  }
 }
-}
+

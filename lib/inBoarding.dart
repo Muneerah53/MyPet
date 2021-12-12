@@ -113,8 +113,7 @@ class inHousePets extends StatelessWidget {
                                   }
                               );
 
-                          return Text('');
-                          //card pets method
+                          return SizedBox();                          //card pets method
                           //    },
                         });
 
@@ -129,8 +128,6 @@ class inHousePets extends StatelessWidget {
 
 
   Widget _buildPetsCard(BuildContext context, DocumentSnapshot document ,String appointmentID, String owner) {
-
-
 
 
     //profile pic based on pet's species

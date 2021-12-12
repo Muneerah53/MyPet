@@ -113,7 +113,7 @@ class inHousePets extends StatelessWidget {
                                   }
                               );
 
-                          return Text('');
+                          return SizedBox();
                           //card pets method
                           //    },
                         });

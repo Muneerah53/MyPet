@@ -340,10 +340,10 @@ class addEmpState extends State<addEmp> {
 
                                    else{   String speciality;
                                       if(selectedType.toString()=="Both")
-                                        speciality="Exotic and Companion";
+                                        speciality="Both";
                                       else speciality=selectedType.toString();
 
-                                      Employee.add(
+    DocumentReference doc = await Employee.add(
                                           {
                                             'empID': _id,
                                             "empName": _name,
@@ -351,6 +351,8 @@ class addEmpState extends State<addEmp> {
                                             "specialty": speciality
                                           }
                                       );
+    String refid = doc.id;
+    await Employee.doc(refid).update({"refID": refid});
                                       ScaffoldMessenger.of(context).showSnackBar(
                                           const SnackBar(content: Text('Employee is added successfully'),
                                               backgroundColor: Colors.green)

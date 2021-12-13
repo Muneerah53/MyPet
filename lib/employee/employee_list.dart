@@ -11,7 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'emp_add.dart';
 import 'emp_tile.dart';
 
-
+CollectionReference Employees =
+FirebaseFirestore.instance.collection('Employee');
 
 class EmployeeList extends StatefulWidget {
 
@@ -37,7 +38,47 @@ class EmployeeListState extends State<EmployeeList> {
     setState(() {
       _empList = [];
       isLoading = true;
-    }); }
+    });
+
+    List<EmployeeModel> empList = [];
+
+    await Employees.get()
+        .then((value) async {
+      if (value.docs.isEmpty) {
+        setState(() {
+          hasEmps= false;
+        });
+      }
+
+      for (var element in value.docs) {
+        Map<String, dynamic>? map = element.data() as Map<String, dynamic>?;
+
+        String? _id = map!['empID'];
+        String? _selectedEmp = map!['refID'];
+        String? _name = map['empName'];
+        String? selectedWork = map['job'];
+        String? speciality = map['specialty'];
+        EmployeeModel empModel = new EmployeeModel(
+          refID: '$_selectedEmp',
+          empID: '$_id',
+          empName: '$_name',
+          job: '$selectedWork',
+          speciality: '$speciality',
+        );
+
+
+        empList.add(empModel);
+        setState(() {
+          _empList.add(empModel);
+        });
+
+      }
+    }).then((value) {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
 
 
     @override
@@ -55,13 +96,16 @@ class EmployeeListState extends State<EmployeeList> {
                 child: Icon(Icons.arrow_back_ios, color: Color(0xFF2F3542)),
                 style: backButton ), // <-- Button color// <-- Splash color
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(20),
-            child: ListView(
-              children: <Widget>[
+          body:  isLoading
+              ? Loading()
+              : Column(
+            children: [
+              SizedBox(
+                height: 40.0,
+              ),
 
 
-             Center(
+              Center(
                child: Text(
                  'Employees',
                   style: TextStyle(
@@ -102,68 +146,25 @@ class EmployeeListState extends State<EmployeeList> {
 
                 SizedBox(height: 10.0,),
 
-
-                StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance.collection('Employee')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) return const
-                      Center(heightFactor: 10,child:
-                      CircularProgressIndicator(color: Colors.pink));
-                      if (snapshot.data!.docs.isEmpty) return Padding(
-                          padding: EdgeInsets.all(20),
-                          child: const Text(
-                              'No Added Employees', style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.grey),
-                              textAlign: TextAlign.center));
-
-                      _empList.clear();
-                      return
-
-                        ListView.builder(
-                          shrinkWrap: true, scrollDirection: Axis.vertical,
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            String _name = (snapshot.data!)
-                                .docs[index]['empName'];
-                            String _id = (snapshot.data!).docs[index]['empID'];
-                            String _selectedEmp = (snapshot.data!).docs[index]
-                                .reference.id;
-                            String selectedWork = (snapshot.data!)
-                                .docs[index]['job'];
-                            String speciality = (snapshot.data!)
-                                .docs[index]['specialty'];
-
-                            EmployeeModel empModel = new EmployeeModel(
-                              refID: '$_selectedEmp',
-                              empID: '$_id',
-                              empName: '$_name',
-                              job: '$selectedWork',
-                              speciality: '$speciality',
-                            );
-
-                             _empList.add(empModel);
-                           /* setState(() {
-                              _empList.add(empModel);
-                            }); */
-
-                            return Container(
-                              child:
-                              EmployeeTile(_empList[index], initData),
-                            );
-                          }
-
-                      );
-                    }),
-
+                Expanded(
+                  child: !isLoading && _empList.isEmpty
+                      ? Center(
+                    child: Text("You have no employees"),
+                  )
+                      : ListView.builder(
+                      itemCount: _empList.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          padding: EdgeInsets.only(left: 20,right:20,top: 0,bottom: 0),
+                          child: EmployeeTile(_empList[index], initData),);
+                      }
+                  ),
+                ),
               ],
 
             ),
-          )
+          );
 
 
-      );
     }
   }

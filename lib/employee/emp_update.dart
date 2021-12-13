@@ -31,7 +31,7 @@ class empUpdateState extends State<empUpdate> {
     _name = widget.empModel.empName;
     _job = widget.empModel.job;
     _s = widget.empModel.speciality;
-    selectedType = _s!='Exotic and Companion' ? _s : 'Both';
+    selectedType = _s!='Both' ? _s : 'Both';
 
     nameControl.text = _name.toString();
   }
@@ -341,16 +341,12 @@ class empUpdateState extends State<empUpdate> {
   saveData() async {
     if(!_eformKey.currentState!.validate()) return;
 
-    String speciality;
-    if(selectedType.toString()=="Both")
-      speciality="Exotic and Companion";
-    else speciality=selectedType.toString();
 
     await Employee
         .doc(widget.empModel.refID)
         .update({
       "empName": _name,
-      "specialty": speciality,
+      "specialty": selectedType,
 
     });
     cal.updateName(_id!,_name!);

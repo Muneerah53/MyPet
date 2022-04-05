@@ -2,18 +2,10 @@ library event_calendar;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'models/global.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'models/global.dart';
-import 'admin_viewappts.dart';
 part "addappt.dart";
 
 

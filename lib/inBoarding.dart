@@ -41,7 +41,7 @@ class inHousePets extends StatelessWidget {
                 child: Text(
                     'In House Pets', style: TextStyle(
                     color: Color(0xffe57285),
-                    fontSize: 30,
+                    fontSize: 28,
                     fontWeight: FontWeight.bold)),
               ),
             ),
@@ -104,7 +104,7 @@ class inHousePets extends StatelessWidget {
                                           child: Text('No found pets',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
+                                                  fontSize: 18,
                                                   color: Colors.grey),
                                               textAlign: TextAlign.center)
                                       );return Container(
@@ -196,7 +196,7 @@ class inHousePets extends StatelessWidget {
                 Container(
 
                   child:ListTile(
-                    title: Text(document['name'],style:TextStyle(color: Colors.grey , fontWeight: FontWeight.bold , fontSize: 22) ,
+                    title: Text(document['name'],style:TextStyle(color: Colors.grey , fontWeight: FontWeight.bold , fontSize: 20) ,
 
                         textAlign: TextAlign.center),
                   ),
@@ -209,9 +209,6 @@ class inHousePets extends StatelessWidget {
 }
 
 String msg(){
-  if (true)
     return 'You haven\'t added Any Pets!';
-  else
-    return '';
 }
 

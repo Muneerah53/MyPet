@@ -81,7 +81,7 @@ class MyPets extends StatelessWidget {
     GestureDetector(
 
     onTap:() {
-    Navigator.push(context,MaterialPageRoute(builder: (_) =>addPet(fb.getuser()))) .catchError((error) => print('Delete failed: $error'));
+    Navigator.push(context,MaterialPageRoute(builder: (_) =>addPet(fb.getuser))) .catchError((error) => print('Delete failed: $error'));
 
     },
     child:Container(//add
@@ -129,7 +129,7 @@ class MyPets extends StatelessWidget {
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection("pets")
-                    .where('ownerId', isEqualTo: (fb.getuser()))
+                    .where('ownerId', isEqualTo: (fb.getuser))
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('loading');
@@ -166,7 +166,7 @@ class MyPets extends StatelessWidget {
 
     //profile pic based on pet's species
       String img ="";
-    if (document['ownerId'].toString() == fb.getuser()){
+    if (document['ownerId'].toString() == fb.getuser){
       pets++;
         if (document['species'] == "Dog")
         img = "images/dog.png";

@@ -8,11 +8,17 @@ import 'notifaction_service.dart';
 
 class fbHelper {
 
-  FirebaseFirestore fb = FirebaseFirestore.instance;
+  FirebaseFirestore _fb = FirebaseFirestore.instance;
+  FirebaseFirestore get fb {
+    return _fb;
+  }
 
-  String getuser() {
+  String _getuser() {
     User? user = FirebaseAuth.instance.currentUser;
     return user!.uid.toString();
+  }
+  String get getuser{
+    return _getuser();
   }
 
   CollectionReference appointments() {
@@ -28,7 +34,7 @@ class fbHelper {
       'workshiftID': a.appointID,
       'service': a.desc!,
       'petID': a.petId,
-      'petOwnerID': getuser(),
+      'petOwnerID': getuser,
       'totalPrice': a.total
     });
 
@@ -99,7 +105,7 @@ class fbHelper {
         await FirebaseFirestore.instance.collection('boarding').add({
       'notes': a.desc!,
       'petID': a.petId,
-      'petOwnerID': getuser(),
+      'petOwnerID': getuser,
       'totalPrice': a.total,
       'startDate': a.date,
       'endDate': a.time

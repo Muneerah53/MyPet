@@ -23,15 +23,15 @@ class OrderList extends StatefulWidget {
 class OrderListState extends State<OrderList> {
   fbHelper fb = fbHelper();
 
-  appointment? a;
-  String? aa;
+  appointment? _appointment;
+  String? _price;
   String img="";
 
 
   void initState() {
     super.initState();
-    a = widget.appoint;//here var is call and set to
-    if (a!.type == "Grooming"){
+    _appointment = widget.appoint;//here var is call and set to
+    if (_appointment!.type == "Grooming"){
       img ='images/PBGroomingStepThree.png';
 
     }
@@ -122,7 +122,7 @@ class OrderListState extends State<OrderList> {
                                 child:  Container(
                                   margin: const EdgeInsets.fromLTRB(5, 40, 20, 30),
                                   child: Text(
-                                    a!.type == 'Boarding'? a!.type! : a!.desc!,
+                                    _appointment!.type == 'Boarding'? _appointment!.type! : _appointment!.desc!,
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -155,7 +155,7 @@ class OrderListState extends State<OrderList> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(5, 0, 20, 30),
                                 child: Text(
-                                  a!.petName.toString(),
+                                  _appointment!.petName.toString(),
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -168,7 +168,7 @@ class OrderListState extends State<OrderList> {
                           ),
                         ),
                         Visibility(
-                          visible: a!.type!='Boarding',
+                          visible: _appointment!.type!='Boarding',
                           child:  Container(
                             child: Row(
                               children: [
@@ -187,7 +187,7 @@ class OrderListState extends State<OrderList> {
                                 Container(
                                   margin: const EdgeInsets.fromLTRB(5, 0, 20, 30),
                                   child: Text(
-                                    a!.time.toString(),
+                                    _appointment!.time.toString(),
                                     style: TextStyle(
                                         color: Color(0XFF52648B),
                                         fontSize: 18,
@@ -200,7 +200,7 @@ class OrderListState extends State<OrderList> {
                             ),
                           ),)   ,
                         Visibility(
-                          visible: a!.type!='Boarding',
+                          visible: _appointment!.type!='Boarding',
                           child:Container(
                             child: Row(
                               children: [
@@ -220,7 +220,7 @@ class OrderListState extends State<OrderList> {
                                   child:Container(
                                     margin: const EdgeInsets.fromLTRB(5, 0, 20, 30),
                                     child: Text(
-                                      a!.date.toString(),
+                                      _appointment!.date.toString(),
                                       style: TextStyle(
                                           color: Color(0XFF52648B),
                                           fontSize: 18,
@@ -235,7 +235,7 @@ class OrderListState extends State<OrderList> {
                           ),
                         ),
                         Visibility(
-                          visible: a!.type=='Boarding',
+                          visible: _appointment!.type=='Boarding',
                           child:Container(
                             child: Row(
                               children: [
@@ -255,7 +255,7 @@ class OrderListState extends State<OrderList> {
                                   child:Container(
                                     margin: const EdgeInsets.fromLTRB(5, 0, 20, 30),
                                     child: Text(
-                                      a!.date.toString(),
+                                      _appointment!.date.toString(),
                                       //maxLines:10,
                                       style: TextStyle(
                                           color: Color(0XFF52648B),
@@ -271,7 +271,7 @@ class OrderListState extends State<OrderList> {
                           ),
                         ),
                         Visibility(
-                          visible: a!.type=='Boarding',
+                          visible: _appointment!.type=='Boarding',
                           child:Container(
                             child: Row(
                               children: [
@@ -291,7 +291,7 @@ class OrderListState extends State<OrderList> {
                                   child:Container(
                                     margin: const EdgeInsets.fromLTRB(5, 0, 20, 30),
                                     child: Text(
-                                      a!.time.toString(),
+                                      _appointment!.time.toString(),
                                       //maxLines:10,
                                       style: TextStyle(
                                           color: Color(0XFF52648B),
@@ -324,7 +324,7 @@ class OrderListState extends State<OrderList> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(5, 0, 20, 0),
                                 child: Text(
-                                  totalss(a!.type)! + 'SAR',
+                                  totalss(_appointment!.type)! + 'SAR',
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -345,7 +345,7 @@ class OrderListState extends State<OrderList> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (BuildContext context) => Paymentscreen(appoint: a)),
+                                      builder: (BuildContext context) => Paymentscreen(appoint: _appointment)),
                                 );
                               }, minWidth: 200,
                               height: 60,
@@ -391,12 +391,12 @@ class OrderListState extends State<OrderList> {
 
   String? totalss(String? m) {
     if (m == "Check-Up") {
-      a!.total =50.0;
-      aa = "50";
+      _appointment!.total =50.0;
+      _price = "50";
     } else {
-      aa = a!.total.toString();
+      _price = _appointment!.total.toString();
     }
-    return aa;
+    return _price;
   }
 
 

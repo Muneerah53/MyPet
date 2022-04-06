@@ -437,22 +437,7 @@ class appointmentFormState extends State<appointmentForm> {
                                   );
 
                                   if (date != null && date != _startDate) {
-                                    setState(() {
-                                      final Duration difference =
-                                      _endDate.difference(_startDate);
-
-                                      _startDate = DateTime(
-                                          date.year,
-                                          date.month,
-                                          date.day,
-                                          _startTime.hour,
-                                          _startTime.minute,
-                                          0);
-                                      _endDate = _startDate.add(difference);
-                                      _endTime = TimeOfDay(
-                                          hour: _endDate.hour,
-                                          minute: _endDate.minute);
-                                    });
+                                    setDate(date);
                                   }
                                 }
                             ),
@@ -520,23 +505,7 @@ class appointmentFormState extends State<appointmentForm> {
                                             minute: _startTime.minute));
 
                                     if (time != null && time != _startTime) {
-                                      setState(() {
-                                        _startTime = time;
-
-                                        _startDate = DateTime(
-                                            _startDate.year,
-                                            _startDate.month,
-                                            _startDate.day,
-                                            _startTime.hour,
-                                            _startTime.minute,
-                                            0);
-                                        final Duration difference =
-                                        Duration(minutes: getTime());
-                                        _endDate = _startDate.add(d);
-                                        _endTime = TimeOfDay(
-                                            hour: _endDate.hour,
-                                            minute: _endDate.minute);
-                                      });
+                                      setTime(time);
                                     }
                                   })),
                         ])),
@@ -875,6 +844,45 @@ class appointmentFormState extends State<appointmentForm> {
       ),
 
     );
+  }
+
+  void setTime(TimeOfDay time) {
+    setState(() {
+      _startTime = time;
+
+      _startDate = DateTime(
+          _startDate.year,
+          _startDate.month,
+          _startDate.day,
+          _startTime.hour,
+          _startTime.minute,
+          0);
+      final Duration difference =
+      Duration(minutes: getTime());
+      _endDate = _startDate.add(d);
+      _endTime = TimeOfDay(
+          hour: _endDate.hour,
+          minute: _endDate.minute);
+    });
+  }
+
+  void setDate(DateTime date) {
+    setState(() {
+      final Duration difference =
+      _endDate.difference(_startDate);
+
+      _startDate = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          _startTime.hour,
+          _startTime.minute,
+          0);
+      _endDate = _startDate.add(difference);
+      _endTime = TimeOfDay(
+          hour: _endDate.hour,
+          minute: _endDate.minute);
+    });
   }
 
   int getTime() {

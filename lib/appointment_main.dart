@@ -47,7 +47,6 @@ class AppoinMain extends StatefulWidget {
 }
 
 class _AppoinMainState extends State<AppoinMain> {
-  int _counter = 0;
   bool type = false; // default false: 0 -> Check-Up
   int t = 0;
   setType() {
@@ -56,11 +55,6 @@ class _AppoinMainState extends State<AppoinMain> {
     });
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

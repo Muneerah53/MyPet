@@ -24,7 +24,7 @@ class OrderListState extends State<OrderList> {
   fbHelper fb = fbHelper();
 
   appointment? _appointment;
-  String? _price;
+  String? TotalPrice;
   String img="";
 
 
@@ -79,7 +79,7 @@ class OrderListState extends State<OrderList> {
                     ],
                   ),
                   SizedBox(height: 10),
-                /*  Container(
+                  /*  Container(
                     margin: const EdgeInsets.fromLTRB(20, 20, 0, 30),
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -122,7 +122,7 @@ class OrderListState extends State<OrderList> {
                                 child:  Container(
                                   margin: const EdgeInsets.fromLTRB(5, 40, 20, 30),
                                   child: Text(
-                                    _appointment!.type == 'Boarding'? _appointment!.type! : _appointment!.desc!,
+                                    _appointment!.type == 'Boarding'? _appointment!.type! :_appointment!.desc!,
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -193,7 +193,7 @@ class OrderListState extends State<OrderList> {
                                         fontSize: 18,
                                         fontStyle: FontStyle.italic,
                                         fontWeight: FontWeight.bold),
-                                  //  textAlign: TextAlign.right,
+                                    //  textAlign: TextAlign.right,
                                   ),
                                 ),
                               ],
@@ -226,7 +226,7 @@ class OrderListState extends State<OrderList> {
                                           fontSize: 18,
                                           fontStyle: FontStyle.italic,
                                           fontWeight: FontWeight.bold),
-                                     // textAlign: TextAlign.right,
+                                      // textAlign: TextAlign.right,
                                     ),
                                   ),
                                 ),
@@ -262,7 +262,7 @@ class OrderListState extends State<OrderList> {
                                           fontSize: 18,
                                           fontStyle: FontStyle.italic,
                                           fontWeight: FontWeight.bold),
-                                     // textAlign: TextAlign.right,
+                                      // textAlign: TextAlign.right,
                                     ),
                                   ),
                                 ),
@@ -298,7 +298,7 @@ class OrderListState extends State<OrderList> {
                                           fontSize: 18,
                                           fontStyle: FontStyle.italic,
                                           fontWeight: FontWeight.bold),
-                                    //  textAlign: TextAlign.right,
+                                      //  textAlign: TextAlign.right,
                                     ),
                                   ),
                                 ),
@@ -324,7 +324,7 @@ class OrderListState extends State<OrderList> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(5, 0, 20, 0),
                                 child: Text(
-                                  totalss(_appointment!.type)! + 'SAR',
+                                  CountTotalPrice(_appointment!.type)! + 'SAR',
                                   style: TextStyle(
                                       color: Color(0XFF52648B),
                                       fontSize: 18,
@@ -388,15 +388,17 @@ class OrderListState extends State<OrderList> {
 
                 ]))));
   }
+//CountTotalPrice
+  //TotalPrice
 
-  String? totalss(String? m) {
-    if (m == "Check-Up") {
+  String? CountTotalPrice(String? ServiceType) {
+    if (ServiceType == "Check-Up") {
       _appointment!.total =50.0;
-      _price = "50";
+      TotalPrice = "50";
     } else {
-      _price = _appointment!.total.toString();
+      TotalPrice = _appointment!.total.toString();
     }
-    return _price;
+    return TotalPrice;
   }
 
 
